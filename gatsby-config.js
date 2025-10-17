@@ -12,7 +12,7 @@ module.exports = {
     title: `UX Designer Portfolio`,
     description: `Professional UX designer portfolio showcasing case studies, design work, and creative projects.`,
     author: `UX Designer`,
-    siteUrl: `https://ux-portfolio.gatsbyjs.io/`,
+    siteUrl: `https://tobilobaodu.com/`,
   },
   plugins: [
     `gatsby-plugin-image`,
