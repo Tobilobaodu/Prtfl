@@ -9,9 +9,9 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `UX Designer Portfolio`,
-    description: `Professional UX designer portfolio showcasing case studies, design work, and creative projects.`,
-    author: `UX Designer`,
+    title: `TOBI - UX Designer Portfolio`,
+    description: `Multidisciplinary designer passionate about design, technology, and how they shape our lives. Portfolio showcasing UX design work, case studies, and photography.`,
+    author: `Tobi`,
     siteUrl: `https://tobilobaodu.com/`,
   },
   plugins: [
@@ -28,15 +28,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `TOBI - UX Designer Portfolio`,
+        short_name: `TOBI`,
         start_url: `/`,
-        background_color: `#663399`,
-        // This will impact how browsers show your PWA/website
-        // https://css-tricks.com/meta-theme-color-and-trickery/
-        // theme_color: `#663399`,
+        background_color: `#F9F9F8`,
+        theme_color: `#EE550E`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/gatsby-icon.png`,
       },
     },
   ],

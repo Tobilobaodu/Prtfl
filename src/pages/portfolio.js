@@ -1,295 +1,237 @@
 import * as React from "react"
 import { Link } from "gatsby"
-
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 const PortfolioPage = () => {
   const projects = [
     {
-      id: 1,
-      title: "Mobile App Design",
-      category: "Mobile Design",
-      description: "A comprehensive mobile app design project focusing on user experience and accessibility for a fitness tracking application.",
-      image: "mobile-app",
-      tags: ["UI/UX Design", "Mobile", "Prototyping"],
-      link: "/portfolio/mobile-app-design"
+      title: "The name of project",
+      description: "I'm responsible for UX Strategy + Design",
+      brand: "Brand name",
+      year: "2025",
+      locked: true,
+      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80"
     },
     {
-      id: 2,
-      title: "Web Platform Redesign",
-      category: "Web Design",
-      description: "Complete redesign of a web platform focusing on modern UX principles and user feedback for an e-commerce site.",
-      image: "web-platform",
-      tags: ["Web Design", "E-commerce", "User Research"],
-      link: "/portfolio/web-platform-redesign"
+      title: "The name of project",
+      description: "I'm responsible for UX Strategy + Design",
+      brand: "Brand name",
+      year: "2025",
+      locked: false,
+      image: "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=800&q=80"
     },
     {
-      id: 3,
-      title: "Design System",
-      category: "Design Systems",
-      description: "Creating a comprehensive design system for consistent user experiences across multiple products and platforms.",
-      image: "design-system",
-      tags: ["Design Systems", "Components", "Documentation"],
-      link: "/portfolio/design-system"
+      title: "The name of project",
+      description: "I'm responsible for UX Strategy + Design",
+      brand: "Brand name",
+      year: "2025",
+      locked: false,
+      image: "https://images.unsplash.com/photo-1618556450991-2f1af64e8191?w=800&q=80"
     },
     {
-      id: 4,
-      title: "Dashboard Interface",
-      category: "Web Application",
-      description: "User-centered design for a complex dashboard interface, improving data visualization and user workflow efficiency.",
-      image: "dashboard",
-      tags: ["Dashboard", "Data Visualization", "Web App"],
-      link: "/portfolio/dashboard-interface"
-    },
-    {
-      id: 5,
-      title: "Brand Identity",
-      category: "Branding",
-      description: "Complete brand identity design including logo, color palette, typography, and brand guidelines for a tech startup.",
-      image: "brand-identity",
-      tags: ["Branding", "Logo Design", "Guidelines"],
-      link: "/portfolio/brand-identity"
-    },
-    {
-      id: 6,
-      title: "E-commerce Mobile App",
-      category: "Mobile Design",
-      description: "Mobile-first design approach for an e-commerce application, focusing on seamless shopping experience and conversion optimization.",
-      image: "ecommerce-mobile",
-      tags: ["Mobile Commerce", "UX Optimization", "Conversion"],
-      link: "/portfolio/ecommerce-mobile"
+      title: "The name of project",
+      description: "I'm responsible for UX Strategy + Design",
+      brand: "Brand name",
+      year: "2025",
+      locked: false,
+      image: "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=800&q=80"
     }
   ]
 
-  const categories = ["All", "Mobile Design", "Web Design", "Design Systems", "Branding"]
-
   return (
     <Layout>
-      <div style={{
-        maxWidth: `1200px`,
-        margin: `0 auto`,
-        padding: `2rem`,
-      }}>
-        <div style={{
-          textAlign: `center`,
-          marginBottom: `3rem`,
-        }}>
-          <h1 style={{
-            fontSize: `3rem`,
-            marginBottom: `1rem`,
-            color: `#2c3e50`,
-          }}>
-            Portfolio
-          </h1>
-          <p style={{
-            fontSize: `1.2rem`,
-            color: `#5a6c7d`,
-            maxWidth: `600px`,
-            margin: `0 auto`,
-          }}>
-            A collection of my recent work showcasing user-centered design solutions
-            across various industries and platforms.
-          </p>
-        </div>
+      <div className="portfolio-container">
+        <div className="container">
+          <div className="intro">
+            <h1 className="page-title">wrk</h1>
+            <p className="page-description">
+              I'm responsible for UX Strategy + Design, leading a team of three UX designers who are responsible for creating exceptional user experiences for OSB Group's digital products.
+            </p>
+          </div>
 
-        {/* Category Filter */}
-        <div style={{
-          display: `flex`,
-          justifyContent: `center`,
-          marginBottom: `3rem`,
-          flexWrap: `wrap`,
-          gap: `1rem`,
-        }}>
-          {categories.map((category) => (
-            <button
-              key={category}
-              style={{
-                padding: `0.5rem 1.5rem`,
-                border: `2px solid #667eea`,
-                background: `transparent`,
-                color: `#667eea`,
-                borderRadius: `25px`,
-                cursor: `pointer`,
-                fontSize: `1rem`,
-                transition: `all 0.3s ease`,
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = `#667eea`
-                e.target.style.color = `white`
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = `transparent`
-                e.target.style.color = `#667eea`
-              }}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Projects Grid */}
-        <div style={{
-          display: `grid`,
-          gridTemplateColumns: `repeat(auto-fit, minmax(350px, 1fr))`,
-          gap: `2rem`,
-        }}>
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              style={{
-                background: `white`,
-                borderRadius: `12px`,
-                boxShadow: `0 8px 25px rgba(0, 0, 0, 0.1)`,
-                overflow: `hidden`,
-                transition: `transform 0.3s ease, box-shadow 0.3s ease`,
-                cursor: `pointer`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = `translateY(-5px)`
-                e.currentTarget.style.boxShadow = `0 15px 35px rgba(0, 0, 0, 0.15)`
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = `translateY(0)`
-                e.currentTarget.style.boxShadow = `0 8px 25px rgba(0, 0, 0, 0.1)`
-              }}
-            >
-              <div style={{
-                height: `250px`,
-                background: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`,
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `center`,
-                color: `white`,
-                fontSize: `1.2rem`,
-                position: `relative`,
-              }}>
-                <span>{project.title} Preview</span>
-                <div style={{
-                  position: `absolute`,
-                  top: `1rem`,
-                  left: `1rem`,
-                  background: `rgba(255, 255, 255, 0.9)`,
-                  color: `#667eea`,
-                  padding: `0.3rem 0.8rem`,
-                  borderRadius: `15px`,
-                  fontSize: `0.8rem`,
-                  fontWeight: `bold`,
-                }}>
-                  {project.category}
+          <div className="projects-grid">
+            {projects.map((project, index) => (
+              <div key={index} className="project-card">
+                <div className="project-image-wrapper">
+                  <img src={project.image} alt={project.title} className="project-image" />
+                  {project.locked && (
+                    <div className="lock-icon">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M2.6665 14.667V5.33366H4.6665V4.00033C4.6665 3.0781 4.99162 2.29188 5.64184 1.64166C6.29162 0.991881 7.07762 0.666992 7.99984 0.666992C8.92206 0.666992 9.70828 0.991881 10.3585 1.64166C11.0083 2.29188 11.3332 3.0781 11.3332 4.00033V5.33366H13.3332V14.667H2.6665ZM5.99984 5.33366H9.99984V4.00033C9.99984 3.44477 9.80539 2.97255 9.4165 2.58366C9.02762 2.19477 8.55539 2.00033 7.99984 2.00033C7.44428 2.00033 6.97206 2.19477 6.58317 2.58366C6.19428 2.97255 5.99984 3.44477 5.99984 4.00033V5.33366ZM3.99984 13.3337H11.9998V6.66699H3.99984V13.3337ZM7.99984 11.3337C8.3665 11.3337 8.6805 11.2032 8.94184 10.9423C9.20273 10.681 9.33317 10.367 9.33317 10.0003C9.33317 9.63366 9.20273 9.31966 8.94184 9.05833C8.6805 8.79744 8.3665 8.66699 7.99984 8.66699C7.63317 8.66699 7.31939 8.79744 7.0585 9.05833C6.79717 9.31966 6.6665 9.63366 6.6665 10.0003C6.6665 10.367 6.79717 10.681 7.0585 10.9423C7.31939 11.2032 7.63317 11.3337 7.99984 11.3337Z" fill="#A3A3A3"/>
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                <div className="project-content">
+                  <div className="project-info-row">
+                    <div className="project-text">
+                      <h3 className="project-title">{project.title}</h3>
+                      <p className="project-description">{project.description}</p>
+                    </div>
+                    <div className="project-meta">
+                      <span className="project-brand">{project.brand}</span>
+                      <span className="project-year">{project.year}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div style={{ padding: `2rem` }}>
-                <h3 style={{
-                  fontSize: `1.5rem`,
-                  marginBottom: `1rem`,
-                  color: `#2c3e50`,
-                }}>
-                  {project.title}
-                </h3>
-
-                <p style={{
-                  color: `#5a6c7d`,
-                  marginBottom: `1.5rem`,
-                  lineHeight: `1.6`,
-                }}>
-                  {project.description}
-                </p>
-
-                <div style={{
-                  display: `flex`,
-                  flexWrap: `wrap`,
-                  gap: `0.5rem`,
-                  marginBottom: `1.5rem`,
-                }}>
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      style={{
-                        background: `linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)`,
-                        color: `#667eea`,
-                        padding: `0.3rem 0.8rem`,
-                        borderRadius: `15px`,
-                        fontSize: `0.8rem`,
-                        fontWeight: `500`,
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <Link
-                  to={project.link}
-                  style={{
-                    color: `#667eea`,
-                    textDecoration: `none`,
-                    fontWeight: `bold`,
-                    fontSize: `1.1rem`,
-                    display: `inline-flex`,
-                    alignItems: `center`,
-                    transition: `color 0.3s ease`,
-                  }}
-                >
-                  View Case Study →
-                </Link>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-
-        {/* Call to Action */}
-        <section style={{
-          background: `linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)`,
-          padding: `4rem 2rem`,
-          borderRadius: `12px`,
-          textAlign: `center`,
-          marginTop: `4rem`,
-        }}>
-          <h2 style={{
-            fontSize: `2.5rem`,
-            marginBottom: `1rem`,
-            color: `#2c3e50`,
-          }}>
-            Interested in Working Together?
-          </h2>
-          <p style={{
-            fontSize: `1.1rem`,
-            color: `#5a6c7d`,
-            marginBottom: `2rem`,
-            maxWidth: `600px`,
-            margin: `0 auto 2rem`,
-          }}>
-            I'm always open to discussing new opportunities and interesting projects.
-            Let's create something amazing together.
-          </p>
-          <Link
-            to="/contact"
-            style={{
-              background: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`,
-              color: `white`,
-              padding: `1rem 2rem`,
-              textDecoration: `none`,
-              borderRadius: `25px`,
-              fontSize: `1.1rem`,
-              display: `inline-block`,
-              transition: `transform 0.3s ease`,
-            }}
-          >
-            Start a Project
-          </Link>
-        </section>
       </div>
+
+      <style jsx="true">{`
+        .portfolio-container {
+          width: 100%;
+          background: var(--white-not-wyt);
+          min-height: calc(100vh - 85px);
+        }
+
+        .container {
+          max-width: 600px;
+          margin: 0;
+          margin-left: 0;
+          padding: 101px 0px 60px 0px;
+        }
+
+        .intro {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-bottom: 40px;
+        }
+
+        .page-title {
+          font-size: 28px;
+          font-weight: 700;
+          line-height: 95%;
+          color: var(--black-pitch-nah);
+        }
+
+        .page-description {
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 120%;
+          letter-spacing: 0.42px;
+          color: var(--black-pitch-nah);
+        }
+
+        .projects-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          padding-bottom: 100px;
+        }
+
+        .project-card {
+          display: flex;
+          flex-direction: column;
+          border-radius: 5px;
+          overflow: hidden;
+          transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+          transform: translateY(-4px);
+        }
+
+        .project-image-wrapper {
+          position: relative;
+          height: 250px;
+          width: 100%;
+          overflow: hidden;
+          border-radius: 4px 4px 0 0;
+        }
+
+        .project-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .lock-icon {
+          position: absolute;
+          left: 17px;
+          bottom: 17px;
+        }
+
+        .project-content {
+          background: #2E2A2A;
+          padding: 10px 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          min-height: 100px;
+          border-radius: 0 0 5px 5px;
+        }
+
+        .project-info-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          width: 100%;
+        }
+
+        .project-text {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .project-title {
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 95%;
+          color: var(--white-heavenly);
+        }
+
+        .project-description {
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 120%;
+          letter-spacing: 0.42px;
+          color: var(--grey-misty);
+        }
+
+        .project-meta {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-end;
+          gap: 5px;
+        }
+
+        .project-brand,
+        .project-year {
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 120%;
+          letter-spacing: 0.36px;
+          color: var(--grey-misty);
+        }
+
+        @media (max-width: 768px) {
+          .container {
+            padding: 100px 20px 60px 20px;
+          }
+
+          .project-info-row {
+            flex-direction: column;
+            gap: 15px;
+          }
+
+          .project-meta {
+            align-items: flex-start;
+          }
+        }
+      `}</style>
     </Layout>
   )
 }
 
-/**
- * Head export to define metadata for the page
- *
- * See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
- */
 export const Head = () => <Seo title="Portfolio" />
 
 export default PortfolioPage

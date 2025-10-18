@@ -1,262 +1,243 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
-
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const IndexPage = () => (
-  <Layout>
-    {/* Hero Section */}
-    <section style={{
-      textAlign: `center`,
-      padding: `4rem 0`,
-      background: `linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)`,
-      marginBottom: `3rem`,
-      borderRadius: `8px`,
-    }}>
-      <div style={{
-        maxWidth: `800px`,
-        margin: `0 auto`,
-        padding: `0 2rem`,
-      }}>
-        <h1 style={{
-          fontSize: `3rem`,
-          marginBottom: `1rem`,
-          color: `#2c3e50`,
-        }}>
-          Hi, I'm a UX Designer
-        </h1>
-        <p style={{
-          fontSize: `1.2rem`,
-          marginBottom: `2rem`,
-          color: `#5a6c7d`,
-          lineHeight: `1.6`,
-        }}>
-          I create intuitive and engaging user experiences that solve real problems.
-          Welcome to my portfolio where I showcase my design journey, case studies,
-          and creative projects.
-        </p>
-        <div>
-          <Link
-            to="/portfolio"
-            style={{
-              background: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`,
-              color: `white`,
-              padding: `1rem 2rem`,
-              textDecoration: `none`,
-              borderRadius: `25px`,
-              fontSize: `1.1rem`,
-              marginRight: `1rem`,
-              display: `inline-block`,
-              transition: `transform 0.3s ease`,
-            }}
-          >
-            View My Work
-          </Link>
-          <Link
-            to="/about"
-            style={{
-              background: `transparent`,
-              color: `#667eea`,
-              padding: `1rem 2rem`,
-              textDecoration: `none`,
-              border: `2px solid #667eea`,
-              borderRadius: `25px`,
-              fontSize: `1.1rem`,
-              display: `inline-block`,
-              transition: `all 0.3s ease`,
-            }}
-          >
-            Learn More About Me
-          </Link>
+const IndexPage = () => {
+  const projects = [
+    { title: "The name of project", brand: "Brand name", year: "2021", locked: true },
+    { title: "Banking the right way", brand: "Prosperity Bank", year: "2021", locked: true },
+    { title: "Learning the right way", brand: "Sterling University", year: "2020", locked: true },
+    { title: "Servicing new customer", brand: "Motomi", year: "2019", locked: false },
+    { title: "Calabar coaster road", brand: "Brand name", year: "2018", locked: false },
+    { title: "Calabar coaster road", brand: "Brand name", year: "2018", locked: false },
+    { title: "Calabar coaster road", brand: "Brand name", year: "2018", locked: false },
+    { title: "Calabar coaster road", brand: "Brand name", year: "2018", locked: false },
+  ]
+
+  return (
+    <Layout>
+      <div className="home-container">
+        <div className="container">
+          <section className="bio-section">
+            <div className="bio">
+              <p className="bio-text">
+                I'm a <strong>multidisciplinary designer</strong> passionate about design, technology, and how they both shape our lives and experience. I've extensive experience in marketing and driving sustainable growth, and have contributed to the success of some of Africa's biggest startups.
+              </p>
+            </div>
+          </section>
+
+          <section className="projects-section">
+            <div className="projects-list">
+              {projects.map((project, index) => (
+                <div key={index} className="project-item">
+                  <div className="project-info">
+                    <h3 className="project-title">{project.title}</h3>
+                    <div className="project-meta">
+                      <span className="project-brand">{project.brand}</span>
+                      <span className="dot">●</span>
+                      <span className="project-year">{project.year}</span>
+                      {project.locked && (
+                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2.66699 15.167V5.83366H4.66699V4.50033C4.66699 3.5781 4.9921 2.79188 5.64233 2.14166C6.2921 1.49188 7.0781 1.16699 8.00033 1.16699C8.92255 1.16699 9.70877 1.49188 10.359 2.14166C11.0088 2.79188 11.3337 3.5781 11.3337 4.50033V5.83366H13.3337V15.167H2.66699ZM6.00033 5.83366H10.0003V4.50033C10.0003 3.94477 9.80588 3.47255 9.41699 3.08366C9.0281 2.69477 8.55588 2.50033 8.00033 2.50033C7.44477 2.50033 6.97255 2.69477 6.58366 3.08366C6.19477 3.47255 6.00033 3.94477 6.00033 4.50033V5.83366ZM4.00033 13.8337H12.0003V7.16699H4.00033V13.8337ZM8.00033 11.8337C8.36699 11.8337 8.68099 11.7032 8.94233 11.4423C9.20321 11.181 9.33366 10.867 9.33366 10.5003C9.33366 10.1337 9.20321 9.81966 8.94233 9.55833C8.68099 9.29744 8.36699 9.16699 8.00033 9.16699C7.63366 9.16699 7.31988 9.29744 7.05899 9.55833C6.79766 9.81966 6.66699 10.1337 6.66699 10.5003C6.66699 10.867 6.79766 11.181 7.05899 11.4423C7.31988 11.7032 7.63366 11.8337 8.00033 11.8337Z" fill="#A3A3A3"/>
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+                  <div className="project-divider"></div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="socials-section">
+            <div className="social-links">
+              <a href="mailto:your.email@example.com" className="social-link">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="2" y="3" width="12" height="10" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M2 4L8 9L14 4" stroke="currentColor" strokeWidth="1.5"/>
+                </svg>
+                <span>Email</span>
+              </a>
+              <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="social-link">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 3L12 13M12 3L4 13" stroke="currentColor" strokeWidth="1.5"/>
+                </svg>
+                <span>Behance</span>
+              </a>
+              <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" className="social-link">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 3L12 13M12 3L4 13" stroke="currentColor" strokeWidth="1.5"/>
+                </svg>
+                <span>Dribbble</span>
+              </a>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="social-link">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 3L12 13M12 3L4 13" stroke="currentColor" strokeWidth="1.5"/>
+                </svg>
+                <span>GitHub</span>
+              </a>
+            </div>
+          </section>
         </div>
       </div>
-    </section>
 
-    {/* Featured Work Section */}
-    <section style={{ marginBottom: `3rem` }}>
-      <h2 style={{
-        textAlign: `center`,
-        marginBottom: `2rem`,
-        fontSize: `2.5rem`,
-        color: `#2c3e50`,
-      }}>
-        Featured Projects
-      </h2>
-      <div style={{
-        display: `grid`,
-        gridTemplateColumns: `repeat(auto-fit, minmax(300px, 1fr))`,
-        gap: `2rem`,
-        marginBottom: `3rem`,
-      }}>
-        {/* Project Card 1 */}
-        <div style={{
-          background: `white`,
-          borderRadius: `8px`,
-          boxShadow: `0 4px 6px rgba(0, 0, 0, 0.1)`,
-          overflow: `hidden`,
-          transition: `transform 0.3s ease`,
-        }}>
-          <div style={{
-            height: `200px`,
-            background: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`,
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
-            color: `white`,
-            fontSize: `1.2rem`,
-          }}>
-            Project Image Placeholder
-          </div>
-          <div style={{ padding: `1.5rem` }}>
-            <h3 style={{ marginBottom: `0.5rem`, color: `#2c3e50` }}>
-              Mobile App Design
-            </h3>
-            <p style={{ color: `#5a6c7d`, marginBottom: `1rem` }}>
-              A comprehensive mobile app design project focusing on user experience and accessibility.
-            </p>
-            <Link
-              to="/portfolio/mobile-app-design"
-              style={{
-                color: `#667eea`,
-                textDecoration: `none`,
-                fontWeight: `bold`,
-              }}
-            >
-              View Case Study →
-            </Link>
-          </div>
-        </div>
+      <style jsx="true">{`
+        .home-container {
+          width: 100%;
+          background: var(--white-not-wyt);
+          min-height: calc(100vh - 85px);
+          background-image: url("../Assets/noise.png");
+          background-size: 100px 100px;
+          background-blend-mode: overlay;
+          background-opacity: 0.1;
+        }
 
-        {/* Project Card 2 */}
-        <div style={{
-          background: `white`,
-          borderRadius: `8px`,
-          boxShadow: `0 4px 6px rgba(0, 0, 0, 0.1)`,
-          overflow: `hidden`,
-          transition: `transform 0.3s ease`,
-        }}>
-          <div style={{
-            height: `200px`,
-            background: `linear-gradient(135deg, #f093fb 0%, #f5576c 100%)`,
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
-            color: `white`,
-            fontSize: `1.2rem`,
-          }}>
-            Project Image Placeholder
-          </div>
-          <div style={{ padding: `1.5rem` }}>
-            <h3 style={{ marginBottom: `0.5rem`, color: `#2c3e50` }}>
-              Web Platform Redesign
-            </h3>
-            <p style={{ color: `#5a6c7d`, marginBottom: `1rem` }}>
-              Complete redesign of a web platform focusing on modern UX principles and user feedback.
-            </p>
-            <Link
-              to="/portfolio/web-platform-redesign"
-              style={{
-                color: `#667eea`,
-                textDecoration: `none`,
-                fontWeight: `bold`,
-              }}
-            >
-              View Case Study →
-            </Link>
-          </div>
-        </div>
+        .container {
+          max-width: 600px;
+          margin: 0;
+          margin-left: 0;
+          padding: 0px 0px;
+          display: flex;
+          flex-direction: column;
+          gap: 80px;
+        }
 
-        {/* Project Card 3 */}
-        <div style={{
-          background: `white`,
-          borderRadius: `8px`,
-          boxShadow: `0 4px 6px rgba(0, 0, 0, 0.1)`,
-          overflow: `hidden`,
-          transition: `transform 0.3s ease`,
-        }}>
-          <div style={{
-            height: `200px`,
-            background: `linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)`,
-            display: `flex`,
-            alignItems: `center`,
-            justifyContent: `center`,
-            color: `white`,
-            fontSize: `1.2rem`,
-          }}>
-            Project Image Placeholder
-          </div>
-          <div style={{ padding: `1.5rem` }}>
-            <h3 style={{ marginBottom: `0.5rem`, color: `#2c3e50` }}>
-              Design System
-            </h3>
-            <p style={{ color: `#5a6c7d`, marginBottom: `1rem` }}>
-              Creating a comprehensive design system for consistent user experiences across products.
-            </p>
-            <Link
-              to="/portfolio/design-system"
-              style={{
-                color: `#667eea`,
-                textDecoration: `none`,
-                fontWeight: `bold`,
-              }}
-            >
-              View Case Study →
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
+        .bio-section {
+          display: flex;
+          flex-direction: column;
+          gap: 50px;
+        }
 
-    {/* Photography Section */}
-    <section style={{
-      background: `linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)`,
-      padding: `3rem 0`,
-      borderRadius: `8px`,
-      textAlign: `center`,
-    }}>
-      <h2 style={{
-        marginBottom: `1rem`,
-        fontSize: `2.5rem`,
-        color: `#2c3e50`,
-      }}>
-        Photography Portfolio
-      </h2>
-      <p style={{
-        marginBottom: `2rem`,
-        fontSize: `1.1rem`,
-        color: `#5a6c7d`,
-        maxWidth: `600px`,
-        margin: `0 auto 2rem`,
-      }}>
-        When I'm not designing interfaces, I capture moments through photography.
-        My work explores the intersection of design and visual storytelling.
-      </p>
-      <Link
-        to="/photography"
-        style={{
-          background: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`,
-          color: `white`,
-          padding: `1rem 2rem`,
-          textDecoration: `none`,
-          borderRadius: `25px`,
-          fontSize: `1.1rem`,
-          display: `inline-block`,
-          transition: `transform 0.3s ease`,
-        }}
-      >
-        View Photography Portfolio
-      </Link>
-    </section>
-  </Layout>
-)
+        .bio-text {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 140%;
+          letter-spacing: 0.42px;
+          color: var(--black-pitch-nah);
+        }
 
-/**
- * Head export to define metadata for the page
- *
- * See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
- */
+        .bio-text strong {
+          font-weight: 700;
+        }
+
+        .projects-section {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .projects-list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .project-item {
+          position: relative;
+        }
+
+        .project-info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+
+        .project-title {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 120%;
+          color: var(--black-pitch-nah);
+        }
+
+        .project-meta {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+
+        .project-brand,
+        .project-year {
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 120%;
+          letter-spacing: 0.42px;
+          color: var(--grey-misty);
+        }
+
+        .dot {
+          font-size: 8px;
+          color: var(--grey-misty);
+        }
+
+        .project-divider {
+          width: 100%;
+          height: 1px;
+          background: rgba(29, 28, 28, 0.5);
+          opacity: 0.5;
+        }
+
+        .socials-section {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .social-links {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .social-link {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: var(--grey-just);
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 18px;
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
+
+        .social-link svg {
+          width: 16px;
+          height: 16px;
+        }
+
+        .social-link:hover {
+          color: var(--orange);
+          border-bottom-color: var(--orange);
+        }
+
+        @media (max-width: 768px) {
+          .container {
+            padding: 60px 20px;
+            gap: 80px;
+          }
+
+          .project-info {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+          }
+
+          .social-links {
+            flex-direction: column;
+            gap: 12px;
+          }
+        }
+      `}</style>
+    </Layout>
+  )
+}
+
 export const Head = () => <Seo title="Home" />
 
 export default IndexPage
