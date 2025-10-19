@@ -53,29 +53,29 @@ const IndexPage = () => {
           <section className="socials-section">
             <div className="social-links">
               <a href="mailto:your.email@example.com" className="social-link">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <rect x="2" y="3" width="12" height="10" stroke="currentColor" strokeWidth="1.5"/>
-                  <path d="M2 4L8 9L14 4" stroke="currentColor" strokeWidth="1.5"/>
-                </svg>
                 <span>Email</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 4H12V10H2V4Z" stroke="currentColor" strokeWidth="1"/>
+                  <path d="M2 4L7 8L12 4" stroke="currentColor" strokeWidth="1"/>
+                </svg>
               </a>
               <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="social-link">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M4 3L12 13M12 3L4 13" stroke="currentColor" strokeWidth="1.5"/>
-                </svg>
                 <span>Behance</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.5"/>
+                </svg>
               </a>
               <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" className="social-link">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M4 3L12 13M12 3L4 13" stroke="currentColor" strokeWidth="1.5"/>
+                <span>Dribble</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.5"/>
                 </svg>
-                <span>Dribbble</span>
               </a>
               <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="social-link">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M4 3L12 13M12 3L4 13" stroke="currentColor" strokeWidth="1.5"/>
+                <span>Github</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.5"/>
                 </svg>
-                <span>GitHub</span>
               </a>
             </div>
           </section>
@@ -197,18 +197,20 @@ const IndexPage = () => {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 5px;
           color: var(--grey-just);
-          font-size: 14px;
-          font-weight: 500;
+          font-size: 12px;
+          font-weight: 400;
           line-height: 18px;
           text-decoration: none;
-          transition: color 0.3s ease;
+          border-bottom: 1px solid var(--grey-just);
+          padding-bottom: 1px;
+          transition: all 0.3s ease;
         }
 
         .social-link svg {
-          width: 16px;
-          height: 16px;
+          width: 14px;
+          height: 14px;
         }
 
         .social-link:hover {

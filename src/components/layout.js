@@ -47,9 +47,11 @@ const Layout = ({ children }) => {
             </button>
             <nav className="menu-nav">
               <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-              <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
-              <Link to="/portfolio" onClick={() => setMenuOpen(false)}>Portfolio</Link>
-              <Link to="/photography" onClick={() => setMenuOpen(false)}>Photography</Link>
+              <Link to="/experience" onClick={() => setMenuOpen(false)}>Experience</Link>
+              <Link to="/portfolio" onClick={() => setMenuOpen(false)}>wrk</Link>
+              <Link to="/sndbx" onClick={() => setMenuOpen(false)}>sndbx</Link>
+              <Link to="/photography" onClick={() => setMenuOpen(false)}>phtgrphy</Link>
+              <Link to="/case-study" onClick={() => setMenuOpen(false)}>Case Study</Link>
               <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
             </nav>
           </div>
