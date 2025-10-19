@@ -20,42 +20,43 @@ const Layout = ({ children }) => {
           </svg>
         </Link>
         <button 
-          className="menu-icon" 
+          className={`menu-icon ${menuOpen ? 'open' : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0)">
-              <path d="M13.5 4.5V10.5H19.5V13.5H13.5V19.5H10.5V13.5H4.5V10.5H10.5V4.5H13.5Z" fill="#EE550E" stroke="#EE550E"/>
-            </g>
-            <defs>
-              <clipPath id="clip0">
-                <rect width="24" height="24" fill="white"/>
-              </clipPath>
-            </defs>
-          </svg>
+          {menuOpen ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.5 4.5V10.5H19.5V13.5H13.5V19.5H10.5V13.5H4.5V10.5H10.5V4.5H13.5Z" fill="#EE550E" stroke="#EE550E" transform="rotate(45 12 12)"/>
+            </svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clipPath="url(#clip0)">
+                <path d="M13.5 4.5V10.5H19.5V13.5H13.5V19.5H10.5V13.5H4.5V10.5H10.5V4.5H13.5Z" fill="#EE550E" stroke="#EE550E"/>
+              </g>
+              <defs>
+                <clipPath id="clip0">
+                  <rect width="24" height="24" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
+          )}
         </button>
       </nav>
 
       {menuOpen && (
-        <div className="menu-overlay" onClick={() => setMenuOpen(false)}>
-          <div className="menu-content" onClick={(e) => e.stopPropagation()}>
-            <button className="menu-close" onClick={() => setMenuOpen(false)}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6L18 18" stroke="#FFF" strokeWidth="2"/>
-              </svg>
-            </button>
+        <>
+          <div className="menu-blur-overlay" onClick={() => setMenuOpen(false)}></div>
+          <div className="menu-panel">
             <nav className="menu-nav">
-              <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-              <Link to="/experience" onClick={() => setMenuOpen(false)}>Experience</Link>
-              <Link to="/portfolio" onClick={() => setMenuOpen(false)}>wrk</Link>
-              <Link to="/sndbx" onClick={() => setMenuOpen(false)}>sndbx</Link>
-              <Link to="/photography" onClick={() => setMenuOpen(false)}>phtgrphy</Link>
-              <Link to="/case-study" onClick={() => setMenuOpen(false)}>Case Study</Link>
-              <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+              <Link to="/portfolio" className="menu-link" onClick={() => setMenuOpen(false)}>WRKS</Link>
+              <Link to="/experience" className="menu-link" onClick={() => setMenuOpen(false)}>XPRNC</Link>
+              <Link to="/sndbx" className="menu-link" onClick={() => setMenuOpen(false)}>SNDBX</Link>
+              <Link to="/photography" className="menu-link" onClick={() => setMenuOpen(false)}>PHTGRPHY</Link>
+              <Link to="/ntpd" className="menu-link" onClick={() => setMenuOpen(false)}>NTPD</Link>
+              <Link to="/cntct" className="menu-link" onClick={() => setMenuOpen(false)}>CNTCT</Link>
             </nav>
           </div>
-        </div>
+        </>
       )}
 
       <main>{children}</main>
@@ -92,54 +93,76 @@ const Layout = ({ children }) => {
           background: none;
           border: none;
           padding: 0;
+          z-index: 101;
+          position: relative;
+          transition: transform 0.3s ease;
         }
 
-        .menu-overlay {
+        .menu-icon.open {
+          transform: rotate(45deg);
+        }
+
+        .menu-blur-overlay {
           position: fixed;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0, 0, 0, 0.8);
-          z-index: 200;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(2.5px);
+          z-index: 99;
+          animation: fadeIn 0.3s ease;
         }
 
-        .menu-content {
-          background: var(--black-nue-ish-black);
-          padding: 60px;
-          border-radius: 8px;
-          position: relative;
-          min-width: 300px;
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
         }
 
-        .menu-close {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 0;
+        .menu-panel {
+          position: fixed;
+          top: 57px;
+          right: 100px;
+          width: 76px;
+          background: transparent;
+          z-index: 100;
+          animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .menu-nav {
           display: flex;
           flex-direction: column;
-          gap: 30px;
+          align-items: flex-end;
+          gap: 10px;
         }
 
-        .menu-nav a {
-          font-size: 24px;
-          font-weight: 700;
-          color: var(--white-heavenly);
+        .menu-link {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 120%;
+          color: var(--black-pitch-nah);
           text-decoration: none;
-          transition: color 0.3s ease;
+          transition: color 0.2s ease;
+          padding: 5px 0;
         }
 
-        .menu-nav a:hover {
+        .menu-link:hover {
           color: var(--orange);
         }
 
@@ -153,13 +176,13 @@ const Layout = ({ children }) => {
             padding: 32px 20px;
           }
 
-          .menu-content {
-            padding: 40px;
-            min-width: 280px;
+          .menu-panel {
+            right: 20px;
+            top: 70px;
           }
 
-          .menu-nav a {
-            font-size: 20px;
+          .menu-link {
+            font-size: 16px;
           }
         }
       `}</style>
