@@ -288,6 +288,7 @@ const IndexPage = () => {
           display: flex;
           flex-direction: column;
           gap: 10px;
+          margin-top: var(--socials-margin-top);
         }
 
         .social-links {
