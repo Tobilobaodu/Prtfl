@@ -176,6 +176,103 @@ const SndbxPage = () => {
             gap: 8px;
           }
         }
+
+        @media (max-width: 480px) {
+          .sndbx-container {
+            background: #F9F9F8;
+            min-height: calc(100vh - 84px);
+          }
+
+          .container {
+            max-width: 100%;
+            padding: 134px 40px 0 40px;
+            gap: 20px;
+          }
+
+          .section-intro {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          .section-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 95%;
+            color: #1D1C1C;
+          }
+
+          .section-description {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #1D1C1C;
+          }
+
+          .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+          }
+
+          .project-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+          }
+
+          .project-row {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+          }
+
+          .project-name {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            color: #1D1C1C;
+          }
+
+          .project-metadata {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+          }
+
+          .brand-name,
+          .project-year {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #A3A3A3;
+          }
+
+          .dot-separator {
+            width: 2.73px;
+            height: 2.674px;
+            background: #A3A3A3;
+          }
+
+          .lock-icon {
+            width: 16px;
+            height: 16px;
+          }
+
+          .project-divider {
+            width: 100%;
+            height: 1px;
+            opacity: 0.5;
+            background: rgba(236, 240, 241, 0.5);
+          }
+        }
       `}</style>
     </Layout>
   )

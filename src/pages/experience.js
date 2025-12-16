@@ -313,6 +313,171 @@ const ExperiencePage = () => {
             margin-top: 40px;
           }
         }
+
+        @media (max-width: 480px) {
+          .experience-container {
+            background: #F9F9F8;
+            min-height: calc(100vh - 84px);
+          }
+
+          .container {
+            max-width: 100%;
+            padding: 134px 40px 0 40px;
+            gap: 20px;
+          }
+
+          .experience-list {
+            gap: 20px;
+          }
+
+          .experience-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+          }
+
+          .experience-date {
+            min-width: auto;
+            text-align: center;
+          }
+
+          .experience-date span {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 120%;
+            text-transform: uppercase;
+          }
+
+          .experience-date .current {
+            color: #1D1C1C;
+          }
+
+          .experience-date .past {
+            color: #A3A3A3;
+          }
+
+          .experience-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+          }
+
+          .role-company {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+          }
+
+          .role-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 95%;
+            color: #1D1C1C;
+          }
+
+          .role-title.highlighted {
+            color: #EE550E;
+          }
+
+          .at-symbol,
+          .company-name {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #1D1C1C;
+          }
+
+          .experience-description {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #1D1C1C;
+            text-align: center;
+          }
+
+          .end-section {
+            display: flex;
+            padding-top: 26px;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 25px;
+          }
+
+          .end-section svg {
+            width: 78.728px;
+            height: auto;
+          }
+
+          .footer-text {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            text-align: center;
+            color: #1D1C1C;
+            max-width: 100%;
+          }
+
+          .download-button-wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            transform: none;
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 0;
+            z-index: 100;
+          }
+
+          .download-button {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            background: #EE550E;
+            border: none;
+            cursor: pointer;
+            padding: 15px 20px;
+          }
+
+          .button-bg-orange,
+          .button-bg-black {
+            display: none;
+          }
+
+          .button-content {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2px;
+            left: 0;
+            top: 0;
+            color: #FFF;
+          }
+
+          .button-content span {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 90%;
+            text-transform: uppercase;
+          }
+        }
       `}</style>
     </Layout>
   )

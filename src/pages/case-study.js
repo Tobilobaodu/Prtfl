@@ -451,6 +451,218 @@ const CaseStudyPage = () => {
             grid-template-columns: 1fr;
           }
         }
+
+        @media (max-width: 480px) {
+          .case-study-page {
+            background: #232020;
+            margin: 0;
+            padding: 0;
+          }
+
+          .case-study-nav {
+            display: flex;
+            width: 100%;
+            padding: 30px 20px;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 84px;
+            z-index: 100;
+            background: transparent;
+          }
+
+          .hero-image {
+            width: 100%;
+            height: 346px;
+            margin-top: 0;
+          }
+
+          .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .main-content {
+            padding: 40px 39px 100px;
+          }
+
+          .container {
+            max-width: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 165px;
+          }
+
+          .project-intro {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+          }
+
+          .project-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 32.5px;
+            font-weight: 700;
+            line-height: 95%;
+            color: #FFF;
+            max-width: 100%;
+          }
+
+          .project-meta-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          .meta-item {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #FFF;
+          }
+
+          .meta-label {
+            color: #EE550E;
+          }
+
+          .project-intro-text {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #FFF;
+          }
+
+          .image-gallery-hero {
+            position: relative;
+            height: 439px;
+          }
+
+          .image-gallery-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .gallery-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+          }
+
+          .indicator {
+            height: 2.5px;
+            width: 13.667px;
+            background: #FFF;
+          }
+
+          .indicator.active {
+            background: #EE550E;
+          }
+
+          .content-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+          }
+
+          .tag {
+            display: flex;
+            padding: 5px;
+            justify-content: center;
+            align-items: center;
+            background: #FBBF24;
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            color: #1D1C1C;
+            align-self: flex-start;
+          }
+
+          .section-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 95%;
+            color: #FFF;
+            align-self: flex-start;
+          }
+
+          .subsection-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 95%;
+            color: #FFF;
+            align-self: flex-start;
+          }
+
+          .section-text {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #FFF;
+            align-self: flex-start;
+          }
+
+          .section-image {
+            width: 100%;
+            height: 385px;
+            object-fit: cover;
+            align-self: stretch;
+          }
+
+          .image-row {
+            display: flex;
+            height: 82.868px;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+            align-self: stretch;
+          }
+
+          .image-row img {
+            flex: 1 0 0;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+          }
+
+          .image-grid {
+            display: grid;
+            height: 564px;
+            row-gap: 20px;
+            column-gap: 20px;
+            align-self: stretch;
+            grid-template-rows: repeat(2, minmax(0, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .image-grid img {
+            flex: 1 0 0;
+            align-self: stretch;
+            object-fit: cover;
+          }
+
+          .side-panel {
+            display: none;
+          }
+        }
       `}</style>
     </>
   )

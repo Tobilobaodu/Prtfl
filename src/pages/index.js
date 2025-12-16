@@ -89,13 +89,12 @@ const IndexPage = () => {
           <section className="projects-section">
             <div className="projects-list">
               {projects.map((project, index) => (
-                <div 
-                  key={index} 
-                  className="project-item"
+                <div
+                  key={index}
+                  className={`project-item ${project.locked ? 'clickable locked' : ''}`}
                   onMouseEnter={() => setHoveredProject(index)}
                   onMouseLeave={() => setHoveredProject(null)}
                   onClick={(e) => handleProjectClick(project, e)}
-                  style={{ cursor: project.locked ? 'pointer' : 'default' }}
                 >
                   <div className="project-info">
                     <h3 className="project-title">{project.title}</h3>
@@ -212,6 +211,10 @@ const IndexPage = () => {
         .project-item {
           position: relative;
           transition: opacity 0.2s ease;
+        }
+
+        .project-item.clickable {
+          cursor: pointer;
         }
 
         .project-info {
@@ -344,6 +347,138 @@ const IndexPage = () => {
           .social-links {
             flex-direction: column;
             gap: 12px;
+          }
+
+          .project-image-preview {
+            display: none;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .home-container {
+            background: #F9F9F8;
+            min-height: calc(100vh - 84px);
+          }
+
+          .container {
+            max-width: 100%;
+            padding: 134px 40px 0 40px;
+            gap: 192px;
+          }
+
+          .bio-section {
+            gap: 50px;
+          }
+
+          .bio {
+            width: 100%;
+          }
+
+          .bio-text {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #1D1C1C;
+          }
+
+          .bio-text strong {
+            font-weight: 700;
+          }
+
+          .projects-section {
+            gap: 10px;
+          }
+
+          .projects-list {
+            gap: 10px;
+          }
+
+          .project-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+          }
+
+          .project-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            margin-bottom: 5px;
+          }
+
+          .project-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            color: #1D1C1C;
+          }
+
+          .project-meta {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+          }
+
+          .project-brand,
+          .project-year {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #A3A3A3;
+          }
+
+          .dot {
+            width: 2.73px;
+            height: 2.674px;
+            background: #A3A3A3;
+            border-radius: 50%;
+          }
+
+          .project-meta svg {
+            width: 16px;
+            height: 16px;
+          }
+
+          .project-divider {
+            width: 100%;
+            height: 1px;
+            opacity: 0.5;
+            background: rgba(236, 240, 241, 0.5);
+          }
+
+          .socials-section {
+            margin-top: 0;
+          }
+
+          .social-links {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+          }
+
+          .social-link {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+            color: #777;
+            border-bottom: 1px solid #777;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding-bottom: 0;
+          }
+
+          .social-link svg {
+            width: 14px;
+            height: 14px;
           }
 
           .project-image-preview {

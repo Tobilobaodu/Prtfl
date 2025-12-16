@@ -244,6 +244,140 @@ const PortfolioPage = () => {
             align-items: flex-start;
           }
         }
+
+        @media (max-width: 480px) {
+          .portfolio-container {
+            background: #F9F9F8;
+            min-height: calc(100vh - 84px);
+          }
+
+          .container {
+            max-width: 100%;
+            padding: 134px 40px 0 40px;
+          }
+
+          .intro {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+          }
+
+          .page-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 95%;
+            color: #1D1C1C;
+          }
+
+          .page-description {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #1D1C1C;
+          }
+
+          .projects-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-bottom: 100px;
+          }
+
+          .project-card {
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+          }
+
+          .project-card:hover {
+            transform: none;
+          }
+
+          .project-image-wrapper {
+            position: relative;
+            height: 281px;
+            border-radius: 5px 5px 0 0;
+          }
+
+          .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px 5px 0 0;
+          }
+
+          .lock-icon {
+            position: absolute;
+            left: 17px;
+            bottom: 17px;
+          }
+
+          .project-content {
+            background: #2E2A2A;
+            padding: 21px 20px;
+            height: 75px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            border-radius: 0 0 5px 5px;
+          }
+
+          .project-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            flex-direction: row;
+            gap: 0;
+          }
+
+          .project-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+          }
+
+          .project-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            color: #FFF;
+          }
+
+          .project-description {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.36px;
+            color: #A3A3A3;
+          }
+
+          .project-meta {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 5px;
+          }
+
+          .project-brand,
+          .project-year {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.36px;
+            color: #A3A3A3;
+          }
+        }
       `}</style>
     </Layout>
   )
