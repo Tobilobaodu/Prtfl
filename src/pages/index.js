@@ -227,7 +227,7 @@ const IndexPage = () => {
         .project-title {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 14px;
-          font-weight: 400;
+          font-weight: 700;
           line-height: 120%;
           color: var(--black-pitch-nah);
         }
@@ -241,7 +241,7 @@ const IndexPage = () => {
         .project-brand,
         .project-year {
           font-size: 14px;
-          font-weight: 500;
+          font-weight: 400;
           line-height: 120%;
           letter-spacing: 0.42px;
           color: var(--grey-misty);
