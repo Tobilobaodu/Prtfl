@@ -185,6 +185,66 @@ const Layout = ({ children }) => {
             font-size: 16px;
           }
         }
+
+        @media (max-width: 480px) {
+          .navigation {
+            display: flex;
+            width: 100%;
+            padding: 30px 40px;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 84px;
+            z-index: 100;
+            background: var(--white-not-wyt);
+          }
+
+          .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+          }
+
+          .logo svg {
+            height: auto;
+            width: auto;
+          }
+
+          .menu-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+          }
+
+          .menu-panel {
+            right: 40px;
+            top: 84px;
+          }
+
+          .menu-nav {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+          }
+
+          .menu-link {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 120%;
+            color: var(--black-pitch-nah);
+          }
+
+          main {
+            padding-top: 0;
+            min-height: calc(100vh - 84px);
+          }
+        }
       `}</style>
     </>
   )

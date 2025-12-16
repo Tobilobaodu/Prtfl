@@ -179,6 +179,108 @@ const PhotographyPage = () => {
             min-height: 250px;
           }
         }
+
+        @media (max-width: 480px) {
+          .photography-container {
+            background: #F9F9F8;
+            min-height: calc(100vh - 84px);
+          }
+
+          .container {
+            max-width: 100%;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .intro {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 275px 40px 0 40px;
+            margin-bottom: 168px;
+          }
+
+          .page-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 95%;
+            color: #1D1C1C;
+          }
+
+          .page-description {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #1D1C1C;
+          }
+
+          .images-container {
+            width: 100%;
+            padding: 0 40px 60px 40px;
+          }
+
+          .images-grid {
+            display: flex;
+            width: 100%;
+            padding-bottom: 20px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+          }
+
+          .image-pod {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 11px;
+            width: 100%;
+          }
+
+          .photo-image {
+            height: 400px !important;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 0;
+            min-height: auto;
+          }
+
+          .photo-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+          }
+
+          .photo-title {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.42px;
+            color: #1D1C1C;
+          }
+
+          .photo-location {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2.5px;
+          }
+
+          .photo-location span {
+            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 120%;
+            letter-spacing: 0.36px;
+            color: #A3A3A3;
+          }
+        }
       `}</style>
     </Layout>
   )
