@@ -30,12 +30,13 @@
   ],
   "license": "0BSD",
   "scripts": {
-    "build": "gatsby build",
+    "build": "npm run build:studio && gatsby build",
+    "build:studio": "sanity build studio -o public/studio",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "start": "gatsby develop",
     "serve": "gatsby serve",
-    "clean": "gatsby clean",
+    "clean": "gatsby clean && rm -rf studio",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
   "repository": {
