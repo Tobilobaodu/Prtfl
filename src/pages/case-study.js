@@ -4,6 +4,12 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 const CaseStudyPage = () => {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
   const relatedProjects = [
     { title: "The name of project", brand: "Brand name", year: "2021" },
     { title: "Banking the right way", brand: "Prosperity Bank", year: "2021" },
@@ -30,10 +36,16 @@ const CaseStudyPage = () => {
               <path d="M64 1H69V20H64V1Z" fill="#EE550E"/>
             </svg>
           </Link>
-          <button className="menu-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M13.5 4.5V10.5H19.5V13.5H13.5V19.5H10.5V13.5H4.5V10.5H10.5V4.5H13.5Z" fill="#EE550E" stroke="#EE550E"/>
-            </svg>
+          <button className="menu-icon" onClick={toggleMenu}>
+            {isMenuOpen ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 18L18 6M6 6L18 18" stroke="#EE550E" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3 12H21M3 6H21M3 18H21" stroke="#EE550E" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            )}
           </button>
         </nav>
 
@@ -97,11 +109,33 @@ const CaseStudyPage = () => {
               <p className="section-text">
                 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
               </p>
-              <div className="image-grid">
-                <img src="https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=600&q=80" alt="Strategy 1" />
-                <img src="https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=600&q=80" alt="Strategy 2" />
-                <img src="https://images.unsplash.com/photo-1618556450991-2f1af64e8191?w=600&q=80" alt="Strategy 3" />
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80" alt="Strategy 4" />
+              <div className="image-row">
+                <img src="https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=300&q=80" alt="Strategy 1" />
+                <img src="https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=300&q=80" alt="Strategy 2" />
+              </div>
+            </section>
+
+            <section className="content-section">
+              <div className="tag">03 Strategy</div>
+              <h2 className="section-title">Strategy: statement</h2>
+              <p className="section-text">
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+              </p>
+              <div className="image-row">
+                <img src="https://images.unsplash.com/photo-1618556450991-2f1af64e8191?w=300&q=80" alt="Strategy 3" />
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80" alt="Strategy 4" />
+              </div>
+              <h3 className="subsection-title">Section title</h3>
+              <p className="section-text">
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+              </p>
+            </section>
+
+            <section className="content-section">
+              <h2 className="section-title">Gallery</h2>
+              <div className="image-row">
+                <img src="https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=300&q=80" alt="Gallery 1" />
+                <img src="https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=300&q=80" alt="Gallery 2" />
               </div>
               <h3 className="subsection-title">Section title</h3>
               <p className="section-text">
@@ -111,7 +145,7 @@ const CaseStudyPage = () => {
           </div>
         </div>
 
-        <div className="side-panel">
+        <div className={`side-panel ${isMenuOpen ? 'open' : ''}`}>
           <h3 className="panel-title">more projects</h3>
           <div className="view-more">View more</div>
           <div className="panel-projects">
@@ -341,12 +375,18 @@ const CaseStudyPage = () => {
 
         .side-panel {
           position: fixed;
-          right: 0;
+          right: -607px;
           top: 0;
           width: 607px;
           height: 100vh;
           background: var(--black-nue-ish-black);
           padding: 116px 109px 0;
+          transition: right 0.3s ease-in-out;
+          z-index: 50;
+        }
+
+        .side-panel.open {
+          right: 0;
         }
 
         .panel-title {
