@@ -26,6 +26,16 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
+      resolve: 'gatsby-source-sanity',
+      options: {
+        projectId: 'bhfv0qe4',
+        dataset: 'production',
+        token: process.env.SANITY_READ_TOKEN,
+        watchMode: true,
+        overlayDrafts: true,
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `TOBI - UX Designer Portfolio`,

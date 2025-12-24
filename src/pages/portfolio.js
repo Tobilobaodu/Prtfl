@@ -1,51 +1,21 @@
 import * as React from "react"
-import { Link } from "gatsby"
+import { Link, graphql, navigate } from "gatsby"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
 
-const PortfolioPage = () => {
+const PortfolioPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
-
-  const projects = [
-    {
-      title: "The name of project",
-      description: "I'm responsible for UX Strategy + Design",
-      brand: "Brand name",
-      year: "2025",
-      locked: true,
-      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80"
-    },
-    {
-      title: "The name of project",
-      description: "I'm responsible for UX Strategy + Design",
-      brand: "Brand name",
-      year: "2025",
-      locked: false,
-      image: "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?w=800&q=80"
-    },
-    {
-      title: "The name of project",
-      description: "I'm responsible for UX Strategy + Design",
-      brand: "Brand name",
-      year: "2025",
-      locked: false,
-      image: "https://images.unsplash.com/photo-1618556450991-2f1af64e8191?w=800&q=80"
-    },
-    {
-      title: "The name of project",
-      description: "I'm responsible for UX Strategy + Design",
-      brand: "Brand name",
-      year: "2025",
-      locked: false,
-      image: "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?w=800&q=80"
-    }
-  ]
+  const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
   const handleProjectClick = (project, e) => {
     if (project.locked) {
       e.preventDefault()
       setModalOpen(true)
+    } else {
+      // Navigate to case study page
+      navigate(`/case-study/${project.slug.current}`)
     }
   }
 
@@ -69,7 +39,13 @@ const PortfolioPage = () => {
                 style={{ cursor: project.locked ? 'pointer' : 'default' }}
               >
                 <div className="project-image-wrapper">
-                  <img src={project.image} alt={project.title} className="project-image" />
+                  {project.heroImage?.asset?.gatsbyImageData && (
+                    <GatsbyImage
+                      image={getImage(project.heroImage.asset.gatsbyImageData)}
+                      alt={project.title}
+                      className="project-image"
+                    />
+                  )}
                   {project.locked && (
                     <div className="lock-icon">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,10 +58,10 @@ const PortfolioPage = () => {
                   <div className="project-info-row">
                     <div className="project-text">
                       <h3 className="project-title">{project.title}</h3>
-                      <p className="project-description">{project.description}</p>
+                      <p className="project-description">{project.shortDescription}</p>
                     </div>
                     <div className="project-meta">
-                      <span className="project-brand">{project.brand}</span>
+                      <span className="project-brand">{project.client}</span>
                       <span className="project-year">{project.year}</span>
                     </div>
                   </div>
@@ -382,6 +358,31 @@ const PortfolioPage = () => {
     </Layout>
   )
 }
+
+export const query = graphql`
+  query {
+    allSanityProject(filter: {featured: {eq: true}}) {
+      edges {
+        node {
+          id
+          title
+          client
+          year
+          heroImage {
+            asset {
+              gatsbyImageData
+            }
+          }
+          shortDescription
+          locked
+          slug {
+            current
+          }
+        }
+      }
+    }
+  }
+`
 
 export const Head = () => <Seo title="Portfolio" />
 
