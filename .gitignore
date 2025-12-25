@@ -27,3 +27,10 @@
 
 # Dotenv and similar local-only files
 *.local
+
+# Gatsby build artifacts
+.cache/
+public/
+
+# Yarn
+.yarn-integrity
