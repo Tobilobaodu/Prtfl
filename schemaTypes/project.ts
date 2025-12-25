@@ -68,6 +68,18 @@ export default defineType({
       title: 'Featured on Portfolio',
       type: 'boolean',
       description: 'Show on main portfolio page'
+    }),
+    defineField({
+      name: 'showOnHomepage',
+      title: 'Show on Homepage',
+      type: 'boolean',
+      description: 'Display this project on the homepage (max 6 projects)'
+    }),
+    defineField({
+      name: 'showOnSandbox',
+      title: 'Show on Sandbox',
+      type: 'boolean',
+      description: 'Display this project on the sandbox page (max 10 projects)'
     })
   ],
   preview: {

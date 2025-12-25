@@ -1,71 +1,15 @@
 import * as React from "react"
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
 
-const IndexPage = () => {
+const IndexPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
   const [hoveredProject, setHoveredProject] = React.useState(null)
 
-  const projects = [
-    { 
-      title: "The name of project", 
-      brand: "Brand name", 
-      year: "2021", 
-      locked: true,
-      image: "https://api.builder.io/api/v1/image/assets/TEMP/c72dfddb8accc6f0a3622beec96ded26d79ed3f3?width=1080"
-    },
-    { 
-      title: "Banking the right way", 
-      brand: "Prosperity Bank", 
-      year: "2021", 
-      locked: true,
-      image: "https://api.builder.io/api/v1/image/assets/TEMP/c72dfddb8accc6f0a3622beec96ded26d79ed3f3?width=1080"
-    },
-    { 
-      title: "Learning the right way", 
-      brand: "Sterling University", 
-      year: "2020", 
-      locked: true,
-      image: "https://api.builder.io/api/v1/image/assets/TEMP/c72dfddb8accc6f0a3622beec96ded26d79ed3f3?width=1080"
-    },
-    { 
-      title: "Servicing new customer", 
-      brand: "Motomi", 
-      year: "2019", 
-      locked: false,
-      image: "https://api.builder.io/api/v1/image/assets/TEMP/c72dfddb8accc6f0a3622beec96ded26d79ed3f3?width=1080"
-    },
-    { 
-      title: "Calabar coaster road", 
-      brand: "Brand name", 
-      year: "2018", 
-      locked: false,
-      image: "https://api.builder.io/api/v1/image/assets/TEMP/c72dfddb8accc6f0a3622beec96ded26d79ed3f3?width=1080"
-    },
-    { 
-      title: "Calabar coaster road", 
-      brand: "Brand name", 
-      year: "2018", 
-      locked: false,
-      image: "https://api.builder.io/api/v1/image/assets/TEMP/c72dfddb8accc6f0a3622beec96ded26d79ed3f3?width=1080"
-    },
-    { 
-      title: "Calabar coaster road", 
-      brand: "Brand name", 
-      year: "2018", 
-      locked: false,
-      image: "https://api.builder.io/api/v1/image/assets/TEMP/c72dfddb8accc6f0a3622beec96ded26d79ed3f3?width=1080"
-    },
-    { 
-      title: "Calabar coaster road", 
-      brand: "Brand name", 
-      year: "2018", 
-      locked: false,
-      image: "https://api.builder.io/api/v1/image/assets/TEMP/c72dfddb8accc6f0a3622beec96ded26d79ed3f3?width=1080"
-    },
-  ]
+  const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
   const handleProjectClick = (project, e) => {
     if (project.locked) {
@@ -99,7 +43,7 @@ const IndexPage = () => {
                   <div className="project-info">
                     <h3 className="project-title">{project.title}</h3>
                     <div className="project-meta">
-                      <span className="project-brand">{project.brand}</span>
+                      <span className="project-brand">{project.client}</span>
                       <span className="dot">●</span>
                       <span className="project-year">{project.year}</span>
                       {project.locked && (
@@ -114,11 +58,12 @@ const IndexPage = () => {
               ))}
             </div>
 
-            {hoveredProject !== null && (
+            {hoveredProject !== null && projects[hoveredProject]?.heroImage?.asset?.gatsbyImageData && (
               <div className="project-image-preview">
-                <img 
-                  src={projects[hoveredProject].image} 
+                <GatsbyImage
+                  image={getImage(projects[hoveredProject].heroImage.asset.gatsbyImageData)}
                   alt={projects[hoveredProject].title}
+                  className="project-image"
                 />
               </div>
             )}
@@ -489,6 +434,30 @@ const IndexPage = () => {
     </Layout>
   )
 }
+
+export const query = graphql`
+  query {
+    allSanityProject(
+      filter: { showOnHomepage: { eq: true } }
+      limit: 6
+    ) {
+      edges {
+        node {
+          id
+          title
+          client
+          year
+          locked
+          heroImage {
+            asset {
+              gatsbyImageData
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 export const Head = () => <Seo title="Home" />
 
