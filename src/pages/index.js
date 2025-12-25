@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Link, graphql } from "gatsby"
+import { Link, graphql, navigate } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -8,13 +8,24 @@ import LockedProjectModal from "../components/LockedProjectModal"
 const IndexPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
   const [hoveredProject, setHoveredProject] = React.useState(null)
+  const [selectedProject, setSelectedProject] = React.useState(null)
 
   const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
   const handleProjectClick = (project, e) => {
+    e.preventDefault()
+    setSelectedProject(project)
+
     if (project.locked) {
-      e.preventDefault()
       setModalOpen(true)
+    } else {
+      navigate(`/case-study/${project.slug.current}`)
+    }
+  }
+
+  const handlePasswordCorrect = () => {
+    if (selectedProject) {
+      navigate(`/case-study/${selectedProject.slug.current}`)
     }
   }
 
@@ -101,7 +112,13 @@ const IndexPage = ({ data }) => {
         </div>
       </div>
 
-      <LockedProjectModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <LockedProjectModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        projectPassword={selectedProject?.password}
+        onPasswordCorrect={handlePasswordCorrect}
+        projectTitle={selectedProject?.title}
+      />
 
       <style jsx="true">{`
         .home-container {
@@ -448,6 +465,10 @@ export const query = graphql`
           client
           year
           locked
+          password
+          slug {
+            current
+          }
           heroImage {
             asset {
               gatsbyImageData

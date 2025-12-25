@@ -64,6 +64,13 @@ export default defineType({
       description: 'Requires password to view full case study'
     }),
     defineField({
+      name: 'password',
+      title: 'Access Password',
+      type: 'string',
+      description: 'Password required to access this case study (leave blank for public access)',
+      hidden: ({document}) => !document?.locked
+    }),
+    defineField({
       name: 'featured',
       title: 'Featured on Portfolio',
       type: 'boolean',

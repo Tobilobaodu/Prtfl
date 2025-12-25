@@ -1,13 +1,21 @@
 import * as React from "react"
 
-const LockedProjectModal = ({ isOpen, onClose }) => {
+const LockedProjectModal = ({ isOpen, onClose, projectPassword, onPasswordCorrect, projectTitle }) => {
   const [password, setPassword] = React.useState("")
+  const [error, setError] = React.useState("")
 
   if (!isOpen) return null
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log("Password submitted:", password)
+    if (password === projectPassword) {
+      setError("")
+      setPassword("")
+      onPasswordCorrect()
+      onClose()
+    } else {
+      setError("Incorrect password. Please try again.")
+    }
   }
 
   return (
@@ -44,6 +52,11 @@ const LockedProjectModal = ({ isOpen, onClose }) => {
                   placeholder="● ● ● ● ● ● ● ●"
                   aria-label="Password"
                 />
+                {error && (
+                  <div className="error-message">
+                    {error}
+                  </div>
+                )}
               </div>
 
               <a href="mailto:oluwatobiodu@outlook.com" className="request-password">
@@ -209,6 +222,15 @@ const LockedProjectModal = ({ isOpen, onClose }) => {
         .request-password .underline {
           color: #FAF8ED;
           text-decoration: underline;
+        }
+
+        .error-message {
+          color: #EE550E;
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 120%;
+          margin-top: 5px;
         }
 
         .request-password:hover .underline {

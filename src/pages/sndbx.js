@@ -1,18 +1,29 @@
 import * as React from "react"
-import { graphql } from "gatsby"
+import { graphql, navigate } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
 
 const SndbxPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
+  const [selectedProject, setSelectedProject] = React.useState(null)
 
   const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
   const handleProjectClick = (project, e) => {
+    e.preventDefault()
+    setSelectedProject(project)
+
     if (project.locked) {
-      e.preventDefault()
       setModalOpen(true)
+    } else {
+      navigate(`/case-study/${project.slug.current}`)
+    }
+  }
+
+  const handlePasswordCorrect = () => {
+    if (selectedProject) {
+      navigate(`/case-study/${selectedProject.slug.current}`)
     }
   }
 
@@ -55,7 +66,13 @@ const SndbxPage = ({ data }) => {
         </div>
       </div>
 
-      <LockedProjectModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <LockedProjectModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        projectPassword={selectedProject?.password}
+        onPasswordCorrect={handlePasswordCorrect}
+        projectTitle={selectedProject?.title}
+      />
 
       <style jsx="true">{`
         .sndbx-container {
@@ -283,6 +300,10 @@ export const query = graphql`
           client
           year
           locked
+          password
+          slug {
+            current
+          }
         }
       }
     }
