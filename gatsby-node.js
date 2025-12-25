@@ -34,13 +34,16 @@ exports.createPages = async ({ graphql, actions }) => {
   const caseStudyTemplate = path.resolve(`src/templates/case-study.js`)
 
   caseStudyResult.data.allSanityProject.edges.forEach(({ node }) => {
-    createPage({
-      path: `case-study/${node.slug.current}`,
-      component: caseStudyTemplate,
-      context: {
-        slug: node.slug.current,
-      },
-    })
+    // Only create pages for projects that have slugs set
+    if (node.slug?.current) {
+      createPage({
+        path: `case-study/${node.slug.current}`,
+        component: caseStudyTemplate,
+        context: {
+          slug: node.slug.current,
+        },
+      })
+    }
   })
 
   // Keep existing DSG page
