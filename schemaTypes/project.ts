@@ -68,7 +68,6 @@ export default defineType({
       title: 'Access Password',
       type: 'string',
       description: 'Password required to access this case study (leave blank for public access)',
-      hidden: ({document}) => !document?.locked
     }),
     defineField({
       name: 'featured',
