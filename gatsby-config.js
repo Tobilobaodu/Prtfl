@@ -9,9 +9,9 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `TOBI - UX Designer Portfolio`,
+    title: `Tobiloba Odu - Experienced Product Designer Portfolio`,
     description: `Multidisciplinary designer passionate about design, technology, and how they shape our lives. Portfolio showcasing UX design work, case studies, and photography.`,
-    author: `Tobi`,
+    author: `Tobiloba Odu`,
     siteUrl: `https://tobilobaodu.com/`,
   },
   plugins: [
@@ -38,13 +38,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `TOBI - UX Designer Portfolio`,
-        short_name: `TOBI`,
+        name: `Tobiloba Odu - Experienced Product Designer Portfolio`,
+        short_name: `Tobiloba Odu`,
         start_url: `/`,
         background_color: `#F9F9F8`,
         theme_color: `#EE550E`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`,
+        icon: `src/Assets/logo/logo.svg`,
       },
     },
   ],
