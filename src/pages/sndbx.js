@@ -1,21 +1,13 @@
 import * as React from "react"
+import { graphql } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
 
-const SndbxPage = () => {
+const SndbxPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
 
-  const projects = [
-    { title: "The name of project", brand: "Brand name", year: "2021", locked: true },
-    { title: "Banking the right way", brand: "Prosperity Bank", year: "2021", locked: true },
-    { title: "Learning the right way", brand: "Sterling University", year: "2020", locked: true },
-    { title: "Servicing new customer", brand: "Motomi", year: "2019", locked: false },
-    { title: "Calabar coaster road", brand: "Brand name", year: "2018", locked: false },
-    { title: "Calabar coaster road", brand: "Brand name", year: "2018", locked: false },
-    { title: "Calabar coaster road", brand: "Brand name", year: "2018", locked: false },
-    { title: "Calabar coaster road", brand: "Brand name", year: "2018", locked: false }
-  ]
+  const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
   const handleProjectClick = (project, e) => {
     if (project.locked) {
@@ -46,7 +38,7 @@ const SndbxPage = () => {
                 <div className="project-row">
                   <div className="project-name">{project.title}</div>
                   <div className="project-metadata">
-                    <span className="brand-name">{project.brand}</span>
+                    <span className="brand-name">{project.client}</span>
                     <span className="dot-separator"></span>
                     <span className="project-year">{project.year}</span>
                     {project.locked && (
@@ -277,6 +269,25 @@ const SndbxPage = () => {
     </Layout>
   )
 }
+
+export const query = graphql`
+  query {
+    allSanityProject(
+      filter: { showOnSandbox: { eq: true } }
+      limit: 10
+    ) {
+      edges {
+        node {
+          id
+          title
+          client
+          year
+          locked
+        }
+      }
+    }
+  }
+`
 
 export const Head = () => <Seo title="Sandbox" />
 
