@@ -13,6 +13,17 @@ export default defineType({
       validation: Rule => Rule.required()
     }),
     defineField({
+      name: 'relatedProjects',
+      title: 'Related Projects',
+      description: 'Projects shown in the side panel (max 8). Leave empty for automatic population from featured/homepage/sandbox projects.',
+      type: 'array',
+      of: [{
+        type: 'reference',
+        to: [{type: 'project'}]
+      }],
+      validation: Rule => Rule.max(8)
+    }),
+    defineField({
       name: 'components',
       title: 'Page Components',
       type: 'array',

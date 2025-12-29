@@ -4,10 +4,140 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const CaseStudyTemplate = ({ data }) => {
-  const project = data?.sanityProject
+// Component renderers for different Sanity component types
+const TextBlock = ({ content, textSize, alignment }) => {
+  const sizeClass = {
+    small: 'text-small',
+    medium: 'text-medium',
+    large: 'text-large'
+  }[textSize || 'medium']
 
-  if (!project) {
+  const alignClass = {
+    left: 'text-left',
+    center: 'text-center',
+    right: 'text-right'
+  }[alignment || 'left']
+
+  // Convert Sanity rich text to plain text for now
+  const renderText = (content) => {
+    if (!content) return ''
+    return content.map(block =>
+      block.children?.map(child => child.text).join('') || ''
+    ).join('\n\n')
+  }
+
+  return (
+    <div className={`text-block ${sizeClass} ${alignClass}`}>
+      <p className="section-text">{renderText(content)}</p>
+    </div>
+  )
+}
+
+const ImageComponent = ({ layout, images, imageHeight }) => {
+  const heightClass = {
+    small: 'height-small',
+    medium: 'height-medium',
+    large: 'height-large',
+    xlarge: 'height-xlarge'
+  }[imageHeight || 'medium']
+
+  if (layout === 'single' && images?.[0]) {
+    return (
+      <div className={`image-single ${heightClass}`}>
+        <img
+          src={images[0].asset.url}
+          alt="Project image"
+          className="section-image"
+        />
+      </div>
+    )
+  }
+
+  if (layout === 'grid-2' && images?.length === 2) {
+    return (
+      <div className={`image-grid grid-2 ${heightClass}`}>
+        {images.map((image, index) => (
+          <div key={index} className="grid-item">
+            <img
+              src={image.asset.url}
+              alt={`Project image ${index + 1}`}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (layout === 'grid-3' && images?.length === 3) {
+    return (
+      <div className={`image-grid grid-3 ${heightClass}`}>
+        {images.map((image, index) => (
+          <div key={index} className="grid-item">
+            <img
+              src={image.asset.url}
+              alt={`Project image ${index + 1}`}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (layout === 'grid-4' && images?.length === 4) {
+    return (
+      <div className={`image-grid grid-4 ${heightClass}`}>
+        {images.map((image, index) => (
+          <div key={index} className="grid-item">
+            <img
+              src={image.asset.url}
+              alt={`Project image ${index + 1}`}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  return null
+}
+
+const SectionDivider = ({ tag, title, dividerStyle }) => {
+  return (
+    <div className="section-divider">
+      {tag && <div className="tag">{tag}</div>}
+      {title && <h2 className="section-title">{title}</h2>}
+    </div>
+  )
+}
+
+const Spacer = ({ size }) => {
+  const sizeClass = {
+    small: 'spacer-small',
+    medium: 'spacer-medium',
+    large: 'spacer-large',
+    xlarge: 'spacer-xlarge'
+  }[size || 'medium']
+
+  return <div className={`spacer ${sizeClass}`} />
+}
+
+const CaseStudyTemplate = ({ data }) => {
+  const caseStudy = data?.sanityCaseStudy
+  const project = caseStudy?.project
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
+  // Get related projects - prefer CMS field, fall back to automatic query
+  const cmsRelatedProjects = caseStudy?.relatedProjects || []
+  const autoRelatedProjects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
+
+  // Use CMS field if populated, otherwise use automatic selection
+  const relatedProjects = cmsRelatedProjects.length > 0 ? cmsRelatedProjects : autoRelatedProjects
+
+  if (!caseStudy || !project) {
     return (
       <Layout>
         <div style={{ padding: "100px 20px", textAlign: "center" }}>
@@ -20,7 +150,7 @@ const CaseStudyTemplate = ({ data }) => {
   }
 
   return (
-    <Layout>
+    <>
       <div className="case-study-page">
         <nav className="case-study-nav">
           <Link to="/" className="logo">
@@ -34,10 +164,16 @@ const CaseStudyTemplate = ({ data }) => {
               <path d="M64 1H69V20H64V1Z" fill="#EE550E"/>
             </svg>
           </Link>
-          <button className="menu-icon" onClick={() => {}}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M3 12H21M3 6H21M3 18H21" stroke="#EE550E" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+          <button className="menu-icon" onClick={toggleMenu}>
+            {isMenuOpen ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 18L18 6M6 6L18 18" stroke="#EE550E" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M3 12H21M3 6H21M3 18H21" stroke="#EE550E" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            )}
           </button>
         </nav>
 
@@ -70,12 +206,39 @@ const CaseStudyTemplate = ({ data }) => {
               )}
             </div>
 
-            {project.shortDescription && (
-              <section className="content-section">
-                <h2 className="section-title">Overview</h2>
-                <p className="section-text">{project.shortDescription}</p>
-              </section>
-            )}
+            {/* Render case study components */}
+            {caseStudy.components?.map((component, index) => {
+              switch (component._type) {
+                case 'textBlock':
+                  return <TextBlock key={index} {...component} />
+                case 'imageComponent':
+                  return <ImageComponent key={index} {...component} />
+                case 'sectionDivider':
+                  return <SectionDivider key={index} {...component} />
+                case 'spacer':
+                  return <Spacer key={index} {...component} />
+                default:
+                  return null
+              }
+            })}
+          </div>
+        </div>
+
+        <div className={`side-panel ${isMenuOpen ? 'open' : ''}`}>
+          <h3 className="panel-title">more projects</h3>
+          <div className="panel-projects">
+            {relatedProjects.map((project, index) => (
+              <div key={index} className="panel-project">
+                <div className="panel-project-row">
+                  <div className="panel-project-name">{project.title}</div>
+                  <div className="panel-project-meta">
+                    <span className="panel-brand">{project.client}</span>
+                    <span className="panel-year">{project.year}</span>
+                  </div>
+                </div>
+                <div className="panel-divider"></div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -205,7 +368,84 @@ const CaseStudyTemplate = ({ data }) => {
           color: var(--white-heavenly);
         }
 
+        .side-panel {
+          position: fixed;
+          right: -607px;
+          top: 0;
+          width: 607px;
+          height: 100vh;
+          background: var(--black-nue-ish-black);
+          padding: 116px 109px 0;
+          transition: right 0.3s ease-in-out;
+          z-index: 50;
+        }
+
+        .side-panel.open {
+          right: 0;
+        }
+
+        .panel-title {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 33px;
+          font-weight: 700;
+          line-height: 95%;
+          color: var(--grey-just);
+          margin-bottom: 106px;
+        }
+
+
+
+        .panel-projects {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .panel-project-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .panel-project-name {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 120%;
+          color: var(--white-not-wyt);
+        }
+
+        .panel-project-meta {
+          display: flex;
+          gap: 5px;
+        }
+
+        .panel-brand,
+        .panel-year {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 120%;
+          letter-spacing: 0.42px;
+          color: var(--grey-misty);
+        }
+
+        .panel-divider {
+          width: 100%;
+          height: 0;
+          opacity: 0.5;
+          border-top: 0.5px solid rgba(236, 240, 241, 0.5);
+          margin-top: 10px;
+        }
+
         @media (max-width: 1200px) {
+          .side-panel {
+            position: relative;
+            width: 100%;
+            height: auto;
+            padding: 60px 20px;
+          }
+
           .main-content {
             padding: 40px 20px 100px;
           }
@@ -340,31 +580,86 @@ const CaseStudyTemplate = ({ data }) => {
           }
         }
       `}</style>
-    </Layout>
+    </>
   )
 }
 
 export const query = graphql`
   query ($slug: String!) {
-    sanityProject(slug: { current: { eq: $slug } }) {
+    sanityCaseStudy(project: { slug: { current: { eq: $slug } } }) {
       id
-      title
-      client
-      year
-      projectType
-      heroImage {
-        asset {
-          gatsbyImageData
+      components {
+        ... on SanityTextBlock {
+          _type
+          content {
+            children {
+              text
+            }
+          }
+          textSize
+          alignment
+        }
+        ... on SanityImageComponent {
+          _type
+          layout
+          images {
+            asset {
+              url
+            }
+          }
+          imageHeight
+        }
+        ... on SanitySectionDivider {
+          _type
+          tag
+          title
+          dividerStyle
+        }
+        ... on SanitySpacer {
+          _type
+          size
         }
       }
-      introText
-      shortDescription
+      project {
+        id
+        title
+        client
+        year
+        projectType
+        heroImage {
+          asset {
+            gatsbyImageData
+          }
+        }
+        introText
+        shortDescription
+      }
+    }
+    # Related projects for side panel - exclude current project and locked projects
+    allSanityProject(
+      filter: {
+        locked: { ne: true }
+        slug: { current: { ne: $slug } }
+      }
+      limit: 8
+    ) {
+      edges {
+        node {
+          id
+          title
+          client
+          year
+          slug {
+            current
+          }
+        }
+      }
     }
   }
 `
 
 export const Head = ({ data }) => {
-  const project = data?.sanityProject
+  const project = data?.sanityCaseStudy?.project
   return <Seo title={project?.title || "Case Study"} />
 }
 
