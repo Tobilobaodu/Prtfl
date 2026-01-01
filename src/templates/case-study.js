@@ -692,8 +692,8 @@ export const query = graphql`
             }
           }
           imageHeight
-          enableGaps
-          fullHeightImage
+          enableGaps?
+          fullHeightImage?
         }
         ... on SanitySectionDivider {
           _type
