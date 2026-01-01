@@ -692,8 +692,8 @@ export const query = graphql`
             }
           }
           imageHeight
-          # enableGaps - commented out until Sanity schema is deployed
-          # fullHeightImage - commented out until Sanity schema is deployed
+          enableGaps
+          fullHeightImage
         }
         ... on SanitySectionDivider {
           _type
