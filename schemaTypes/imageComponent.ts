@@ -57,6 +57,22 @@ export default defineType({
       })
     }),
     defineField({
+      name: 'imageHeight',
+      title: 'Image Height (Legacy)',
+      type: 'string',
+      description: 'Legacy field - new content uses fixed 800px height',
+      options: {
+        list: [
+          {title: 'Small (200px)', value: 'small'},
+          {title: 'Medium (400px)', value: 'medium'},
+          {title: 'Large (600px)', value: 'large'},
+          {title: 'Extra Large (800px)', value: 'xlarge'}
+        ]
+      },
+      initialValue: 'medium',
+      hidden: true // Hide from new content but keep for existing data
+    }),
+    defineField({
       name: 'enableGaps',
       title: 'Enable Gaps Between Images',
       type: 'boolean',
@@ -68,7 +84,7 @@ export default defineType({
       title: 'Full Height Image (3-Grid Only)',
       type: 'number',
       description: 'Which image should be full height in 3-grid layout (1, 2, or 3)',
-      validation: Rule => Rule.custom((value, context) => {
+      validation: Rule => Rule.custom((value, context: any) => {
         const layout = context.parent?.layout
         if (layout === 'grid-3' && (!value || value < 1 || value > 3)) {
           return 'Must be 1, 2, or 3 for 3-grid layout'
