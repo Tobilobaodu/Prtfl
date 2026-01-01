@@ -759,7 +759,7 @@ export const query = graphql`
       components {
         ... on SanityTextBlock {
           _type
-          blockType
+          blockType?
           content {
             _type
             children {
