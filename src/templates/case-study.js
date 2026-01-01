@@ -5,7 +5,7 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 // Component renderers for different Sanity component types
-const TextBlock = ({ content, blockType }) => {
+const TextBlock = ({ content, richContent, blockType }) => {
   const typeClass = {
     sectionTitle: 'text-section-title',
     bodyText: 'text-body',
@@ -24,7 +24,46 @@ const TextBlock = ({ content, blockType }) => {
     )
   }
 
-  // Default body text
+  // Body text with rich content (WYSIWYG editor)
+  if (blockType === 'bodyText' && richContent) {
+    return (
+      <div className={typeClass}>
+        {richContent.map((block, index) => {
+          if (block._type === 'block') {
+            return (
+              <p key={index} style={{
+                margin: 0,
+                fontFamily: 'inherit',
+                fontSize: 'inherit',
+                lineHeight: 'inherit',
+                fontWeight: 'inherit',
+                color: 'inherit'
+              }}>
+                {block.children?.map((child, childIndex) => {
+                  let style = {}
+                  if (child.marks?.includes('strong')) {
+                    style.fontWeight = 'bold'
+                  }
+                  if (child.marks?.includes('em')) {
+                    style.fontStyle = 'italic'
+                  }
+
+                  return (
+                    <span key={childIndex} style={style}>
+                      {child.text}
+                    </span>
+                  )
+                })}
+              </p>
+            )
+          }
+          return null
+        })}
+      </div>
+    )
+  }
+
+  // Fallback for body text without rich content
   return (
     <p className={typeClass}>{content}</p>
   )
@@ -707,6 +746,14 @@ export const query = graphql`
           _type
           blockType
           content
+          richContent {
+            _type
+            children {
+              _type
+              marks
+              text
+            }
+          }
         }
         ... on SanityImageComponent {
           _type
