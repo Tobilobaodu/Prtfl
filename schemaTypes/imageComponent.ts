@@ -39,7 +39,7 @@ export default defineType({
           })
         ]
       }],
-      validation: Rule => Rule.custom((images, context) => {
+      validation: Rule => Rule.custom((images, context: any) => {
         const layout = context.parent?.layout
         if (layout === 'single' && images?.length !== 1) {
           return 'Single layout requires exactly 1 image'
@@ -57,18 +57,25 @@ export default defineType({
       })
     }),
     defineField({
-      name: 'imageHeight',
-      title: 'Image Height',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Small (200px)', value: 'small'},
-          {title: 'Medium (400px)', value: 'medium'},
-          {title: 'Large (600px)', value: 'large'},
-          {title: 'Extra Large (800px)', value: 'xlarge'}
-        ]
-      },
-      initialValue: 'medium'
+      name: 'enableGaps',
+      title: 'Enable Gaps Between Images',
+      type: 'boolean',
+      initialValue: true,
+      description: 'Show gaps between grid images'
+    }),
+    defineField({
+      name: 'fullHeightImage',
+      title: 'Full Height Image (3-Grid Only)',
+      type: 'number',
+      description: 'Which image should be full height in 3-grid layout (1, 2, or 3)',
+      validation: Rule => Rule.custom((value, context) => {
+        const layout = context.parent?.layout
+        if (layout === 'grid-3' && (!value || value < 1 || value > 3)) {
+          return 'Must be 1, 2, or 3 for 3-grid layout'
+        }
+        return true
+      }),
+      initialValue: 1
     })
   ],
   preview: {

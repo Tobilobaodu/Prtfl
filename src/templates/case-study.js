@@ -33,13 +33,8 @@ const TextBlock = ({ content, textSize, alignment }) => {
   )
 }
 
-const ImageComponent = ({ layout, images, imageHeight }) => {
-  const heightClass = {
-    small: 'height-small',
-    medium: 'height-medium',
-    large: 'height-large',
-    xlarge: 'height-xlarge'
-  }[imageHeight || 'medium']
+const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHeightImage = 1 }) => {
+  const heightClass = 'height-fixed-800'
 
   if (layout === 'single' && images?.[0]) {
     return (
@@ -55,7 +50,7 @@ const ImageComponent = ({ layout, images, imageHeight }) => {
 
   if (layout === 'grid-2' && images?.length === 2) {
     return (
-      <div className={`image-grid grid-2 ${heightClass}`}>
+      <div className={`image-grid grid-2 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className="grid-item">
             <img
@@ -69,10 +64,11 @@ const ImageComponent = ({ layout, images, imageHeight }) => {
   }
 
   if (layout === 'grid-3' && images?.length === 3) {
+    const fullHeightIndex = (fullHeightImage || 1) - 1; // Convert 1-based to 0-based
     return (
-      <div className={`image-grid grid-3 ${heightClass}`}>
+      <div className={`image-grid grid-3 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
-          <div key={index} className="grid-item">
+          <div key={index} className={`grid-item ${index === fullHeightIndex ? 'full-height' : ''}`}>
             <img
               src={image.asset.url}
               alt={`Project image ${index + 1}`}
@@ -85,7 +81,7 @@ const ImageComponent = ({ layout, images, imageHeight }) => {
 
   if (layout === 'grid-4' && images?.length === 4) {
     return (
-      <div className={`image-grid grid-4 ${heightClass}`}>
+      <div className={`image-grid grid-4 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className="grid-item">
             <img
@@ -104,7 +100,7 @@ const ImageComponent = ({ layout, images, imageHeight }) => {
 const SectionDivider = ({ tag, title, dividerStyle }) => {
   return (
     <div className="section-divider">
-      {tag && <div className="tag">{tag}</div>}
+      {tag && <div className="section-tag">{tag}</div>}
       {title && <h2 className="section-title">{title}</h2>}
     </div>
   )
@@ -368,6 +364,94 @@ const CaseStudyTemplate = ({ data }) => {
           color: var(--white-heavenly);
         }
 
+        /* Image Grid Styles */
+        .image-grid {
+          display: grid;
+          width: 100%;
+          height: 800px;
+        }
+
+        .image-grid.gaps-enabled {
+          gap: 20px;
+        }
+
+        .image-grid.gaps-disabled {
+          gap: 0px;
+        }
+
+        .grid-2 {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .grid-3 {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
+        }
+
+        .grid-3 .grid-item.full-height {
+          grid-row: span 2;
+        }
+
+        .grid-4 {
+          grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        .grid-item {
+          overflow: hidden;
+        }
+
+        .grid-item img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        /* Fixed height for all grids */
+        .height-fixed-800 {
+          height: 800px;
+        }
+
+        .image-single.height-fixed-800 {
+          height: 800px;
+        }
+
+        .image-single img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        /* Section Divider Styles */
+        .section-divider {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .section-tag {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 120%;
+          background: #FBBF24;
+          color: var(--black-nue-black);
+          padding: 4px 12px;
+          border-radius: 20px;
+          width: fit-content;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .section-title {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 32.5px;
+          font-weight: 700;
+          line-height: 95%;
+          color: var(--white-heavenly);
+          margin: 0;
+        }
+
         .side-panel {
           position: fixed;
           right: -607px;
@@ -608,6 +692,8 @@ export const query = graphql`
             }
           }
           imageHeight
+          # enableGaps - commented out until Sanity schema is deployed
+          # fullHeightImage - commented out until Sanity schema is deployed
         }
         ... on SanitySectionDivider {
           _type
