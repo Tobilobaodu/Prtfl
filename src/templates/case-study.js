@@ -90,7 +90,7 @@ const TextBlock = ({ content, type, blockType }) => {
 const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHeightImage = 1 }) => {
   const heightClass = 'height-fixed-800'
 
-  if (layout === 'single' && images?.[0]) {
+  if (layout === 'single' && images?.[0]?.asset?.url) {
     return (
       <div className={`image-single ${heightClass}`}>
         <img
@@ -102,7 +102,7 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
     )
   }
 
-  if (layout === 'grid-2' && images?.length === 2) {
+  if (layout === 'grid-2' && images?.length === 2 && images.every(img => img?.asset?.url)) {
     return (
       <div className={`image-grid grid-2 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
@@ -117,7 +117,7 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
     )
   }
 
-  if (layout === 'grid-3' && images?.length === 3) {
+  if (layout === 'grid-3' && images?.length === 3 && images.every(img => img?.asset?.url)) {
     const fullHeightIndex = (fullHeightImage || 1) - 1; // Convert 1-based to 0-based
     return (
       <div className={`image-grid grid-3 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
@@ -133,7 +133,7 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
     )
   }
 
-  if (layout === 'grid-4' && images?.length === 4) {
+  if (layout === 'grid-4' && images?.length === 4 && images.every(img => img?.asset?.url)) {
     return (
       <div className={`image-grid grid-4 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
@@ -149,6 +149,18 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
   }
 
   return null
+}
+
+const SectionTitleBlock = ({ title }) => {
+  return (
+    <h2 className="text-section-title">{title}</h2>
+  )
+}
+
+const TagBlock = ({ tag }) => {
+  return (
+    <div className="text-tag">{tag}</div>
+  )
 }
 
 const SectionDivider = ({ tag, title, dividerStyle }) => {
@@ -261,6 +273,10 @@ const CaseStudyTemplate = ({ data }) => {
               switch (component._type) {
                 case 'textBlock':
                   return <TextBlock key={index} {...component} />
+                case 'sectionTitleBlock':
+                  return <SectionTitleBlock key={index} {...component} />
+                case 'tagBlock':
+                  return <TagBlock key={index} {...component} />
                 case 'imageComponent':
                   return <ImageComponent key={index} {...component} />
                 case 'sectionDivider':
@@ -762,8 +778,6 @@ export const query = graphql`
       components {
         ... on SanityTextBlock {
           _type
-          type
-          blockType
           content {
             _type
             children {
@@ -772,6 +786,14 @@ export const query = graphql`
               text
             }
           }
+        }
+        ... on SanitySectionTitleBlock {
+          _type
+          title
+        }
+        ... on SanityTagBlock {
+          _type
+          tag
         }
         ... on SanityImageComponent {
           _type

@@ -29,6 +29,8 @@ export default defineType({
       type: 'array',
       of: [
         {type: 'textBlock'},
+        {type: 'sectionTitleBlock'},
+        {type: 'tagBlock'},
         {type: 'imageComponent'},
         {type: 'spacer'},
         {type: 'sectionDivider'}
