@@ -136,6 +136,7 @@ const IndexPage = ({ data }) => {
           display: flex;
           flex-direction: column;
           gap: 80px;
+          min-height: 100vh;
         }
 
         .bio-section {
@@ -253,7 +254,8 @@ const IndexPage = ({ data }) => {
           display: flex;
           flex-direction: column;
           gap: 10px;
-          margin-top: var(--socials-margin-top);
+          margin-top: auto;
+          margin-bottom: 100px;
         }
 
         .social-links {
