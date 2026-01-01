@@ -40,11 +40,10 @@ const SndbxPage = ({ data }) => {
 
           <div className="projects-list">
             {projects.map((project, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="project-item"
                 onClick={(e) => handleProjectClick(project, e)}
-                style={{ cursor: project.locked ? 'pointer' : 'default' }}
               >
                 <div className="project-row">
                   <div className="project-name">{project.title}</div>
@@ -124,6 +123,7 @@ const SndbxPage = ({ data }) => {
           display: flex;
           flex-direction: column;
           gap: 10px;
+          cursor: pointer;
         }
 
         .project-row {
@@ -231,6 +231,7 @@ const SndbxPage = ({ data }) => {
             display: flex;
             flex-direction: column;
             gap: 5px;
+            cursor: pointer;
           }
 
           .project-row {

@@ -32,11 +32,10 @@ const PortfolioPage = ({ data }) => {
 
           <div className="projects-grid">
             {projects.map((project, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="project-card"
                 onClick={(e) => handleProjectClick(project, e)}
-                style={{ cursor: project.locked ? 'pointer' : 'default' }}
               >
                 <div className="project-image-wrapper">
                   {project.heroImage?.asset?.gatsbyImageData && (
@@ -123,6 +122,7 @@ const PortfolioPage = ({ data }) => {
           border-radius: 5px;
           overflow: hidden;
           transition: transform 0.3s ease;
+          cursor: pointer;
         }
 
         .project-card:hover {
@@ -267,6 +267,7 @@ const PortfolioPage = ({ data }) => {
             display: flex;
             flex-direction: column;
             border-radius: 5px;
+            cursor: pointer;
           }
 
           .project-card:hover {

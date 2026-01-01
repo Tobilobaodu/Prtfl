@@ -46,7 +46,7 @@ const IndexPage = ({ data }) => {
               {projects.map((project, index) => (
                 <div
                   key={index}
-                  className={`project-item ${project.locked ? 'clickable locked' : ''}`}
+                  className={`project-item clickable ${project.locked ? 'locked' : ''}`}
                   onMouseEnter={() => setHoveredProject(index)}
                   onMouseLeave={() => setHoveredProject(null)}
                   onClick={(e) => handleProjectClick(project, e)}
@@ -126,6 +126,23 @@ const IndexPage = ({ data }) => {
           background: var(--white-not-wyt);
           min-height: calc(100vh - 85px);
           position: relative;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .home-container::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url("../Assets/noise.png");
+          background-size: 100px 100px;
+          background-blend-mode: overlay;
+          opacity: 0.2;
+          pointer-events: none;
+          z-index: 0;
         }
 
         .container {
@@ -136,7 +153,9 @@ const IndexPage = ({ data }) => {
           display: flex;
           flex-direction: column;
           gap: 40px;
-          min-height: 100vh;
+          flex: 1;
+          position: relative;
+          z-index: 1;
         }
 
         .bio-section {
@@ -458,7 +477,7 @@ export const query = graphql`
   query {
     allSanityProject(
       filter: { showOnHomepage: { eq: true } }
-      limit: 6
+      limit: 10
     ) {
       edges {
         node {
