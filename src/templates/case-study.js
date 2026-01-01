@@ -5,12 +5,15 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 // Component renderers for different Sanity component types
-const TextBlock = ({ content, type }) => {
+const TextBlock = ({ content, type, blockType }) => {
+  // Use type field if available, otherwise fall back to blockType for backward compatibility
+  const blockTypeValue = type || blockType || 'bodyText'
+
   const typeClass = {
     sectionTitle: 'text-section-title',
     bodyText: 'text-body',
     tag: 'text-tag'
-  }[type || 'bodyText']
+  }[blockTypeValue]
 
   // Helper function to extract plain text from rich content blocks
   const extractPlainText = (blocks) => {
@@ -57,20 +60,20 @@ const TextBlock = ({ content, type }) => {
     })
   }
 
-  if (type === 'sectionTitle') {
+  if (blockTypeValue === 'sectionTitle') {
     return (
       <h2 className={typeClass}>{extractPlainText(content)}</h2>
     )
   }
 
-  if (type === 'tag') {
+  if (blockTypeValue === 'tag') {
     return (
       <div className={typeClass}>{extractPlainText(content)}</div>
     )
   }
 
   // Body text with rich content (WYSIWYG editor)
-  if (type === 'bodyText') {
+  if (blockTypeValue === 'bodyText') {
     return (
       <div className={typeClass}>
         {renderRichText(content)}
@@ -760,6 +763,7 @@ export const query = graphql`
         ... on SanityTextBlock {
           _type
           type
+          blockType
           content {
             _type
             children {
