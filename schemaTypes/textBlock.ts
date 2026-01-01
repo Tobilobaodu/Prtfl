@@ -23,7 +23,16 @@ export default defineType({
       name: 'content',
       title: 'Content',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: Rule => Rule.required(),
+      hidden: ({parent}) => parent?.blockType === 'bodyText'
+    }),
+    defineField({
+      name: 'richContent',
+      title: 'Content',
+      type: 'array',
+      of: [{type: 'block'}],
+      validation: Rule => Rule.required(),
+      hidden: ({parent}) => parent?.blockType !== 'bodyText'
     })
   ],
   preview: {
