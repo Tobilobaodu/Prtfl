@@ -6,47 +6,40 @@ export default defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'content',
-      title: 'Content',
-      type: 'array',
-      of: [{type: 'block'}],
+      name: 'blockType',
+      title: 'Block Type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Section Title', value: 'sectionTitle'},
+          {title: 'Body Text', value: 'bodyText'},
+          {title: 'Tag', value: 'tag'}
+        ]
+      },
+      initialValue: 'bodyText',
       validation: Rule => Rule.required()
     }),
     defineField({
-      name: 'textSize',
-      title: 'Text Size',
+      name: 'content',
+      title: 'Content',
       type: 'string',
-      options: {
-        list: [
-          {title: 'Small', value: 'small'},
-          {title: 'Medium', value: 'medium'},
-          {title: 'Large', value: 'large'}
-        ]
-      },
-      initialValue: 'medium'
-    }),
-    defineField({
-      name: 'alignment',
-      title: 'Text Alignment',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Left', value: 'left'},
-          {title: 'Center', value: 'center'},
-          {title: 'Right', value: 'right'}
-        ]
-      },
-      initialValue: 'left'
+      validation: Rule => Rule.required()
     })
   ],
   preview: {
     select: {
+      blockType: 'blockType',
       content: 'content'
     },
-    prepare({content}) {
+    prepare({blockType, content}: {blockType?: string, content?: string}) {
+      const typeLabels: Record<string, string> = {
+        sectionTitle: 'Section Title',
+        bodyText: 'Body Text',
+        tag: 'Tag'
+      }
       return {
-        title: 'Text Block',
-        subtitle: content?.[0]?.children?.[0]?.text?.slice(0, 50) + '...' || 'Empty text block'
+        title: typeLabels[blockType || 'bodyText'] || 'Text Block',
+        subtitle: content ? (content.slice(0, 50) + (content.length > 50 ? '...' : '')) : 'Empty text block'
       }
     }
   }

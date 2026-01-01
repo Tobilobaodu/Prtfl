@@ -5,31 +5,28 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 // Component renderers for different Sanity component types
-const TextBlock = ({ content, textSize, alignment }) => {
-  const sizeClass = {
-    small: 'text-small',
-    medium: 'text-medium',
-    large: 'text-large'
-  }[textSize || 'medium']
+const TextBlock = ({ content, blockType }) => {
+  const typeClass = {
+    sectionTitle: 'text-section-title',
+    bodyText: 'text-body',
+    tag: 'text-tag'
+  }[blockType || 'bodyText']
 
-  const alignClass = {
-    left: 'text-left',
-    center: 'text-center',
-    right: 'text-right'
-  }[alignment || 'left']
-
-  // Convert Sanity rich text to plain text for now
-  const renderText = (content) => {
-    if (!content) return ''
-    return content.map(block =>
-      block.children?.map(child => child.text).join('') || ''
-    ).join('\n\n')
+  if (blockType === 'sectionTitle') {
+    return (
+      <h2 className={typeClass}>{content}</h2>
+    )
   }
 
+  if (blockType === 'tag') {
+    return (
+      <div className={typeClass}>{content}</div>
+    )
+  }
+
+  // Default body text
   return (
-    <div className={`text-block ${sizeClass} ${alignClass}`}>
-      <p className="section-text">{renderText(content)}</p>
-    </div>
+    <p className={typeClass}>{content}</p>
   )
 }
 
@@ -364,6 +361,39 @@ const CaseStudyTemplate = ({ data }) => {
           color: var(--white-heavenly);
         }
 
+        /* Text Block Types */
+        .text-section-title {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 32.5px;
+          font-weight: 700;
+          line-height: 95%;
+          color: var(--white-heavenly);
+          margin: 0;
+        }
+
+        .text-body {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 120%;
+          letter-spacing: 0.42px;
+          color: var(--white-heavenly);
+        }
+
+        .text-tag {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 120%;
+          background: #FBBF24;
+          color: var(--black-nue-black);
+          padding: 4px 12px;
+          border-radius: 20px;
+          width: fit-content;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
         /* Image Grid Styles */
         .image-grid {
           display: grid;
@@ -675,13 +705,8 @@ export const query = graphql`
       components {
         ... on SanityTextBlock {
           _type
-          content {
-            children {
-              text
-            }
-          }
-          textSize
-          alignment
+          blockType
+          content
         }
         ... on SanityImageComponent {
           _type
