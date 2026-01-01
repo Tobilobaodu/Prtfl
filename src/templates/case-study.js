@@ -5,67 +5,82 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 // Component renderers for different Sanity component types
-const TextBlock = ({ content, richContent, blockType }) => {
+const TextBlock = ({ content, blockType }) => {
   const typeClass = {
     sectionTitle: 'text-section-title',
     bodyText: 'text-body',
     tag: 'text-tag'
   }[blockType || 'bodyText']
 
+  // Helper function to extract plain text from rich content blocks
+  const extractPlainText = (blocks) => {
+    if (!blocks || !Array.isArray(blocks)) return ''
+    return blocks.map(block =>
+      block.children?.map(child => child.text).join('') || ''
+    ).join('\n\n')
+  }
+
+  // Helper function to render rich text with formatting
+  const renderRichText = (blocks) => {
+    if (!blocks || !Array.isArray(blocks)) return null
+
+    return blocks.map((block, index) => {
+      if (block._type === 'block') {
+        return (
+          <p key={index} style={{
+            margin: 0,
+            fontFamily: 'inherit',
+            fontSize: 'inherit',
+            lineHeight: 'inherit',
+            fontWeight: 'inherit',
+            color: 'inherit'
+          }}>
+            {block.children?.map((child, childIndex) => {
+              let style = {}
+              if (child.marks?.includes('strong')) {
+                style.fontWeight = 'bold'
+              }
+              if (child.marks?.includes('em')) {
+                style.fontStyle = 'italic'
+              }
+
+              return (
+                <span key={childIndex} style={style}>
+                  {child.text}
+                </span>
+              )
+            })}
+          </p>
+        )
+      }
+      return null
+    })
+  }
+
   if (blockType === 'sectionTitle') {
     return (
-      <h2 className={typeClass}>{content}</h2>
+      <h2 className={typeClass}>{extractPlainText(content)}</h2>
     )
   }
 
   if (blockType === 'tag') {
     return (
-      <div className={typeClass}>{content}</div>
+      <div className={typeClass}>{extractPlainText(content)}</div>
     )
   }
 
   // Body text with rich content (WYSIWYG editor)
-  if (blockType === 'bodyText' && richContent) {
+  if (blockType === 'bodyText') {
     return (
       <div className={typeClass}>
-        {richContent.map((block, index) => {
-          if (block._type === 'block') {
-            return (
-              <p key={index} style={{
-                margin: 0,
-                fontFamily: 'inherit',
-                fontSize: 'inherit',
-                lineHeight: 'inherit',
-                fontWeight: 'inherit',
-                color: 'inherit'
-              }}>
-                {block.children?.map((child, childIndex) => {
-                  let style = {}
-                  if (child.marks?.includes('strong')) {
-                    style.fontWeight = 'bold'
-                  }
-                  if (child.marks?.includes('em')) {
-                    style.fontStyle = 'italic'
-                  }
-
-                  return (
-                    <span key={childIndex} style={style}>
-                      {child.text}
-                    </span>
-                  )
-                })}
-              </p>
-            )
-          }
-          return null
-        })}
+        {renderRichText(content)}
       </div>
     )
   }
 
-  // Fallback for body text without rich content
+  // Fallback
   return (
-    <p className={typeClass}>{content}</p>
+    <p className={typeClass}>{extractPlainText(content)}</p>
   )
 }
 
@@ -745,8 +760,7 @@ export const query = graphql`
         ... on SanityTextBlock {
           _type
           blockType
-          content
-          richContent {
+          content {
             _type
             children {
               _type
