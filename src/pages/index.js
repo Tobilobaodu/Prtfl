@@ -135,14 +135,14 @@ const IndexPage = ({ data }) => {
           padding: 0px 0px;
           display: flex;
           flex-direction: column;
-          gap: 80px;
+          gap: 40px;
           min-height: 100vh;
         }
 
         .bio-section {
           display: flex;
           flex-direction: column;
-          gap: 50px;
+          gap: 30px;
         }
 
         .bio-text {
