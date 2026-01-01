@@ -90,11 +90,11 @@ const TextBlock = ({ content, type, blockType }) => {
 const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHeightImage = 1 }) => {
   const heightClass = 'height-fixed-800'
 
-  if (layout === 'single' && images?.[0]?.asset?.url) {
+  if (layout === 'single' && images?.[0]) {
     return (
       <div className={`image-single ${heightClass}`}>
         <img
-          src={images[0].asset.url}
+          src={images[0]?.asset?.url || ''}
           alt="Project image"
           className="section-image"
         />
@@ -102,13 +102,13 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
     )
   }
 
-  if (layout === 'grid-2' && images?.length === 2 && images.every(img => img?.asset?.url)) {
+  if (layout === 'grid-2' && images?.length === 2) {
     return (
       <div className={`image-grid grid-2 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className="grid-item">
             <img
-              src={image.asset.url}
+              src={image?.asset?.url || ''}
               alt={`Project image ${index + 1}`}
             />
           </div>
@@ -117,14 +117,14 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
     )
   }
 
-  if (layout === 'grid-3' && images?.length === 3 && images.every(img => img?.asset?.url)) {
+  if (layout === 'grid-3' && images?.length === 3) {
     const fullHeightIndex = (fullHeightImage || 1) - 1; // Convert 1-based to 0-based
     return (
       <div className={`image-grid grid-3 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className={`grid-item ${index === fullHeightIndex ? 'full-height' : ''}`}>
             <img
-              src={image.asset.url}
+              src={image?.asset?.url || ''}
               alt={`Project image ${index + 1}`}
             />
           </div>
@@ -133,13 +133,13 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
     )
   }
 
-  if (layout === 'grid-4' && images?.length === 4 && images.every(img => img?.asset?.url)) {
+  if (layout === 'grid-4' && images?.length === 4) {
     return (
       <div className={`image-grid grid-4 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className="grid-item">
             <img
-              src={image.asset.url}
+              src={image?.asset?.url || ''}
               alt={`Project image ${index + 1}`}
             />
           </div>
@@ -173,14 +173,9 @@ const SectionDivider = ({ tag, title, dividerStyle }) => {
 }
 
 const Spacer = ({ size }) => {
-  const sizeClass = {
-    small: 'spacer-small',
-    medium: 'spacer-medium',
-    large: 'spacer-large',
-    xlarge: 'spacer-xlarge'
-  }[size || 'medium']
+  const pixelSize = parseInt(size) || 20 // Default to 20px if invalid
 
-  return <div className={`spacer ${sizeClass}`} />
+  return <div className="spacer" style={{ height: `${pixelSize}px` }} />
 }
 
 const CaseStudyTemplate = ({ data }) => {
@@ -366,7 +361,7 @@ const CaseStudyTemplate = ({ data }) => {
           margin: 0 auto;
           display: flex;
           flex-direction: column;
-          gap: 50px;
+          gap: 0px;
         }
 
         .project-intro {
@@ -461,7 +456,7 @@ const CaseStudyTemplate = ({ data }) => {
           background: #FBBF24;
           color: var(--black-nue-black);
           padding: 4px 12px;
-          border-radius: 20px;
+          border-radius: 0px;
           width: fit-content;
           text-transform: uppercase;
           letter-spacing: 0.5px;
@@ -540,7 +535,7 @@ const CaseStudyTemplate = ({ data }) => {
           background: #FBBF24;
           color: var(--black-nue-black);
           padding: 4px 12px;
-          border-radius: 20px;
+          border-radius: 0px;
           width: fit-content;
           text-transform: uppercase;
           letter-spacing: 0.5px;
