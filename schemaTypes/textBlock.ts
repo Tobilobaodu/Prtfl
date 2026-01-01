@@ -6,7 +6,7 @@ export default defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'blockType',
+      name: 'type',
       title: 'Block Type',
       type: 'string',
       options: {
@@ -29,18 +29,19 @@ export default defineType({
   ],
   preview: {
     select: {
-      blockType: 'blockType',
+      type: 'type',
       content: 'content'
     },
-    prepare({blockType, content}: {blockType?: string, content?: string}) {
+    prepare({type, content}: {type?: string, content?: any[]}) {
       const typeLabels: Record<string, string> = {
         sectionTitle: 'Section Title',
         bodyText: 'Body Text',
         tag: 'Tag'
       }
+      const plainText = content?.[0]?.children?.[0]?.text || ''
       return {
-        title: typeLabels[blockType || 'bodyText'] || 'Text Block',
-        subtitle: content ? (content.slice(0, 50) + (content.length > 50 ? '...' : '')) : 'Empty text block'
+        title: typeLabels[type || 'bodyText'] || 'Text Block',
+        subtitle: plainText.slice(0, 50) + (plainText.length > 50 ? '...' : '') || 'Empty text block'
       }
     }
   }
