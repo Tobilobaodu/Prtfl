@@ -245,8 +245,8 @@ const IndexPage = ({ data }) => {
           position: fixed;
           right: 100px;
           top: 159px;
-          width: 540px;
-          height: 481px;
+          width: 1000px;
+          height: 500px;
           pointer-events: none;
           z-index: 50;
           animation: fadeInImage 0.3s ease;
