@@ -95,7 +95,12 @@ const Layout = ({ children }) => {
           padding: 0;
           z-index: 101;
           position: relative;
-          transition: transform 0.3s ease;
+          transition: transform 0.3s ease, background-color 0.2s ease;
+        }
+
+        .menu-icon:hover {
+          background-color: #BBB;
+          border-radius: 7px;
         }
 
         .menu-blur-overlay {
@@ -144,7 +149,6 @@ const Layout = ({ children }) => {
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          gap: 10px;
         }
 
         .menu-link {
