@@ -205,9 +205,20 @@ const LockedProjectModal = ({ isOpen, onClose, projectPassword, onPasswordCorrec
         }
 
         .password-input::placeholder {
-          color: #A2A2A2;
-          letter-spacing: 4px;
+          color: transparent;
+          background-image:
+            url("data:image/svg+xml,%3csvg width='11' height='10' viewBox='0 0 11 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M3.06 9.72L1.2 8.37L3.24 5.61L0 4.56L0.81 2.49L3.93 3.54V0H6.24V3.54L9.33 2.49L10.14 4.56L6.96 5.61L8.97 8.37L7.14 9.72L5.1 6.81L3.06 9.72Z' fill='%23A2A2A2'/%3e%3c/svg%3e"),
+            url("data:image/svg+xml,%3csvg width='11' height='10' viewBox='0 0 11 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M3.06 9.72L1.2 8.37L3.24 5.61L0 4.56L0.81 2.49L3.93 3.54V0H6.24V3.54L9.33 2.49L10.14 4.56L6.96 5.61L8.97 8.37L7.14 9.72L5.1 6.81L3.06 9.72Z' fill='%23A2A2A2'/%3e%3c/svg%3e"),
+            url("data:image/svg+xml,%3csvg width='11' height='10' viewBox='0 0 11 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M3.06 9.72L1.2 8.37L3.24 5.61L0 4.56L0.81 2.49L3.93 3.54V0H6.24V3.54L9.33 2.49L10.14 4.56L6.96 5.61L8.97 8.37L7.14 9.72L5.1 6.81L3.06 9.72Z' fill='%23A2A2A2'/%3e%3c/svg%3e"),
+            url("data:image/svg+xml,%3csvg width='11' height='10' viewBox='0 0 11 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M3.06 9.72L1.2 8.37L3.24 5.61L0 4.56L0.81 2.49L3.93 3.54V0H6.24V3.54L9.33 2.49L10.14 4.56L6.96 5.61L8.97 8.37L7.14 9.72L5.1 6.81L3.06 9.72Z' fill='%23A2A2A2'/%3e%3c/svg%3e"),
+            url("data:image/svg+xml,%3csvg width='11' height='10' viewBox='0 0 11 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M3.06 9.72L1.2 8.37L3.24 5.61L0 4.56L0.81 2.49L3.93 3.54V0H6.24V3.54L9.33 2.49L10.14 4.56L6.96 5.61L8.97 8.37L7.14 9.72L5.1 6.81L3.06 9.72Z' fill='%23A2A2A2'/%3e%3c/svg%3e"),
+            url("data:image/svg+xml,%3csvg width='11' height='10' viewBox='0 0 11 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M3.06 9.72L1.2 8.37L3.24 5.61L0 4.56L0.81 2.49L3.93 3.54V0H6.24V3.54L9.33 2.49L10.14 4.56L6.96 5.61L8.97 8.37L7.14 9.72L5.1 6.81L3.06 9.72Z' fill='%23A2A2A2'/%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          background-position: 0px center, 21px center, 42px center, 63px center, 84px center, 105px center;
+          background-size: 11px 10px;
         }
+
+
 
         .request-password {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
