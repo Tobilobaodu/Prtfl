@@ -133,11 +133,27 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
     )
   }
 
-  if (layout === 'grid-4' && images?.length === 4) {
+  if ((layout === 'grid-4-horizontal' || layout === 'grid-4-square') && images?.length === 4) {
+    const gridClass = layout === 'grid-4-horizontal' ? 'grid-4-horizontal' : 'grid-4-square'
     return (
-      <div className={`image-grid grid-4 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
+      <div className={`image-grid ${gridClass} ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className="grid-item">
+            <img
+              src={image?.asset?.url || ''}
+              alt={`Project image ${index + 1}`}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (layout === 'grid-5' && images?.length === 5) {
+    return (
+      <div className={`image-grid grid-5 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
+        {images.map((image, index) => (
+          <div key={index} className={`grid-item ${index === 0 ? 'full-width' : ''}`}>
             <img
               src={image?.asset?.url || ''}
               alt={`Project image ${index + 1}`}
@@ -170,6 +186,53 @@ const SectionDivider = ({ tag, title, dividerStyle }) => {
       {title && <h2 className="section-title">{title}</h2>}
     </div>
   )
+}
+
+const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, muted, caption }) => {
+  try {
+    // Determine video source
+    const videoSrc = videoFile?.asset?.url || videoUrl
+
+    if (!videoSrc) {
+      return (
+        <div className="video-error">
+          <p>Video source not available</p>
+        </div>
+      )
+    }
+
+    // Get poster image if available
+    const posterSrc = posterImage?.asset?.gatsbyImageData
+      ? getImage(posterImage.asset.gatsbyImageData)?.images?.fallback?.src
+      : null
+
+    return (
+      <div className="video-container">
+        <video
+          controls
+          autoPlay={autoplay}
+          loop={loop}
+          muted={muted}
+          poster={posterSrc}
+          className="video-player"
+          preload="metadata"
+        >
+          <source src={videoSrc} type={videoFile ? "video/mp4" : undefined} />
+          Your browser does not support the video tag.
+        </video>
+        {caption && (
+          <p className="video-caption">{caption}</p>
+        )}
+      </div>
+    )
+  } catch (error) {
+    console.error('Video component error:', error)
+    return (
+      <div className="video-error">
+        <p>Unable to load video</p>
+      </div>
+    )
+  }
 }
 
 const Spacer = ({ size }) => {
@@ -274,6 +337,8 @@ const CaseStudyTemplate = ({ data }) => {
                   return <TagBlock key={index} {...component} />
                 case 'imageComponent':
                   return <ImageComponent key={index} {...component} />
+                case 'videoComponent':
+                  return <VideoComponent key={index} {...component} />
                 case 'sectionDivider':
                   return <SectionDivider key={index} {...component} />
                 case 'spacer':
@@ -490,8 +555,22 @@ const CaseStudyTemplate = ({ data }) => {
           grid-row: span 2;
         }
 
-        .grid-4 {
+        .grid-4-horizontal {
           grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        .grid-4-square {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 1fr 1fr;
+        }
+
+        .grid-5 {
+          grid-template-columns: 1fr 1fr 1fr 1fr;
+          grid-template-rows: auto auto;
+        }
+
+        .grid-5 .grid-item.full-width {
+          grid-column: 1 / -1;
         }
 
         .grid-item {
@@ -548,6 +627,45 @@ const CaseStudyTemplate = ({ data }) => {
           line-height: 95%;
           color: var(--white-heavenly);
           margin: 0;
+        }
+
+        /* Video Component Styles */
+        .video-container {
+          width: 100%;
+          margin: 20px 0;
+        }
+
+        .video-player {
+          width: 100%;
+          height: auto;
+          max-height: 600px;
+          object-fit: contain;
+          background: #000;
+        }
+
+        .video-caption {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 120%;
+          letter-spacing: 0.42px;
+          color: var(--grey-misty);
+          margin-top: 10px;
+          text-align: center;
+        }
+
+        .video-error {
+          padding: 20px;
+          text-align: center;
+          color: var(--grey-misty);
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 4px;
+        }
+
+        .video-error p {
+          margin: 0;
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
         }
 
         .side-panel {
@@ -801,6 +919,24 @@ export const query = graphql`
           imageHeight
           enableGaps
           fullHeightImage
+        }
+        ... on SanityVideoComponent {
+          _type
+          videoFile {
+            asset {
+              url
+            }
+          }
+          videoUrl
+          posterImage {
+            asset {
+              gatsbyImageData
+            }
+          }
+          autoplay
+          loop
+          muted
+          caption
         }
         ... on SanitySectionDivider {
           _type
