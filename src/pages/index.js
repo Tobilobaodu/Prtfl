@@ -69,10 +69,10 @@ const IndexPage = ({ data }) => {
               ))}
             </div>
 
-            {hoveredProject !== null && projects[hoveredProject]?.heroImage?.asset?.gatsbyImageData && (
+            {hoveredProject !== null && (projects[hoveredProject]?.hoverImage?.asset?.gatsbyImageData || projects[hoveredProject]?.heroImage?.asset?.gatsbyImageData) && (
               <div className="project-image-preview">
                 <GatsbyImage
-                  image={getImage(projects[hoveredProject].heroImage.asset.gatsbyImageData)}
+                  image={getImage((projects[hoveredProject].hoverImage || projects[hoveredProject].heroImage).asset.gatsbyImageData)}
                   alt={projects[hoveredProject].title}
                   className="project-image"
                 />
@@ -491,6 +491,11 @@ export const query = graphql`
             current
           }
           heroImage {
+            asset {
+              gatsbyImageData
+            }
+          }
+          hoverImage {
             asset {
               gatsbyImageData
             }

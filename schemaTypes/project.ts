@@ -40,10 +40,18 @@ export default defineType({
     }),
     defineField({
       name: 'heroImage',
-      title: 'Hero Image',
+      title: 'Case Study Hero Image',
       type: 'image',
       options: {hotspot: true},
-      validation: Rule => Rule.required()
+      validation: Rule => Rule.required(),
+      description: 'Image displayed at the top of the case study page (full width × 434px)'
+    }),
+    defineField({
+      name: 'hoverImage',
+      title: 'Homepage Hover Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Image shown on homepage hover preview (1000×500px). If not provided, hero image will be used.'
     }),
     defineField({
       name: 'introText',
@@ -94,13 +102,14 @@ export default defineType({
       client: 'client',
       year: 'year',
       heroImage: 'heroImage',
+      hoverImage: 'hoverImage',
       locked: 'locked'
     },
-    prepare({title, client, year, heroImage, locked}) {
+    prepare({title, client, year, heroImage, hoverImage, locked}) {
       return {
         title: `${title} ${locked ? '🔒' : ''}`,
         subtitle: `${client} • ${year}`,
-        media: heroImage
+        media: hoverImage || heroImage
       }
     }
   }

@@ -32,6 +32,7 @@ export default defineType({
         {type: 'sectionTitleBlock'},
         {type: 'tagBlock'},
         {type: 'imageComponent'},
+        {type: 'videoComponent'},
         {type: 'spacer'},
         {type: 'sectionDivider'}
       ]

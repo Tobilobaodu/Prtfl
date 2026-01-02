@@ -14,7 +14,9 @@ export default defineType({
           {title: 'Single Image', value: 'single'},
           {title: '2-Column Grid', value: 'grid-2'},
           {title: '3-Column Grid', value: 'grid-3'},
-          {title: '4-Column Grid', value: 'grid-4'}
+          {title: '4-Column Grid', value: 'grid-4-horizontal'},
+          {title: '2×2 Square Grid', value: 'grid-4-square'},
+          {title: '5-Image Grid', value: 'grid-5'}
         ]
       },
       validation: Rule => Rule.required()
@@ -50,8 +52,11 @@ export default defineType({
         if (layout === 'grid-3' && images?.length !== 3) {
           return '3-column grid requires exactly 3 images'
         }
-        if (layout === 'grid-4' && images?.length !== 4) {
-          return '4-column grid requires exactly 4 images'
+        if ((layout === 'grid-4-horizontal' || layout === 'grid-4-square') && images?.length !== 4) {
+          return '4-image grids require exactly 4 images'
+        }
+        if (layout === 'grid-5' && images?.length !== 5) {
+          return '5-image grid requires exactly 5 images'
         }
         return true
       })
