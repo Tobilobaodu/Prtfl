@@ -190,7 +190,63 @@ const SectionDivider = ({ tag, title, dividerStyle }) => {
 
 const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, muted, caption }) => {
   try {
-    // Determine video source
+    // Helper function to extract YouTube video ID
+    const extractYouTubeId = (url) => {
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
+        /youtube\.com\/embed\/([^&\n?#]+)/,
+        /youtube\.com\/v\/([^&\n?#]+)/
+      ]
+
+      for (const pattern of patterns) {
+        const match = url.match(pattern)
+        if (match) return match[1]
+      }
+      return null
+    }
+
+    // Check if it's a YouTube URL
+    const isYouTube = videoUrl && (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be'))
+
+    if (isYouTube) {
+      const videoId = extractYouTubeId(videoUrl)
+      if (!videoId) {
+        return (
+          <div className="video-error">
+            <p>Invalid YouTube URL</p>
+          </div>
+        )
+      }
+
+      // Build YouTube embed URL with parameters
+      const embedParams = new URLSearchParams({
+        autoplay: autoplay ? '1' : '0',
+        mute: muted ? '1' : '0',
+        loop: loop ? '1' : '0',
+        playlist: loop ? videoId : '', // Required for loop to work
+        rel: '0', // Don't show related videos
+        modestbranding: '1' // Minimal YouTube branding
+      })
+
+      const embedUrl = `https://www.youtube.com/embed/${videoId}?${embedParams.toString()}`
+
+      return (
+        <div className="video-container">
+          <iframe
+            src={embedUrl}
+            className="video-player"
+            allowFullScreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            title="YouTube video"
+          />
+          {caption && (
+            <p className="video-caption">{caption}</p>
+          )}
+        </div>
+      )
+    }
+
+    // Handle direct video files
     const videoSrc = videoFile?.asset?.url || videoUrl
 
     if (!videoSrc) {
@@ -640,6 +696,15 @@ const CaseStudyTemplate = ({ data }) => {
           height: auto;
           max-height: 600px;
           object-fit: contain;
+          background: #000;
+        }
+
+        /* YouTube iframe specific styles */
+        .video-player[src*="youtube.com"],
+        .video-player[src*="youtu.be"] {
+          aspect-ratio: 16 / 9;
+          height: auto;
+          min-height: 200px;
           background: #000;
         }
 
