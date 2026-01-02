@@ -77,7 +77,7 @@ const SndbxPage = ({ data }) => {
         .sndbx-container {
           width: 100%;
           background: var(--white-not-wyt);
-          min-height: calc(100vh - 85px);
+          min-height: calc(100vh - 100px);
         }
 
         .container {

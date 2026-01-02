@@ -82,29 +82,44 @@ const IndexPage = ({ data }) => {
 
           <section className="socials-section">
             <div className="social-links">
-              <a href="mailto:your.email@example.com" className="social-link">
+              <button className="social-link email-copy-btn" onClick={(e) => {
+                navigator.clipboard.writeText('oluwatobiodu@outlook.com');
+                // Optional: Show feedback
+                const btn = e.target.closest('.email-copy-btn');
+                const originalText = btn.querySelector('span').textContent;
+                btn.querySelector('span').textContent = 'Copied!';
+                setTimeout(() => {
+                  btn.querySelector('span').textContent = originalText;
+                }, 2000);
+              }}>
                 <span>Email</span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 4H12V10H2V4Z" stroke="currentColor" strokeWidth="1"/>
-                  <path d="M2 4L7 8L12 4" stroke="currentColor" strokeWidth="1"/>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_2822_1218)">
+                    <path d="M10.6667 0.666992H1.33337V11.3337H2.66671V2.00033H10.6667V0.666992ZM14 3.33366H4.00004V15.3337H14V3.33366ZM12.6667 14.0003H5.33337V4.66699H12.6667V14.0003Z" fill="currentColor"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_2822_1218">
+                      <rect width="16" height="16" fill="white"/>
+                    </clipPath>
+                  </defs>
                 </svg>
-              </a>
-              <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="social-link">
+              </button>
+              <a href="https://www.behance.net/tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
                 <span>Behance</span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" strokeWidth="1.5"/>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 2V14H14V8H12.6667V12.6667H3.33333V3.33333H8V2H2ZM9.33333 2V3.33333H11.724L5.52865 9.52865L6.47135 10.4714L12.6667 4.27604V6.66667H14V2H9.33333Z" fill="currentColor"/>
                 </svg>
               </a>
-              <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" className="social-link">
-                <span>Dribble</span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" strokeWidth="1.5"/>
+              <a href="https://dribbble.com/tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
+                <span>Dribbble</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 2V14H14V8H12.6667V12.6667H3.33333V3.33333H8V2H2ZM9.33333 2V3.33333H11.724L5.52865 9.52865L6.47135 10.4714L12.6667 4.27604V6.66667H14V2H9.33333Z" fill="currentColor"/>
                 </svg>
               </a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="social-link">
+              <a href="https://github.com/Tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
                 <span>Github</span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 7H11M7 3L11 7L7 11" stroke="currentColor" strokeWidth="1.5"/>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 2V14H14V8H12.6667V12.6667H3.33333V3.33333H8V2H2ZM9.33333 2V3.33333H11.724L5.52865 9.52865L6.47135 10.4714L12.6667 4.27604V6.66667H14V2H9.33333Z" fill="currentColor"/>
                 </svg>
               </a>
             </div>
@@ -124,7 +139,7 @@ const IndexPage = ({ data }) => {
         .home-container {
           width: 100%;
           background: var(--white-not-wyt);
-          min-height: calc(100vh - 85px);
+          min-height: calc(100vh - 100px);
           position: relative;
           display: flex;
           flex-direction: column;
