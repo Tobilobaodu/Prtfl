@@ -137,7 +137,7 @@ const LockedProjectModal = ({ isOpen, onClose, projectPassword, onPasswordCorrec
         .modal-body {
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 10px;
         }
 
         .modal-title {
@@ -168,6 +168,7 @@ const LockedProjectModal = ({ isOpen, onClose, projectPassword, onPasswordCorrec
           display: flex;
           flex-direction: column;
           gap: 5px;
+          margin-top: 10px;
         }
 
         .password-label {
