@@ -168,7 +168,6 @@ const Layout = ({ children }) => {
 
         main {
           padding-top: 0px;
-          min-height: calc(100vh - 0px);
         }
 
         @media (max-width: 768px) {
