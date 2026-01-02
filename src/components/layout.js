@@ -98,10 +98,6 @@ const Layout = ({ children }) => {
           transition: transform 0.3s ease;
         }
 
-        .menu-icon.open {
-          transform: rotate(45deg);
-        }
-
         .menu-blur-overlay {
           position: fixed;
           top: 0;
