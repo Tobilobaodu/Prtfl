@@ -138,26 +138,11 @@ const IndexPage = ({ data }) => {
       <style jsx="true">{`
         .home-container {
           width: 100%;
-          background: var(--white-not-wyt);
+          background: transparent;
           min-height: calc(100vh - 100px);
           position: relative;
           display: flex;
           flex-direction: column;
-        }
-
-        .home-container::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-image: url("../Assets/noise.png");
-          background-size: 100px 100px;
-          background-blend-mode: overlay;
-          opacity: 0.2;
-          pointer-events: none;
-          z-index: 0;
         }
 
         .container {
@@ -354,14 +339,14 @@ const IndexPage = ({ data }) => {
 
         @media (max-width: 480px) {
           .home-container {
-            background: #F9F9F8;
+            background: transparent;
             min-height: calc(100vh - 84px);
           }
 
           .container {
             max-width: 100%;
             padding: 134px 40px 0 40px;
-            gap: 192px;
+            gap: 40px;
           }
 
           .bio-section {

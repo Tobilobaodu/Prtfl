@@ -120,7 +120,6 @@ const ExperiencePage = () => {
       <style jsx="true">{`
         .experience-container {
           width: 100%;
-          background: var(--white-not-wyt);
           min-height: calc(100vh - 85px);
         }
 
@@ -153,7 +152,6 @@ const ExperiencePage = () => {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 12px;
           line-height: 120%;
-          text-transform: uppercase;
         }
 
         .experience-date .current {
@@ -238,7 +236,7 @@ const ExperiencePage = () => {
         .download-button-wrapper {
           position: fixed;
           right: 100px;
-          top: 50%;
+          top: 90%;
           transform: translateY(-50%);
         }
 
