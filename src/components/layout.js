@@ -72,7 +72,7 @@ const Layout = ({ children }) => {
           left: 0;
           right: 0;
           z-index: 100;
-          background: var(--white-not-wyt);
+          background: transparent;
         }
 
         .logo {
@@ -198,7 +198,7 @@ const Layout = ({ children }) => {
             right: 0;
             height: 84px;
             z-index: 100;
-            background: var(--white-not-wyt);
+            background: transparent;
           }
 
           .logo {

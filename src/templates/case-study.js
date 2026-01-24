@@ -427,7 +427,9 @@ const CaseStudyTemplate = ({ data }) => {
 
       <style jsx="true">{`
         .case-study-page {
-          background: var(--black-nue-black);
+          background: var(--black-nue-black) url("/noise.png");
+          background-size: 100px 100px;
+          background-blend-mode: normal;
           min-height: 100vh;
           margin: -100px 0 0 -100px;
           position: relative;
@@ -837,7 +839,9 @@ const CaseStudyTemplate = ({ data }) => {
 
         @media (max-width: 480px) {
           .case-study-page {
-            background: #232020;
+            background: #232020 url("/noise.png");
+            background-size: 100px 100px;
+            background-blend-mode: normal;
             margin: 0;
             padding: 0;
           }
