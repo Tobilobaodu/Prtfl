@@ -48,21 +48,46 @@ const PortfolioPage = ({ data }) => {
                   {project.locked && (
                     <div className="lock-icon">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2.6665 14.667V5.33366H4.6665V4.00033C4.6665 3.0781 4.99162 2.29188 5.64184 1.64166C6.29162 0.991881 7.07762 0.666992 7.99984 0.666992C8.92206 0.666992 9.70828 0.991881 10.3585 1.64166C11.0083 2.29188 11.3332 3.0781 11.3332 4.00033V5.33366H13.3332V14.667H2.6665ZM5.99984 5.33366H9.99984V4.00033C9.99984 3.44477 9.80539 2.97255 9.4165 2.58366C9.02762 2.19477 8.55539 2.00033 7.99984 2.00033C7.44428 2.00033 6.97206 2.19477 6.58317 2.58366C6.19428 2.97255 5.99984 3.44477 5.99984 4.00033V5.33366ZM3.99984 13.3337H11.9998V6.66699H3.99984V13.3337ZM7.99984 11.3337C8.3665 11.3337 8.6805 11.2032 8.94184 10.9423C9.20273 10.681 9.33317 10.367 9.33317 10.0003C9.33317 9.63366 9.20273 9.31966 8.94184 9.05833C8.6805 8.79744 8.3665 8.66699 7.99984 8.66699C7.63317 8.66699 7.31939 8.79744 7.0585 9.05833C6.79717 9.31966 6.6665 9.63366 6.6665 10.0003C6.6665 10.367 6.79717 10.681 7.0585 10.9423C7.31939 11.2032 7.63317 11.3337 7.99984 11.3337Z" fill="#A3A3A3"/>
+                        <path d="M2.6665 14.667V5.33366H4.6665V4.00033C4.6665 3.0781 4.99162 2.29188 5.64184 1.64166C6.29162 0.991881 7.07762 0.666992 7.99984 0.666992C8.92206 0.666992 9.70828 0.991881 10.3585 1.64166C11.0083 2.29188 11.3332 3.0781 11.3332 4.00033V5.33366H13.3332V14.667H2.6665ZM5.99984 5.33366H9.99984V4.00033C9.99984 3.44477 9.80539 2.97255 9.4165 2.58366C9.02762 2.19477 8.55539 2.00033 7.99984 2.00033C7.44428 2.00033 6.97206 2.19477 6.58317 2.58366C6.19428 2.97255 5.99984 3.44477 5.99984 4.00033V5.33366ZM3.99984 13.3337H11.9998V6.66699H3.99984V13.3337ZM7.99984 11.3337C8.3665 11.3337 8.6805 11.2032 8.94184 10.9423C9.20273 10.681 9.33317 10.367 9.33317 10.0003C9.33317 9.63366 9.20273 9.31966 8.94184 9.05833C8.6805 8.79744 8.3665 8.66699 7.99984 8.66699C7.63317 8.66699 7.31939 8.79744 7.0585 9.05833C6.79717 9.31966 6.6665 9.63366 6.6665 10.0003C6.6665 10.367 6.79717 10.681 7.0585 10.9423C7.31939 11.2032 7.63317 11.3337 7.99984 11.3337Z" fill="#A3A3A3" />
                       </svg>
                     </div>
                   )}
                 </div>
                 <div className="project-content">
-                  <div className="project-info-row">
-                    <div className="project-text">
-                      <h3 className="project-title">{project.title}</h3>
-                      <p className="project-description">{project.shortDescription}</p>
+                  {/* Default State (Dark Theme) */}
+                  <div className="state default-state">
+                    <div className="project-info-row">
+                      <div className="project-text">
+                        <h3 className="project-title">{project.title}</h3>
+                        <p className="project-description">{project.shortDescription}</p>
+                      </div>
+                      <div className="project-meta">
+                        <span className="project-brand">{project.client}</span>
+                        <span className="project-year">{project.year}</span>
+                      </div>
                     </div>
-                    <div className="project-meta">
-                      <span className="project-brand">{project.client}</span>
-                      <span className="project-year">{project.year}</span>
+                  </div>
+
+                  {/* Hover State (Light Theme) */}
+                  <div className="state hover-state">
+                    <div className="project-info-row">
+                      <div className="project-text">
+                        <h3 className="project-title">{project.title}</h3>
+                        <p className="project-description">{project.shortDescription}</p>
+                      </div>
+                      <div className="project-meta">
+                        <span className="project-brand">{project.client}</span>
+                        <span className="project-year">{project.year}</span>
+                      </div>
                     </div>
+                    <button className="view-project-btn">
+                      {project.locked && (
+                        <svg className="btn-lock-icon" width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2.6665 14.667V5.33366H4.6665V4.00033C4.6665 3.0781 4.99162 2.29188 5.64184 1.64166C6.29162 0.991881 7.07762 0.666992 7.99984 0.666992C8.92206 0.666992 9.70828 0.991881 10.3585 1.64166C11.0083 2.29188 11.3332 3.0781 11.3332 4.00033V5.33366H13.3332V14.667H2.6665ZM5.99984 5.33366H9.99984V4.00033C9.99984 3.44477 9.80539 2.97255 9.4165 2.58366C9.02762 2.19477 8.55539 2.00033 7.99984 2.00033C7.44428 2.00033 6.97206 2.19477 6.58317 2.58366C6.19428 2.97255 5.99984 3.44477 5.99984 4.00033V5.33366ZM3.99984 13.3337H11.9998V6.66699H3.99984V13.3337ZM7.99984 11.3337C8.3665 11.3337 8.6805 11.2032 8.94184 10.9423C9.20273 10.681 9.33317 10.367 9.33317 10.0003C9.33317 9.63366 9.20273 9.31966 8.94184 9.05833C8.6805 8.79744 8.3665 8.66699 7.99984 8.66699C7.63317 8.66699 7.31939 8.79744 7.0585 9.05833C6.79717 9.31966 6.6665 9.63366 6.6665 10.0003C6.6665 10.367 6.79717 10.681 7.0585 10.9423C7.31939 11.2032 7.63317 11.3337 7.99984 11.3337Z" fill="currentColor" />
+                        </svg>
+                      )}
+                      VIEW PROJECT
+                    </button>
                   </div>
                 </div>
               </div>
@@ -116,17 +141,14 @@ const PortfolioPage = ({ data }) => {
           padding-bottom: 100px;
         }
 
+        /* CARD CONTAINER */
         .project-card {
           display: flex;
           flex-direction: column;
           border-radius: 5px;
           overflow: hidden;
-          transition: transform 0.3s ease;
           cursor: pointer;
-        }
-
-        .project-card:hover {
-          transform: translateY(-4px);
+          position: relative;
         }
 
         .project-image-wrapper {
@@ -149,56 +171,112 @@ const PortfolioPage = ({ data }) => {
           bottom: 17px;
         }
 
+        /* CONTENT CONTAINER */
         .project-content {
-          background: #2E2A2A;
-          padding: 10px 20px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 10px;
-          min-height: 100px;
-          border-radius: 0 0 5px 5px;
+          position: relative;
+          /* Ensure height accommodates the tallest state */
+          min-height: 160px; 
+          background: #2E2A2A; /* Fallback/Default background */
         }
 
+        /* STATES */
+        .state {
+          padding: 15px 20px;
+          display: flex;
+          flex-direction: column;
+          border-radius: 0 0 5px 5px;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          transition: opacity 0.2s ease;
+          box-sizing: border-box;
+        }
+
+        /* DEFAULT STATE (DARK) */
+        .default-state {
+          position: relative;
+          background: #2E2A2A;
+          z-index: 1;
+          opacity: 1;
+          justify-content: space-between;
+          min-height: 200px; /* Updated height */
+        }
+
+        /* HOVER STATE (LIGHT) */
+        .hover-state {
+          background: #ECF0F1; /* Updated background */
+          border: 1px solid #E5E5E5; /* Preserved border based on border-top: none existence */
+          border-top: none;
+          opacity: 0;
+          z-index: 2;
+          justify-content: space-between;
+          pointer-events: none;
+        }
+
+        /* HOVER TRIGGER */
+        .project-card:hover .default-state {
+          opacity: 0;
+        }
+
+        .project-card:hover .hover-state {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        /* TYPOGRAPHY - SHARED LAYOUT */
         .project-info-row {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
           width: 100%;
+          /* height: 100%; Only needed for default if we want vertical alignment */
+        }
+
+        .default-state .project-info-row {
+            height: 100%; /* Default state needs full height for meta alignment */
+        }
+        
+        .hover-state .project-info-row {
+            margin-bottom: 10px; /* Spacing before button */
         }
 
         .project-text {
           display: flex;
           flex-direction: column;
           gap: 10px;
+          flex: 1;
         }
 
-        .project-title {
+        /* DEFAULT STATE STYLES */
+        .default-state .project-title {
           font-size: 20px;
           font-weight: 700;
           line-height: 95%;
           color: var(--white-heavenly);
         }
 
-        .project-description {
+        .default-state .project-description {
           font-size: 14px;
           font-weight: 400;
           line-height: 120%;
           letter-spacing: 0.42px;
           color: var(--grey-misty);
+          max-width: 90%;
         }
 
-        .project-meta {
+        .default-state .project-meta {
           display: flex;
           flex-direction: column;
-          justify-content: center;
+          justify-content: flex-end;
           align-items: flex-end;
           gap: 5px;
+          height: 100%;
         }
 
-        .project-brand,
-        .project-year {
+        .default-state .project-brand,
+        .default-state .project-year {
           font-size: 12px;
           font-weight: 400;
           line-height: 120%;
@@ -206,19 +284,94 @@ const PortfolioPage = ({ data }) => {
           color: var(--grey-misty);
         }
 
+        /* HOVER STATE STYLES */
+        .hover-state .project-title {
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 95%;
+          color: #1D1C1C;
+        }
+
+        .hover-state .project-meta {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end; /* Right align */
+          gap: 5px;
+          justify-content: flex-start; /* Top align */
+        }
+
+        .hover-state .project-brand {
+          font-size: 12px;
+          font-weight: 600;
+          color: #A3A3A3;
+        }
+
+        .hover-state .project-year {
+          font-size: 12px;
+          color: #A3A3A3;
+        }
+
+        .hover-state .project-description {
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 120%; 
+          letter-spacing: 0.42px; 
+          color: #777;
+          margin-bottom: 20px;
+          max-width: 90%; 
+        }
+
+        .view-project-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          width: 153px;
+          height: 45px;
+          background: #26282B;
+          color: #F9F9F8; /* Not wyt */
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          margin-top: auto;
+          transition: all 0.2s ease;
+          border: none; /* Reset border from previous style */
+        }
+        
+        .view-project-btn:hover {
+          color: #1D1C1C;
+          background: #EE550E;
+        }
+
+        .btn-lock-icon {
+          margin-bottom: 2px;
+        }
+
         @media (max-width: 768px) {
           .container {
             padding: 100px 20px 60px 20px;
           }
 
-          .project-info-row {
+          /* Disable hover logic on mobile: Always show Default, Hide Hover */
+          .project-card:hover .default-state {
+             opacity: 1;
+          }
+          .project-card:hover .hover-state {
+             opacity: 0;
+             display: none;
+          }
+
+          .default-state .project-info-row {
             flex-direction: column;
             gap: 15px;
           }
-
-          .project-meta {
-            align-items: flex-start;
-          }
+           
+           .default-state .project-meta {
+             align-items: flex-start;
+             justify-content: flex-start;
+             height: auto;
+           }
         }
 
         @media (max-width: 480px) {
@@ -257,102 +410,85 @@ const PortfolioPage = ({ data }) => {
           }
 
           .projects-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
             padding-bottom: 100px;
           }
 
           .project-card {
-            display: flex;
-            flex-direction: column;
             border-radius: 5px;
             cursor: pointer;
           }
-
+          
           .project-card:hover {
             transform: none;
           }
 
           .project-image-wrapper {
-            position: relative;
             height: 281px;
             border-radius: 5px 5px 0 0;
           }
-
+          
           .project-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 5px 5px 0 0;
-          }
-
-          .lock-icon {
-            position: absolute;
-            left: 17px;
-            bottom: 17px;
+             border-radius: 5px 5px 0 0;
           }
 
           .project-content {
             background: #2E2A2A;
-            padding: 21px 20px;
-            height: 75px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            border-radius: 0 0 5px 5px;
+            padding: 0; 
+            min-height: auto; /* Reset min-height */
+            height: auto;
           }
 
-          .project-info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
+          /* Reset desktop state styles for mobile */
+          .state {
+            position: relative;
+            top: auto;
+            left: auto;
+            height: auto;
+          }
+          
+          .default-state {
+            min-height: auto;
+            padding: 21px 20px;
+            height: 75px;
             flex-direction: row;
+            justify-content: center;
+            align-items: center;
+          }
+          
+          .hover-state {
+            display: none !important;
+          }
+
+          .default-state .project-info-row {
+            flex-direction: row;
+            align-items: flex-start;
             gap: 0;
           }
 
-          .project-text {
-            display: flex;
-            flex-direction: column;
+          .default-state .project-text {
             gap: 4px;
+            flex: initial;
+          }
+          
+          .default-state .project-title {
+             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+             font-size: 14px;
+             font-weight: 400;
+             color: #FFF;
+          }
+          
+          .default-state .project-description {
+             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+             font-size: 12px;
+             letter-spacing: 0.36px;
+             color: #A3A3A3;
           }
 
-          .project-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            color: #FFF;
-          }
-
-          .project-description {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 12px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.36px;
-            color: #A3A3A3;
-          }
-
-          .project-meta {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+          .default-state .project-meta {
             align-items: flex-end;
+            justify-content: center;
+            height: auto;
             gap: 5px;
-          }
-
-          .project-brand,
-          .project-year {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 12px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.36px;
-            color: #A3A3A3;
           }
         }
       `}</style>
