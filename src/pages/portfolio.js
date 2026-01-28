@@ -101,7 +101,6 @@ const PortfolioPage = ({ data }) => {
       <style jsx="true">{`
         .portfolio-container {
           width: 100%;
-          background: var(--white-not-wyt);
           min-height: calc(100vh - 85px);
         }
 
@@ -174,14 +173,14 @@ const PortfolioPage = ({ data }) => {
         /* CONTENT CONTAINER */
         .project-content {
           position: relative;
-          /* Ensure height accommodates the tallest state */
-          min-height: 160px; 
-          background: #2E2A2A; /* Fallback/Default background */
+          min-height: 150px;
+          background: #2E2A2A;
+          transition: min-height 0.3s ease;
         }
 
         /* STATES */
         .state {
-          padding: 15px 20px;
+          padding: 25px 25px;
           display: flex;
           flex-direction: column;
           border-radius: 0 0 5px 5px;
@@ -201,7 +200,7 @@ const PortfolioPage = ({ data }) => {
           z-index: 1;
           opacity: 1;
           justify-content: space-between;
-          min-height: 200px; /* Updated height */
+          height: 100%;
         }
 
         /* HOVER STATE (LIGHT) */
@@ -223,6 +222,10 @@ const PortfolioPage = ({ data }) => {
         .project-card:hover .hover-state {
           opacity: 1;
           pointer-events: auto;
+        }
+
+        .project-card:hover .project-content {
+          min-height: 220px;
         }
 
         /* TYPOGRAPHY - SHARED LAYOUT */
@@ -319,6 +322,10 @@ const PortfolioPage = ({ data }) => {
           color: #777;
           margin-bottom: 20px;
           max-width: 90%; 
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
         .view-project-btn {
@@ -337,6 +344,7 @@ const PortfolioPage = ({ data }) => {
           margin-top: auto;
           transition: all 0.2s ease;
           border: none; /* Reset border from previous style */
+          flex-shrink: 0;
         }
         
         .view-project-btn:hover {
@@ -376,7 +384,6 @@ const PortfolioPage = ({ data }) => {
 
         @media (max-width: 480px) {
           .portfolio-container {
-            background: #F9F9F8;
             min-height: calc(100vh - 84px);
           }
 
