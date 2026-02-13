@@ -1,8 +1,9 @@
 import * as React from "react"
+import { graphql } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const ExperiencePage = () => {
+const ExperiencePage = ({ data }) => {
   const experiences = [
     {
       date: "APR '22 – Present",
@@ -62,12 +63,25 @@ const ExperiencePage = () => {
     }
   ]
 
+  // Fallback: Use Sanity data if available, otherwise use hardcoded data
+  const sanityExperiences = data?.allSanityExperience?.nodes || []
+
+  // Sort Sanity data: Current roles first, then by start date descending
+  const sortedSanityExperiences = [...sanityExperiences].sort((a, b) => {
+    if (a.current && !b.current) return -1
+    if (!a.current && b.current) return 1
+    return new Date(b.startDate) - new Date(a.startDate)
+  })
+
+  // Final list of experiences to display
+  const displayExperiences = sortedSanityExperiences.length > 0 ? sortedSanityExperiences : experiences
+
   return (
     <Layout>
       <div className="experience-container">
         <div className="container">
           <div className="experience-list">
-            {experiences.map((exp, index) => (
+            {displayExperiences.map((exp, index) => (
               <div key={index} className="experience-item">
                 <div className="experience-date">
                   <span className={exp.current ? "current" : "past"}>{exp.date}</span>
@@ -484,3 +498,18 @@ const ExperiencePage = () => {
 export const Head = () => <Seo title="Experience" />
 
 export default ExperiencePage
+
+export const query = graphql`
+  query ExperiencePageQuery {
+    allSanityExperience {
+      nodes {
+        company
+        role
+        date
+        startDate
+        current
+        description
+      }
+    }
+  }
+`
