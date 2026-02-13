@@ -28,7 +28,7 @@ export default defineType({
             title: 'End Date',
             type: 'date',
             description: 'Leave empty if this is your current role',
-            hidden: ({document}) => document?.current === true,
+            hidden: ({ document }) => document?.current === true,
             validation: (Rule) => Rule.custom((endDate, context) => {
                 const { document } = context
                 if (document?.current === true && endDate) {
@@ -59,13 +59,21 @@ export default defineType({
             endDate: 'endDate',
             current: 'current'
         },
-        prepare({title, subtitle, startDate, endDate, current}) {
+        prepare({ title, subtitle, startDate, endDate, current }) {
             // Helper function to safely format dates
             const formatDate = (dateString: string | undefined) => {
                 if (!dateString) return '';
                 try {
-                    const date = new Date(dateString);
+                    // Split date string YYYY-MM-DD to use local time constructor
+                    // This avoids UTC conversion issues and potential invalid date errors
+                    const [year, month, day] = dateString.split('-').map(Number);
+
+                    // Validate parts exist
+                    if (!year || month === undefined || !day) return '';
+
+                    const date = new Date(year, month - 1, day);
                     if (isNaN(date.getTime())) return '';
+
                     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
                 } catch (error) {
                     return '';
@@ -76,7 +84,7 @@ export default defineType({
             const start = formatDate(startDate);
             const end = current ? 'Present' : formatDate(endDate);
             const dateRange = current ? `${start} – Present` : endDate ? `${start} – ${end}` : start;
-            
+
             return {
                 title: title || 'Untitled Experience',
                 subtitle: `${subtitle || 'Role Title'} • ${dateRange}`,
