@@ -7,6 +7,7 @@ import spacer from './spacer'
 import sectionDivider from './sectionDivider'
 import project from './project'
 import caseStudy from './caseStudy'
+import experience from './experience'
 
 export const schemaTypes = [
   textBlock,
@@ -17,5 +18,6 @@ export const schemaTypes = [
   spacer,
   sectionDivider,
   project,
-  caseStudy
+  caseStudy,
+  experience
 ]
