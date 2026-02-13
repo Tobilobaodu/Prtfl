@@ -1,46 +1,10 @@
 import * as React from "react"
+import { graphql } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const PhotographyPage = () => {
-  const photos = [
-    {
-      title: "Not alone",
-      location: "Tanzania",
-      image: "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&q=80",
-      height: "555px"
-    },
-    {
-      title: "Photo name",
-      location: "Birmingham",
-      image: "https://images.unsplash.com/photo-1682687221038-404cb8830901?w=800&q=80",
-      height: "400px"
-    },
-    {
-      title: "Droid",
-      location: "Home",
-      image: "https://images.unsplash.com/photo-1682687220566-5599dbbebf11?w=800&q=80",
-      height: "400px"
-    },
-    {
-      title: "Photo name",
-      location: "Birmingham",
-      image: "https://images.unsplash.com/photo-1682687220923-c58b9a4592ae?w=800&q=80",
-      height: "400px"
-    },
-    {
-      title: "Not alone",
-      location: "Town/City",
-      image: "https://images.unsplash.com/photo-1682687221080-5cb261c645cb?w=800&q=80",
-      height: "400px"
-    },
-    {
-      title: "Photo name",
-      location: "Birmingham",
-      image: "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?w=800&q=80",
-      height: "400px"
-    }
-  ]
+const PhotographyPage = ({ data }) => {
+  const photos = data?.allSanityPhotography?.nodes || []
 
   return (
     <Layout>
@@ -58,14 +22,14 @@ const PhotographyPage = () => {
               {photos.map((photo, index) => (
                 <div key={index} className="image-pod">
                   <img 
-                    src={photo.image} 
-                    alt={photo.title} 
+                    src={photo.image.asset.url} 
+                    alt={photo.name || "Photo"} 
                     className="photo-image"
-                    style={{ height: photo.height }}
                   />
                   <div className="photo-info">
-                    <h3 className="photo-title">{photo.title}</h3>
+                    <h3 className="photo-title">{photo.name}</h3>
                     <div className="photo-location">
+                      <img src="/Location.svg" alt="Location" className="location-icon" />
                       <span>{photo.location}</span>
                     </div>
                   </div>
@@ -156,9 +120,14 @@ const PhotographyPage = () => {
 
         .photo-location {
           display: flex;
-          justify-content: center;
           align-items: center;
-          gap: 2.5px;
+          gap: 6px;
+        }
+
+        .location-icon {
+          width: 14px;
+          height: 14px;
+          flex-shrink: 0;
         }
 
         .photo-location span {
@@ -267,9 +236,14 @@ const PhotographyPage = () => {
 
           .photo-location {
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 2.5px;
+            gap: 6px;
+          }
+
+          .location-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
           }
 
           .photo-location span {
@@ -287,5 +261,21 @@ const PhotographyPage = () => {
 }
 
 export const Head = () => <Seo title="Photography" />
+
+export const query = graphql`
+  query PhotographyQuery {
+    allSanityPhotography(sort: { order: ASC }) {
+      nodes {
+        name
+        location
+        image {
+          asset {
+            url
+          }
+        }
+      }
+    }
+  }
+`
 
 export default PhotographyPage
