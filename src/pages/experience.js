@@ -88,13 +88,13 @@ const ExperiencePage = () => {
 
           <div className="end-section">
             <svg width="79" height="24" viewBox="0 0 79 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.97874 1.0038H10.0213V20H4.97874V1.0038Z" fill="#EE550E"/>
-              <path d="M0 6.20068V1H15V6.20068H0Z" fill="#EE550E"/>
-              <path d="M20.5423 5.08242L24.7244 1L40 15.9116L35.8179 19.994L20.5423 5.08242Z" fill="#EE550E"/>
-              <path d="M35.2756 1.00598L39.4577 5.0884L24.1821 20L20 15.9176L35.2756 1.00598Z" fill="#EE550E"/>
-              <path d="M45.0396 3.82042L48.7724 0L59 10.4678L55.2672 14.2882L45.0396 3.82042Z" fill="#EE550E"/>
-              <path d="M55.2276 6.71177L58.9604 10.5322L48.7328 21L45 17.1796L55.2276 6.71177Z" fill="#EE550E"/>
-              <path d="M64 1H69V20H64V1Z" fill="#EE550E"/>
+              <path d="M4.97874 1.0038H10.0213V20H4.97874V1.0038Z" fill="#EE550E" />
+              <path d="M0 6.20068V1H15V6.20068H0Z" fill="#EE550E" />
+              <path d="M20.5423 5.08242L24.7244 1L40 15.9116L35.8179 19.994L20.5423 5.08242Z" fill="#EE550E" />
+              <path d="M35.2756 1.00598L39.4577 5.0884L24.1821 20L20 15.9176L35.2756 1.00598Z" fill="#EE550E" />
+              <path d="M45.0396 3.82042L48.7724 0L59 10.4678L55.2672 14.2882L45.0396 3.82042Z" fill="#EE550E" />
+              <path d="M55.2276 6.71177L58.9604 10.5322L48.7328 21L45 17.1796L55.2276 6.71177Z" fill="#EE550E" />
+              <path d="M64 1H69V20H64V1Z" fill="#EE550E" />
             </svg>
             <p className="footer-text">
               Before Jumia I was with Start-up partner looking after digital channels and digital product, before SPA, I was with Kantar as a data analyst and running Zeus & Solace, a bespoke gentleman's clothing brand, this was 2 years after I finished uni.
@@ -107,8 +107,8 @@ const ExperiencePage = () => {
               <div className="button-bg-black"></div>
               <div className="button-content">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 14L6 10H8V6H12V10H14L10 14Z" fill="#FFF"/>
-                  <path d="M4 16H16V18H4V16Z" fill="#FFF"/>
+                  <path d="M10 14L6 10H8V6H12V10H14L10 14Z" fill="#FFF" />
+                  <path d="M4 16H16V18H4V16Z" fill="#FFF" />
                 </svg>
                 <span>Download CV</span>
               </div>
@@ -179,7 +179,7 @@ const ExperiencePage = () => {
 
         .role-title {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 700;
           line-height: 95%;
           color: var(--black-pitch-nah);
@@ -374,7 +374,7 @@ const ExperiencePage = () => {
 
           .role-title {
             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             line-height: 95%;
             color: #1D1C1C;
