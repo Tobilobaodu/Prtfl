@@ -6,7 +6,7 @@
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
     "@sanity/image-url": "^1.2.0",
-    "@sanity/vision": "^3.99.0",
+    "@sanity/vision": "^4.22.0",
     "bcryptjs": "^3.0.2",
     "better-sqlite3": "^12.4.1",
     "gatsby": "^5.14.6",
@@ -17,9 +17,9 @@
     "gatsby-source-sanity": "^7.9.2",
     "gatsby-transformer-sharp": "^5.14.0",
     "knex": "^3.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sanity": "^3.99.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sanity": "^4.22.0",
     "styled-components": "^6.1.19"
   },
   "devDependencies": {
