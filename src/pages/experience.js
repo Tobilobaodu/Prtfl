@@ -6,56 +6,64 @@ import Seo from "../components/seo"
 const ExperiencePage = ({ data }) => {
   const experiences = [
     {
-      date: "APR '22 – Present",
+      startDate: "2022-04-01",
+      endDate: null,
       current: true,
       role: "UX designer manager",
       company: "OSB Group",
       description: "I'm responsible for UX Strategy + Design, leading a team of three UX designers who are responsible for creating exceptional user experiences for OSB Group's digital products. I have established design standards to enhance our current design practices within the team, which has resulted in improved efficiency and consistency across all projects."
     },
     {
-      date: "Jul '23 – Present",
+      startDate: "2023-07-01",
+      endDate: null,
       current: true,
       role: "UX design mentor",
       company: "DesignLab & ADPList",
       description: "Thrilled to be part of a team of seasoned designers, committed to fostering growth and development. My role involves regularly engaging with mentees, offering constructive feedback and unwavering support in the following key areas: strength discovery, UX design expertise, portfolio enhancement, job Interview Preparation."
     },
     {
-      date: "Mar 2021 - '22",
+      startDate: "2021-03-01",
+      endDate: "2022-03-01",
       current: false,
       role: "Lead UI/UX designer",
       company: "iSixty Visual Design Company",
       description: "As the lead designer, I was responsible for designing interactive prototypes, user interfaces, and information architecture for a range of web and mobile applications. I created wireframes and storyboards to conceptualize design, leading to an average of 25% increase in user satisfaction for most of our clients. I also analyzed user feedback, UX research, and business requirements to create end-to-end detailed designs and experience maps for clients in a variety of industries."
     },
     {
-      date: "FEB 2020 - '21",
+      startDate: "2020-02-01",
+      endDate: "2021-02-01",
       current: false,
       role: "Product designer",
       company: "Acumen Digital",
       description: "Designed comprehensive end-to-end products for two fintech start-ups, resulting in a 50% boost in user retention for the client. In addition, I spearheaded a new process for design approvals and feedback, leading to a significant 50% improvement in output quality. This involved clarifying design roles and responsibilities, setting standards for feedback and approvals, and establishing a systematic review process."
     },
     {
-      date: "FEB 2020 - '21",
+      startDate: "2020-02-01",
+      endDate: "2021-02-01",
       current: false,
       role: "Lead growth strategist",
       company: "Big Cabal Media",
       description: "As the Lead Growth Strategist at Big Cabal Media, I boosted user growth and brand awareness through engaging campaigns. I collaborated with various business teams to meet their marketing needs and developed and executed monthly, quarterly, and annual marketing strategies for customer acquisition. Additionally, I explored and tested new partnership and channel opportunities.\n\nI created and maintained daily, weekly, and monthly reports and KPI dashboards to track campaign performance. I also led creative rotation and A/B testing, including optimizing ad copy and landing pages for better conversion rates. Furthermore, I assisted in developing, implementing, and testing new creative concepts across multiple media platforms."
     },
     {
-      date: "FEB 2020 - '21",
+      startDate: "2020-02-01",
+      endDate: "2021-02-01",
       current: false,
       role: "Lead Growth Strategist",
       company: "Big Cabal Media",
       description: "As the Lead Growth Strategist at Big Cabal Media, I boosted user growth and brand awareness through engaging campaigns. I collaborated with various business teams to meet their marketing needs and developed and executed monthly, quarterly, and annual marketing strategies for customer acquisition. Additionally, I explored and tested new partnership and channel opportunities.\n\nI created and maintained daily, weekly, and monthly reports and KPI dashboards to track campaign performance. I also led creative rotation and A/B testing, including optimizing ad copy and landing pages for better conversion rates. Furthermore, I assisted in developing, implementing, and testing new creative concepts across multiple media platforms."
     },
     {
-      date: "FEB 2020 - '21",
+      startDate: "2020-02-01",
+      endDate: "2021-02-01",
       current: false,
       role: "Lead Growth Strategist",
       company: "RADP (Ringier Africa Digital Publishing)",
       description: "As the Lead Growth Strategist at Big Cabal Media, I boosted user growth and brand awareness through engaging campaigns. I collaborated with various business teams to meet their marketing needs and developed and executed monthly, quarterly, and annual marketing strategies for customer acquisition. Additionally, I explored and tested new partnership and channel opportunities.\n\nI created and maintained daily, weekly, and monthly reports and KPI dashboards to track campaign performance. I also led creative rotation and A/B testing, including optimizing ad copy and landing pages for better conversion rates. Furthermore, I assisted in developing, implementing, and testing new creative concepts across multiple media platforms."
     },
     {
-      date: "FEB 2020 - '21",
+      startDate: "2020-02-01",
+      endDate: "2021-02-01",
       current: false,
       role: "Lead Growth Strategist",
       company: "JUMIA",
@@ -63,14 +71,49 @@ const ExperiencePage = ({ data }) => {
     }
   ]
 
+  // Helper function to format dates for display
+  const formatDateForDisplay = (startDate, endDate, isCurrent) => {
+    if (!startDate) return '';
+    
+    // Handle null/undefined endDate for current roles
+    if (isCurrent) {
+      const start = new Date(startDate);
+      if (isNaN(start.getTime())) return startDate; // Fallback to string if invalid
+      const startText = start.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+      return `${startText} – Present`;
+    }
+    
+    // Handle past roles with endDate
+    const start = new Date(startDate);
+    if (isNaN(start.getTime())) return startDate; // Fallback to string if invalid
+    
+    const startText = start.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    
+    if (endDate && endDate !== 'null' && endDate !== '') {
+      const end = new Date(endDate);
+      if (isNaN(end.getTime())) return startText;
+      const endText = end.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+      return `${startText} – ${endText}`;
+    }
+    
+    return startText;
+  };
+
   // Fallback: Use Sanity data if available, otherwise use hardcoded data
   const sanityExperiences = data?.allSanityExperience?.nodes || []
+
+  // Helper function to safely parse dates for sorting
+  const parseDateForSorting = (dateString) => {
+    if (!dateString) return new Date(0) // Earliest possible date
+    const date = new Date(dateString)
+    return isNaN(date.getTime()) ? new Date(0) : date
+  }
 
   // Sort Sanity data: Current roles first, then by start date descending
   const sortedSanityExperiences = [...sanityExperiences].sort((a, b) => {
     if (a.current && !b.current) return -1
     if (!a.current && b.current) return 1
-    return new Date(b.startDate) - new Date(a.startDate)
+    return parseDateForSorting(b.startDate) - parseDateForSorting(a.startDate)
   })
 
   // Final list of experiences to display
@@ -84,7 +127,9 @@ const ExperiencePage = ({ data }) => {
             {displayExperiences.map((exp, index) => (
               <div key={index} className="experience-item">
                 <div className="experience-date">
-                  <span className={exp.current ? "current" : "past"}>{exp.date}</span>
+                  <span className={exp.current ? "current" : "past"}>
+                    {formatDateForDisplay(exp.startDate, exp.endDate, exp.current)}
+                  </span>
                 </div>
                 <div className="experience-details">
                   <div className="role-company">
@@ -505,8 +550,8 @@ export const query = graphql`
       nodes {
         company
         role
-        date
         startDate
+        endDate
         current
         description
       }
