@@ -6,6 +6,9 @@ export default defineCliConfig({
     projectId: 'bhfv0qe4',
     dataset: 'production'
   },
+  deployment: {
+    appId: 'whsyyogu674eizb8e6xybf0f',
+  },
   graphql: [
     {
       playground: true,
