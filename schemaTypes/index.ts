@@ -8,6 +8,7 @@ import sectionDivider from './sectionDivider'
 import project from './project'
 import caseStudy from './caseStudy'
 import experience from './experience'
+import photography from './photography'
 
 export const schemaTypes = [
   textBlock,
@@ -19,5 +20,6 @@ export const schemaTypes = [
   sectionDivider,
   project,
   caseStudy,
-  experience
+  experience,
+  photography
 ]
