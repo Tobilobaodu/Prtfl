@@ -43,7 +43,6 @@ const PhotographyPage = ({ data }) => {
       <style jsx="true">{`
         .photography-container {
           width: 100%;
-          background: var(--white-not-wyt);
           min-height: calc(100vh - 85px);
         }
 
@@ -113,9 +112,8 @@ const PhotographyPage = ({ data }) => {
 
         .photo-title {
           font-size: 14px;
-          font-weight: 400;
+          font-weight: 700;
           line-height: 120%;
-          color: var(--white-heavenly);
         }
 
         .photo-location {
@@ -151,7 +149,6 @@ const PhotographyPage = ({ data }) => {
 
         @media (max-width: 480px) {
           .photography-container {
-            background: #F9F9F8;
             min-height: calc(100vh - 84px);
           }
 
@@ -228,10 +225,9 @@ const PhotographyPage = ({ data }) => {
           .photo-title {
             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
-            font-weight: 400;
+            font-weight: 700;
             line-height: 120%;
             letter-spacing: 0.42px;
-            color: #1D1C1C;
           }
 
           .photo-location {
