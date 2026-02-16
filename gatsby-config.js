@@ -31,8 +31,8 @@ module.exports = {
         projectId: 'bhfv0qe4',
         dataset: 'production',
         token: process.env.SANITY_READ_TOKEN,
-        watchMode: true,
-        overlayDrafts: true,
+        watchMode: process.env.NODE_ENV === 'development',
+        overlayDrafts: false,
       },
     },
     {
