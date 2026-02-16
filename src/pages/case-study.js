@@ -201,6 +201,27 @@ const CaseStudyPage = () => {
           background: none;
           border: none;
           padding: 0;
+          position: relative;
+          transition: all 0.3s ease;
+        }
+
+        .menu-icon::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          background: var(--white-not-wyt);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          transition: all 0.3s ease;
+          z-index: -1;
+        }
+
+        .menu-icon:hover::before {
+          width: 48px;
+          height: 48px;
         }
 
         .hero-image {

@@ -343,11 +343,11 @@ const CaseStudyTemplate = ({ data }) => {
           <button className="menu-icon" onClick={toggleMenu}>
             {isMenuOpen ? (
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 18L18 6M6 6L18 18" stroke="#EE550E" strokeWidth="2" strokeLinecap="round"/>
+                <path d="M6 18L18 6M6 6L18 18" stroke="#0000FF" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             ) : (
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M3 12H21M3 6H21M3 18H21" stroke="#EE550E" strokeWidth="2" strokeLinecap="round"/>
+                <path d="M3 12H21M3 6H21M3 18H21" stroke="#0000FF" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             )}
           </button>
@@ -460,6 +460,27 @@ const CaseStudyTemplate = ({ data }) => {
           background: none;
           border: none;
           padding: 0;
+          position: relative;
+          transition: all 0.3s ease;
+        }
+
+        .menu-icon::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          background: var(--white-not-wyt);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          transition: all 0.3s ease;
+          z-index: -1;
+        }
+
+        .menu-icon:hover::before {
+          width: 48px;
+          height: 48px;
         }
 
         .hero-image {
