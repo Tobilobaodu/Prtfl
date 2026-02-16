@@ -95,12 +95,26 @@ const Layout = ({ children }) => {
           padding: 0;
           z-index: 101;
           position: relative;
-          transition: transform 0.3s ease, background-color 0.2s ease;
+          transition: all 0.3s ease;
         }
 
-        .menu-icon:hover {
-          background-color: #BBB;
-          border-radius: 7px;
+        .menu-icon::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          background: #BBBBBB;
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          transition: all 0.3s ease;
+          z-index: -1;
+        }
+
+        .menu-icon:hover::before {
+          width: 32px;
+          height: 32px;
         }
 
         .menu-blur-overlay {
