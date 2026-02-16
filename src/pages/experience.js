@@ -74,7 +74,7 @@ const ExperiencePage = ({ data }) => {
   // Helper function to format dates for display
   const formatDateForDisplay = (startDate, endDate, isCurrent) => {
     if (!startDate) return '';
-    
+
     // Handle null/undefined endDate for current roles
     if (isCurrent) {
       const start = new Date(startDate);
@@ -82,20 +82,20 @@ const ExperiencePage = ({ data }) => {
       const startText = start.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
       return `${startText} – Present`;
     }
-    
+
     // Handle past roles with endDate
     const start = new Date(startDate);
     if (isNaN(start.getTime())) return startDate; // Fallback to string if invalid
-    
+
     const startText = start.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-    
+
     if (endDate && endDate !== 'null' && endDate !== '') {
       const end = new Date(endDate);
       if (isNaN(end.getTime())) return startText;
       const endText = end.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
       return `${startText} – ${endText}`;
     }
-    
+
     return startText;
   };
 
@@ -146,14 +146,15 @@ const ExperiencePage = ({ data }) => {
           </div>
 
           <div className="end-section">
-            <svg width="79" height="24" viewBox="0 0 79 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.97874 1.0038H10.0213V20H4.97874V1.0038Z" fill="#EE550E" />
-              <path d="M0 6.20068V1H15V6.20068H0Z" fill="#EE550E" />
-              <path d="M20.5423 5.08242L24.7244 1L40 15.9116L35.8179 19.994L20.5423 5.08242Z" fill="#EE550E" />
-              <path d="M35.2756 1.00598L39.4577 5.0884L24.1821 20L20 15.9176L35.2756 1.00598Z" fill="#EE550E" />
-              <path d="M45.0396 3.82042L48.7724 0L59 10.4678L55.2672 14.2882L45.0396 3.82042Z" fill="#EE550E" />
-              <path d="M55.2276 6.71177L58.9604 10.5322L48.7328 21L45 17.1796L55.2276 6.71177Z" fill="#EE550E" />
-              <path d="M64 1H69V20H64V1Z" fill="#EE550E" />
+            <svg width="80" height="32" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.32 0.420583H20.9026V13.5066H17.32V0.420583Z" fill="#1D1C1C" />
+              <path d="M13.7827 4.00059V0.417969H24.4399V4.00059H13.7827Z" fill="#1D1C1C" />
+              <path d="M29.8021 3.25667L32.5949 0.463867L42.796 10.665L40.0032 13.4578L29.8021 3.25667Z" fill="#1D1C1C" />
+              <path d="M39.641 0.467958L42.4338 3.26076L32.2327 13.4618L29.4399 10.669L39.641 0.467958Z" fill="#1D1C1C" />
+              <path d="M47.8228 2.53329L50.3561 0L57.2972 6.94114L54.7639 9.47443L47.8228 2.53329Z" fill="#1D1C1C" />
+              <path d="M54.737 4.45053L57.2703 6.98382L50.3292 13.925L47.7959 11.3917L54.737 4.45053Z" fill="#1D1C1C" />
+              <path d="M62.2974 0.419922H65.88V13.5059H62.2974V0.419922Z" fill="#1D1C1C" />
+              <path d="M0.467529 30.1208L12.0387 23.9991L21.05 30.2917L33.2018 23.9248L41.1544 30.5356L52.6744 23.9912L61.2189 30.4902L69.8286 24.2208L78.7221 29.8124L79.1951 29.2476" stroke="#EE550E" strokeWidth="2" />
             </svg>
             <p className="footer-text">
               Before Jumia I was with Start-up partner looking after digital channels and digital product, before SPA, I was with Kantar as a data analyst and running Zeus & Solace, a bespoke gentleman's clothing brand, this was 2 years after I finished uni.
@@ -165,9 +166,8 @@ const ExperiencePage = ({ data }) => {
               <div className="button-bg-orange"></div>
               <div className="button-bg-black"></div>
               <div className="button-content">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 14L6 10H8V6H12V10H14L10 14Z" fill="#FFF" />
-                  <path d="M4 16H16V18H4V16Z" fill="#FFF" />
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 3.75V12.5215L14.9375 8.58398L16.3535 10L10 16.3535L3.64648 10L5.0625 8.58398L9 12.5215V3.75H11Z" fill="white" stroke="white" strokeWidth="0.5" />
                 </svg>
                 <span>Download CV</span>
               </div>
