@@ -410,18 +410,28 @@ const CaseStudyTemplate = ({ data }) => {
           <h3 className="panel-title">more projects</h3>
           <div className="panel-projects">
             {relatedProjects.map((project, index) => (
-              <div key={index} className="panel-project">
-                <div className="panel-project-row">
-                  <div className="panel-project-name">{project.title}</div>
-                  <div className="panel-project-meta">
-                    <span className="panel-brand">{project.client}</span>
-                    <span className="panel-year">{project.year}</span>
+              <Link key={index} to={`/case-study/${project.slug?.current || ''}`} className="panel-project-link">
+                <div className="panel-project">
+                  <div className="panel-project-row">
+                    <div className="panel-project-name">{project.title}</div>
+                    <div className="panel-project-meta">
+                      <span className="panel-brand">{project.client}</span>
+                      <span className="panel-year">{project.year}</span>
+                    </div>
                   </div>
+                  <div className="panel-divider"></div>
                 </div>
-                <div className="panel-divider"></div>
-              </div>
+              </Link>
             ))}
           </div>
+          <button className="back-button" onClick={() => window.history.back()}>
+            <span className="back-button-bg-orange"></span>
+            <span className="back-button-bg-black"></span>
+            <span className="back-button-content">
+              <span className="back-arrow">←</span>
+              <span className="back-text">Go back</span>
+            </span>
+          </button>
         </div>
       </div>
 
@@ -824,6 +834,101 @@ const CaseStudyTemplate = ({ data }) => {
           opacity: 0.5;
           border-top: 0.5px solid rgba(236, 240, 241, 0.5);
           margin-top: 10px;
+        }
+
+        .panel-project-link {
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          transition: all 0.3s ease;
+        }
+
+        .panel-project-link:hover .panel-project-name {
+          color: #EE550E;
+        }
+
+        .panel-project-link:hover .panel-brand,
+        .panel-project-link:hover .panel-year {
+          color: #FFFFFF;
+        }
+
+        .back-button {
+          position: absolute;
+          bottom: 109px;
+          left: 109px;
+          right: 109px;
+          width: 164px;
+          height: 55px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          z-index: 10;
+          transition: all 0.3s ease;
+        }
+
+        .back-button-bg-orange {
+          position: absolute;
+          width: 153px;
+          height: 45px;
+          background: #0000FF;
+          left: 8px;
+          top: 3px;
+          transition: all 0.3s ease;
+        }
+
+        .back-button-bg-black {
+          position: absolute;
+          width: 153px;
+          height: 45px;
+          background: #F9F9F8;
+          left: 11px;
+          top: 0;
+          transition: all 0.3s ease;
+        }
+
+        .back-button-content {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 2px;
+          left: 40px;
+          top: 12.5px;
+          color: #26282B;
+          transition: all 0.3s ease;
+        }
+
+        .back-arrow {
+          font-size: 20px;
+          line-height: 1;
+          color: #26282B;
+          font-weight: 700;
+          transition: all 0.3s ease;
+        }
+
+        .back-text {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 0.9em;
+          letter-spacing: 2%;
+          text-transform: uppercase;
+          color: #26282B;
+          transition: all 0.3s ease;
+        }
+
+        .back-button:hover .back-button-bg-orange {
+          background: #F9F9F8;
+        }
+
+        .back-button:hover .back-button-bg-black {
+          background: #0000FF;
+        }
+
+        .back-button:hover .back-button-content,
+        .back-button:hover .back-arrow,
+        .back-button:hover .back-text {
+          color: #FFFFFF;
         }
 
         @media (max-width: 1200px) {
