@@ -14,6 +14,9 @@ module.exports = {
     author: `Tobiloba Odu`,
     siteUrl: `https://tobilobaodu.com/`,
   },
+  flags: {
+    DEV_SSR: true, // Enable custom 404 page in development
+  },
   plugins: [
     `gatsby-plugin-image`,
     {
