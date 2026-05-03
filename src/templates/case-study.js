@@ -4,7 +4,6 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-// Component renderers for different Sanity component types
 const TextBlock = ({ content, type, blockType }) => {
   const blockTypeValue = type || blockType || 'bodyText'
 
@@ -23,32 +22,15 @@ const TextBlock = ({ content, type, blockType }) => {
 
   const renderRichText = (blocks) => {
     if (!blocks || !Array.isArray(blocks)) return null
-
     return blocks.map((block, index) => {
       if (block._type === 'block') {
         return (
-          <p key={index} style={{
-            margin: 0,
-            fontFamily: 'inherit',
-            fontSize: 'inherit',
-            lineHeight: 'inherit',
-            fontWeight: 'inherit',
-            color: 'inherit'
-          }}>
+          <p key={index} style={{ margin: 0, fontFamily: 'inherit', fontSize: 'inherit', lineHeight: 'inherit', fontWeight: 'inherit', color: 'inherit' }}>
             {block.children?.map((child, childIndex) => {
               let style = {}
-              if (child.marks?.includes('strong')) {
-                style.fontWeight = 'bold'
-              }
-              if (child.marks?.includes('em')) {
-                style.fontStyle = 'italic'
-              }
-
-              return (
-                <span key={childIndex} style={style}>
-                  {child.text}
-                </span>
-              )
+              if (child.marks?.includes('strong')) style.fontWeight = 'bold'
+              if (child.marks?.includes('em')) style.fontStyle = 'italic'
+              return <span key={childIndex} style={style}>{child.text}</span>
             })}
           </p>
         )
@@ -57,61 +39,36 @@ const TextBlock = ({ content, type, blockType }) => {
     })
   }
 
-  if (blockTypeValue === 'sectionTitle') {
-    return (
-      <h2 className={typeClass}>{extractPlainText(content)}</h2>
-    )
-  }
-
-  if (blockTypeValue === 'tag') {
-    return (
-      <div className={typeClass}>{extractPlainText(content)}</div>
-    )
-  }
-
-  if (blockTypeValue === 'bodyText') {
-    return (
-      <div className={typeClass}>
-        {renderRichText(content)}
-      </div>
-    )
-  }
-
-  return (
-    <p className={typeClass}>{extractPlainText(content)}</p>
-  )
+  if (blockTypeValue === 'sectionTitle') return <h2 className={typeClass}>{extractPlainText(content)}</h2>
+  if (blockTypeValue === 'tag') return <div className={typeClass}>{extractPlainText(content)}</div>
+  if (blockTypeValue === 'bodyText') return <div className={typeClass}>{renderRichText(content)}</div>
+  return <p className={typeClass}>{extractPlainText(content)}</p>
 }
 
 const HeroSection = ({ headline, subtext, heroImage }) => {
+  const imageUrl = heroImage?.asset?.url
   return (
     <div className="hero-section-component">
       <div className="hero-section-text">
         {headline && <h1 className="hero-section-headline">{headline}</h1>}
         {subtext && <p className="hero-section-subtext">{subtext}</p>}
       </div>
-      {heroImage?.asset?.url && (
+      {imageUrl && (
         <div className="hero-section-image">
-          <img
-            src={heroImage.asset.url}
-            alt={headline || 'Hero image'}
-          />
+          <img src={imageUrl} alt={headline || 'Hero image'} />
         </div>
       )}
     </div>
   )
 }
 
-const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHeightImage = 1 }) => {
+const ImageComponent = ({ layout, images, enableGaps = true, fullHeightImage = 1 }) => {
   const heightClass = 'height-fixed-800'
 
   if (layout === 'single' && images?.[0]) {
     return (
       <div className={`image-single ${heightClass}`}>
-        <img
-          src={images[0]?.asset?.url || ''}
-          alt="Project image"
-          className="section-image"
-        />
+        <img src={images[0]?.asset?.url || ''} alt="Project image" className="section-image" />
       </div>
     )
   }
@@ -121,10 +78,7 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
       <div className={`image-grid grid-2 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className="grid-item">
-            <img
-              src={image?.asset?.url || ''}
-              alt={`Project image ${index + 1}`}
-            />
+            <img src={image?.asset?.url || ''} alt={`Project image ${index + 1}`} />
           </div>
         ))}
       </div>
@@ -132,15 +86,12 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
   }
 
   if (layout === 'grid-3' && images?.length === 3) {
-    const fullHeightIndex = (fullHeightImage || 1) - 1;
+    const fullHeightIndex = (fullHeightImage || 1) - 1
     return (
       <div className={`image-grid grid-3 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className={`grid-item ${index === fullHeightIndex ? 'full-height' : ''}`}>
-            <img
-              src={image?.asset?.url || ''}
-              alt={`Project image ${index + 1}`}
-            />
+            <img src={image?.asset?.url || ''} alt={`Project image ${index + 1}`} />
           </div>
         ))}
       </div>
@@ -153,10 +104,7 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
       <div className={`image-grid ${gridClass} ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className="grid-item">
-            <img
-              src={image?.asset?.url || ''}
-              alt={`Project image ${index + 1}`}
-            />
+            <img src={image?.asset?.url || ''} alt={`Project image ${index + 1}`} />
           </div>
         ))}
       </div>
@@ -168,10 +116,7 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
       <div className={`image-grid grid-5 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
           <div key={index} className={`grid-item ${index === 0 ? 'full-width' : ''}`}>
-            <img
-              src={image?.asset?.url || ''}
-              alt={`Project image ${index + 1}`}
-            />
+            <img src={image?.asset?.url || ''} alt={`Project image ${index + 1}`} />
           </div>
         ))}
       </div>
@@ -181,26 +126,16 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
   return null
 }
 
-const SectionTitleBlock = ({ title }) => {
-  return (
-    <h2 className="text-section-title">{title}</h2>
-  )
-}
+const SectionTitleBlock = ({ title }) => <h2 className="text-section-title">{title}</h2>
 
-const TagBlock = ({ tag }) => {
-  return (
-    <div className="text-tag">{tag}</div>
-  )
-}
+const TagBlock = ({ tag }) => <div className="text-tag">{tag}</div>
 
-const SectionDivider = ({ tag, title, dividerStyle }) => {
-  return (
-    <div className="section-divider">
-      {tag && <div className="section-tag">{tag}</div>}
-      {title && <h2 className="section-title">{title}</h2>}
-    </div>
-  )
-}
+const SectionDivider = ({ tag, title }) => (
+  <div className="section-divider">
+    {tag && <div className="section-tag">{tag}</div>}
+    {title && <h2 className="section-title">{title}</h2>}
+  </div>
+)
 
 const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, muted, caption }) => {
   try {
@@ -210,7 +145,6 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
         /youtube\.com\/embed\/([^&\n?#]+)/,
         /youtube\.com\/v\/([^&\n?#]+)/
       ]
-
       for (const pattern of patterns) {
         const match = url.match(pattern)
         if (match) return match[1]
@@ -222,13 +156,7 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
 
     if (isYouTube) {
       const videoId = extractYouTubeId(videoUrl)
-      if (!videoId) {
-        return (
-          <div className="video-error">
-            <p>Invalid YouTube URL</p>
-          </div>
-        )
-      }
+      if (!videoId) return <div className="video-error"><p>Invalid YouTube URL</p></div>
 
       const embedParams = new URLSearchParams({
         autoplay: autoplay ? '1' : '0',
@@ -239,33 +167,22 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
         modestbranding: '1'
       })
 
-      const embedUrl = `https://www.youtube.com/embed/${videoId}?${embedParams.toString()}`
-
       return (
         <div className="video-container">
           <iframe
-            src={embedUrl}
+            src={`https://www.youtube.com/embed/${videoId}?${embedParams.toString()}`}
             className="video-player"
             allowFullScreen
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             title="YouTube video"
           />
-          {caption && (
-            <p className="video-caption">{caption}</p>
-          )}
+          {caption && <p className="video-caption">{caption}</p>}
         </div>
       )
     }
 
     const videoSrc = videoFile?.asset?.url || videoUrl
-
-    if (!videoSrc) {
-      return (
-        <div className="video-error">
-          <p>Video source not available</p>
-        </div>
-      )
-    }
+    if (!videoSrc) return <div className="video-error"><p>Video source not available</p></div>
 
     const posterSrc = posterImage?.asset?.gatsbyImageData
       ? getImage(posterImage.asset.gatsbyImageData)?.images?.fallback?.src
@@ -273,36 +190,21 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
 
     return (
       <div className="video-container">
-        <video
-          controls
-          autoPlay={autoplay}
-          loop={loop}
-          muted={muted}
-          poster={posterSrc}
-          className="video-player"
-          preload="metadata"
-        >
+        <video controls autoPlay={autoplay} loop={loop} muted={muted} poster={posterSrc} className="video-player" preload="metadata">
           <source src={videoSrc} type={videoFile ? "video/mp4" : undefined} />
           Your browser does not support the video tag.
         </video>
-        {caption && (
-          <p className="video-caption">{caption}</p>
-        )}
+        {caption && <p className="video-caption">{caption}</p>}
       </div>
     )
   } catch (error) {
     console.error('Video component error:', error)
-    return (
-      <div className="video-error">
-        <p>Unable to load video</p>
-      </div>
-    )
+    return <div className="video-error"><p>Unable to load video</p></div>
   }
 }
 
 const Spacer = ({ size }) => {
   const pixelSize = parseInt(size) || 20
-
   return <div className="spacer" style={{ height: `${pixelSize}px` }} />
 }
 
@@ -311,9 +213,7 @@ const CaseStudyTemplate = ({ data }) => {
   const project = caseStudy?.project
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
   React.useEffect(() => {
     const styleEl = document.createElement('style')
@@ -333,7 +233,9 @@ const CaseStudyTemplate = ({ data }) => {
   const autoRelatedProjects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
   const relatedProjects = cmsRelatedProjects.length > 0 ? cmsRelatedProjects : autoRelatedProjects
 
-  const firstComponent = caseStudy?.components?.[0]
+  // Use _rawComponents which includes all object types (including heroSection) as plain JSON
+  const components = caseStudy?._rawComponents || []
+  const firstComponent = components[0]
   const hasHeroSectionComponent = firstComponent?._type === 'heroSection'
 
   if (!caseStudy || !project) {
@@ -352,7 +254,6 @@ const CaseStudyTemplate = ({ data }) => {
     <Layout>
       <div className="case-study-page">
 
-        {/* Show default project hero image only when no HeroSection component is used */}
         {!hasHeroSectionComponent && project.heroImage?.asset?.gatsbyImageData && (
           <div className="hero-image">
             <GatsbyImage
@@ -382,8 +283,7 @@ const CaseStudyTemplate = ({ data }) => {
               )}
             </div>
 
-            {/* Render case study components — skip null/undefined items */}
-            {caseStudy.components?.map((component, index) => {
+            {components.map((component, index) => {
               if (!component || !component._type) return null
               switch (component._type) {
                 case 'heroSection':
@@ -448,7 +348,6 @@ const CaseStudyTemplate = ({ data }) => {
           position: relative;
         }
 
-        /* HeroSection Component */
         .hero-section-component {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -501,11 +400,7 @@ const CaseStudyTemplate = ({ data }) => {
             gap: 30px;
             padding: 40px 0;
           }
-
-          .hero-section-headline {
-            font-size: 45px;
-          }
-
+          .hero-section-headline { font-size: 45px; }
           .hero-section-image {
             width: 100%;
             height: 350px;
@@ -514,14 +409,8 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         @media (max-width: 480px) {
-          .hero-section-headline {
-            font-size: 45px;
-          }
-
-          .hero-section-image {
-            width: 313px;
-            height: 350px;
-          }
+          .hero-section-headline { font-size: 45px; }
+          .hero-section-image { width: 313px; height: 350px; }
         }
 
         .hero-image {
@@ -578,34 +467,9 @@ const CaseStudyTemplate = ({ data }) => {
           color: var(--white-heavenly);
         }
 
-        .meta-label {
-          color: var(--orange);
-        }
+        .meta-label { color: var(--orange); }
 
         .project-intro-text {
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 120%;
-          letter-spacing: 0.42px;
-          color: var(--white-heavenly);
-        }
-
-        .content-section {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-
-        .section-title {
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 33px;
-          font-weight: 700;
-          line-height: 95%;
-          color: var(--white-heavenly);
-        }
-
-        .section-text {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 14px;
           font-weight: 400;
@@ -652,75 +516,22 @@ const CaseStudyTemplate = ({ data }) => {
           height: 800px;
         }
 
-        .image-grid.gaps-enabled {
-          gap: 20px;
-        }
+        .image-grid.gaps-enabled { gap: 20px; }
+        .image-grid.gaps-disabled { gap: 0px; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+        .grid-3 .grid-item.full-height { grid-row: span 2; }
+        .grid-4-horizontal { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        .grid-4-square { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+        .grid-5 { grid-template-columns: 1fr 1fr 1fr 1fr; grid-template-rows: auto auto; }
+        .grid-5 .grid-item.full-width { grid-column: 1 / -1; }
+        .grid-item { overflow: hidden; }
+        .grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .height-fixed-800 { height: 800px; }
+        .image-single.height-fixed-800 { height: 800px; }
+        .image-single img { width: 100%; height: 100%; object-fit: cover; }
 
-        .image-grid.gaps-disabled {
-          gap: 0px;
-        }
-
-        .grid-2 {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .grid-3 {
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: 1fr 1fr;
-        }
-
-        .grid-3 .grid-item.full-height {
-          grid-row: span 2;
-        }
-
-        .grid-4-horizontal {
-          grid-template-columns: 1fr 1fr 1fr 1fr;
-        }
-
-        .grid-4-square {
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: 1fr 1fr;
-        }
-
-        .grid-5 {
-          grid-template-columns: 1fr 1fr 1fr 1fr;
-          grid-template-rows: auto auto;
-        }
-
-        .grid-5 .grid-item.full-width {
-          grid-column: 1 / -1;
-        }
-
-        .grid-item {
-          overflow: hidden;
-        }
-
-        .grid-item img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
-
-        .height-fixed-800 {
-          height: 800px;
-        }
-
-        .image-single.height-fixed-800 {
-          height: 800px;
-        }
-
-        .image-single img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .section-divider {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
+        .section-divider { display: flex; flex-direction: column; gap: 10px; }
 
         .section-tag {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
@@ -745,10 +556,7 @@ const CaseStudyTemplate = ({ data }) => {
           margin: 0;
         }
 
-        .video-container {
-          width: 100%;
-          margin: 20px 0;
-        }
+        .video-container { width: 100%; margin: 20px 0; }
 
         .video-player {
           width: 100%;
@@ -803,9 +611,7 @@ const CaseStudyTemplate = ({ data }) => {
           z-index: 50;
         }
 
-        .side-panel.open {
-          right: 0;
-        }
+        .side-panel.open { right: 0; }
 
         .panel-title {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
@@ -816,11 +622,7 @@ const CaseStudyTemplate = ({ data }) => {
           margin-bottom: 106px;
         }
 
-        .panel-projects {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
+        .panel-projects { display: flex; flex-direction: column; gap: 10px; }
 
         .panel-project-row {
           display: flex;
@@ -836,13 +638,9 @@ const CaseStudyTemplate = ({ data }) => {
           color: var(--white-not-wyt);
         }
 
-        .panel-project-meta {
-          display: flex;
-          gap: 5px;
-        }
+        .panel-project-meta { display: flex; gap: 5px; }
 
-        .panel-brand,
-        .panel-year {
+        .panel-brand, .panel-year {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 14px;
           font-weight: 400;
@@ -866,14 +664,9 @@ const CaseStudyTemplate = ({ data }) => {
           transition: all 0.3s ease;
         }
 
-        .panel-project-link:hover .panel-project-name {
-          color: #EE550E;
-        }
-
+        .panel-project-link:hover .panel-project-name { color: #EE550E; }
         .panel-project-link:hover .panel-brand,
-        .panel-project-link:hover .panel-year {
-          color: #FFFFFF;
-        }
+        .panel-project-link:hover .panel-year { color: #FFFFFF; }
 
         .back-button {
           position: absolute;
@@ -940,50 +733,22 @@ const CaseStudyTemplate = ({ data }) => {
           transition: all 0.3s ease;
         }
 
-        .back-button:hover .back-button-bg-orange {
-          background: #F9F9F8;
-        }
-
-        .back-button:hover .back-button-bg-black {
-          background: #0000FF;
-        }
-
+        .back-button:hover .back-button-bg-orange { background: #F9F9F8; }
+        .back-button:hover .back-button-bg-black { background: #0000FF; }
         .back-button:hover .back-button-content,
         .back-button:hover .back-arrow,
-        .back-button:hover .back-text {
-          color: #FFFFFF;
-        }
+        .back-button:hover .back-text { color: #FFFFFF; }
 
         @media (max-width: 1200px) {
-          .side-panel {
-            position: relative;
-            width: 100%;
-            height: auto;
-            padding: 60px 20px;
-          }
-
-          .main-content {
-            padding: 40px 20px 100px;
-          }
-
-          .project-title {
-            font-size: 45px;
-          }
+          .side-panel { position: relative; width: 100%; height: auto; padding: 60px 20px; }
+          .main-content { padding: 40px 20px 100px; }
+          .project-title { font-size: 45px; }
         }
 
         @media (max-width: 768px) {
-          .case-study-page {
-            margin: 0;
-          }
-
-          .project-title {
-            font-size: 35px;
-          }
-
-          .project-meta-row {
-            flex-direction: column;
-            gap: 10px;
-          }
+          .case-study-page { margin: 0; }
+          .project-title { font-size: 35px; }
+          .project-meta-row { flex-direction: column; gap: 10px; }
         }
 
         @media (max-width: 480px) {
@@ -994,31 +759,10 @@ const CaseStudyTemplate = ({ data }) => {
             margin: 0;
             padding: 0;
           }
-
-          .hero-image {
-            width: 100%;
-            height: 346px;
-            margin-top: 0;
-          }
-
-          .main-content {
-            padding: 40px 39px 100px;
-          }
-
-          .container {
-            max-width: 100%;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 165px;
-          }
-
-          .project-intro {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-          }
-
+          .hero-image { width: 100%; height: 346px; margin-top: 0; }
+          .main-content { padding: 40px 39px 100px; }
+          .container { max-width: 100%; margin: 0; display: flex; flex-direction: column; gap: 165px; }
+          .project-intro { display: flex; flex-direction: column; gap: 20px; }
           .project-title {
             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 32.5px;
@@ -1027,13 +771,7 @@ const CaseStudyTemplate = ({ data }) => {
             color: #FFF;
             max-width: 100%;
           }
-
-          .project-meta-row {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-          }
-
+          .project-meta-row { display: flex; flex-direction: column; gap: 10px; }
           .meta-item {
             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
@@ -1042,11 +780,7 @@ const CaseStudyTemplate = ({ data }) => {
             letter-spacing: 0.42px;
             color: #FFF;
           }
-
-          .meta-label {
-            color: #EE550E;
-          }
-
+          .meta-label { color: #EE550E; }
           .project-intro-text {
             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
@@ -1054,32 +788,6 @@ const CaseStudyTemplate = ({ data }) => {
             line-height: 120%;
             letter-spacing: 0.42px;
             color: #FFF;
-          }
-
-          .content-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-          }
-
-          .section-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 95%;
-            color: #FFF;
-            align-self: flex-start;
-          }
-
-          .section-text {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.42px;
-            color: #FFF;
-            align-self: flex-start;
           }
         }
       `}</style>
@@ -1091,77 +799,7 @@ export const query = graphql`
   query ($slug: String!) {
     sanityCaseStudy(project: { slug: { current: { eq: $slug } } }) {
       id
-      components {
-        ... on SanityHeroSection {
-          _type
-          headline
-          subtext
-          heroImage {
-            asset {
-              url
-            }
-          }
-        }
-        ... on SanityTextBlock {
-          _type
-          content {
-            _type
-            children {
-              _type
-              marks
-              text
-            }
-          }
-        }
-        ... on SanitySectionTitleBlock {
-          _type
-          title
-        }
-        ... on SanityTagBlock {
-          _type
-          tag
-        }
-        ... on SanityImageComponent {
-          _type
-          layout
-          images {
-            asset {
-              url
-            }
-          }
-          imageHeight
-          enableGaps
-          fullHeightImage
-        }
-        ... on SanityVideoComponent {
-          _type
-          videoFile {
-            asset {
-              url
-            }
-          }
-          videoUrl
-          posterImage {
-            asset {
-              gatsbyImageData
-            }
-          }
-          autoplay
-          loop
-          muted
-          caption
-        }
-        ... on SanitySectionDivider {
-          _type
-          tag
-          title
-          dividerStyle
-        }
-        ... on SanitySpacer {
-          _type
-          size
-        }
-      }
+      _rawComponents(resolveReferences: { maxDepth: 10 })
       project {
         id
         title
@@ -1175,6 +813,15 @@ export const query = graphql`
         }
         introText
         shortDescription
+      }
+      relatedProjects {
+        id
+        title
+        client
+        year
+        slug {
+          current
+        }
       }
     }
     allSanityProject(
