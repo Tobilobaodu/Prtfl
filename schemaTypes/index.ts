@@ -6,6 +6,7 @@ import photography from './photography'
 import project from './project'
 import sectionDivider from './sectionDivider'
 import sectionTitleBlock from './sectionTitleBlock'
+import sliderComponent from './sliderComponent'
 import spacer from './spacer'
 import tagBlock from './tagBlock'
 import textBlock from './textBlock'
@@ -20,6 +21,7 @@ export const schemaTypes = [
   project,
   sectionDivider,
   sectionTitleBlock,
+  sliderComponent,
   spacer,
   tagBlock,
   textBlock,
