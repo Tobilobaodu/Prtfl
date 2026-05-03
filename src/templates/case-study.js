@@ -306,11 +306,19 @@ const CaseStudyTemplate = ({ data }) => {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  // Add/remove body class so menu links are white only on this page
+  // Inject a real <style> tag into <head> to make menu links white on this page only.
+  // Removed on unmount so all other pages stay unaffected.
   React.useEffect(() => {
-    document.body.classList.add('case-study-active')
+    const styleEl = document.createElement('style')
+    styleEl.id = 'case-study-menu-override'
+    styleEl.innerHTML = `
+      .menu-link { color: #FFFFFF !important; }
+      .menu-link:hover { color: #EE550E !important; }
+    `
+    document.head.appendChild(styleEl)
     return () => {
-      document.body.classList.remove('case-study-active')
+      const el = document.getElementById('case-study-menu-override')
+      if (el) el.remove()
     }
   }, [])
 
@@ -447,16 +455,6 @@ const CaseStudyTemplate = ({ data }) => {
       </div>
 
       <style jsx="true">{`
-        /* ─── Menu link override: white only on the case study page ─────────── */
-        :global(body.case-study-active .menu-link) {
-          color: #FFFFFF;
-        }
-
-        :global(body.case-study-active .menu-link:hover) {
-          color: var(--orange);
-        }
-        /* ──────────────────────────────────────────────────────────────────── */
-
         .case-study-page {
           background: var(--black-nue-black) url("/noise.png");
           background-size: 100px 100px;
