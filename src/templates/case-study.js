@@ -208,6 +208,74 @@ const Spacer = ({ size }) => {
   return <div className="spacer" style={{ height: `${pixelSize}px` }} />
 }
 
+// Arrow SVGs
+const ArrowLeft = ({ inactive }) => (
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="20" r="19.5" stroke={inactive ? '#BBBBBB' : '#FFFFFF'} />
+    <path d="M22 14L16 20L22 26" stroke={inactive ? '#BBBBBB' : '#FFFFFF'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
+const ArrowRight = ({ inactive }) => (
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="20" r="19.5" stroke={inactive ? '#BBBBBB' : '#EE550E'} />
+    <path d="M18 14L24 20L18 26" stroke={inactive ? '#BBBBBB' : '#EE550E'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
+const SliderComponent = ({ slides }) => {
+  const [current, setCurrent] = React.useState(0)
+  if (!slides?.length) return null
+
+  const isFirst = current === 0
+  const isLast = current === slides.length - 1
+  const prev = () => { if (!isFirst) setCurrent(i => i - 1) }
+  const next = () => { if (!isLast) setCurrent(i => i + 1) }
+
+  const slide = slides[current]
+  const imageUrl = slide?.image?.asset?.url
+
+  return (
+    <div className="slider-component">
+      {imageUrl && (
+        <img
+          className="slider-image"
+          src={imageUrl}
+          alt={slide?.image?.alt || `Slide ${current + 1}`}
+          loading="lazy"
+        />
+      )}
+      <div className="slider-stats-bar">
+        <div className="slider-stats">
+          {slide?.statLeft && <span className="slider-stat">{slide.statLeft}</span>}
+          {slide?.statLeft && slide?.statRight && <div className="slider-stat-divider" />}
+          {slide?.statRight && <span className="slider-stat">{slide.statRight}</span>}
+        </div>
+        <div className="slider-controls">
+          <button onClick={prev} disabled={isFirst} aria-label="Previous slide" className="slider-arrow-btn">
+            <ArrowLeft inactive={isFirst} />
+          </button>
+          <div className="slider-dots" role="tablist">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                role="tab"
+                aria-selected={i === current}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`slider-dot ${i === current ? 'active' : ''}`}
+                onClick={() => setCurrent(i)}
+              />
+            ))}
+          </div>
+          <button onClick={next} disabled={isLast} aria-label="Next slide" className="slider-arrow-btn">
+            <ArrowRight inactive={isLast} />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const CaseStudyTemplate = ({ data }) => {
   const caseStudy = data?.sanityCaseStudy
   const project = caseStudy?.project
@@ -304,6 +372,8 @@ const CaseStudyTemplate = ({ data }) => {
                   return <SectionDivider key={index} {...component} />
                 case 'spacer':
                   return <Spacer key={index} {...component} />
+                case 'sliderComponent':
+                  return <SliderComponent key={index} {...component} />
                 default:
                   return null
               }
@@ -599,6 +669,124 @@ const CaseStudyTemplate = ({ data }) => {
           margin: 0;
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 14px;
+        }
+
+        /* ── Slider Component ── */
+        .slider-component {
+          width: calc(100% + 200px);
+          margin-left: -100px;
+          background: #F0EBE0;
+          overflow: hidden;
+        }
+
+        .slider-image {
+          width: 100%;
+          height: auto;
+          display: block;
+          object-fit: cover;
+        }
+
+        .slider-stats-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20px 100px;
+          gap: 24px;
+        }
+
+        .slider-stats {
+          display: flex;
+          align-items: center;
+          flex: 1;
+          gap: 0;
+        }
+
+        .slider-stat {
+          flex: 1;
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 18px;
+          font-weight: 600;
+          color: #1a1a1a;
+          line-height: 120%;
+        }
+
+        .slider-stat-divider {
+          width: 1px;
+          height: 36px;
+          background: rgba(0, 0, 0, 0.15);
+          flex-shrink: 0;
+          margin: 0 40px;
+        }
+
+        .slider-controls {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
+        }
+
+        .slider-arrow-btn {
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          transition: opacity 0.2s ease;
+        }
+
+        .slider-arrow-btn:disabled {
+          cursor: default;
+        }
+
+        .slider-dots {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .slider-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgba(0, 0, 0, 0.2);
+          border: none;
+          cursor: pointer;
+          padding: 0;
+          transition: all 0.25s ease;
+          flex-shrink: 0;
+        }
+
+        .slider-dot.active {
+          width: 24px;
+          border-radius: 4px;
+          background: #EE550E;
+        }
+
+        @media (max-width: 768px) {
+          .slider-component {
+            width: 100%;
+            margin-left: 0;
+          }
+          .slider-stats-bar {
+            padding: 20px 20px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+          }
+          .slider-controls {
+            align-self: flex-end;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .slider-component {
+            width: calc(100% + 78px);
+            margin-left: -39px;
+          }
+          .slider-stats-bar {
+            padding: 20px 39px;
+          }
         }
 
         .side-panel {
