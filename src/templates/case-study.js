@@ -87,6 +87,25 @@ const TextBlock = ({ content, type, blockType }) => {
   )
 }
 
+const HeroSection = ({ headline, subtext, heroImage }) => {
+  return (
+    <div className="hero-section-component">
+      <div className="hero-section-text">
+        {headline && <h1 className="hero-section-headline">{headline}</h1>}
+        {subtext && <p className="hero-section-subtext">{subtext}</p>}
+      </div>
+      {heroImage?.asset?.url && (
+        <div className="hero-section-image">
+          <img
+            src={heroImage.asset.url}
+            alt={headline || 'Hero image'}
+          />
+        </div>
+      )}
+    </div>
+  )
+}
+
 const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHeightImage = 1 }) => {
   const heightClass = 'height-fixed-800'
 
@@ -329,6 +348,10 @@ const CaseStudyTemplate = ({ data }) => {
   // Use CMS field if populated, otherwise use automatic selection
   const relatedProjects = cmsRelatedProjects.length > 0 ? cmsRelatedProjects : autoRelatedProjects
 
+  // Detect if a heroSection component exists as the first component
+  const firstComponent = caseStudy?.components?.[0]
+  const hasHeroSectionComponent = firstComponent?._type === 'heroSection'
+
   if (!caseStudy || !project) {
     return (
       <Layout>
@@ -372,7 +395,8 @@ const CaseStudyTemplate = ({ data }) => {
         </nav>
         ─────────────────────────────────────────────────────────────────────── */}
 
-        {project.heroImage?.asset?.gatsbyImageData && (
+        {/* Show default project hero image only when no HeroSection component is used */}
+        {!hasHeroSectionComponent && project.heroImage?.asset?.gatsbyImageData && (
           <div className="hero-image">
             <GatsbyImage
               image={getImage(project.heroImage.asset.gatsbyImageData)}
@@ -404,6 +428,8 @@ const CaseStudyTemplate = ({ data }) => {
             {/* Render case study components */}
             {caseStudy.components?.map((component, index) => {
               switch (component._type) {
+                case 'heroSection':
+                  return <HeroSection key={index} {...component} />
                 case 'textBlock':
                   return <TextBlock key={index} {...component} />
                 case 'sectionTitleBlock':
@@ -513,6 +539,82 @@ const CaseStudyTemplate = ({ data }) => {
           height: 48px;
         }
         ─────────────────────────────────────────────────────────────────────── */
+
+        /* HeroSection Component */
+        .hero-section-component {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 40px;
+          align-items: center;
+          padding: 60px 0;
+        }
+
+        .hero-section-text {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .hero-section-headline {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 80px;
+          font-weight: 500;
+          line-height: 95%;
+          color: var(--white-heavenly);
+          margin: 0;
+        }
+
+        .hero-section-subtext {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 20px;
+          font-weight: 400;
+          line-height: 140%;
+          color: var(--white-heavenly);
+          margin: 0;
+        }
+
+        .hero-section-image {
+          width: 465px;
+          height: 550px;
+          overflow: hidden;
+          justify-self: end;
+        }
+
+        .hero-section-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        @media (max-width: 1024px) {
+          .hero-section-component {
+            grid-template-columns: 1fr;
+            gap: 30px;
+            padding: 40px 0;
+          }
+
+          .hero-section-headline {
+            font-size: 45px;
+          }
+
+          .hero-section-image {
+            width: 100%;
+            height: 350px;
+            justify-self: stretch;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-section-headline {
+            font-size: 45px;
+          }
+
+          .hero-section-image {
+            width: 313px;
+            height: 350px;
+          }
+        }
 
         .hero-image {
           width: 100%;
@@ -1088,6 +1190,16 @@ export const query = graphql`
     sanityCaseStudy(project: { slug: { current: { eq: $slug } } }) {
       id
       components {
+        ... on SanityHeroSection {
+          _type
+          headline
+          subtext
+          heroImage {
+            asset {
+              url
+            }
+          }
+        }
         ... on SanityTextBlock {
           _type
           content {
