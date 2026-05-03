@@ -2,9 +2,25 @@ import * as React from "react"
 import { Link } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import HeroSection from "../components/HeroSection"
 
 const CaseStudyPage = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+
+  // Inject white nav link override for dark background
+  React.useEffect(() => {
+    const styleEl = document.createElement('style')
+    styleEl.id = 'case-study-menu-override'
+    styleEl.innerHTML = `
+      .menu-link { color: #FFFFFF !important; }
+      .menu-link:hover { color: #EE550E !important; }
+    `
+    document.head.appendChild(styleEl)
+    return () => {
+      const el = document.getElementById('case-study-menu-override')
+      if (el) el.remove()
+    }
+  }, [])
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -20,6 +36,13 @@ const CaseStudyPage = () => {
     { title: "Calabar coaster road", brand: "Brand name", year: "2018" },
     { title: "Calabar coaster road", brand: "Brand name", year: "2018" }
   ]
+
+  // ---------------------------------------------------------------------------
+  // Example: replace this with real Sanity data once GraphQL query is wired up.
+  // When heroSection data exists in the components array, the default .hero-image
+  // block below is hidden automatically.
+  // ---------------------------------------------------------------------------
+  const heroSectionData = null // e.g. from pageContext.components.find(c => c._type === 'heroSection')
 
   return (
     <>
@@ -40,19 +63,28 @@ const CaseStudyPage = () => {
           <button className="menu-icon" onClick={toggleMenu}>
             {isMenuOpen ? (
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 18L18 6M6 6L18 18" stroke="#0000FF" strokeWidth="2" strokeLinecap="round" />
+                <path d="M6 18L18 6M6 6L18 18" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
               </svg>
             ) : (
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M3 12H21M3 6H21M3 18H21" stroke="#0000FF" strokeWidth="2" strokeLinecap="round" />
+                <path d="M3 12H21M3 6H21M3 18H21" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
               </svg>
             )}
           </button>
         </nav>
 
-        <div className="hero-image">
-          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1400&q=80" alt="Case study hero" />
-        </div>
+        {/* Hero: use HeroSection component if heroSectionData exists, otherwise fall back to project hero image */}
+        {heroSectionData ? (
+          <HeroSection
+            headline={heroSectionData.headline}
+            subtext={heroSectionData.subtext}
+            heroImage={heroSectionData.heroImage}
+          />
+        ) : (
+          <div className="hero-image">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1400&q=80" alt="Case study hero" />
+          </div>
+        )}
 
         <div className="main-content">
           <div className="container">

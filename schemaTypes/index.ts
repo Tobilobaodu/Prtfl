@@ -1,25 +1,27 @@
-import textBlock from './textBlock'
-import sectionTitleBlock from './sectionTitleBlock'
-import tagBlock from './tagBlock'
-import imageComponent from './imageComponent'
-import videoComponent from './videoComponent'
-import spacer from './spacer'
-import sectionDivider from './sectionDivider'
-import project from './project'
 import caseStudy from './caseStudy'
 import experience from './experience'
+import heroSection from './heroSection'
+import imageComponent from './imageComponent'
 import photography from './photography'
+import project from './project'
+import sectionDivider from './sectionDivider'
+import sectionTitleBlock from './sectionTitleBlock'
+import spacer from './spacer'
+import tagBlock from './tagBlock'
+import textBlock from './textBlock'
+import videoComponent from './videoComponent'
 
 export const schemaTypes = [
-  textBlock,
-  sectionTitleBlock,
-  tagBlock,
-  imageComponent,
-  videoComponent,
-  spacer,
-  sectionDivider,
-  project,
   caseStudy,
   experience,
-  photography
+  heroSection,
+  imageComponent,
+  photography,
+  project,
+  sectionDivider,
+  sectionTitleBlock,
+  spacer,
+  tagBlock,
+  textBlock,
+  videoComponent,
 ]
