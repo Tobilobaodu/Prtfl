@@ -26,6 +26,7 @@ export default defineType({
         { type: 'tagBlock' },
         { type: 'imageComponent' },
         { type: 'videoComponent' },
+        { type: 'sliderComponent' },
         { type: 'spacer' },
         { type: 'sectionDivider' },
       ],
@@ -34,7 +35,6 @@ export default defineType({
           if (!components) return true
           const heroCount = components.filter((c) => c._type === 'heroSection').length
           if (heroCount > 1) return 'Only one Hero Section is allowed per case study.'
-          const firstIsHero = heroCount === 1 && components[0]._type === 'heroSection'
           const heroIsNotFirst = heroCount === 1 && components[0]._type !== 'heroSection'
           if (heroIsNotFirst) return 'The Hero Section must be the first component.'
           return true
