@@ -306,6 +306,14 @@ const CaseStudyTemplate = ({ data }) => {
     setIsMenuOpen(!isMenuOpen)
   }
 
+  // Add/remove body class so menu links are white only on this page
+  React.useEffect(() => {
+    document.body.classList.add('case-study-active')
+    return () => {
+      document.body.classList.remove('case-study-active')
+    }
+  }, [])
+
   // Get related projects - prefer CMS field, fall back to automatic query
   const cmsRelatedProjects = caseStudy?.relatedProjects || []
   const autoRelatedProjects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
@@ -439,6 +447,16 @@ const CaseStudyTemplate = ({ data }) => {
       </div>
 
       <style jsx="true">{`
+        /* ─── Menu link override: white only on the case study page ─────────── */
+        :global(body.case-study-active .menu-link) {
+          color: #FFFFFF;
+        }
+
+        :global(body.case-study-active .menu-link:hover) {
+          color: var(--orange);
+        }
+        /* ──────────────────────────────────────────────────────────────────── */
+
         .case-study-page {
           background: var(--black-nue-black) url("/noise.png");
           background-size: 100px 100px;
