@@ -233,7 +233,6 @@ const CaseStudyTemplate = ({ data }) => {
   const autoRelatedProjects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
   const relatedProjects = cmsRelatedProjects.length > 0 ? cmsRelatedProjects : autoRelatedProjects
 
-  // Use _rawComponents which includes all object types (including heroSection) as plain JSON
   const components = caseStudy?._rawComponents || []
   const firstComponent = components[0]
   const hasHeroSectionComponent = firstComponent?._type === 'heroSection'
@@ -266,22 +265,25 @@ const CaseStudyTemplate = ({ data }) => {
 
         <div className="main-content">
           <div className="container">
-            <div className="project-intro">
-              <h1 className="project-title">{project.title}</h1>
-              <div className="project-meta-row">
-                <div className="meta-item">
-                  <span className="meta-label">Client:</span>
-                  <span className="meta-value"> {project.client}</span>
+
+            {!hasHeroSectionComponent && (
+              <div className="project-intro">
+                <h1 className="project-title">{project.title}</h1>
+                <div className="project-meta-row">
+                  <div className="meta-item">
+                    <span className="meta-label">Client:</span>
+                    <span className="meta-value"> {project.client}</span>
+                  </div>
+                  <div className="meta-item">
+                    <span className="meta-label">Project type:</span>
+                    <span className="meta-value"> {project.projectType || "UX/UI Design"}</span>
+                  </div>
                 </div>
-                <div className="meta-item">
-                  <span className="meta-label">Project type:</span>
-                  <span className="meta-value"> {project.projectType || "UX/UI Design"}</span>
-                </div>
+                {project.introText && (
+                  <p className="project-intro-text">{project.introText}</p>
+                )}
               </div>
-              {project.introText && (
-                <p className="project-intro-text">{project.introText}</p>
-              )}
-            </div>
+            )}
 
             {components.map((component, index) => {
               if (!component || !component._type) return null
