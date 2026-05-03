@@ -6,7 +6,6 @@ import Seo from "../components/seo"
 
 // Component renderers for different Sanity component types
 const TextBlock = ({ content, type, blockType }) => {
-  // Use type field if available, otherwise fall back to blockType for backward compatibility
   const blockTypeValue = type || blockType || 'bodyText'
 
   const typeClass = {
@@ -15,7 +14,6 @@ const TextBlock = ({ content, type, blockType }) => {
     tag: 'text-tag'
   }[blockTypeValue]
 
-  // Helper function to extract plain text from rich content blocks
   const extractPlainText = (blocks) => {
     if (!blocks || !Array.isArray(blocks)) return ''
     return blocks.map(block =>
@@ -23,7 +21,6 @@ const TextBlock = ({ content, type, blockType }) => {
     ).join('\n\n')
   }
 
-  // Helper function to render rich text with formatting
   const renderRichText = (blocks) => {
     if (!blocks || !Array.isArray(blocks)) return null
 
@@ -72,7 +69,6 @@ const TextBlock = ({ content, type, blockType }) => {
     )
   }
 
-  // Body text with rich content (WYSIWYG editor)
   if (blockTypeValue === 'bodyText') {
     return (
       <div className={typeClass}>
@@ -81,7 +77,6 @@ const TextBlock = ({ content, type, blockType }) => {
     )
   }
 
-  // Fallback
   return (
     <p className={typeClass}>{extractPlainText(content)}</p>
   )
@@ -137,7 +132,7 @@ const ImageComponent = ({ layout, images, imageHeight, enableGaps = true, fullHe
   }
 
   if (layout === 'grid-3' && images?.length === 3) {
-    const fullHeightIndex = (fullHeightImage || 1) - 1; // Convert 1-based to 0-based
+    const fullHeightIndex = (fullHeightImage || 1) - 1;
     return (
       <div className={`image-grid grid-3 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
         {images.map((image, index) => (
@@ -209,7 +204,6 @@ const SectionDivider = ({ tag, title, dividerStyle }) => {
 
 const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, muted, caption }) => {
   try {
-    // Helper function to extract YouTube video ID
     const extractYouTubeId = (url) => {
       const patterns = [
         /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
@@ -224,7 +218,6 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
       return null
     }
 
-    // Check if it's a YouTube URL
     const isYouTube = videoUrl && (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be'))
 
     if (isYouTube) {
@@ -237,14 +230,13 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
         )
       }
 
-      // Build YouTube embed URL with parameters
       const embedParams = new URLSearchParams({
         autoplay: autoplay ? '1' : '0',
         mute: muted ? '1' : '0',
         loop: loop ? '1' : '0',
-        playlist: loop ? videoId : '', // Required for loop to work
-        rel: '0', // Don't show related videos
-        modestbranding: '1' // Minimal YouTube branding
+        playlist: loop ? videoId : '',
+        rel: '0',
+        modestbranding: '1'
       })
 
       const embedUrl = `https://www.youtube.com/embed/${videoId}?${embedParams.toString()}`
@@ -265,7 +257,6 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
       )
     }
 
-    // Handle direct video files
     const videoSrc = videoFile?.asset?.url || videoUrl
 
     if (!videoSrc) {
@@ -276,7 +267,6 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
       )
     }
 
-    // Get poster image if available
     const posterSrc = posterImage?.asset?.gatsbyImageData
       ? getImage(posterImage.asset.gatsbyImageData)?.images?.fallback?.src
       : null
@@ -311,7 +301,7 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
 }
 
 const Spacer = ({ size }) => {
-  const pixelSize = parseInt(size) || 20 // Default to 20px if invalid
+  const pixelSize = parseInt(size) || 20
 
   return <div className="spacer" style={{ height: `${pixelSize}px` }} />
 }
@@ -325,8 +315,6 @@ const CaseStudyTemplate = ({ data }) => {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  // Inject a real <style> tag into <head> to make menu links white on this page only.
-  // Removed on unmount so all other pages stay unaffected.
   React.useEffect(() => {
     const styleEl = document.createElement('style')
     styleEl.id = 'case-study-menu-override'
@@ -341,14 +329,10 @@ const CaseStudyTemplate = ({ data }) => {
     }
   }, [])
 
-  // Get related projects - prefer CMS field, fall back to automatic query
   const cmsRelatedProjects = caseStudy?.relatedProjects || []
   const autoRelatedProjects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
-
-  // Use CMS field if populated, otherwise use automatic selection
   const relatedProjects = cmsRelatedProjects.length > 0 ? cmsRelatedProjects : autoRelatedProjects
 
-  // Detect if a heroSection component exists as the first component
   const firstComponent = caseStudy?.components?.[0]
   const hasHeroSectionComponent = firstComponent?._type === 'heroSection'
 
@@ -367,33 +351,6 @@ const CaseStudyTemplate = ({ data }) => {
   return (
     <Layout>
       <div className="case-study-page">
-
-        {/* ─── case-study-nav (kept for future use) ───────────────────────────
-        <nav className="case-study-nav">
-          <Link to="/" className="logo">
-            <svg width="69" height="21" viewBox="0 0 69 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.97874 1.0038H10.0213V20H4.97874V1.0038Z" fill="#EE550E"/>
-              <path d="M0 6.20068V1H15V6.20068H0Z" fill="#EE550E"/>
-              <path d="M20.5423 5.08242L24.7244 1L40 15.9116L35.8179 19.994L20.5423 5.08242Z" fill="#EE550E"/>
-              <path d="M35.2756 1.00598L39.4577 5.0884L24.1821 20L20 15.9176L35.2756 1.00598Z" fill="#EE550E"/>
-              <path d="M45.0396 3.82042L48.7724 0L59 10.4678L55.2672 14.2882L45.0396 3.82042Z" fill="#EE550E"/>
-              <path d="M55.2276 6.71177L58.9604 10.5322L48.7328 21L45 17.1796L55.2276 6.71177Z" fill="#EE550E"/>
-              <path d="M64 1H69V20H64V1Z" fill="#EE550E"/>
-            </svg>
-          </Link>
-          <button className="menu-icon" onClick={toggleMenu}>
-            {isMenuOpen ? (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 18L18 6M6 6L18 18" stroke="#0000FF" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            ) : (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M3 12H21M3 6H21M3 18H21" stroke="#0000FF" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            )}
-          </button>
-        </nav>
-        ─────────────────────────────────────────────────────────────────────── */}
 
         {/* Show default project hero image only when no HeroSection component is used */}
         {!hasHeroSectionComponent && project.heroImage?.asset?.gatsbyImageData && (
@@ -425,8 +382,9 @@ const CaseStudyTemplate = ({ data }) => {
               )}
             </div>
 
-            {/* Render case study components */}
+            {/* Render case study components — skip null/undefined items */}
             {caseStudy.components?.map((component, index) => {
+              if (!component || !component._type) return null
               switch (component._type) {
                 case 'heroSection':
                   return <HeroSection key={index} {...component} />
@@ -489,56 +447,6 @@ const CaseStudyTemplate = ({ data }) => {
           margin: -100px 0 0 -100px;
           position: relative;
         }
-
-        /* ─── case-study-nav styles (kept for future use) ───────────────────
-        .case-study-nav {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 32px 100px;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 100;
-          background: transparent;
-        }
-
-        .case-study-nav .logo svg {
-          height: 21px;
-          width: auto;
-        }
-
-        .case-study-nav .menu-icon {
-          width: 24px;
-          height: 24px;
-          cursor: pointer;
-          background: none;
-          border: none;
-          padding: 0;
-          position: relative;
-          transition: all 0.3s ease;
-        }
-
-        .case-study-nav .menu-icon::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 0;
-          height: 0;
-          background: var(--white-not-wyt);
-          border-radius: 50%;
-          transform: translate(-50%, -50%);
-          transition: all 0.3s ease;
-          z-index: -1;
-        }
-
-        .case-study-nav .menu-icon:hover::before {
-          width: 48px;
-          height: 48px;
-        }
-        ─────────────────────────────────────────────────────────────────────── */
 
         /* HeroSection Component */
         .hero-section-component {
@@ -706,7 +614,6 @@ const CaseStudyTemplate = ({ data }) => {
           color: var(--white-heavenly);
         }
 
-        /* Text Block Types */
         .text-section-title {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 32.5px;
@@ -739,7 +646,6 @@ const CaseStudyTemplate = ({ data }) => {
           letter-spacing: 0.5px;
         }
 
-        /* Image Grid Styles */
         .image-grid {
           display: grid;
           width: 100%;
@@ -796,7 +702,6 @@ const CaseStudyTemplate = ({ data }) => {
           display: block;
         }
 
-        /* Fixed height for all grids */
         .height-fixed-800 {
           height: 800px;
         }
@@ -811,7 +716,6 @@ const CaseStudyTemplate = ({ data }) => {
           object-fit: cover;
         }
 
-        /* Section Divider Styles */
         .section-divider {
           display: flex;
           flex-direction: column;
@@ -841,7 +745,6 @@ const CaseStudyTemplate = ({ data }) => {
           margin: 0;
         }
 
-        /* Video Component Styles */
         .video-container {
           width: 100%;
           margin: 20px 0;
@@ -855,7 +758,6 @@ const CaseStudyTemplate = ({ data }) => {
           background: #000;
         }
 
-        /* YouTube iframe specific styles */
         .video-player[src*="youtube.com"],
         .video-player[src*="youtu.be"] {
           aspect-ratio: 16 / 9;
@@ -1275,7 +1177,6 @@ export const query = graphql`
         shortDescription
       }
     }
-    # Related projects for side panel - exclude current project and locked projects
     allSanityProject(
       filter: {
         locked: { ne: true }
