@@ -326,8 +326,10 @@ const CaseStudyTemplate = ({ data }) => {
   }
 
   return (
-    <>
+    <Layout>
       <div className="case-study-page">
+
+        {/* ─── case-study-nav (kept for future use) ───────────────────────────
         <nav className="case-study-nav">
           <Link to="/" className="logo">
             <svg width="69" height="21" viewBox="0 0 69 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -352,6 +354,7 @@ const CaseStudyTemplate = ({ data }) => {
             )}
           </button>
         </nav>
+        ─────────────────────────────────────────────────────────────────────── */}
 
         {project.heroImage?.asset?.gatsbyImageData && (
           <div className="hero-image">
@@ -445,6 +448,7 @@ const CaseStudyTemplate = ({ data }) => {
           position: relative;
         }
 
+        /* ─── case-study-nav styles (kept for future use) ───────────────────
         .case-study-nav {
           display: flex;
           justify-content: space-between;
@@ -458,12 +462,12 @@ const CaseStudyTemplate = ({ data }) => {
           background: transparent;
         }
 
-        .logo svg {
+        .case-study-nav .logo svg {
           height: 21px;
           width: auto;
         }
 
-        .menu-icon {
+        .case-study-nav .menu-icon {
           width: 24px;
           height: 24px;
           cursor: pointer;
@@ -474,7 +478,7 @@ const CaseStudyTemplate = ({ data }) => {
           transition: all 0.3s ease;
         }
 
-        .menu-icon::before {
+        .case-study-nav .menu-icon::before {
           content: '';
           position: absolute;
           top: 50%;
@@ -488,10 +492,11 @@ const CaseStudyTemplate = ({ data }) => {
           z-index: -1;
         }
 
-        .menu-icon:hover::before {
+        .case-study-nav .menu-icon:hover::before {
           width: 48px;
           height: 48px;
         }
+        ─────────────────────────────────────────────────────────────────────── */
 
         .hero-image {
           width: 100%;
@@ -791,8 +796,6 @@ const CaseStudyTemplate = ({ data }) => {
           margin-bottom: 106px;
         }
 
-
-
         .panel-projects {
           display: flex;
           flex-direction: column;
@@ -949,8 +952,8 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         @media (max-width: 768px) {
-          .case-study-nav {
-            padding: 32px 20px;
+          .case-study-page {
+            margin: 0;
           }
 
           .project-title {
@@ -970,21 +973,6 @@ const CaseStudyTemplate = ({ data }) => {
             background-blend-mode: normal;
             margin: 0;
             padding: 0;
-          }
-
-          .case-study-nav {
-            display: flex;
-            width: 100%;
-            padding: 30px 20px;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 84px;
-            z-index: 100;
-            background: transparent;
           }
 
           .hero-image {
@@ -1075,7 +1063,7 @@ const CaseStudyTemplate = ({ data }) => {
           }
         }
       `}</style>
-    </>
+    </Layout>
   )
 }
 
