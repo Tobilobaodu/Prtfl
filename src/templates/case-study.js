@@ -9,13 +9,27 @@ import RightActive from "../Assets/SVG/Right_Active.svg"
 import RightDisabled from "../Assets/SVG/Right_Disabled.svg"
 
 const TextBlock = ({ content, type, blockType }) => {
-  const blockTypeValue = type || blockType || 'bodyText'
+  const blockTypeValue = type || blockType || 'type-body-small'
 
   const typeClass = {
+    // Legacy values (kept for backwards compatibility)
     sectionTitle: 'text-section-title',
     bodyText: 'text-body',
+    // New typography styles
+    'type-body-small': 'type-body-small',
+    'type-body-small-semibold': 'type-body-small-semibold',
+    'type-body-small-bold': 'type-body-small-bold',
+    'type-body-xsmall': 'type-body-xsmall',
+    'type-title-xsmall': 'type-title-xsmall',
+    'type-title-small': 'type-title-small',
+    'type-title-medium': 'type-title-medium',
+    'type-title-large': 'type-title-large',
+    'type-display-small': 'type-display-small',
+    'type-display-medium': 'type-display-medium',
+    'type-display-large': 'type-display-large',
+    'type-display-xlarge': 'type-display-xlarge',
     tag: 'text-tag'
-  }[blockTypeValue]
+  }[blockTypeValue] || 'type-body-small'
 
   const extractPlainText = (blocks) => {
     if (!blocks || !Array.isArray(blocks)) return ''
@@ -43,10 +57,16 @@ const TextBlock = ({ content, type, blockType }) => {
     })
   }
 
-  if (blockTypeValue === 'sectionTitle') return <h2 className={typeClass}>{extractPlainText(content)}</h2>
+  // Tag: plain text only
   if (blockTypeValue === 'tag') return <div className={typeClass}>{extractPlainText(content)}</div>
-  if (blockTypeValue === 'bodyText') return <div className={typeClass}>{renderRichText(content)}</div>
-  return <p className={typeClass}>{extractPlainText(content)}</p>
+  // Legacy sectionTitle
+  if (blockTypeValue === 'sectionTitle') return <h2 className={typeClass}>{extractPlainText(content)}</h2>
+  // Display styles: render as h2
+  if (blockTypeValue.startsWith('type-display-')) return <h2 className={typeClass}>{extractPlainText(content)}</h2>
+  // Title styles: render as h3
+  if (blockTypeValue.startsWith('type-title-')) return <h3 className={typeClass}>{extractPlainText(content)}</h3>
+  // Body styles: render rich text
+  return <div className={typeClass}>{renderRichText(content)}</div>
 }
 
 const HeroSection = ({ headline, subtext, heroImage }) => {
@@ -563,6 +583,37 @@ const CaseStudyTemplate = ({ data }) => {
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
+
+        /* ── Typography utility classes (colour: white for dark bg) ── */
+        .type-body-small,
+        .type-body-small-semibold,
+        .type-body-small-bold,
+        .type-body-xsmall,
+        .type-title-xsmall,
+        .type-title-small,
+        .type-title-medium,
+        .type-title-large,
+        .type-display-small,
+        .type-display-medium,
+        .type-display-large,
+        .type-display-xlarge {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          color: var(--white-heavenly);
+          margin: 0;
+        }
+
+        .type-body-small        { font-size: 14px;   line-height: 120%; font-weight: 400; }
+        .type-body-small-semibold { font-size: 14px; line-height: 120%; font-weight: 500; }
+        .type-body-small-bold   { font-size: 14px;   line-height: 120%; font-weight: 700; }
+        .type-body-xsmall       { font-size: 12px;   line-height: 120%; font-weight: 700; }
+        .type-title-xsmall      { font-size: 18px;   line-height: 95%;  font-weight: 700; }
+        .type-title-small       { font-size: 20px;   line-height: 95%;  font-weight: 700; }
+        .type-title-medium      { font-size: 25px;   line-height: 130%; font-weight: 700; }
+        .type-title-large       { font-size: 28px;   line-height: 95%;  font-weight: 700; }
+        .type-display-small     { font-size: 32.5px; line-height: 95%;  font-weight: 700; }
+        .type-display-medium    { font-size: 45px;   line-height: 100%; font-weight: 700; }
+        .type-display-large     { font-size: 65px;   line-height: 100%; font-weight: 700; }
+        .type-display-xlarge    { font-size: 80px;   line-height: 90%;  font-weight: 500; }
 
         .image-grid {
           display: grid;
