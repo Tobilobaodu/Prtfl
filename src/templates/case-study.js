@@ -234,32 +234,25 @@ const SliderComponent = ({ slides }) => {
           loading="lazy"
         />
       )}
-      <div className="slider-stats-bar">
-        <div className="slider-stats">
-          {slide?.statLeft && <span className="slider-stat">{slide.statLeft}</span>}
-          {slide?.statLeft && slide?.statRight && <div className="slider-stat-divider" />}
-          {slide?.statRight && <span className="slider-stat">{slide.statRight}</span>}
+      <div className="slider-controls-bar">
+        <button onClick={prev} disabled={isFirst} aria-label="Previous slide" className="slider-arrow-btn">
+          <img src={isFirst ? LeftDisabled : LeftActive} alt="Previous slide" width="25" height="25" />
+        </button>
+        <div className="slider-dots" role="tablist">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              role="tab"
+              aria-selected={i === current}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`slider-dot ${i === current ? 'active' : ''}`}
+              onClick={() => setCurrent(i)}
+            />
+          ))}
         </div>
-        <div className="slider-controls">
-          <button onClick={prev} disabled={isFirst} aria-label="Previous slide" className="slider-arrow-btn">
-            <img src={isFirst ? LeftDisabled : LeftActive} alt="Previous slide" width="25" height="25" />
-          </button>
-          <div className="slider-dots" role="tablist">
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                role="tab"
-                aria-selected={i === current}
-                aria-label={`Go to slide ${i + 1}`}
-                className={`slider-dot ${i === current ? 'active' : ''}`}
-                onClick={() => setCurrent(i)}
-              />
-            ))}
-          </div>
-          <button onClick={next} disabled={isLast} aria-label="Next slide" className="slider-arrow-btn">
-            <img src={isLast ? RightDisabled : RightActive} alt="Next slide" width="25" height="25" />
-          </button>
-        </div>
+        <button onClick={next} disabled={isLast} aria-label="Next slide" className="slider-arrow-btn">
+          <img src={isLast ? RightDisabled : RightActive} alt="Next slide" width="25" height="25" />
+        </button>
       </div>
     </div>
   )
@@ -662,10 +655,13 @@ const CaseStudyTemplate = ({ data }) => {
 
         /* ── Slider Component ── */
         .slider-component {
-          width: calc(100% + 200px);
-          margin-left: -100px;
+          width: calc(100% + 300px);
+          margin-left: -150px;
           background: #F0EBE0;
           overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
         }
 
         .slider-image {
@@ -675,43 +671,12 @@ const CaseStudyTemplate = ({ data }) => {
           object-fit: cover;
         }
 
-        .slider-stats-bar {
+        .slider-controls-bar {
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          padding: 20px 100px;
-          gap: 24px;
-        }
-
-        .slider-stats {
-          display: flex;
-          align-items: center;
-          flex: 1;
-          gap: 0;
-        }
-
-        .slider-stat {
-          flex: 1;
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 18px;
-          font-weight: 600;
-          color: #1a1a1a;
-          line-height: 120%;
-        }
-
-        .slider-stat-divider {
-          width: 1px;
-          height: 36px;
-          background: rgba(0, 0, 0, 0.15);
-          flex-shrink: 0;
-          margin: 0 40px;
-        }
-
-        .slider-controls {
-          display: flex;
-          align-items: center;
+          justify-content: center;
           gap: 10px;
-          flex-shrink: 0;
+          padding: 0 0 20px;
         }
 
         .slider-arrow-btn {
@@ -757,24 +722,12 @@ const CaseStudyTemplate = ({ data }) => {
             width: 100%;
             margin-left: 0;
           }
-          .slider-stats-bar {
-            padding: 20px 20px;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 16px;
-          }
-          .slider-controls {
-            align-self: flex-end;
-          }
         }
 
         @media (max-width: 480px) {
           .slider-component {
             width: calc(100% + 78px);
             margin-left: -39px;
-          }
-          .slider-stats-bar {
-            padding: 20px 39px;
           }
         }
 
