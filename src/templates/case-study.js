@@ -657,7 +657,6 @@ const CaseStudyTemplate = ({ data }) => {
         .slider-component {
           width: calc(100% + 300px);
           margin-left: -150px;
-          background: #F0EBE0;
           overflow: hidden;
           display: flex;
           flex-direction: column;
@@ -700,10 +699,10 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         .slider-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: rgba(0, 0, 0, 0.2);
+          width: 10px;
+          height: 3px;
+          border-radius: 1.7px;
+          background: white;
           border: none;
           cursor: pointer;
           padding: 0;
