@@ -3,6 +3,10 @@ import { Link, graphql } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import LeftActive from "../Assets/SVG/Left_Active.svg"
+import LeftDisabled from "../Assets/SVG/Left_Disabled.svg"
+import RightActive from "../Assets/SVG/Right_Active.svg"
+import RightDisabled from "../Assets/SVG/Right_Disabled.svg"
 
 const TextBlock = ({ content, type, blockType }) => {
   const blockTypeValue = type || blockType || 'bodyText'
@@ -208,21 +212,6 @@ const Spacer = ({ size }) => {
   return <div className="spacer" style={{ height: `${pixelSize}px` }} />
 }
 
-// Arrow SVGs
-const ArrowLeft = ({ inactive }) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="20" cy="20" r="19.5" stroke={inactive ? '#BBBBBB' : '#FFFFFF'} />
-    <path d="M22 14L16 20L22 26" stroke={inactive ? '#BBBBBB' : '#FFFFFF'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
-
-const ArrowRight = ({ inactive }) => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="20" cy="20" r="19.5" stroke={inactive ? '#BBBBBB' : '#EE550E'} />
-    <path d="M18 14L24 20L18 26" stroke={inactive ? '#BBBBBB' : '#EE550E'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
-
 const SliderComponent = ({ slides }) => {
   const [current, setCurrent] = React.useState(0)
   if (!slides?.length) return null
@@ -253,7 +242,7 @@ const SliderComponent = ({ slides }) => {
         </div>
         <div className="slider-controls">
           <button onClick={prev} disabled={isFirst} aria-label="Previous slide" className="slider-arrow-btn">
-            <ArrowLeft inactive={isFirst} />
+            <img src={isFirst ? LeftDisabled : LeftActive} alt="Previous slide" width="40" height="40" />
           </button>
           <div className="slider-dots" role="tablist">
             {slides.map((_, i) => (
@@ -268,7 +257,7 @@ const SliderComponent = ({ slides }) => {
             ))}
           </div>
           <button onClick={next} disabled={isLast} aria-label="Next slide" className="slider-arrow-btn">
-            <ArrowRight inactive={isLast} />
+            <img src={isLast ? RightDisabled : RightActive} alt="Next slide" width="40" height="40" />
           </button>
         </div>
       </div>
