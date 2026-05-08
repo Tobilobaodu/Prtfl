@@ -118,6 +118,60 @@
   --black-nue-black: #232020;
   --yellow: #FBBF24;
   --socials-margin-top: 40px;
+
+  /* ── Typography tokens ── */
+  --font-nhd: 'Neue Haas Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica', sans-serif;
+
+  /* Body */
+  --type-body-small-size: 14px;
+  --type-body-small-line-height: 120%;
+  --type-body-small-weight: 400;           /* 55 Roman */
+
+  --type-body-small-semibold-size: 14px;
+  --type-body-small-semibold-line-height: 120%;
+  --type-body-small-semibold-weight: 500;  /* 65 Medium */
+
+  --type-body-small-bold-size: 14px;
+  --type-body-small-bold-line-height: 120%;
+  --type-body-small-bold-weight: 700;      /* 75 Bold */
+
+  --type-body-xsmall-size: 12px;
+  --type-body-xsmall-line-height: 120%;
+  --type-body-xsmall-weight: 700;          /* 75 Bold */
+
+  /* Title */
+  --type-title-xsmall-size: 18px;
+  --type-title-xsmall-line-height: 95%;
+  --type-title-xsmall-weight: 700;
+
+  --type-title-small-size: 20px;
+  --type-title-small-line-height: 95%;
+  --type-title-small-weight: 700;
+
+  --type-title-medium-size: 25px;
+  --type-title-medium-line-height: 130%;
+  --type-title-medium-weight: 700;
+
+  --type-title-large-size: 28px;
+  --type-title-large-line-height: 95%;
+  --type-title-large-weight: 700;
+
+  /* Display */
+  --type-display-small-size: 32.5px;
+  --type-display-small-line-height: 95%;
+  --type-display-small-weight: 700;
+
+  --type-display-medium-size: 45px;
+  --type-display-medium-line-height: 100%;
+  --type-display-medium-weight: 700;
+
+  --type-display-large-size: 65px;
+  --type-display-large-line-height: 100%;
+  --type-display-large-weight: 700;
+
+  --type-display-xlarge-size: 80px;
+  --type-display-xlarge-line-height: 90%;
+  --type-display-xlarge-weight: 500;       /* 65 Medium */
 }
 
 * {
@@ -136,7 +190,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   color: var(--black-pitch-nah);
-  font-family: 'Neue Haas Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica', sans-serif;
+  font-family: var(--font-nhd);
   font-weight: 400;
   margin: 100px 0 0 100px;
   background: var(--white-not-wyt) url("/noise.png");
@@ -184,6 +238,106 @@ button {
   cursor: pointer;
   border: none;
   background: none;
+}
+
+/* ════════════════════════════════════════
+   Typography Utility Classes
+   ════════════════════════════════════════ */
+
+/* Body — Small */
+.type-body-small {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-small-size);
+  line-height: var(--type-body-small-line-height);
+  font-weight: var(--type-body-small-weight);
+}
+
+/* Body — Small Semibold */
+.type-body-small-semibold {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-small-semibold-size);
+  line-height: var(--type-body-small-semibold-line-height);
+  font-weight: var(--type-body-small-semibold-weight);
+}
+
+/* Body — Small Bold */
+.type-body-small-bold {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-small-bold-size);
+  line-height: var(--type-body-small-bold-line-height);
+  font-weight: var(--type-body-small-bold-weight);
+}
+
+/* Body — XSmall */
+.type-body-xsmall {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-xsmall-size);
+  line-height: var(--type-body-xsmall-line-height);
+  font-weight: var(--type-body-xsmall-weight);
+}
+
+/* Title — XSmall */
+.type-title-xsmall {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-xsmall-size);
+  line-height: var(--type-title-xsmall-line-height);
+  font-weight: var(--type-title-xsmall-weight);
+}
+
+/* Title — Small */
+.type-title-small {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-small-size);
+  line-height: var(--type-title-small-line-height);
+  font-weight: var(--type-title-small-weight);
+}
+
+/* Title — Medium */
+.type-title-medium {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-medium-size);
+  line-height: var(--type-title-medium-line-height);
+  font-weight: var(--type-title-medium-weight);
+}
+
+/* Title — Large */
+.type-title-large {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-large-size);
+  line-height: var(--type-title-large-line-height);
+  font-weight: var(--type-title-large-weight);
+}
+
+/* Display — Small */
+.type-display-small {
+  font-family: var(--font-nhd);
+  font-size: var(--type-display-small-size);
+  line-height: var(--type-display-small-line-height);
+  font-weight: var(--type-display-small-weight);
+}
+
+/* Display — Medium */
+.type-display-medium {
+  font-family: var(--font-nhd);
+  font-size: var(--type-display-medium-size);
+  line-height: var(--type-display-medium-line-height);
+  font-weight: var(--type-display-medium-weight);
+}
+
+/* Display — Large */
+.type-display-large {
+  font-family: var(--font-nhd);
+  font-size: var(--type-display-large-size);
+  line-height: var(--type-display-large-line-height);
+  font-weight: var(--type-display-large-weight);
+}
+
+/* Display — XLarge */
+.type-display-xlarge {
+  font-family: var(--font-nhd);
+  font-size: var(--type-display-xlarge-size);
+  line-height: var(--type-display-xlarge-line-height);
+  font-weight: var(--type-display-xlarge-weight);
 }
 
 @media (max-width: 768px) {
