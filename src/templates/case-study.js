@@ -242,7 +242,7 @@ const SliderComponent = ({ slides }) => {
         </div>
         <div className="slider-controls">
           <button onClick={prev} disabled={isFirst} aria-label="Previous slide" className="slider-arrow-btn">
-            <img src={isFirst ? LeftDisabled : LeftActive} alt="Previous slide" width="40" height="40" />
+            <img src={isFirst ? LeftDisabled : LeftActive} alt="Previous slide" width="25" height="25" />
           </button>
           <div className="slider-dots" role="tablist">
             {slides.map((_, i) => (
@@ -257,7 +257,7 @@ const SliderComponent = ({ slides }) => {
             ))}
           </div>
           <button onClick={next} disabled={isLast} aria-label="Next slide" className="slider-arrow-btn">
-            <img src={isLast ? RightDisabled : RightActive} alt="Next slide" width="40" height="40" />
+            <img src={isLast ? RightDisabled : RightActive} alt="Next slide" width="25" height="25" />
           </button>
         </div>
       </div>
