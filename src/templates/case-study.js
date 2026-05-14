@@ -418,7 +418,7 @@ const CaseStudyTemplate = ({ data }) => {
           background-size: 100px 100px;
           background-blend-mode: normal;
           min-height: 100vh;
-          margin-top: -100px;
+          margin: -100px 0 0 -100px;
           position: relative;
         }
 
@@ -505,7 +505,7 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         .container {
-          max-width: 1155px;
+          max-width: 1029px;
           margin: 0 auto;
           display: flex;
           flex-direction: column;
