@@ -505,7 +505,7 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         .container {
-          max-width: 1029px;
+          max-width: 1155px;
           margin: 0 auto;
           display: flex;
           flex-direction: column;
