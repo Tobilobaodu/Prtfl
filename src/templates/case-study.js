@@ -706,8 +706,8 @@ const CaseStudyTemplate = ({ data }) => {
 
         /* ── Slider Component ── */
         .slider-component {
-          width: calc(100% + 300px);
-          margin-left: -150px;
+          width: 100%;
+          margin-left: 0;
           overflow: hidden;
           display: flex;
           flex-direction: column;
