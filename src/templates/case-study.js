@@ -418,7 +418,7 @@ const CaseStudyTemplate = ({ data }) => {
           background-size: 100px 100px;
           background-blend-mode: normal;
           min-height: 100vh;
-          margin: -100px 0 0 -100px;
+          margin-top: -100px;
           position: relative;
         }
 
