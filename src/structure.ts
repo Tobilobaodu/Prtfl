@@ -91,6 +91,9 @@ export const structure = (S: StructureBuilder) =>
                 .title('Video Components')
                 .schemaType('videoComponent'),
               S.listItem()
+                .title('Icon Heading Blocks')
+                .schemaType('iconHeadingBlock'),
+              S.listItem()
                 .title('Spacers')
                 .schemaType('spacer'),
               S.listItem()
