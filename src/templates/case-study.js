@@ -12,10 +12,8 @@ const TextBlock = ({ content, type, blockType }) => {
   const blockTypeValue = type || blockType || 'type-body-small'
 
   const typeClass = {
-    // Legacy values (kept for backwards compatibility)
     sectionTitle: 'text-section-title',
     bodyText: 'text-body',
-    // New typography styles
     'type-body-small': 'type-body-small',
     'type-body-small-semibold': 'type-body-small-semibold',
     'type-body-small-bold': 'type-body-small-bold',
@@ -294,72 +292,103 @@ const SliderComponent = ({ slides }) => {
   )
 }
 
-const CaseStudyFooter = ({ relatedProjects }) => (
-  <footer className="cs-footer">
-    {/* More projects */}
-    <div className="cs-footer-projects">
-      <h3 className="cs-footer-projects-title">More projects</h3>
-      <div className="cs-footer-projects-list">
-        {relatedProjects.map((project, index) => (
-          <Link
-            key={index}
-            to={`/case-study/${project.slug?.current || ''}`}
-            className="cs-footer-project-link"
-          >
-            <div className="cs-footer-project-row">
-              <span className="cs-footer-project-name">{project.title}</span>
-              <div className="cs-footer-project-meta">
-                <span className="cs-footer-project-client">{project.client}</span>
-                <span className="cs-footer-project-year">{project.year}</span>
-              </div>
-            </div>
-            <div className="cs-footer-divider" />
-          </Link>
-        ))}
-      </div>
-    </div>
+// Shared arrow-out icon used by all social links
+const ArrowOutIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 2V14H14V8H12.6667V12.6667H3.33333V3.33333H8V2H2ZM9.33333 2V3.33333H11.724L5.52865 9.52865L6.47135 10.4714L12.6667 4.27604V6.66667H14V2H9.33333Z" fill="currentColor"/>
+  </svg>
+)
 
-    {/* Bottom bar */}
-    <div className="cs-footer-bottom">
-      <div className="cs-footer-bottom-left">
-        {/* Logo */}
-        <svg width="69" height="21" viewBox="0 0 69 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="TXDI logo">
-          <path d="M4.97874 1.0038H10.0213V20H4.97874V1.0038Z" fill="#EE550E"/>
-          <path d="M0 6.20068V1H15V6.20068H0Z" fill="#EE550E"/>
-          <path d="M20.5423 5.08242L24.7244 1L40 15.9116L35.8179 19.994L20.5423 5.08242Z" fill="#EE550E"/>
-          <path d="M35.2756 1.00598L39.4577 5.0884L24.1821 20L20 15.9176L35.2756 1.00598Z" fill="#EE550E"/>
-          <path d="M45.0396 3.82042L48.7724 0L59 10.4678L55.2672 14.2882L45.0396 3.82042Z" fill="#EE550E"/>
-          <path d="M55.2276 6.71177L58.9604 10.5322L48.7328 21L45 17.1796L55.2276 6.71177Z" fill="#EE550E"/>
-          <path d="M64 1H69V20H64V1Z" fill="#EE550E"/>
-        </svg>
-        <span className="cs-footer-location">Lagos. London. Wherever.</span>
-        {/* Socials */}
-        <div className="cs-footer-socials">
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="cs-footer-social-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <rect x="2" y="9" width="4" height="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X" className="cs-footer-social-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 4l16 16M4 20L20 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="cs-footer-social-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="2"/>
-              <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
-            </svg>
-          </a>
+// Copy icon used for the Email button
+const CopyIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_2822_1218)">
+      <path d="M10.6667 0.666992H1.33337V11.3337H2.66671V2.00033H10.6667V0.666992ZM14 3.33366H4.00004V15.3337H14V3.33366ZM12.6667 14.0003H5.33337V4.66699H12.6667V14.0003Z" fill="currentColor"/>
+    </g>
+    <defs>
+      <clipPath id="clip0_2822_1218">
+        <rect width="16" height="16" fill="white"/>
+      </clipPath>
+    </defs>
+  </svg>
+)
+
+const CaseStudyFooter = ({ relatedProjects }) => {
+  const [copied, setCopied] = React.useState(false)
+
+  const handleEmailCopy = () => {
+    navigator.clipboard.writeText('tobilobaodu@gmail.com').then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  return (
+    <footer className="cs-footer">
+      {/* More projects */}
+      <div className="cs-footer-projects">
+        <h3 className="cs-footer-projects-title">More projects</h3>
+        <div className="cs-footer-projects-list">
+          {relatedProjects.map((project, index) => (
+            <Link
+              key={index}
+              to={`/case-study/${project.slug?.current || ''}`}
+              className="cs-footer-project-link"
+            >
+              <div className="cs-footer-project-row">
+                <span className="cs-footer-project-name">{project.title}</span>
+                <div className="cs-footer-project-meta">
+                  <span className="cs-footer-project-client">{project.client}</span>
+                  <span className="cs-footer-project-year">{project.year}</span>
+                </div>
+              </div>
+              <div className="cs-footer-divider" />
+            </Link>
+          ))}
         </div>
       </div>
-      <span className="cs-footer-copyright">© {new Date().getFullYear()} TXDI. All rights reserved.</span>
-    </div>
-  </footer>
-)
+
+      {/* Bottom bar */}
+      <div className="cs-footer-bottom">
+        <div className="cs-footer-bottom-left">
+          {/* Logo */}
+          <svg width="69" height="21" viewBox="0 0 69 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="TXDI logo">
+            <path d="M4.97874 1.0038H10.0213V20H4.97874V1.0038Z" fill="#EE550E"/>
+            <path d="M0 6.20068V1H15V6.20068H0Z" fill="#EE550E"/>
+            <path d="M20.5423 5.08242L24.7244 1L40 15.9116L35.8179 19.994L20.5423 5.08242Z" fill="#EE550E"/>
+            <path d="M35.2756 1.00598L39.4577 5.0884L24.1821 20L20 15.9176L35.2756 1.00598Z" fill="#EE550E"/>
+            <path d="M45.0396 3.82042L48.7724 0L59 10.4678L55.2672 14.2882L45.0396 3.82042Z" fill="#EE550E"/>
+            <path d="M55.2276 6.71177L58.9604 10.5322L48.7328 21L45 17.1796L55.2276 6.71177Z" fill="#EE550E"/>
+            <path d="M64 1H69V20H64V1Z" fill="#EE550E"/>
+          </svg>
+          <span className="cs-footer-location">Lagos. London. Wherever.</span>
+        </div>
+
+        {/* Socials — matching index.js pattern */}
+        <div className="social-links">
+          <button className="social-link email-copy-btn" onClick={handleEmailCopy}>
+            <span>{copied ? 'Copied!' : 'Email'}</span>
+            <CopyIcon />
+          </button>
+          <a href="https://www.behance.net/tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
+            <span>Behance</span>
+            <ArrowOutIcon />
+          </a>
+          <a href="https://dribbble.com/tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
+            <span>Dribbble</span>
+            <ArrowOutIcon />
+          </a>
+          <a href="https://github.com/Tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
+            <span>Github</span>
+            <ArrowOutIcon />
+          </a>
+        </div>
+
+        <span className="cs-footer-copyright">© {new Date().getFullYear()} TXDI. All rights reserved.</span>
+      </div>
+    </footer>
+  )
+}
 
 const CaseStudyTemplate = ({ data }) => {
   const caseStudy = data?.sanityCaseStudy
@@ -884,7 +913,6 @@ const CaseStudyTemplate = ({ data }) => {
           padding: 0 100px 60px;
         }
 
-        /* More projects */
         .cs-footer-projects {
           padding: 60px 0 40px;
         }
@@ -978,20 +1006,31 @@ const CaseStudyTemplate = ({ data }) => {
           color: var(--grey-misty);
         }
 
-        .cs-footer-socials {
+        /* Social links — matching index.js */
+        .social-links {
           display: flex;
           align-items: center;
-          gap: 14px;
+          gap: 16px;
         }
 
-        .cs-footer-social-link {
-          color: var(--grey-misty);
+        .social-link {
           display: flex;
           align-items: center;
+          gap: 4px;
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 120%;
+          color: var(--grey-misty);
+          text-decoration: none;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0;
           transition: color 0.2s ease;
         }
 
-        .cs-footer-social-link:hover { color: #ffffff; }
+        .social-link:hover { color: #ffffff; }
 
         .cs-footer-copyright {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
@@ -1059,7 +1098,8 @@ const CaseStudyTemplate = ({ data }) => {
             color: #FFF;
           }
           .cs-footer { padding: 0 39px 60px; }
-          .cs-footer-bottom-left { flex-wrap: wrap; gap: 14px; }
+          .cs-footer-bottom { flex-wrap: wrap; gap: 16px; }
+          .social-links { flex-wrap: wrap; gap: 12px; }
         }
       `}</style>
     </Layout>
