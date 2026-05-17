@@ -302,7 +302,7 @@ const ArrowOutIcon = () => (
 // Copy icon used for the Email button
 const CopyIcon = () => (
   <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#clip0_2822_1218)">
+    <g clipPath="url(#clip0_2822_1218)">
       <path d="M10.6667 0.666992H1.33337V11.3337H2.66671V2.00033H10.6667V0.666992ZM14 3.33366H4.00004V15.3337H14V3.33366ZM12.6667 14.0003H5.33337V4.66699H12.6667V14.0003Z" fill="currentColor"/>
     </g>
     <defs>
@@ -350,21 +350,6 @@ const CaseStudyFooter = ({ relatedProjects }) => {
 
       {/* Bottom bar */}
       <div className="cs-footer-bottom">
-        <div className="cs-footer-bottom-left">
-          {/* Logo */}
-          <svg width="69" height="21" viewBox="0 0 69 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="TXDI logo">
-            <path d="M4.97874 1.0038H10.0213V20H4.97874V1.0038Z" fill="#EE550E"/>
-            <path d="M0 6.20068V1H15V6.20068H0Z" fill="#EE550E"/>
-            <path d="M20.5423 5.08242L24.7244 1L40 15.9116L35.8179 19.994L20.5423 5.08242Z" fill="#EE550E"/>
-            <path d="M35.2756 1.00598L39.4577 5.0884L24.1821 20L20 15.9176L35.2756 1.00598Z" fill="#EE550E"/>
-            <path d="M45.0396 3.82042L48.7724 0L59 10.4678L55.2672 14.2882L45.0396 3.82042Z" fill="#EE550E"/>
-            <path d="M55.2276 6.71177L58.9604 10.5322L48.7328 21L45 17.1796L55.2276 6.71177Z" fill="#EE550E"/>
-            <path d="M64 1H69V20H64V1Z" fill="#EE550E"/>
-          </svg>
-          <span className="cs-footer-location">Lagos. London. Wherever.</span>
-        </div>
-
-        {/* Socials — matching index.js pattern */}
         <div className="social-links">
           <button className="social-link email-copy-btn" onClick={handleEmailCopy}>
             <span>{copied ? 'Copied!' : 'Email'}</span>
@@ -383,8 +368,7 @@ const CaseStudyFooter = ({ relatedProjects }) => {
             <ArrowOutIcon />
           </a>
         </div>
-
-        <span className="cs-footer-copyright">© {new Date().getFullYear()} TXDI. All rights reserved.</span>
+        <span>© 2026 TXDI. All rights reserved.</span>
       </div>
     </footer>
   )
@@ -991,22 +975,7 @@ const CaseStudyTemplate = ({ data }) => {
           border-top: 0.5px solid rgba(236, 240, 241, 0.2);
         }
 
-        .cs-footer-bottom-left {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-        }
-
-        .cs-footer-location {
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 120%;
-          letter-spacing: 0.42px;
-          color: var(--grey-misty);
-        }
-
-        /* Social links — matching index.js */
+        /* Social links */
         .social-links {
           display: flex;
           align-items: center;
@@ -1032,7 +1001,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .social-link:hover { color: #ffffff; }
 
-        .cs-footer-copyright {
+        .cs-footer-bottom > span {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 12px;
           font-weight: 400;
