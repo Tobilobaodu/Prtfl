@@ -27,6 +27,7 @@ export default defineType({
         { type: 'imageComponent' },
         { type: 'videoComponent' },
         { type: 'sliderComponent' },
+        { type: 'iconHeadingBlock' },
         { type: 'spacer' },
         { type: 'sectionDivider' },
       ],
