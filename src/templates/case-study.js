@@ -57,15 +57,10 @@ const TextBlock = ({ content, type, blockType }) => {
     })
   }
 
-  // Tag: plain text only
   if (blockTypeValue === 'tag') return <div className={typeClass}>{extractPlainText(content)}</div>
-  // Legacy sectionTitle
   if (blockTypeValue === 'sectionTitle') return <h2 className={typeClass}>{extractPlainText(content)}</h2>
-  // Display styles: render as h2
   if (blockTypeValue.startsWith('type-display-')) return <h2 className={typeClass}>{extractPlainText(content)}</h2>
-  // Title styles: render as h3
   if (blockTypeValue.startsWith('type-title-')) return <h3 className={typeClass}>{extractPlainText(content)}</h3>
-  // Body styles: render rich text
   return <div className={typeClass}>{renderRichText(content)}</div>
 }
 
@@ -299,12 +294,76 @@ const SliderComponent = ({ slides }) => {
   )
 }
 
+const CaseStudyFooter = ({ relatedProjects }) => (
+  <footer className="cs-footer">
+    {/* More projects */}
+    <div className="cs-footer-projects">
+      <h3 className="cs-footer-projects-title">More projects</h3>
+      <div className="cs-footer-projects-list">
+        {relatedProjects.map((project, index) => (
+          <Link
+            key={index}
+            to={`/case-study/${project.slug?.current || ''}`}
+            className="cs-footer-project-link"
+          >
+            <div className="cs-footer-project-row">
+              <span className="cs-footer-project-name">{project.title}</span>
+              <div className="cs-footer-project-meta">
+                <span className="cs-footer-project-client">{project.client}</span>
+                <span className="cs-footer-project-year">{project.year}</span>
+              </div>
+            </div>
+            <div className="cs-footer-divider" />
+          </Link>
+        ))}
+      </div>
+    </div>
+
+    {/* Bottom bar */}
+    <div className="cs-footer-bottom">
+      <div className="cs-footer-bottom-left">
+        {/* Logo */}
+        <svg width="69" height="21" viewBox="0 0 69 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="TXDI logo">
+          <path d="M4.97874 1.0038H10.0213V20H4.97874V1.0038Z" fill="#EE550E"/>
+          <path d="M0 6.20068V1H15V6.20068H0Z" fill="#EE550E"/>
+          <path d="M20.5423 5.08242L24.7244 1L40 15.9116L35.8179 19.994L20.5423 5.08242Z" fill="#EE550E"/>
+          <path d="M35.2756 1.00598L39.4577 5.0884L24.1821 20L20 15.9176L35.2756 1.00598Z" fill="#EE550E"/>
+          <path d="M45.0396 3.82042L48.7724 0L59 10.4678L55.2672 14.2882L45.0396 3.82042Z" fill="#EE550E"/>
+          <path d="M55.2276 6.71177L58.9604 10.5322L48.7328 21L45 17.1796L55.2276 6.71177Z" fill="#EE550E"/>
+          <path d="M64 1H69V20H64V1Z" fill="#EE550E"/>
+        </svg>
+        <span className="cs-footer-location">Lagos. London. Wherever.</span>
+        {/* Socials */}
+        <div className="cs-footer-socials">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="cs-footer-social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <rect x="2" y="9" width="4" height="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X" className="cs-footer-social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 4l16 16M4 20L20 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="cs-footer-social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="2"/>
+              <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <span className="cs-footer-copyright">© {new Date().getFullYear()} TXDI. All rights reserved.</span>
+    </div>
+  </footer>
+)
+
 const CaseStudyTemplate = ({ data }) => {
   const caseStudy = data?.sanityCaseStudy
   const project = caseStudy?.project
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
   React.useEffect(() => {
     const styleEl = document.createElement('style')
@@ -406,33 +465,7 @@ const CaseStudyTemplate = ({ data }) => {
           </div>
         </div>
 
-        <div className={`side-panel ${isMenuOpen ? 'open' : ''}`}>
-          <h3 className="panel-title">more projects</h3>
-          <div className="panel-projects">
-            {relatedProjects.map((project, index) => (
-              <Link key={index} to={`/case-study/${project.slug?.current || ''}`} className="panel-project-link">
-                <div className="panel-project">
-                  <div className="panel-project-row">
-                    <div className="panel-project-name">{project.title}</div>
-                    <div className="panel-project-meta">
-                      <span className="panel-brand">{project.client}</span>
-                      <span className="panel-year">{project.year}</span>
-                    </div>
-                  </div>
-                  <div className="panel-divider"></div>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <button className="back-button" onClick={() => window.history.back()}>
-            <span className="back-button-bg-orange"></span>
-            <span className="back-button-bg-black"></span>
-            <span className="back-button-content">
-              <span className="back-arrow">←</span>
-              <span className="back-text">Go back</span>
-            </span>
-          </button>
-        </div>
+        <CaseStudyFooter relatedProjects={relatedProjects} />
       </div>
 
       <style jsx="true">{`
@@ -607,7 +640,7 @@ const CaseStudyTemplate = ({ data }) => {
           letter-spacing: 0.5px;
         }
 
-        /* ── Typography utility classes (colour: white for dark bg) ── */
+        /* ── Typography utility classes ── */
         .type-body-small,
         .type-body-small-semibold,
         .type-body-small-bold,
@@ -808,9 +841,7 @@ const CaseStudyTemplate = ({ data }) => {
           transition: opacity 0.2s ease;
         }
 
-        .slider-arrow-btn:disabled {
-          cursor: default;
-        }
+        .slider-arrow-btn:disabled { cursor: default; }
 
         .slider-dots {
           display: flex;
@@ -837,10 +868,7 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         @media (max-width: 768px) {
-          .slider-component {
-            width: 100%;
-            margin-left: 0;
-          }
+          .slider-component { width: 100%; margin-left: 0; }
         }
 
         @media (max-width: 480px) {
@@ -850,48 +878,98 @@ const CaseStudyTemplate = ({ data }) => {
           }
         }
 
-        .side-panel {
-          position: fixed;
-          right: -607px;
-          top: 0;
-          width: 607px;
-          height: 100vh;
-          background: var(--black-nue-ish-black);
-          padding: 116px 109px 0;
-          transition: right 0.3s ease-in-out;
-          z-index: 50;
+        /* ── Case Study Footer ── */
+        .cs-footer {
+          width: 100%;
+          padding: 0 100px 60px;
         }
 
-        .side-panel.open { right: 0; }
+        /* More projects */
+        .cs-footer-projects {
+          padding: 60px 0 40px;
+        }
 
-        .panel-title {
+        .cs-footer-projects-title {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 33px;
-          font-weight: 700;
-          line-height: 95%;
-          color: var(--grey-just);
-          margin-bottom: 106px;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 120%;
+          letter-spacing: 0.42px;
+          color: var(--grey-misty);
+          text-transform: uppercase;
+          margin: 0 0 24px;
         }
 
-        .panel-projects { display: flex; flex-direction: column; gap: 10px; }
+        .cs-footer-projects-list {
+          display: flex;
+          flex-direction: column;
+        }
 
-        .panel-project-row {
+        .cs-footer-project-link {
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          transition: all 0.2s ease;
+        }
+
+        .cs-footer-project-row {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          padding: 14px 0;
         }
 
-        .panel-project-name {
+        .cs-footer-project-name {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 14px;
           font-weight: 600;
           line-height: 120%;
-          color: var(--white-not-wyt);
+          color: var(--white-not-wyt, #f9f9f8);
+          transition: color 0.2s ease;
         }
 
-        .panel-project-meta { display: flex; gap: 5px; }
+        .cs-footer-project-meta {
+          display: flex;
+          gap: 12px;
+        }
 
-        .panel-brand, .panel-year {
+        .cs-footer-project-client,
+        .cs-footer-project-year {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 120%;
+          letter-spacing: 0.42px;
+          color: var(--grey-misty);
+          transition: color 0.2s ease;
+        }
+
+        .cs-footer-project-link:hover .cs-footer-project-name { color: #EE550E; }
+        .cs-footer-project-link:hover .cs-footer-project-client,
+        .cs-footer-project-link:hover .cs-footer-project-year { color: #ffffff; }
+
+        .cs-footer-divider {
+          width: 100%;
+          height: 0;
+          border-top: 0.5px solid rgba(236, 240, 241, 0.2);
+        }
+
+        /* Bottom bar */
+        .cs-footer-bottom {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 32px;
+          border-top: 0.5px solid rgba(236, 240, 241, 0.2);
+        }
+
+        .cs-footer-bottom-left {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .cs-footer-location {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 14px;
           font-weight: 400;
@@ -900,99 +978,34 @@ const CaseStudyTemplate = ({ data }) => {
           color: var(--grey-misty);
         }
 
-        .panel-divider {
-          width: 100%;
-          height: 0;
-          opacity: 0.5;
-          border-top: 0.5px solid rgba(236, 240, 241, 0.5);
-          margin-top: 10px;
-        }
-
-        .panel-project-link {
-          text-decoration: none;
-          color: inherit;
-          display: block;
-          transition: all 0.3s ease;
-        }
-
-        .panel-project-link:hover .panel-project-name { color: #EE550E; }
-        .panel-project-link:hover .panel-brand,
-        .panel-project-link:hover .panel-year { color: #FFFFFF; }
-
-        .back-button {
-          position: absolute;
-          bottom: 109px;
-          left: 109px;
-          right: 109px;
-          width: 164px;
-          height: 55px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          z-index: 10;
-          transition: all 0.3s ease;
-        }
-
-        .back-button-bg-orange {
-          position: absolute;
-          width: 153px;
-          height: 45px;
-          background: #0000FF;
-          left: 8px;
-          top: 3px;
-          transition: all 0.3s ease;
-        }
-
-        .back-button-bg-black {
-          position: absolute;
-          width: 153px;
-          height: 45px;
-          background: #F9F9F8;
-          left: 11px;
-          top: 0;
-          transition: all 0.3s ease;
-        }
-
-        .back-button-content {
-          position: absolute;
+        .cs-footer-socials {
           display: flex;
-          justify-content: center;
           align-items: center;
-          gap: 2px;
-          left: 40px;
-          top: 12.5px;
-          color: #26282B;
-          transition: all 0.3s ease;
+          gap: 14px;
         }
 
-        .back-arrow {
-          font-size: 20px;
-          line-height: 1;
-          color: #26282B;
-          font-weight: 700;
-          transition: all 0.3s ease;
+        .cs-footer-social-link {
+          color: var(--grey-misty);
+          display: flex;
+          align-items: center;
+          transition: color 0.2s ease;
         }
 
-        .back-text {
+        .cs-footer-social-link:hover { color: #ffffff; }
+
+        .cs-footer-copyright {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 14px;
-          font-weight: 700;
-          line-height: 0.9em;
-          letter-spacing: 2%;
-          text-transform: uppercase;
-          color: #26282B;
-          transition: all 0.3s ease;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 120%;
+          letter-spacing: 0.42px;
+          color: var(--grey-misty);
         }
 
-        .back-button:hover .back-button-bg-orange { background: #F9F9F8; }
-        .back-button:hover .back-button-bg-black { background: #0000FF; }
-        .back-button:hover .back-button-content,
-        .back-button:hover .back-arrow,
-        .back-button:hover .back-text { color: #FFFFFF; }
-
+        /* ── Responsive ── */
         @media (max-width: 1200px) {
-          .side-panel { position: relative; width: 100%; height: auto; padding: 60px 20px; }
           .main-content { padding: 40px 20px 100px; }
+          .cs-footer { padding: 0 20px 60px; }
           .project-title { font-size: 45px; }
         }
 
@@ -1000,6 +1013,11 @@ const CaseStudyTemplate = ({ data }) => {
           .case-study-page { margin: 0; }
           .project-title { font-size: 35px; }
           .project-meta-row { flex-direction: column; gap: 10px; }
+          .cs-footer-bottom {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+          }
         }
 
         @media (max-width: 480px) {
@@ -1040,6 +1058,8 @@ const CaseStudyTemplate = ({ data }) => {
             letter-spacing: 0.42px;
             color: #FFF;
           }
+          .cs-footer { padding: 0 39px 60px; }
+          .cs-footer-bottom-left { flex-wrap: wrap; gap: 14px; }
         }
       `}</style>
     </Layout>
