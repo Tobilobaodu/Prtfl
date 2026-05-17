@@ -895,6 +895,8 @@ const CaseStudyTemplate = ({ data }) => {
         .cs-footer {
           width: 100%;
           padding: 0 100px 60px;
+          border-top: solid white 0.5px;
+          color: #FFFDF1;
         }
 
         .cs-footer-projects {
@@ -903,12 +905,11 @@ const CaseStudyTemplate = ({ data }) => {
 
         .cs-footer-projects-title {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 14px;
+          font-size: 32.5px;
           font-weight: 500;
           line-height: 120%;
           letter-spacing: 0.42px;
           color: var(--grey-misty);
-          text-transform: uppercase;
           margin: 0 0 24px;
         }
 
