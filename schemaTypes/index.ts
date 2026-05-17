@@ -1,6 +1,7 @@
 import caseStudy from './caseStudy'
 import experience from './experience'
 import heroSection from './heroSection'
+import iconHeadingBlock from './iconHeadingBlock'
 import imageComponent from './imageComponent'
 import photography from './photography'
 import project from './project'
@@ -16,6 +17,7 @@ export const schemaTypes = [
   caseStudy,
   experience,
   heroSection,
+  iconHeadingBlock,
   imageComponent,
   photography,
   project,
