@@ -368,7 +368,6 @@ const CaseStudyFooter = ({ relatedProjects }) => {
             <ArrowOutIcon />
           </a>
         </div>
-        <span>© 2026 TXDI. All rights reserved.</span>
       </div>
     </footer>
   )
@@ -895,8 +894,7 @@ const CaseStudyTemplate = ({ data }) => {
         .cs-footer {
           width: 100%;
           padding: 0 100px 60px;
-          border-top: solid white 0.5px;
-          color: #FFFDF1;
+          border-top: solid #FFFDF175 0.5px;
         }
 
         .cs-footer-projects {
@@ -1001,15 +999,6 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         .social-link:hover { color: #ffffff; }
-
-        .cs-footer-bottom > span {
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 12px;
-          font-weight: 400;
-          line-height: 120%;
-          letter-spacing: 0.42px;
-          color: var(--grey-misty);
-        }
 
         /* ── Responsive ── */
         @media (max-width: 1200px) {
