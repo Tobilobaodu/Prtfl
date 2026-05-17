@@ -161,6 +161,27 @@ const SectionDivider = ({ tag, title }) => (
   </div>
 )
 
+const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
+  const iconUrl = icon?.asset?.url
+  return (
+    <div className="icon-heading-block">
+      {iconUrl && (
+        <div className="ihb-icon">
+          <img src={iconUrl} alt="" width="49" height="49" loading="lazy" />
+        </div>
+      )}
+      {heading && <h2 className="ihb-heading type-display-small">{heading}</h2>}
+      {bodyParagraphs?.length > 0 && (
+        <div className="ihb-body">
+          {bodyParagraphs.map((para, i) => (
+            <p key={i} className="ihb-para type-body-small">{para}</p>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, muted, caption }) => {
   try {
     const extractYouTubeId = (url) => {
@@ -376,6 +397,8 @@ const CaseStudyTemplate = ({ data }) => {
                   return <Spacer key={index} {...component} />
                 case 'sliderComponent':
                   return <SliderComponent key={index} {...component} />
+                case 'iconHeadingBlock':
+                  return <IconHeadingBlock key={index} {...component} />
                 default:
                   return null
               }
@@ -661,6 +684,52 @@ const CaseStudyTemplate = ({ data }) => {
           margin: 0;
         }
 
+        /* ── Icon Heading Block ── */
+        .icon-heading-block {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          width: 100%;
+        }
+
+        .ihb-icon {
+          width: 49px;
+          height: 49px;
+          margin-bottom: 20px;
+          flex-shrink: 0;
+        }
+
+        .ihb-icon img {
+          width: 49px;
+          height: 49px;
+          object-fit: contain;
+          display: block;
+        }
+
+        .ihb-heading {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .ihb-body {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          text-align: left;
+          width: 100%;
+        }
+
+        .ihb-para {
+          margin: 0;
+          letter-spacing: 0.42px;
+        }
+
+        @media (max-width: 480px) {
+          .ihb-heading { font-size: 25px; }
+        }
+
+        /* ── Video Component ── */
         .video-container { width: 100%; margin: 20px 0; }
 
         .video-player {
