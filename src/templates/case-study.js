@@ -219,7 +219,18 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
       )
     }
 
-    const videoSrc = videoFile?.asset?.url || videoUrl
+    const ALLOWED_VIDEO_HOSTS = ['cdn.sanity.io', 'asset.sanity.io']
+    const rawVideoUrl = videoFile?.asset?.url || videoUrl
+    if (!rawVideoUrl) return <div className="video-error"><p>Video source not available</p></div>
+    let videoSrc = null
+    try {
+      const parsed = new URL(rawVideoUrl)
+      if (videoFile || ALLOWED_VIDEO_HOSTS.includes(parsed.hostname)) {
+        videoSrc = rawVideoUrl
+      }
+    } catch {
+      // invalid URL
+    }
     if (!videoSrc) return <div className="video-error"><p>Video source not available</p></div>
 
     const posterSrc = posterImage?.asset?.gatsbyImageData
