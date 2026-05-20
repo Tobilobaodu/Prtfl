@@ -31,8 +31,8 @@ module.exports = {
     {
       resolve: 'gatsby-source-sanity',
       options: {
-        projectId: 'bhfv0qe4',
-        dataset: 'production',
+        projectId: process.env.SANITY_PROJECT_ID,
+        dataset: process.env.SANITY_DATASET || 'production',
         token: process.env.SANITY_READ_TOKEN,
         watchMode: process.env.NODE_ENV === 'development',
         overlayDrafts: false,

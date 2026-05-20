@@ -27,6 +27,8 @@
 
 # Dotenv and similar local-only files
 *.local
+.env
+.env.*
 
 # Gatsby build artifacts
 .cache/
