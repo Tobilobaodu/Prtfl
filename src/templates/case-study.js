@@ -613,13 +613,17 @@ const CaseStudyTemplate = ({ data }) => {
           object-fit: cover;
         }
 
+        html {
+          scroll-behavior: smooth;
+        }
+
         .cs-body-layout {
           display: grid;
-          grid-template-columns: 220px 1fr;
+          grid-template-columns: 180px 1fr;
           gap: 60px;
           max-width: 1240px;
           margin: 0 auto;
-          padding: 60px 100px 100px;
+          padding: 60px 0px 0px;
           align-items: start;
         }
 
@@ -791,7 +795,7 @@ const CaseStudyTemplate = ({ data }) => {
         .image-single.height-fixed-800 { height: 800px; }
         .image-single img { width: 100%; height: 100%; object-fit: cover; }
 
-        .section-divider { display: flex; flex-direction: column; gap: 10px; }
+        .section-divider { display: flex; flex-direction: column; gap: 10px; scroll-margin-top: 100px; }
 
         .divider-style-line::before {
           content: '';
