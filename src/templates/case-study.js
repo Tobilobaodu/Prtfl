@@ -623,7 +623,7 @@ const CaseStudyTemplate = ({ data }) => {
           gap: 60px;
           max-width: 1240px;
           margin: 0 auto;
-          padding: 60px 0px 0px;
+          padding: 60px 0px 100px;
           align-items: start;
         }
 
