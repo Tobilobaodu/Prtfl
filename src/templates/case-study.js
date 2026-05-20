@@ -147,12 +147,17 @@ const SectionTitleBlock = ({ title }) => <h2 className="text-section-title">{tit
 
 const TagBlock = ({ tag }) => <div className="text-tag">{tag}</div>
 
-const SectionDivider = ({ tag, title }) => (
-  <div className="section-divider">
-    {tag && <div className="section-tag">{tag}</div>}
-    {title && <h2 className="section-title">{title}</h2>}
-  </div>
-)
+const slugify = (str) => str?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') || ''
+
+const SectionDivider = ({ tag, title, dividerStyle = 'line' }) => {
+  const id = slugify(title || tag)
+  return (
+    <div id={id} className={`section-divider divider-style-${dividerStyle}`}>
+      {tag && <div className="section-tag">{tag}</div>}
+      {title && <h2 className="section-title">{title}</h2>}
+    </div>
+  )
+}
 
 const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
   const iconUrl = icon?.asset?.url
@@ -268,6 +273,12 @@ const SliderComponent = ({ slides }) => {
           loading="lazy"
         />
       )}
+      {(slide?.statLeft || slide?.statRight) && (
+        <div className="slider-stats-bar">
+          {slide.statLeft && <span className="slider-stat">{slide.statLeft}</span>}
+          {slide.statRight && <span className="slider-stat">{slide.statRight}</span>}
+        </div>
+      )}
       <div className="slider-controls-bar">
         <button onClick={prev} disabled={isFirst} aria-label="Previous slide" className="slider-arrow-btn">
           <img src={isFirst ? LeftDisabled : LeftActive} alt="Previous slide" width="25" height="25" />
@@ -289,6 +300,27 @@ const SliderComponent = ({ slides }) => {
         </button>
       </div>
     </div>
+  )
+}
+
+const TableOfContents = ({ components }) => {
+  const sections = components
+    .filter(c => c._type === 'sectionDivider' && (c.title || c.tag))
+    .map(c => ({ label: c.title || c.tag, id: slugify(c.title || c.tag) }))
+
+  if (!sections.length) return null
+
+  return (
+    <nav className="toc">
+      <p className="toc-heading">Table of Contents</p>
+      <ul className="toc-list">
+        {sections.map((s, i) => (
+          <li key={i} className="toc-item">
+            <a href={`#${s.id}`} className="toc-link">{s.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   )
 }
 
@@ -425,9 +457,12 @@ const CaseStudyTemplate = ({ data }) => {
           </div>
         )}
 
-        <div className="main-content">
-          <div className="container">
+        <div className="cs-body-layout">
+          <aside className="cs-toc-col">
+            <TableOfContents components={components} />
+          </aside>
 
+          <div className="cs-content-col">
             {!hasHeroSectionComponent && (
               <div className="project-intro">
                 <h1 className="project-title">{project.title}</h1>
@@ -567,14 +602,55 @@ const CaseStudyTemplate = ({ data }) => {
           object-fit: cover;
         }
 
-        .main-content {
-          padding: 40px 100px 100px;
-          position: relative;
+        .cs-body-layout {
+          display: grid;
+          grid-template-columns: 220px 1fr;
+          gap: 60px;
+          max-width: 1240px;
+          margin: 0 auto;
+          padding: 60px 100px 100px;
+          align-items: start;
         }
 
-        .container {
-          max-width: 1029px;
-          margin: 0 auto;
+        .cs-toc-col {
+          position: sticky;
+          top: 120px;
+        }
+
+        .toc-heading {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          color: var(--grey-misty);
+          margin: 0 0 16px;
+        }
+
+        .toc-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .toc-item { margin: 0; }
+
+        .toc-link {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 13px;
+          font-weight: 400;
+          color: var(--grey-misty);
+          text-decoration: none;
+          transition: color 0.2s ease;
+          line-height: 1.4;
+        }
+
+        .toc-link:hover { color: var(--white-heavenly); }
+
+        .cs-content-col {
           display: flex;
           flex-direction: column;
           gap: 0px;
@@ -705,6 +781,26 @@ const CaseStudyTemplate = ({ data }) => {
         .image-single img { width: 100%; height: 100%; object-fit: cover; }
 
         .section-divider { display: flex; flex-direction: column; gap: 10px; }
+
+        .divider-style-line::before {
+          content: '';
+          display: block;
+          border-top: 0.5px solid rgba(255,253,241,0.46);
+          margin-bottom: 16px;
+        }
+        .divider-style-double-line::before {
+          content: '';
+          display: block;
+          border-top: 3px double rgba(255,253,241,0.46);
+          margin-bottom: 16px;
+        }
+        .divider-style-dotted::before {
+          content: '';
+          display: block;
+          border-top: 1px dotted rgba(255,253,241,0.46);
+          margin-bottom: 16px;
+        }
+        .divider-style-none::before { display: none; }
 
         .section-tag {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
@@ -879,6 +975,20 @@ const CaseStudyTemplate = ({ data }) => {
           background: #EE550E;
         }
 
+        .slider-stats-bar {
+          display: flex;
+          justify-content: space-between;
+          padding: 14px 0 4px;
+        }
+
+        .slider-stat {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--white-heavenly);
+          letter-spacing: 0.42px;
+        }
+
         @media (max-width: 768px) {
           .slider-component { width: 100%; margin-left: 0; }
         }
@@ -1002,9 +1112,14 @@ const CaseStudyTemplate = ({ data }) => {
 
         /* ── Responsive ── */
         @media (max-width: 1200px) {
-          .main-content { padding: 40px 20px 100px; }
+          .cs-body-layout { padding: 40px 20px 100px; gap: 40px; }
           .cs-footer { padding: 0 20px 60px; }
           .project-title { font-size: 45px; }
+        }
+
+        @media (max-width: 1024px) {
+          .cs-body-layout { grid-template-columns: 1fr; }
+          .cs-toc-col { display: none; }
         }
 
         @media (max-width: 768px) {
@@ -1027,8 +1142,7 @@ const CaseStudyTemplate = ({ data }) => {
             padding: 0;
           }
           .hero-image { width: 100%; height: 346px; margin-top: 0; }
-          .main-content { padding: 40px 39px 100px; }
-          .container { max-width: 100%; margin: 0; display: flex; flex-direction: column; gap: 165px; }
+          .cs-body-layout { padding: 40px 39px 100px; gap: 40px; }
           .project-intro { display: flex; flex-direction: column; gap: 20px; }
           .project-title {
             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
