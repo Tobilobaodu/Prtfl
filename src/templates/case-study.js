@@ -629,7 +629,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .cs-toc-col {
           position: sticky;
-          top: 120px;
+          top: 739px;
         }
 
         .toc-heading {
