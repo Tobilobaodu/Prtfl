@@ -6,7 +6,7 @@ const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
     <div className="content-block">
       {iconUrl && (
         <div className="content-block-icon">
-          <img src={iconUrl} alt="" width="49" height="49" loading="lazy" />
+          <img src={iconUrl} alt="" height="49" loading="lazy" />
         </div>
       )}
       {heading && <h2 className="content-block-heading type-display-small">{heading}</h2>}
