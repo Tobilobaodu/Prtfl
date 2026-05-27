@@ -580,7 +580,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-size: 20px;
           font-weight: 400;
           line-height: 140%;
-          color: var(--white-heavenly);
+          color: #FFFADB;
           margin: 0;
         }
 
