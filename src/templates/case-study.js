@@ -165,7 +165,7 @@ const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
     <div className="icon-heading-block">
       {iconUrl && (
         <div className="ihb-icon">
-          <img src={iconUrl} alt="" width="49" height="49" loading="lazy" />
+          <img src={iconUrl} alt="" loading="lazy" />
         </div>
       )}
       {heading && <h2 className="ihb-heading type-display-small">{heading}</h2>}
@@ -850,15 +850,11 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         .ihb-icon {
-          width: 49px;
-          height: 49px;
           margin-bottom: 20px;
           flex-shrink: 0;
         }
 
         .ihb-icon img {
-          width: 49px;
-          height: 49px;
           object-fit: contain;
           display: block;
         }
