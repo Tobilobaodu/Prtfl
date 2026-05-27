@@ -152,7 +152,7 @@ const slugify = (str) => str?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0
 const SectionDivider = ({ tag, title, dividerStyle = 'line' }) => {
   const id = slugify(title || tag)
   return (
-    <div id={id} className={`section-divider divider-style-${dividerStyle}`}>
+    <div id={id} className={`section-divider section-anchor divider-style-${dividerStyle}`}>
       {tag && <div className="section-tag">{tag}</div>}
       {title && <h2 className="section-title">{title}</h2>}
     </div>
@@ -314,7 +314,7 @@ const SliderComponent = ({ slides }) => {
   )
 }
 
-const TableOfContents = ({ components }) => {
+const TableOfContents = ({ components, activeId }) => {
   const sections = components
     .filter(c => c._type === 'sectionDivider' && (c.title || c.tag))
     .map(c => ({ label: c.title || c.tag, id: slugify(c.title || c.tag) }))
@@ -327,7 +327,12 @@ const TableOfContents = ({ components }) => {
       <ul className="toc-list">
         {sections.map((s, i) => (
           <li key={i} className="toc-item">
-            <a href={`#${s.id}`} className="toc-link">{s.label}</a>
+            <a
+              href={`#${s.id}`}
+              className={`toc-link${activeId === s.id ? ' toc-link--active' : ''}`}
+            >
+              {s.label}
+            </a>
           </li>
         ))}
       </ul>
@@ -442,6 +447,22 @@ const CaseStudyTemplate = ({ data }) => {
   const firstComponent = components[0]
   const hasHeroSectionComponent = firstComponent?._type === 'heroSection'
 
+  const [activeId, setActiveId] = React.useState(null)
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) setActiveId(entry.target.id)
+        })
+      },
+      { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+    )
+    const anchors = document.querySelectorAll('.section-anchor')
+    anchors.forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [components])
+
   if (!caseStudy || !project) {
     return (
       <Layout>
@@ -470,7 +491,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         <div className="cs-body-layout">
           <aside className="cs-toc-col">
-            <TableOfContents components={components} />
+            <TableOfContents components={components} activeId={activeId} />
           </aside>
 
           <div className="cs-content-col">
@@ -619,7 +640,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .cs-body-layout {
           display: grid;
-          grid-template-columns: 180px 1fr;
+          grid-template-columns: 210px 1fr;
           gap: 60px;
           max-width: 1240px;
           margin: 0 auto;
@@ -648,12 +669,14 @@ const CaseStudyTemplate = ({ data }) => {
           margin: 0;
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 10px;
         }
 
         .toc-item { margin: 0; }
 
         .toc-link {
+          padding-left: 20px;
+          position: relative;
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 13px;
           font-weight: 400;
@@ -664,6 +687,21 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         .toc-link:hover { color: var(--white-heavenly); }
+
+        .toc-link--active {
+          color: var(--white-heavenly);
+        }
+
+        .toc-link--active::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 10px;
+          height: 10px;
+          background: #FBBF24;
+        }
 
         .cs-content-col {
           display: flex;
@@ -761,7 +799,7 @@ const CaseStudyTemplate = ({ data }) => {
           margin: 0;
         }
 
-        .type-body-small        { font-size: 14px;   line-height: 120%; font-weight: 400; }
+        .type-body-small        { font-size: 15px;   line-height: 120%; font-weight: 400; letter-spacing: 0.03em; }
         .type-body-small-semibold { font-size: 14px; line-height: 120%; font-weight: 500; }
         .type-body-small-bold   { font-size: 14px;   line-height: 120%; font-weight: 700; }
         .type-body-xsmall       { font-size: 12px;   line-height: 120%; font-weight: 700; }
