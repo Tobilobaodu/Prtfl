@@ -285,12 +285,6 @@ const SliderComponent = ({ slides }) => {
           loading="lazy"
         />
       )}
-      {(slide?.statLeft || slide?.statRight) && (
-        <div className="slider-stats-bar">
-          {slide.statLeft && <span className="slider-stat">{slide.statLeft}</span>}
-          {slide.statRight && <span className="slider-stat">{slide.statRight}</span>}
-        </div>
-      )}
       <div className="slider-controls-bar">
         <button onClick={prev} disabled={isFirst} aria-label="Previous slide" className="slider-arrow-btn">
           <img src={isFirst ? LeftDisabled : LeftActive} alt="Previous slide" width="25" height="25" />
@@ -1028,20 +1022,6 @@ const CaseStudyTemplate = ({ data }) => {
           width: 24px;
           border-radius: 4px;
           background: #EE550E;
-        }
-
-        .slider-stats-bar {
-          display: flex;
-          justify-content: space-between;
-          padding: 14px 0 4px;
-        }
-
-        .slider-stat {
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 14px;
-          font-weight: 500;
-          color: var(--white-heavenly);
-          letter-spacing: 0.42px;
         }
 
         @media (max-width: 768px) {
