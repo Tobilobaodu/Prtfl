@@ -799,7 +799,7 @@ const CaseStudyTemplate = ({ data }) => {
           margin: 0;
         }
 
-        .type-body-small        { font-size: 15px;   line-height: 120%; font-weight: 400; letter-spacing: 0.03em; }
+        .type-body-small        { font-size: 15px;   line-height: 140%; font-weight: 400; letter-spacing: 0.03em; }
         .type-body-small-semibold { font-size: 14px; line-height: 120%; font-weight: 500; }
         .type-body-small-bold   { font-size: 14px;   line-height: 120%; font-weight: 700; }
         .type-body-xsmall       { font-size: 12px;   line-height: 120%; font-weight: 700; }
