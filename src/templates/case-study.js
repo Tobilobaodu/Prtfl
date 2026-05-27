@@ -900,6 +900,9 @@ const CaseStudyTemplate = ({ data }) => {
         .ihb-heading {
           text-align: center;
           margin-bottom: 20px;
+          max-width: 400px;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         .ihb-body {
