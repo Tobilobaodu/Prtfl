@@ -161,8 +161,9 @@ const SectionDivider = ({ tag, title, dividerStyle = 'line' }) => {
 
 const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
   const iconUrl = icon?.asset?.url
+  const id = heading ? slugify(heading) : undefined
   return (
-    <div className="icon-heading-block">
+    <div id={id} className="icon-heading-block">
       {iconUrl && (
         <div className="ihb-icon">
           <img src={iconUrl} alt="" loading="lazy" />
@@ -316,8 +317,8 @@ const SliderComponent = ({ slides }) => {
 
 const TableOfContents = ({ components, activeId }) => {
   const sections = components
-    .filter(c => c._type === 'sectionDivider' && (c.title || c.tag))
-    .map(c => ({ label: c.title || c.tag, id: slugify(c.title || c.tag) }))
+    .filter(c => c._type === 'iconHeadingBlock' && c.heading)
+    .map(c => ({ label: c.heading, id: slugify(c.heading) }))
 
   if (!sections.length) return null
 
@@ -458,7 +459,7 @@ const CaseStudyTemplate = ({ data }) => {
       },
       { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
     )
-    const anchors = document.querySelectorAll('.section-anchor')
+    const anchors = document.querySelectorAll('.icon-heading-block')
     anchors.forEach(el => observer.observe(el))
     return () => observer.disconnect()
   }, [components])
@@ -885,6 +886,7 @@ const CaseStudyTemplate = ({ data }) => {
           align-items: center;
           text-align: center;
           width: 100%;
+          scroll-margin-top: 100px;
         }
 
         .ihb-icon {
