@@ -676,6 +676,7 @@ const CaseStudyTemplate = ({ data }) => {
         .toc-item { margin: 0; }
 
         .toc-link {
+          display: block;
           padding-left: 20px;
           position: relative;
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
