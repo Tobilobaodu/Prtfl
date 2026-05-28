@@ -9,7 +9,7 @@ const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
           <img src={iconUrl} alt="" loading="lazy" />
         </div>
       )}
-      {heading && <h2 className="content-block-heading type-display-small">{heading}</h2>}
+      {heading && <h2 className="content-block-heading ihb-heading type-display-small">{heading}</h2>}
       {bodyParagraphs?.length > 0 && (
         <div className="content-block-body">
           {bodyParagraphs.map((para, i) => (
