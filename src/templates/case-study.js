@@ -606,7 +606,7 @@ const CaseStudyTemplate = ({ data }) => {
           }
           .hero-section-headline { font-size: 45px; }
           .hero-section-image {
-            width: 100%;
+            width: min(313px, 100%);
             height: 350px;
             justify-self: stretch;
           }
@@ -1181,7 +1181,6 @@ const CaseStudyTemplate = ({ data }) => {
           .cs-body-layout { padding: 40px 39px 100px; gap: 40px; }
           .project-intro { display: flex; flex-direction: column; gap: 20px; }
           .project-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 32.5px;
             font-weight: 700;
             line-height: 95%;
@@ -1190,7 +1189,6 @@ const CaseStudyTemplate = ({ data }) => {
           }
           .project-meta-row { display: flex; flex-direction: column; gap: 10px; }
           .meta-item {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -1199,14 +1197,13 @@ const CaseStudyTemplate = ({ data }) => {
           }
           .meta-label { color: #EE550E; }
           .project-intro-text {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
             letter-spacing: 0.42px;
             color: #FFF;
           }
-          .cs-footer { padding: 0 39px 60px; }
+          .cs-footer { padding: 0 20px 60px; }
           .cs-footer-bottom { flex-wrap: wrap; gap: 16px; }
           .social-links { flex-wrap: wrap; gap: 12px; }
         }
