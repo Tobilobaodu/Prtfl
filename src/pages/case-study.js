@@ -603,7 +603,7 @@ const CaseStudyPage = () => {
           }
 
           .project-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 32.5px;
             font-weight: 700;
             line-height: 95%;
@@ -618,7 +618,7 @@ const CaseStudyPage = () => {
           }
 
           .meta-item {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -631,7 +631,7 @@ const CaseStudyPage = () => {
           }
 
           .project-intro-text {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -682,7 +682,7 @@ const CaseStudyPage = () => {
             justify-content: center;
             align-items: center;
             background: #FBBF24;
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -691,7 +691,7 @@ const CaseStudyPage = () => {
           }
 
           .section-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 28px;
             font-weight: 700;
             line-height: 95%;
@@ -700,7 +700,7 @@ const CaseStudyPage = () => {
           }
 
           .subsection-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 20px;
             font-weight: 700;
             line-height: 95%;
@@ -709,7 +709,7 @@ const CaseStudyPage = () => {
           }
 
           .section-text {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
