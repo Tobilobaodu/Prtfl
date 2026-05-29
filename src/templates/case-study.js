@@ -568,7 +568,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .hero-section-headline {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 80px;
+          font-size: 70px;
           font-weight: 500;
           line-height: 95%;
           color: var(--white-heavenly);
@@ -703,6 +703,7 @@ const CaseStudyTemplate = ({ data }) => {
           display: flex;
           flex-direction: column;
           gap: 0px;
+          min-width: 0;  /* prevent grid item from expanding beyond its 1fr track */
         }
 
         .project-intro {
