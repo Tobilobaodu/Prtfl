@@ -65,7 +65,7 @@ const TextBlock = ({ content, type, blockType }) => {
 const HeroSection = ({ headline, subtext, heroImage }) => {
   const imageUrl = heroImage?.asset?.url
   return (
-    <div className="hero-section-component">
+    <div id="overview" className="hero-section-component">
       <div className="hero-section-text">
         {headline && <h1 className="hero-section-headline">{headline}</h1>}
         {subtext && <p className="hero-section-subtext">{subtext}</p>}
@@ -309,10 +309,15 @@ const SliderComponent = ({ slides }) => {
   )
 }
 
+const OVERVIEW_TOC_ITEM = { label: 'Overview', id: 'overview' }
+
 const TableOfContents = ({ components, activeId }) => {
-  const sections = components
-    .filter(c => c._type === 'iconHeadingBlock' && c.heading)
-    .map(c => ({ label: c.heading, id: slugify(c.heading) }))
+  const sections = [
+    OVERVIEW_TOC_ITEM,
+    ...components
+      .filter(c => c._type === 'iconHeadingBlock' && c.heading)
+      .map(c => ({ label: c.heading, id: slugify(c.heading) }))
+  ]
 
   if (!sections.length) return null
 
@@ -453,7 +458,7 @@ const CaseStudyTemplate = ({ data }) => {
       },
       { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
     )
-    const anchors = document.querySelectorAll('.icon-heading-block')
+    const anchors = document.querySelectorAll('.icon-heading-block, #overview')
     anchors.forEach(el => observer.observe(el))
     return () => observer.disconnect()
   }, [components])
@@ -491,7 +496,7 @@ const CaseStudyTemplate = ({ data }) => {
 
           <div className="cs-content-col">
             {!hasHeroSectionComponent && (
-              <div className="project-intro">
+              <div id="overview" className="project-intro">
                 <h1 className="project-title">{project.title}</h1>
                 <div className="project-meta-row">
                   <div className="meta-item">
@@ -550,6 +555,7 @@ const CaseStudyTemplate = ({ data }) => {
           min-height: 100vh;
           margin: -100px 0 0 -100px;
           position: relative;
+          overflow-x: clip;
         }
 
         .hero-section-component {
@@ -614,7 +620,13 @@ const CaseStudyTemplate = ({ data }) => {
 
         @media (max-width: 480px) {
           .hero-section-headline { font-size: 45px; }
-          .hero-section-image { width: 313px; height: 350px; }
+          .hero-section-image {
+            width: 100%;
+            max-width: 313px;
+            height: auto;
+            max-height: 350px;
+            justify-self: stretch;
+          }
         }
 
         .hero-image {
@@ -645,7 +657,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .cs-toc-col {
           position: sticky;
-          top: 739px;
+          top: 120px;
         }
 
         .toc-heading {
@@ -1167,6 +1179,9 @@ const CaseStudyTemplate = ({ data }) => {
             align-items: flex-start;
             gap: 16px;
           }
+          .image-grid { height: auto; }
+          .height-fixed-800 { height: auto; max-height: 450px; }
+          .image-single.height-fixed-800 { max-height: 450px; }
         }
 
         @media (max-width: 480px) {
@@ -1206,6 +1221,15 @@ const CaseStudyTemplate = ({ data }) => {
           .cs-footer { padding: 0 20px 60px; }
           .cs-footer-bottom { flex-wrap: wrap; gap: 16px; }
           .social-links { flex-wrap: wrap; gap: 12px; }
+          .height-fixed-800 { max-height: 350px; }
+          .image-single.height-fixed-800 { max-height: 350px; }
+          .image-grid.grid-2 { grid-template-columns: 1fr; }
+          .image-grid.grid-3 { grid-template-columns: 1fr; grid-template-rows: auto; }
+          .image-grid.grid-3 .grid-item.full-height { grid-row: auto; }
+          .image-grid.grid-4-horizontal { grid-template-columns: 1fr 1fr; }
+          .image-grid.grid-4-square { grid-template-columns: 1fr 1fr; }
+          .image-grid.grid-5 { grid-template-columns: 1fr 1fr; }
+          .image-grid.grid-5 .grid-item.full-width { grid-column: 1 / -1; }
         }
       `}</style>
     </Layout>

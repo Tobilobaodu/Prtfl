@@ -184,6 +184,16 @@ const Layout = ({ children }) => {
           padding-top: 0px;
         }
 
+        @media (max-width: 1200px) {
+          .navigation {
+            padding: 32px 20px;
+          }
+
+          .menu-panel {
+            right: 20px;
+          }
+        }
+
         @media (max-width: 768px) {
           .navigation {
             padding: 32px 20px;
