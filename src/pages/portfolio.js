@@ -400,7 +400,7 @@ const PortfolioPage = ({ data }) => {
           }
 
           .page-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 28px;
             font-weight: 700;
             line-height: 95%;
@@ -408,7 +408,7 @@ const PortfolioPage = ({ data }) => {
           }
 
           .page-description {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -478,14 +478,14 @@ const PortfolioPage = ({ data }) => {
           }
           
           .default-state .project-title {
-             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+             font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
              font-size: 14px;
              font-weight: 400;
              color: #FFF;
           }
           
           .default-state .project-description {
-             font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+             font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
              font-size: 12px;
              letter-spacing: 0.36px;
              color: #A3A3A3;

@@ -328,7 +328,7 @@ const IndexPage = ({ data }) => {
           }
 
           .social-links {
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 12px;
           }
 
@@ -358,7 +358,7 @@ const IndexPage = ({ data }) => {
           }
 
           .bio-text {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -393,7 +393,7 @@ const IndexPage = ({ data }) => {
           }
 
           .project-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -408,7 +408,7 @@ const IndexPage = ({ data }) => {
 
           .project-brand,
           .project-year {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -447,7 +447,7 @@ const IndexPage = ({ data }) => {
           }
 
           .social-link {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 12px;
             font-weight: 400;
             line-height: 18px;

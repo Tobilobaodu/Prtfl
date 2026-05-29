@@ -312,7 +312,7 @@ button {
 .type-display-small {
   font-family: var(--font-nhd);
   font-size: var(--type-display-small-size);
-  line-height: 120%;
+  line-height: var(--type-display-small-line-height);
   font-weight: var(--type-display-small-weight);
 }
 

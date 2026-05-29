@@ -103,6 +103,7 @@ const AboutPage = () => {
           margin: 0;
           margin-left: 0;
           padding: 101px 0px 60px 0px;
+          position: relative;
         }
 
         .experience-list {
@@ -193,7 +194,10 @@ const AboutPage = () => {
         .download-button-wrapper {
           display: flex;
           justify-content: flex-end;
-          margin-top: -580px;
+          position: absolute;
+          right: 0;
+          top: 101px;
+          margin-top: 0;
         }
 
         .download-cv-button {
@@ -261,6 +265,7 @@ const AboutPage = () => {
           }
 
           .download-button-wrapper {
+            position: static;
             justify-content: center;
             margin-top: 40px;
           }
