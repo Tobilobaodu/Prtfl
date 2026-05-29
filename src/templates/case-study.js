@@ -816,7 +816,7 @@ const CaseStudyTemplate = ({ data }) => {
         .type-title-small       { font-size: 20px;   line-height: 95%;  font-weight: 700; }
         .type-title-medium      { font-size: 25px;   line-height: 130%; font-weight: 700; }
         .type-title-large       { font-size: 28px;   line-height: 95%;  font-weight: 700; }
-        .type-display-small     { font-size: 32.5px; line-height: 95%;  font-weight: 700; }
+        .type-display-small     { font-size: 32.5px; line-height: 120%; font-weight: 700; }
         .type-display-medium    { font-size: 45px;   line-height: 100%; font-weight: 700; }
         .type-display-large     { font-size: 65px;   line-height: 100%; font-weight: 700; }
         .type-display-xlarge    { font-size: 80px;   line-height: 90%;  font-weight: 500; }
