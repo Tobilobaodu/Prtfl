@@ -448,6 +448,22 @@ const CaseStudyTemplate = ({ data }) => {
   const hasHeroSectionComponent = firstComponent?._type === 'heroSection'
 
   const [activeId, setActiveId] = React.useState(null)
+  const [tocOffset, setTocOffset] = React.useState(0)
+
+  React.useEffect(() => {
+    const alignToc = () => {
+      const bodyLayout = document.querySelector('.cs-body-layout')
+      const firstTitleMedium = document.querySelector('.cs-content-col .type-title-medium')
+      if (bodyLayout && firstTitleMedium) {
+        const layoutTop = bodyLayout.getBoundingClientRect().top + window.scrollY
+        const titleTop = firstTitleMedium.getBoundingClientRect().top + window.scrollY
+        setTocOffset(Math.max(0, titleTop - layoutTop))
+      }
+    }
+    alignToc()
+    window.addEventListener('resize', alignToc)
+    return () => window.removeEventListener('resize', alignToc)
+  }, [components])
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -489,33 +505,40 @@ const CaseStudyTemplate = ({ data }) => {
           </div>
         )}
 
+        {hasHeroSectionComponent && (
+          <HeroSection {...firstComponent} />
+        )}
+
+        {!hasHeroSectionComponent && (
+          <div className="cs-intro-wrapper">
+            <div id="overview" className="project-intro">
+              <h1 className="project-title">{project.title}</h1>
+              <div className="project-meta-row">
+                <div className="meta-item">
+                  <span className="meta-label">Client:</span>
+                  <span className="meta-value"> {project.client}</span>
+                </div>
+                <div className="meta-item">
+                  <span className="meta-label">Project type:</span>
+                  <span className="meta-value"> {project.projectType || "UX/UI Design"}</span>
+                </div>
+              </div>
+              {project.introText && (
+                <p className="project-intro-text">{project.introText}</p>
+              )}
+            </div>
+          </div>
+        )}
+
         <div className="cs-body-layout">
-          <aside className="cs-toc-col">
+          <aside className="cs-toc-col" style={{ paddingTop: tocOffset > 0 ? `${tocOffset}px` : undefined }}>
             <TableOfContents components={components} activeId={activeId} />
           </aside>
 
           <div className="cs-content-col">
-            {!hasHeroSectionComponent && (
-              <div id="overview" className="project-intro">
-                <h1 className="project-title">{project.title}</h1>
-                <div className="project-meta-row">
-                  <div className="meta-item">
-                    <span className="meta-label">Client:</span>
-                    <span className="meta-value"> {project.client}</span>
-                  </div>
-                  <div className="meta-item">
-                    <span className="meta-label">Project type:</span>
-                    <span className="meta-value"> {project.projectType || "UX/UI Design"}</span>
-                  </div>
-                </div>
-                {project.introText && (
-                  <p className="project-intro-text">{project.introText}</p>
-                )}
-              </div>
-            )}
-
             {components.map((component, index) => {
               if (!component || !component._type) return null
+              if (index === 0 && hasHeroSectionComponent) return null
               switch (component._type) {
                 case 'heroSection':
                   return <HeroSection key={index} {...component} />
@@ -563,7 +586,7 @@ const CaseStudyTemplate = ({ data }) => {
           grid-template-columns: 1fr 1fr;
           gap: 40px;
           align-items: center;
-          padding: 60px 0;
+          padding: 100px 170px;
         }
 
         .hero-section-text {
@@ -574,7 +597,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .hero-section-headline {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 70px;
+          font-size: 80px;
           font-weight: 500;
           line-height: 95%;
           color: var(--white-heavenly);
@@ -591,8 +614,15 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         .hero-section-image {
-          width: 465px;
-          height: 550px;
+          width: 565px;
+          height: 665px;
+          overflow: hidden;
+          justify-self: end;
+        }
+
+        .hero-section-image {
+          width: 500px;
+          height: 100%;
           overflow: hidden;
           justify-self: end;
         }
@@ -645,13 +675,22 @@ const CaseStudyTemplate = ({ data }) => {
           scroll-behavior: smooth;
         }
 
+        .cs-intro-wrapper {
+          display: grid;
+          grid-template-columns: 210px 1fr;
+          gap: 60px;
+          max-width: 1240px;
+          margin: 0 auto;
+          padding: 60px 0px 40px;
+        }
+
         .cs-body-layout {
           display: grid;
           grid-template-columns: 210px 1fr;
           gap: 60px;
           max-width: 1240px;
           margin: 0 auto;
-          padding: 60px 0px 100px;
+          padding: 0px 0px 100px;
           align-items: start;
         }
 
@@ -719,6 +758,7 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         .project-intro {
+          grid-column: 2;
           display: flex;
           flex-direction: column;
           gap: 20px;
@@ -1160,12 +1200,15 @@ const CaseStudyTemplate = ({ data }) => {
 
         /* ── Responsive ── */
         @media (max-width: 1200px) {
-          .cs-body-layout { padding: 40px 20px 100px; gap: 40px; }
+          .cs-intro-wrapper { padding: 40px 20px 30px; gap: 40px; }
+          .cs-body-layout { padding: 0px 20px 100px; gap: 40px; }
           .cs-footer { padding: 0 20px 60px; }
           .project-title { font-size: 45px; }
         }
 
         @media (max-width: 1024px) {
+          .cs-intro-wrapper { grid-template-columns: 1fr; }
+          .project-intro { grid-column: 1; }
           .cs-body-layout { grid-template-columns: 1fr; }
           .cs-toc-col { display: none; }
         }
@@ -1193,7 +1236,8 @@ const CaseStudyTemplate = ({ data }) => {
             padding: 0;
           }
           .hero-image { width: 100%; height: 346px; margin-top: 0; }
-          .cs-body-layout { padding: 40px 39px 100px; gap: 40px; }
+          .cs-intro-wrapper { padding: 40px 39px 20px; gap: 40px; }
+          .cs-body-layout { padding: 0px 39px 100px; gap: 40px; }
           .project-intro { display: flex; flex-direction: column; gap: 20px; }
           .project-title {
             font-size: 32.5px;
