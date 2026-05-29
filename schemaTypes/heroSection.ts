@@ -20,6 +20,12 @@ export default defineType({
       description: 'Supporting text below the headline. All breakpoints: 20px. Font: Neue Haas Grotesk Display Pro 55 Roman.',
     }),
     defineField({
+      name: 'date',
+      title: 'Date',
+      type: 'string',
+      description: 'Displayed below the subtext, e.g. "May 20th, 2023"',
+    }),
+    defineField({
       name: 'heroImage',
       title: 'Hero Image',
       type: 'image',
