@@ -62,19 +62,36 @@ const TextBlock = ({ content, type, blockType }) => {
   return <div className={typeClass}>{renderRichText(content)}</div>
 }
 
-const HeroSection = ({ headline, subtext, heroImage }) => {
+const HeroSection = ({ headline, subtext, date, heroImage }) => {
   const imageUrl = heroImage?.asset?.url
   return (
     <div id="overview" className="hero-section-component">
       <div className="hero-section-text">
         {headline && <h1 className="hero-section-headline">{headline}</h1>}
         {subtext && <p className="hero-section-subtext">{subtext}</p>}
+        {date && <p className="hero-section-date">· {date}</p>}
       </div>
       {imageUrl && (
         <div className="hero-section-image">
           <img src={imageUrl} alt={headline || 'Hero image'} />
         </div>
       )}
+    </div>
+  )
+}
+
+const NdaNotice = ({ text }) => {
+  if (!text) return null
+  return (
+    <div className="nda-notice">
+      <div className="nda-notice-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="8" r="7.25" stroke="currentColor" strokeWidth="1.5" />
+          <rect x="7.25" y="6.5" width="1.5" height="5.5" rx="0.75" fill="currentColor" />
+          <rect x="7.25" y="4" width="1.5" height="1.5" rx="0.75" fill="currentColor" />
+        </svg>
+      </div>
+      <p className="nda-notice-text">{text}</p>
     </div>
   )
 }
@@ -560,6 +577,8 @@ const CaseStudyTemplate = ({ data }) => {
                   return <SliderComponent key={index} {...component} />
                 case 'iconHeadingBlock':
                   return <IconHeadingBlock key={index} {...component} />
+                case 'ndaNotice':
+                  return <NdaNotice key={index} {...component} />
                 default:
                   return null
               }
@@ -610,6 +629,15 @@ const CaseStudyTemplate = ({ data }) => {
           font-weight: 400;
           line-height: 140%;
           color: #FFFADB;
+          margin: 0;
+        }
+
+        .hero-section-date {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 140%;
+          color: var(--grey-misty);
           margin: 0;
         }
 
@@ -924,6 +952,35 @@ const CaseStudyTemplate = ({ data }) => {
           font-weight: 700;
           line-height: 95%;
           color: var(--white-heavenly);
+          margin: 0;
+        }
+
+        /* ── NDA Notice ── */
+        .nda-notice {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 16px 20px;
+          border: 0.5px solid rgba(255, 253, 241, 0.3);
+          border-radius: 4px;
+          background: rgba(255, 253, 241, 0.05);
+          width: 100%;
+          box-sizing: border-box;
+        }
+
+        .nda-notice-icon {
+          flex-shrink: 0;
+          color: var(--grey-misty);
+          margin-top: 1px;
+        }
+
+        .nda-notice-text {
+          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 140%;
+          color: var(--grey-misty);
           margin: 0;
         }
 
