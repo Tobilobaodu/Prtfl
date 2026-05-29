@@ -7,6 +7,7 @@ import LeftActive from "../Assets/SVG/Left_Active.svg"
 import LeftDisabled from "../Assets/SVG/Left_Disabled.svg"
 import RightActive from "../Assets/SVG/Right_Active.svg"
 import RightDisabled from "../Assets/SVG/Right_Disabled.svg"
+import InfoIcon from "../Assets/SVG/info.svg"
 
 const TextBlock = ({ content, type, blockType }) => {
   const blockTypeValue = type || blockType || 'type-body-small'
@@ -69,7 +70,12 @@ const HeroSection = ({ headline, subtext, date, heroImage }) => {
       <div className="hero-section-text">
         {headline && <h1 className="hero-section-headline">{headline}</h1>}
         {subtext && <p className="hero-section-subtext">{subtext}</p>}
-        {date && <p className="hero-section-date">· {date}</p>}
+        {date && (
+          <div className="hero-section-date">
+            <span className="hero-section-date-dot" />
+            <span>{date}</span>
+          </div>
+        )}
       </div>
       {imageUrl && (
         <div className="hero-section-image">
@@ -85,11 +91,7 @@ const NdaNotice = ({ text }) => {
   return (
     <div className="nda-notice">
       <div className="nda-notice-icon">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="8" cy="8" r="7.25" stroke="currentColor" strokeWidth="1.5" />
-          <rect x="7.25" y="6.5" width="1.5" height="5.5" rx="0.75" fill="currentColor" />
-          <rect x="7.25" y="4" width="1.5" height="1.5" rx="0.75" fill="currentColor" />
-        </svg>
+        <img src={InfoIcon} alt="" width="18" height="18" />
       </div>
       <p className="nda-notice-text">{text}</p>
     </div>
@@ -633,12 +635,23 @@ const CaseStudyTemplate = ({ data }) => {
         }
 
         .hero-section-date {
+          display: flex;
+          align-items: center;
+          gap: 8px;
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 14px;
           font-weight: 400;
           line-height: 140%;
           color: var(--grey-misty);
           margin: 0;
+        }
+
+        .hero-section-date-dot {
+          display: inline-block;
+          width: 5px;
+          height: 5px;
+          background: var(--orange);
+          flex-shrink: 0;
         }
 
         .hero-section-image {
@@ -961,26 +974,25 @@ const CaseStudyTemplate = ({ data }) => {
           flex-direction: row;
           align-items: flex-start;
           gap: 12px;
-          padding: 16px 20px;
+          padding: 26px 30px;
           border: 0.5px solid rgba(255, 253, 241, 0.3);
-          border-radius: 4px;
-          background: rgba(255, 253, 241, 0.05);
+          border-radius: 5px;
+          background: rgb(255, 255, 255);
           width: 100%;
           box-sizing: border-box;
         }
 
         .nda-notice-icon {
           flex-shrink: 0;
-          color: var(--grey-misty);
           margin-top: 1px;
         }
 
         .nda-notice-text {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 14px;
+          font-size: 15px;
           font-weight: 400;
           line-height: 140%;
-          color: var(--grey-misty);
+          color: #1D1C1C;
           margin: 0;
         }
 
