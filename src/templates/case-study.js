@@ -444,19 +444,6 @@ const CaseStudyTemplate = ({ data }) => {
   const caseStudy = data?.sanityCaseStudy
   const project = caseStudy?.project
 
-  React.useEffect(() => {
-    const styleEl = document.createElement('style')
-    styleEl.id = 'case-study-menu-override'
-    styleEl.innerHTML = `
-      .menu-link { color: #FFFFFF !important; }
-      .menu-link:hover { color: #EE550E !important; }
-    `
-    document.head.appendChild(styleEl)
-    return () => {
-      const el = document.getElementById('case-study-menu-override')
-      if (el) el.remove()
-    }
-  }, [])
 
   const cmsRelatedProjects = caseStudy?.relatedProjects || []
   const autoRelatedProjects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
@@ -593,9 +580,7 @@ const CaseStudyTemplate = ({ data }) => {
 
       <style jsx="true">{`
         .case-study-page {
-          background: var(--black-nue-black) url("/noise.png");
-          background-size: 100px 100px;
-          background-blend-mode: normal;
+          background: transparent;
           min-height: 100vh;
           margin: -100px 0 0 -100px;
           position: relative;
@@ -621,7 +606,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-size: 80px;
           font-weight: 500;
           line-height: 95%;
-          color: var(--white-heavenly);
+          color: var(--black-pitch-nah);
           margin: 0;
         }
 
@@ -630,7 +615,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-size: 20px;
           font-weight: 400;
           line-height: 140%;
-          color: #FFFADB;
+          color: var(--black-pitch-nah);
           margin: 0;
         }
 
@@ -774,10 +759,10 @@ const CaseStudyTemplate = ({ data }) => {
           line-height: 1.4;
         }
 
-        .toc-link:hover { color: var(--white-heavenly); }
+        .toc-link:hover { color: var(--black-pitch-nah); }
 
         .toc-link--active {
-          color: var(--white-heavenly);
+          color: var(--black-pitch-nah);
         }
 
         .toc-link--active::before {
@@ -810,7 +795,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-size: 65px;
           font-weight: 700;
           line-height: 100%;
-          color: var(--white-heavenly);
+          color: var(--black-pitch-nah);
           max-width: 590px;
         }
 
@@ -825,7 +810,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-weight: 400;
           line-height: 120%;
           letter-spacing: 0.42px;
-          color: var(--white-heavenly);
+          color: var(--black-pitch-nah);
         }
 
         .meta-label { color: var(--orange); }
@@ -836,7 +821,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-weight: 400;
           line-height: 120%;
           letter-spacing: 0.42px;
-          color: var(--white-heavenly);
+          color: var(--black-pitch-nah);
         }
 
         .text-section-title {
@@ -844,7 +829,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-size: 32.5px;
           font-weight: 700;
           line-height: 95%;
-          color: var(--white-heavenly);
+          color: var(--black-pitch-nah);
           margin: 0;
         }
 
@@ -854,7 +839,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-weight: 400;
           line-height: 120%;
           letter-spacing: 0.42px;
-          color: var(--white-heavenly);
+          color: var(--black-pitch-nah);
         }
 
         .text-tag {
@@ -885,7 +870,7 @@ const CaseStudyTemplate = ({ data }) => {
         .type-display-large,
         .type-display-xlarge {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          color: var(--white-heavenly);
+          color: var(--black-pitch-nah);
           margin: 0;
         }
 
@@ -928,19 +913,19 @@ const CaseStudyTemplate = ({ data }) => {
         .divider-style-line::before {
           content: '';
           display: block;
-          border-top: 0.5px solid rgba(255,253,241,0.46);
+          border-top: 0.5px solid rgba(29,28,28,0.2);
           margin-bottom: 16px;
         }
         .divider-style-double-line::before {
           content: '';
           display: block;
-          border-top: 3px double rgba(255,253,241,0.46);
+          border-top: 3px double rgba(29,28,28,0.2);
           margin-bottom: 16px;
         }
         .divider-style-dotted::before {
           content: '';
           display: block;
-          border-top: 1px dotted rgba(255,253,241,0.46);
+          border-top: 1px dotted rgba(29,28,28,0.2);
           margin-bottom: 16px;
         }
         .divider-style-none::before { display: none; }
@@ -964,7 +949,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-size: 32.5px;
           font-weight: 700;
           line-height: 95%;
-          color: var(--white-heavenly);
+          color: var(--black-pitch-nah);
           margin: 0;
         }
 
@@ -975,7 +960,7 @@ const CaseStudyTemplate = ({ data }) => {
           align-items: flex-start;
           gap: 12px;
           padding: 26px 30px;
-          border: 0.5px solid rgba(255, 253, 241, 0.3);
+          border: 0.5px solid rgba(29,28,28,0.15);
           border-radius: 5px;
           background: rgb(255, 255, 255);
           width: 100%;
@@ -1075,7 +1060,7 @@ const CaseStudyTemplate = ({ data }) => {
           padding: 20px;
           text-align: center;
           color: var(--grey-misty);
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(29,28,28,0.05);
           border-radius: 4px;
         }
 
@@ -1132,7 +1117,7 @@ const CaseStudyTemplate = ({ data }) => {
           width: 10px;
           height: 3px;
           border-radius: 1.7px;
-          background: white;
+          background: rgba(29,28,28,0.2);
           border: none;
           cursor: pointer;
           padding: 0;
@@ -1161,7 +1146,7 @@ const CaseStudyTemplate = ({ data }) => {
         .cs-footer {
           width: 100%;
           padding: 0 100px 60px;
-          border-top: solid #FFFDF175 0.5px;
+          border-top: solid rgba(29,28,28,0.2) 0.5px;
         }
 
         .cs-footer-projects {
@@ -1202,7 +1187,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-size: 14px;
           font-weight: 600;
           line-height: 120%;
-          color: var(--white-not-wyt, #f9f9f8);
+          color: var(--black-pitch-nah);
           transition: color 0.2s ease;
         }
 
@@ -1224,12 +1209,12 @@ const CaseStudyTemplate = ({ data }) => {
 
         .cs-footer-project-link:hover .cs-footer-project-name { color: #EE550E; }
         .cs-footer-project-link:hover .cs-footer-project-client,
-        .cs-footer-project-link:hover .cs-footer-project-year { color: #ffffff; }
+        .cs-footer-project-link:hover .cs-footer-project-year { color: var(--black-pitch-nah); }
 
         .cs-footer-divider {
           width: 100%;
           height: 0;
-          border-top: 0.5px solid rgba(236, 240, 241, 0.2);
+          border-top: 0.5px solid rgba(29,28,28,0.2);
         }
 
         /* Bottom bar */
@@ -1238,7 +1223,7 @@ const CaseStudyTemplate = ({ data }) => {
           justify-content: space-between;
           align-items: center;
           padding-top: 32px;
-          border-top: 0.5px solid rgba(236, 240, 241, 0.2);
+          border-top: 0.5px solid rgba(29,28,28,0.2);
         }
 
         /* Social links */
@@ -1265,7 +1250,7 @@ const CaseStudyTemplate = ({ data }) => {
           transition: color 0.2s ease;
         }
 
-        .social-link:hover { color: #ffffff; }
+        .social-link:hover { color: var(--orange); }
 
         /* ── Responsive ── */
         @media (max-width: 1200px) {
@@ -1298,9 +1283,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         @media (max-width: 480px) {
           .case-study-page {
-            background: #232020 url("/noise.png");
-            background-size: 100px 100px;
-            background-blend-mode: normal;
+            background: transparent;
             margin: 0;
             padding: 0;
           }
@@ -1312,7 +1295,7 @@ const CaseStudyTemplate = ({ data }) => {
             font-size: 32.5px;
             font-weight: 700;
             line-height: 95%;
-            color: #FFF;
+            color: #1D1C1C;
             max-width: 100%;
           }
           .project-meta-row { display: flex; flex-direction: column; gap: 10px; }
@@ -1321,7 +1304,7 @@ const CaseStudyTemplate = ({ data }) => {
             font-weight: 400;
             line-height: 120%;
             letter-spacing: 0.42px;
-            color: #FFF;
+            color: #1D1C1C;
           }
           .meta-label { color: #EE550E; }
           .project-intro-text {
@@ -1329,7 +1312,7 @@ const CaseStudyTemplate = ({ data }) => {
             font-weight: 400;
             line-height: 120%;
             letter-spacing: 0.42px;
-            color: #FFF;
+            color: #1D1C1C;
           }
           .cs-footer { padding: 0 20px 60px; }
           .cs-footer-bottom { flex-wrap: wrap; gap: 16px; }
