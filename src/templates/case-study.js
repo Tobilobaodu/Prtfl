@@ -349,6 +349,10 @@ const TableOfContents = ({ components, activeId }) => {
             <a
               href={`#${s.id}`}
               className={`toc-link${activeId === s.id ? ' toc-link--active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth' })
+              }}
             >
               {s.label}
             </a>
@@ -759,7 +763,10 @@ const CaseStudyTemplate = ({ data }) => {
           line-height: 1.4;
         }
 
-        .toc-link:hover { color: var(--black-pitch-nah); }
+        .toc-link:hover {
+          color: var(--black-pitch-nah);
+          font-weight: 500;
+        }
 
         .toc-link--active {
           color: var(--black-pitch-nah);
