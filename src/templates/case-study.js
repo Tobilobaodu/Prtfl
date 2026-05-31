@@ -7,7 +7,7 @@ import LeftActive from "../Assets/SVG/Left_Active.svg"
 import LeftDisabled from "../Assets/SVG/Left_Disabled.svg"
 import RightActive from "../Assets/SVG/Right_Active.svg"
 import RightDisabled from "../Assets/SVG/Right_Disabled.svg"
-import InfoIcon from "../Assets/SVG/info.svg"
+import InfoIcon from "../Assets/SVG/Info.svg"
 
 const TextBlock = ({ content, type, blockType }) => {
   const blockTypeValue = type || blockType || 'type-body-small'
