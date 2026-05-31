@@ -4,6 +4,7 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
+import PageLoader from "../components/PageLoader"
 
 const IndexPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
@@ -31,6 +32,7 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
+      <PageLoader />
       <div className="home-container">
         <div className="container">
           <section className="bio-section">
@@ -130,7 +132,7 @@ const IndexPage = ({ data }) => {
       <LockedProjectModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        projectPassword={selectedProject?.password}
+        projectSlug={selectedProject?.slug?.current}
         onPasswordCorrect={handlePasswordCorrect}
         projectTitle={selectedProject?.title}
       />
@@ -486,7 +488,6 @@ export const query = graphql`
           client
           year
           locked
-          password
           slug {
             current
           }

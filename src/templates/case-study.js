@@ -631,7 +631,7 @@ const CaseStudyTemplate = ({ data }) => {
           font-size: 14px;
           font-weight: 400;
           line-height: 140%;
-          color: var(--grey-misty);
+          color: var(--grey-just);
           margin: 0;
         }
 
@@ -755,9 +755,9 @@ const CaseStudyTemplate = ({ data }) => {
           padding-left: 20px;
           position: relative;
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 400;
-          color: var(--grey-misty);
+          color: var(--grey-just);
           text-decoration: none;
           transition: color 0.2s ease;
           line-height: 1.4;
@@ -770,6 +770,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .toc-link--active {
           color: var(--black-pitch-nah);
+          font-weight: 500;
         }
 
         .toc-link--active::before {
@@ -1327,6 +1328,7 @@ const CaseStudyTemplate = ({ data }) => {
           .height-fixed-800 { max-height: 350px; }
           .image-single.height-fixed-800 { max-height: 350px; }
           .image-grid.grid-2 { grid-template-columns: 1fr; }
+          .nda-notice { padding: 16px 18px; }
           .image-grid.grid-3 { grid-template-columns: 1fr; grid-template-rows: auto; }
           .image-grid.grid-3 .grid-item.full-height { grid-row: auto; }
           .image-grid.grid-4-horizontal { grid-template-columns: 1fr 1fr; }
