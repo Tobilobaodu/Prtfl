@@ -1,20 +1,36 @@
 import * as React from "react"
 
-const LockedProjectModal = ({ isOpen, onClose, projectPassword, onPasswordCorrect, projectTitle }) => {
+const LockedProjectModal = ({ isOpen, onClose, projectSlug, onPasswordCorrect, projectTitle }) => {
   const [password, setPassword] = React.useState("")
   const [error, setError] = React.useState("")
+  const [loading, setLoading] = React.useState(false)
 
   if (!isOpen) return null
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (password === projectPassword) {
-      setError("")
-      setPassword("")
-      onPasswordCorrect()
-      onClose()
-    } else {
-      setError("Incorrect password. Please try again.")
+    setLoading(true)
+    setError("")
+
+    try {
+      const res = await fetch("/.netlify/functions/verify-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: projectSlug, password }),
+      })
+      const data = await res.json()
+
+      if (data.success) {
+        setPassword("")
+        onPasswordCorrect()
+        onClose()
+      } else {
+        setError("Incorrect password. Please try again.")
+      }
+    } catch {
+      setError("Something went wrong. Please try again.")
+    } finally {
+      setLoading(false)
     }
   }
 

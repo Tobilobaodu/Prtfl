@@ -3,6 +3,7 @@
   command = "npm run build"
   # Directory where Gatsby outputs the built site
   publish = "public"
+  functions = "netlify/functions"
 
 [build.environment]
   # Node version for builds
