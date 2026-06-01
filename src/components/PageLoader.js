@@ -5,7 +5,7 @@ import loaderGif from "../Assets/loader/loader.gif"
 const LOADER_DURATION_MS = 2500
 const FADE_DURATION_MS = 500
 
-const PageLoader = () => {
+const PageLoader = ({ onDone }) => {
   const [visible, setVisible] = React.useState(false)
   const [fading, setFading] = React.useState(false)
 
@@ -24,9 +24,15 @@ const PageLoader = () => {
       setVisible(false)
     }, LOADER_DURATION_MS + FADE_DURATION_MS)
 
+    // Notify parent that transition is starting (so homepage can prepare)
+    const doneTimer = setTimeout(() => {
+      onDone?.()
+    }, LOADER_DURATION_MS)
+
     return () => {
       clearTimeout(fadeTimer)
       clearTimeout(removeTimer)
+      clearTimeout(doneTimer)
     }
   }, [])
 
@@ -48,17 +54,17 @@ const PageLoader = () => {
           position: fixed;
           inset: 0;
           z-index: 9999;
-          background: #F9F9F8;
+          background: #FFF;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           opacity: 1;
-          transition: opacity ${FADE_DURATION_MS}ms ease;
+          transition: transform ${FADE_DURATION_MS}ms cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         .page-loader--fading {
-          opacity: 0;
+          transform: translateY(-100%);
           pointer-events: none;
         }
 
