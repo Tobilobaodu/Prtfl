@@ -1,20 +1,21 @@
 import * as React from "react"
 import loaderGif from "../Assets/loader/loader.gif"
 
-// Adjust this to match the gif's duration in milliseconds
 const LOADER_DURATION_MS = 2500
 const FADE_DURATION_MS = 500
 
+// Check sessionStorage synchronously so the loader is visible before hydration
+const shouldShow = () =>
+  typeof window !== "undefined" && !sessionStorage.getItem("loader_shown")
+
 const PageLoader = () => {
-  const [visible, setVisible] = React.useState(false)
+  const [visible, setVisible] = React.useState(shouldShow)
   const [fading, setFading] = React.useState(false)
 
   React.useEffect(() => {
-    if (typeof window === "undefined") return
-    if (sessionStorage.getItem("loader_shown")) return
+    if (!visible) return
 
     sessionStorage.setItem("loader_shown", "true")
-    setVisible(true)
 
     const fadeTimer = setTimeout(() => {
       setFading(true)
