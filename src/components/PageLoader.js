@@ -4,7 +4,7 @@ import loaderGif from "../Assets/loader/loader.gif"
 const LOADER_DURATION_MS = 2500
 const FADE_DURATION_MS = 500
 
-const PageLoader = () => {
+const PageLoader = ({ onDone }) => {
   const [visible, setVisible] = React.useState(false)
   const [fading, setFading] = React.useState(false)
 
