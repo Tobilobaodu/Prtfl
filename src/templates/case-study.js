@@ -463,11 +463,11 @@ const CaseStudyTemplate = ({ data }) => {
   React.useEffect(() => {
     const alignToc = () => {
       const bodyLayout = document.querySelector('.cs-body-layout')
-      const firstTitleMedium = document.querySelector('.cs-content-col .type-title-medium')
-      if (bodyLayout && firstTitleMedium) {
+      const firstContentEl = document.querySelector('.cs-content-col > *:first-child')
+      if (bodyLayout && firstContentEl) {
         const layoutTop = bodyLayout.getBoundingClientRect().top + window.scrollY
-        const titleTop = firstTitleMedium.getBoundingClientRect().top + window.scrollY
-        setTocOffset(Math.max(0, titleTop - layoutTop))
+        const contentTop = firstContentEl.getBoundingClientRect().top + window.scrollY
+        setTocOffset(Math.max(0, contentTop - layoutTop))
       }
     }
     alignToc()
@@ -726,7 +726,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .cs-toc-col {
           position: sticky;
-          top: 120px;
+          top: 40px;
         }
 
         .toc-heading {
