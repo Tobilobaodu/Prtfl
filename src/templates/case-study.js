@@ -707,7 +707,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .cs-intro-wrapper {
           display: grid;
-          grid-template-columns: 210px 1fr;
+          grid-template-columns: 280px 1fr;
           gap: 60px;
           max-width: 1240px;
           margin: 0 auto;
@@ -716,7 +716,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         .cs-body-layout {
           display: grid;
-          grid-template-columns: 210px 1fr;
+          grid-template-columns: 280px 1fr;
           gap: 60px;
           max-width: 1240px;
           margin: 0 auto;
