@@ -586,7 +586,7 @@ const CaseStudyTemplate = ({ data }) => {
         .case-study-page {
           background: transparent;
           min-height: 100vh;
-          margin: -100px 0 0 -100px;
+          margin: 0 0 0 -100px;
           position: relative;
           overflow-x: clip;
         }
@@ -1262,6 +1262,7 @@ const CaseStudyTemplate = ({ data }) => {
 
         /* ── Responsive ── */
         @media (max-width: 1200px) {
+          .case-study-page { margin-left: -20px; }
           .cs-intro-wrapper { padding: 40px 20px 30px; gap: 40px; }
           .cs-body-layout { padding: 0px 20px 100px; gap: 40px; }
           .cs-footer { padding: 0 20px 60px; }
