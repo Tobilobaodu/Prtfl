@@ -181,7 +181,7 @@ const Layout = ({ children }) => {
         }
 
         main {
-          padding-top: 0px;
+          padding-left: 100px;
         }
 
         @media (max-width: 1200px) {
@@ -191,6 +191,10 @@ const Layout = ({ children }) => {
 
           .menu-panel {
             right: 20px;
+          }
+
+          main {
+            padding-left: 20px;
           }
         }
 
@@ -206,6 +210,10 @@ const Layout = ({ children }) => {
 
           .menu-link {
             font-size: 16px;
+          }
+
+          main {
+            padding-left: 20px;
           }
         }
 
@@ -264,6 +272,7 @@ const Layout = ({ children }) => {
           }
 
           main {
+            padding-left: 0;
             padding-top: 0;
             min-height: calc(100vh - 84px);
           }

@@ -204,7 +204,7 @@ const CaseStudyPage = () => {
           background-size: 100px 100px;
           background-blend-mode: normal;
           min-height: 100vh;
-          margin: -100px 0 0 -100px;
+          margin: 0 0 0 -100px;
           position: relative;
         }
 
@@ -510,6 +510,10 @@ const CaseStudyPage = () => {
         }
 
         @media (max-width: 1200px) {
+          .case-study-page {
+            margin-left: -20px;
+          }
+
           .side-panel {
             position: relative;
             width: 100%;
@@ -535,6 +539,10 @@ const CaseStudyPage = () => {
         }
 
         @media (max-width: 768px) {
+          .case-study-page {
+            margin-left: -20px;
+          }
+
           .case-study-nav {
             padding: 32px 20px;
           }

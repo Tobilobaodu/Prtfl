@@ -192,7 +192,7 @@ body {
   color: var(--black-pitch-nah);
   font-family: var(--font-nhd);
   font-weight: 400;
-  margin: 100px 0 0 100px;
+  margin: 0;
   background: var(--white-not-wyt) url("/noise.png");
   background-size: auto, 100px 100px;
   background-blend-mode: normal;
@@ -348,15 +348,9 @@ button {
   font-weight: var(--type-display-xlarge-weight);
 }
 
-@media (max-width: 768px) {
-  body {
-    margin: 0;
-  }
-}
 
 @media (max-width: 480px) {
   body {
-    margin: 0;
     background: #F9F9F8 url("/noise.png");
     background-size: auto, 100px 100px;
     background-blend-mode: normal;

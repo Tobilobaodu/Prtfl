@@ -141,10 +141,11 @@ const IndexPage = ({ data }) => {
         .home-container {
           width: 100%;
           background: transparent;
-          min-height: calc(100vh - 100px);
+          min-height: 100vh;
           position: relative;
           display: flex;
           flex-direction: column;
+          padding-top: 100px;
         }
 
         .container {
