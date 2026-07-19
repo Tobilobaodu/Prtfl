@@ -52,7 +52,7 @@ const Layout = ({ children }) => {
               <Link to="/experience" className="menu-link" onClick={() => setMenuOpen(false)}>XPRNC</Link>
               <Link to="/sndbx" className="menu-link" onClick={() => setMenuOpen(false)}>SNDBX</Link>
               <Link to="/photography" className="menu-link" onClick={() => setMenuOpen(false)}>PHTGRPHY</Link>
-              <Link to="/ntpd" className="menu-link" onClick={() => setMenuOpen(false)}>NTPD</Link>
+              <a href="https://medium.com/@tobilobaodu" target="_blank" rel="noopener noreferrer" className="menu-link" onClick={() => setMenuOpen(false)}>NTPD</a>
               <Link to="/cntct" className="menu-link" onClick={() => setMenuOpen(false)}>CNTCT</Link>
             </nav>
           </div>

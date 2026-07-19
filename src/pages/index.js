@@ -248,8 +248,8 @@ const IndexPage = ({ data }) => {
           position: fixed;
           right: 100px;
           top: 159px;
-          width: 1000px;
-          height: 500px;
+          width: 750px;
+          height: 400px;
           pointer-events: none;
           z-index: 50;
           animation: fadeInImage 0.3s ease;
@@ -270,6 +270,22 @@ const IndexPage = ({ data }) => {
           width: 100%;
           height: 100%;
           object-fit: cover;
+        }
+
+        .project-image-preview .gatsby-image-wrapper {
+          width: 100%;
+          height: 100%;
+        }
+
+        .project-image-preview .gatsby-image-wrapper picture {
+          width: 100%;
+          height: 100%;
+        }
+
+        .project-image-preview .gatsby-image-wrapper img {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
         }
 
         .socials-section {
