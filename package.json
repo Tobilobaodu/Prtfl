@@ -12,7 +12,7 @@
     "engine.io": "^6.6.9",
     "gatsby": "^5.16.1",
     "gatsby-plugin-image": "^3.16.0",
-    "gatsby-plugin-manifest": "^1.0.15",
+    "gatsby-plugin-manifest": "^5.16.0",
     "gatsby-plugin-sharp": "^5.16.0",
     "gatsby-source-filesystem": "^5.16.0",
     "gatsby-source-sanity": "^7.9.2",
