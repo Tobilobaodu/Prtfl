@@ -4,10 +4,33 @@ import "./layout.css"
 
 const Layout = ({ children }) => {
   const [menuOpen, setMenuOpen] = React.useState(false)
+  const [scrollOpacity, setScrollOpacity] = React.useState(0)
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const threshold = 80
+      const opacity = Math.min(scrollY / threshold, 1)
+      setScrollOpacity(opacity)
+    }
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
     <>
-      <nav className="navigation">
+      <nav
+        className="navigation"
+        style={{
+          background: scrollOpacity > 0
+            ? `rgba(255, 255, 255, ${0.05 * scrollOpacity})`
+            : 'transparent',
+          backdropFilter: scrollOpacity > 0
+            ? `blur(${2.5 * scrollOpacity}px)`
+            : 'none',
+        }}
+      >
         <Link to="/" className="logo">
           <svg width="69" height="21" viewBox="0 0 69 21" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4.97874 1.0038H10.0213V20H4.97874V1.0038Z" fill="#EE550E"/>
@@ -72,7 +95,6 @@ const Layout = ({ children }) => {
           left: 0;
           right: 0;
           z-index: 100;
-          background: transparent;
         }
 
         .logo {
