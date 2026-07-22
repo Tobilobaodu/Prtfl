@@ -5,20 +5,26 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@gatsbyjs/reach-router": "^2.0.1",
     "@sanity/client": "^7.22.1",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^5.9.0",
+    "engine.io": "^6.6.9",
     "gatsby": "^5.16.1",
     "gatsby-plugin-image": "^3.16.0",
     "gatsby-plugin-manifest": "^5.16.0",
     "gatsby-plugin-sharp": "^5.16.0",
     "gatsby-source-filesystem": "^5.16.0",
-    "gatsby-source-sanity": "^7.6.0",
+    "gatsby-source-sanity": "^7.9.2",
     "gatsby-transformer-sharp": "^5.16.0",
+    "potrace": "^2.1.8",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "sanity": "^5.9.0",
     "styled-components": "^6.1.19"
+  },
+  "overrides": {
+    "minimatch": "^9.0.7"
   },
   "devDependencies": {
     "prettier": "^2.8.8"
