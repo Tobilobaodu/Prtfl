@@ -61,3 +61,19 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+# Binary assets. `* text=auto` above relies on content sniffing; declaring
+# these explicitly guarantees git never applies line-ending conversion to them,
+# which would silently corrupt fonts and images.
+*.woff2 binary
+*.woff  binary
+*.ttf   binary
+*.eot   binary
+*.otf   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.mp4   binary
+*.psd   binary

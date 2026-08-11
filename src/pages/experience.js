@@ -176,7 +176,7 @@ const ExperiencePage = ({ data }) => {
         </div>
       </div>
 
-      <style jsx="true">{`
+      <style>{`
         .experience-container {
           width: 100%;
           min-height: calc(100vh - 85px);
@@ -540,7 +540,7 @@ const ExperiencePage = ({ data }) => {
   )
 }
 
-export const Head = () => <Seo title="Experience" />
+export const Head = ({ location }) => <Seo title="Experience" pathname={location?.pathname} />
 
 export default ExperiencePage
 

@@ -91,7 +91,7 @@ const AboutPage = () => {
         </div>
       </div>
 
-      <style jsx="true">{`
+      <style>{`
         .experience-container {
           width: 100%;
           background: var(--white-not-wyt);
@@ -275,6 +275,6 @@ const AboutPage = () => {
   )
 }
 
-export const Head = () => <Seo title="About" />
+export const Head = ({ location }) => <Seo title="About" pathname={location?.pathname} />
 
 export default AboutPage

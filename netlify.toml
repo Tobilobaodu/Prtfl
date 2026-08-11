@@ -6,45 +6,53 @@
   functions = "netlify/functions"
 
 [build.environment]
-  # Node version for builds
-  NODE_VERSION = "18"
+  # Node 18 reached end-of-life in April 2025 and Sanity v5 requires >= 20.
+  # Keep this in sync with "engines" in package.json and .nvmrc.
+  NODE_VERSION = "20"
 
 # Branch-based deployments
 [context.production]
-  # Production branch (main)
   command = "npm run build"
   publish = "public"
 
 [context.staging]
-  # Staging branch
   command = "npm run build"
   publish = "public"
 
 [context.deploy-preview]
-  # Pull request previews
   command = "npm run build"
   publish = "public"
 
-# Sanity Studio routes
+# Sanity Studio routes. Only relevant if the Studio is built into public/studio;
+# the hosted Studio lives at the studioHost configured in sanity.cli.ts.
 [[redirects]]
   from = "/studio/*"
   to = "/studio/index.html"
   status = 200
 
-# Redirect rules for SPA (Single Page Application)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# NOTE: There is deliberately no `/* -> /index.html 200` catch-all here.
+# Gatsby emits a real HTML file per route plus its own 404.html, so an SPA
+# fallback would serve the homepage with HTTP 200 for unknown URLs — a soft 404
+# that search engines index and that hides src/pages/404.js from users.
 
 # Security headers
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
+    # Explicitly disabled: the legacy XSS auditor is deprecated and its
+    # filtering has itself been a source of vulnerabilities. Modern browsers
+    # ignore it; "0" is the current OWASP recommendation.
+    X-XSS-Protection = "0"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+# Never cache the protected-content endpoints.
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "no-store"
 
 # Cache static assets
 [[headers]]
@@ -68,10 +76,11 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Environment variables (set these in Netlify dashboard)
-# SANITY_PROJECT_ID=bhfv0qe4
-# SANITY_DATASET=production
-# SANITY_READ_TOKEN=your_read_token_here
-# GATSBY_SANITY_PROJECT_ID=bhfv0qe4
-# GATSBY_SANITY_DATASET=production
-# PUBLIC_BUILDER_KEY=your_builder_key_here
+# Required environment variables (set these in the Netlify dashboard):
+#
+#   SANITY_PROJECT_ID    Sanity project id (defaults to bhfv0qe4)
+#   SANITY_DATASET       Sanity dataset (defaults to production)
+#   SANITY_READ_TOKEN    Sanity read token, used at build time and by functions
+#   CASE_STUDY_SECRET    Random string, >= 32 chars. Signs the access tokens
+#                        that gate password-protected case studies. Without it
+#                        protected case studies cannot be unlocked at all.

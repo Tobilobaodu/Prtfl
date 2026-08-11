@@ -21,6 +21,11 @@ const SndbxPage = ({ data }) => {
     }
   }
 
+  const handleProjectKeyDown = (project, e) => {
+    if (e.key !== "Enter" && e.key !== " ") return
+    handleProjectClick(project, e)
+  }
+
   const handlePasswordCorrect = () => {
     if (selectedProject) {
       navigate(`/case-study/${selectedProject.slug.current}`)
@@ -39,11 +44,15 @@ const SndbxPage = ({ data }) => {
           </div>
 
           <div className="projects-list">
-            {projects.map((project, index) => (
+            {projects.map((project) => (
               <div
-                key={index}
+                key={project.id}
+                role="button"
+                tabIndex={0}
+                aria-label={`${project.title}${project.locked ? ' (password protected)' : ''}`}
                 className="project-item"
                 onClick={(e) => handleProjectClick(project, e)}
+                onKeyDown={(e) => handleProjectKeyDown(project, e)}
               >
                 <div className="project-row">
                   <div className="project-name">{project.title}</div>
@@ -68,12 +77,12 @@ const SndbxPage = ({ data }) => {
       <LockedProjectModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        projectPassword={selectedProject?.password}
+        projectSlug={selectedProject?.slug?.current}
         onPasswordCorrect={handlePasswordCorrect}
         projectTitle={selectedProject?.title}
       />
 
-      <style jsx="true">{`
+      <style>{`
         .sndbx-container {
           width: 100%;
           min-height: calc(100vh - 100px);
@@ -300,7 +309,6 @@ export const query = graphql`
           client
           year
           locked
-          password
           slug {
             current
           }
@@ -310,6 +318,6 @@ export const query = graphql`
   }
 `
 
-export const Head = () => <Seo title="Sandbox" />
+export const Head = ({ location }) => <Seo title="Sandbox" pathname={location?.pathname} />
 
 export default SndbxPage

@@ -1,111 +1,127 @@
-/* Custom Neue Haas Display Font Declarations */
+/* Neue Haas Display.
+   woff2 first (~74% smaller than the TTFs), with the original TTF kept as a
+   fallback for anything that cannot handle woff2. Same glyph coverage — the
+   fonts are re-encoded, not subset.
+
+   The Google Fonts @import for Inter that used to sit at the end of this block
+   was invalid: CSS requires @import to precede all other rules, so browsers
+   ignored it and Inter never loaded. It is dropped rather than moved — the
+   --font-nhd stack already falls back through Inter to the system UI fonts,
+   so nothing needs a render-blocking third-party request. */
+
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayThin.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayThin.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayThin.ttf') format('truetype');
   font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayXThin.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayXThin.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayXThin.ttf') format('truetype');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayLight.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayLight.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayLight.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayRoman.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayRoman.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayRoman.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayMediu.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayMediu.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayMediu.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayBold.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayBold.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayBold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayBlack.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayBlack.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayBlack.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
-
-/* Italic Variants */
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayThinItalic.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayThinItalic.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayThinItalic.ttf') format('truetype');
   font-weight: 100;
   font-style: italic;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayLightItalic.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayXThinItalic.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayXThinItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('../Assets/Font/NeueHaasDisplayLightItalic.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayLightItalic.ttf') format('truetype');
   font-weight: 300;
   font-style: italic;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayRomanItalic.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayRomanItalic.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayRomanItalic.ttf') format('truetype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayMediumItalic.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayMediumItalic.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayMediumItalic.ttf') format('truetype');
   font-weight: 500;
   font-style: italic;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayBoldItalic.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayBoldItalic.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayBoldItalic.ttf') format('truetype');
   font-weight: 700;
   font-style: italic;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayBlackItalic.ttf') format('truetype');
+  src: url('../Assets/Font/NeueHaasDisplayBlackItalic.woff2') format('woff2'),
+       url('../Assets/Font/NeueHaasDisplayBlackItalic.ttf') format('truetype');
   font-weight: 900;
   font-style: italic;
   font-display: swap;
 }
 
-/* Fallback to Inter if Neue Haas fails to load */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --white-not-wyt: #F9F9F8;
@@ -406,6 +422,14 @@ button {
   height: 32px;
 }
 
+/* Set by the pre-hydration script in gatsby-ssr.js on repeat visits within a
+   session, so the intro loader is hidden before it can flash. */
+html.loader-skip .js-page-loader {
+  display: none !important;
+}
+
+/* A <button> so the menu can be dismissed from the keyboard as well as by
+   pointer; the resets below keep it visually identical to the old <div>. */
 .menu-blur-overlay {
   position: fixed;
   top: 0;
@@ -416,6 +440,12 @@ button {
   backdrop-filter: blur(2.5px);
   z-index: 99;
   animation: fadeIn 0.3s ease;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  cursor: default;
+  appearance: none;
 }
 
 @keyframes fadeIn {

@@ -24,7 +24,7 @@ const NotFoundPage = () => {
         </div>
       </div>
 
-      <style jsx="true">{`
+      <style>{`
         .not-found-page {
           background: #F9F9F8;
           min-height: 100vh;
@@ -200,6 +200,10 @@ const NotFoundPage = () => {
   )
 }
 
-export const Head = () => <Seo title="404: Not Found" />
+export const Head = () => (
+  <Seo title="404: Not Found">
+    <meta name="robots" content="noindex" />
+  </Seo>
+)
 
 export default NotFoundPage

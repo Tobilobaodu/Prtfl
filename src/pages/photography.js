@@ -40,7 +40,7 @@ const PhotographyPage = ({ data }) => {
         </div>
       </div>
 
-      <style jsx="true">{`
+      <style>{`
         .photography-container {
           width: 100%;
           min-height: calc(100vh - 85px);
@@ -256,7 +256,7 @@ const PhotographyPage = ({ data }) => {
   )
 }
 
-export const Head = () => <Seo title="Photography" />
+export const Head = ({ location }) => <Seo title="Photography" pathname={location?.pathname} />
 
 export const query = graphql`
   query PhotographyQuery {
