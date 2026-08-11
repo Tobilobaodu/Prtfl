@@ -109,7 +109,7 @@ const ContactPage = () => {
         </div>
       </div>
 
-      <style jsx="true">{`
+      <style>{`
         .contact-container {
           width: 100%;
           background: var(--white-not-wyt);
@@ -271,6 +271,6 @@ const ContactPage = () => {
   )
 }
 
-export const Head = () => <Seo title="Contact" />
+export const Head = ({ location }) => <Seo title="Contact" pathname={location?.pathname} />
 
 export default ContactPage

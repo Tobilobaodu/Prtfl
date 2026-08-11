@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Link, graphql, navigate } from "gatsby"
+import { graphql, navigate } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -7,15 +7,28 @@ import LockedProjectModal from "../components/LockedProjectModal"
 
 const PortfolioPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
+  const [selectedProject, setSelectedProject] = React.useState(null)
   const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
   const handleProjectClick = (project, e) => {
+    e.preventDefault()
+    setSelectedProject(project)
+
     if (project.locked) {
-      e.preventDefault()
       setModalOpen(true)
     } else {
-      // Navigate to case study page
       navigate(`/case-study/${project.slug.current}`)
+    }
+  }
+
+  const handleProjectKeyDown = (project, e) => {
+    if (e.key !== "Enter" && e.key !== " ") return
+    handleProjectClick(project, e)
+  }
+
+  const handlePasswordCorrect = () => {
+    if (selectedProject) {
+      navigate(`/case-study/${selectedProject.slug.current}`)
     }
   }
 
@@ -31,11 +44,15 @@ const PortfolioPage = ({ data }) => {
           </div>
 
           <div className="projects-grid">
-            {projects.map((project, index) => (
+            {projects.map((project) => (
               <div
-                key={index}
+                key={project.id}
+                role="button"
+                tabIndex={0}
+                aria-label={`${project.title}${project.locked ? ' (password protected)' : ''}`}
                 className="project-card"
                 onClick={(e) => handleProjectClick(project, e)}
+                onKeyDown={(e) => handleProjectKeyDown(project, e)}
               >
                 <div className="project-image-wrapper">
                   {project.heroImage?.asset?.gatsbyImageData && (
@@ -96,9 +113,15 @@ const PortfolioPage = ({ data }) => {
         </div>
       </div>
 
-      <LockedProjectModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <LockedProjectModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        projectSlug={selectedProject?.slug?.current}
+        projectTitle={selectedProject?.title}
+        onPasswordCorrect={handlePasswordCorrect}
+      />
 
-      <style jsx="true">{`
+      <style>{`
         .portfolio-container {
           width: 100%;
           min-height: calc(100vh - 85px);
@@ -528,6 +551,6 @@ export const query = graphql`
   }
 `
 
-export const Head = () => <Seo title="Portfolio" />
+export const Head = ({ location }) => <Seo title="Portfolio" pathname={location?.pathname} />
 
 export default PortfolioPage

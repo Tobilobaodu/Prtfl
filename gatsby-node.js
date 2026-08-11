@@ -6,6 +6,13 @@
 
 const path = require("path")
 
+// Sentinel slug that matches no project. Locked case studies are built with
+// this as their content slug so the page query resolves to null and their body
+// never reaches the static output (public/page-data/**). The real content is
+// served at runtime by netlify/functions/get-case-study.js, gated on a signed
+// token from netlify/functions/verify-password.js.
+const NO_CONTENT_SLUG = "__locked__"
+
 /**
  * @type {import('gatsby').GatsbyNode['createPages']}
  */
@@ -18,6 +25,7 @@ exports.createPages = async ({ graphql, actions }) => {
       allSanityProject {
         edges {
           node {
+            locked
             slug {
               current
             }
@@ -36,21 +44,17 @@ exports.createPages = async ({ graphql, actions }) => {
   caseStudyResult.data.allSanityProject.edges.forEach(({ node }) => {
     // Only create pages for projects that have slugs set
     if (node.slug?.current) {
+      const locked = node.locked === true
+
       createPage({
         path: `case-study/${node.slug.current}`,
         component: caseStudyTemplate,
         context: {
           slug: node.slug.current,
+          locked,
+          contentSlug: locked ? NO_CONTENT_SLUG : node.slug.current,
         },
       })
     }
-  })
-
-  // Keep existing DSG page
-  createPage({
-    path: "/using-dsg",
-    component: require.resolve("./src/templates/using-dsg.js"),
-    context: {},
-    defer: true,
   })
 }

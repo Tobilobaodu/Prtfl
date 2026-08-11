@@ -18,6 +18,16 @@ const Layout = ({ children }) => {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Escape closes the menu, matching the click-outside affordance.
+  React.useEffect(() => {
+    if (!menuOpen) return
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setMenuOpen(false)
+    }
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [menuOpen])
+
   return (
     <>
       <nav
@@ -42,10 +52,13 @@ const Layout = ({ children }) => {
             <path d="M64 1H69V20H64V1Z" fill="#EE550E"/>
           </svg>
         </Link>
-        <button 
+        <button
+          type="button"
           className={`menu-icon ${menuOpen ? 'open' : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="primary-menu"
         >
           {menuOpen ? (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,15 +81,21 @@ const Layout = ({ children }) => {
 
       {menuOpen && (
         <>
-          <div className="menu-blur-overlay" onClick={() => setMenuOpen(false)}></div>
-          <div className="menu-panel">
-            <nav className="menu-nav">
+          <button
+            type="button"
+            className="menu-blur-overlay"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+          />
+          <div className="menu-panel" id="primary-menu">
+            <nav className="menu-nav" aria-label="Primary">
               <Link to="/portfolio" className="menu-link" onClick={() => setMenuOpen(false)}>WRKS</Link>
               <Link to="/experience" className="menu-link" onClick={() => setMenuOpen(false)}>XPRNC</Link>
               <Link to="/sndbx" className="menu-link" onClick={() => setMenuOpen(false)}>SNDBX</Link>
               <Link to="/photography" className="menu-link" onClick={() => setMenuOpen(false)}>PHTGRPHY</Link>
               <a href="https://medium.com/@tobilobaodu" target="_blank" rel="noopener noreferrer" className="menu-link" onClick={() => setMenuOpen(false)}>NTPD</a>
-              <Link to="/cntct" className="menu-link" onClick={() => setMenuOpen(false)}>CNTCT</Link>
+              {/* Was /cntct, which has no matching page and 404'd site-wide. */}
+              <Link to="/contact" className="menu-link" onClick={() => setMenuOpen(false)}>CNTCT</Link>
             </nav>
           </div>
         </>

@@ -3,6 +3,9 @@ import { Link, graphql } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import LockedProjectModal from "../components/LockedProjectModal"
+import { getStoredToken, fetchProtectedCaseStudy } from "../utils/caseStudyAccess"
+import { sanityImageProps, sanityImageUrl, sanityImageSrcSet } from "../utils/sanityImage"
 import LeftActive from "../Assets/SVG/Left_Active.svg"
 import LeftDisabled from "../Assets/SVG/Left_Disabled.svg"
 import RightActive from "../Assets/SVG/Right_Active.svg"
@@ -79,7 +82,16 @@ const HeroSection = ({ headline, subtext, date, heroImage }) => {
       </div>
       {imageUrl && (
         <div className="hero-section-image">
-          <img src={imageUrl} alt={headline || 'Hero image'} />
+          {/* Above the fold and usually the LCP element, so load it eagerly. */}
+          <img
+            src={sanityImageUrl(imageUrl, { width: 1280 })}
+            srcSet={sanityImageSrcSet(imageUrl)}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            alt={heroImage?.alt || headline || 'Hero image'}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
         </div>
       )}
     </div>
@@ -98,68 +110,85 @@ const NdaNotice = ({ text }) => {
   )
 }
 
+/**
+ * <img> for a raw Sanity asset: requests a right-sized, auto-format transform
+ * off the CDN with a responsive srcset instead of the full-resolution original,
+ * and prefers the alt text set in the Studio.
+ */
+const SanityImg = ({ image, fallbackAlt, sizes, width, className }) => {
+  const url = image?.asset?.url
+  if (!url) return null
+  return (
+    <img
+      {...sanityImageProps(url, { width, sizes })}
+      alt={image?.alt || fallbackAlt}
+      className={className}
+    />
+  )
+}
+
+// How wide each cell renders relative to the viewport, so the browser can pick
+// the right srcset candidate.
+const GRID_SIZES = {
+  single: '100vw',
+  'grid-2': '(max-width: 768px) 100vw, 50vw',
+  'grid-3': '(max-width: 768px) 100vw, 33vw',
+  'grid-4-horizontal': '(max-width: 480px) 50vw, 25vw',
+  'grid-4-square': '(max-width: 480px) 50vw, 25vw',
+  'grid-5': '(max-width: 768px) 50vw, 33vw',
+}
+
 const ImageComponent = ({ layout, images, enableGaps = true, fullHeightImage = 1 }) => {
   const heightClass = 'height-fixed-800'
+  const sizes = GRID_SIZES[layout] || '100vw'
+  const gapClass = enableGaps ? 'gaps-enabled' : 'gaps-disabled'
 
   if (layout === 'single' && images?.[0]) {
     return (
       <div className={`image-single ${heightClass}`}>
-        <img src={images[0]?.asset?.url || ''} alt="Project image" className="section-image" />
+        <SanityImg
+          image={images[0]}
+          fallbackAlt="Project image"
+          sizes={sizes}
+          width={1920}
+          className="section-image"
+        />
       </div>
     )
   }
 
-  if (layout === 'grid-2' && images?.length === 2) {
-    return (
-      <div className={`image-grid grid-2 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
-        {images.map((image, index) => (
-          <div key={index} className="grid-item">
-            <img src={image?.asset?.url || ''} alt={`Project image ${index + 1}`} />
-          </div>
-        ))}
-      </div>
-    )
+  const expectedCount = {
+    'grid-2': 2,
+    'grid-3': 3,
+    'grid-4-horizontal': 4,
+    'grid-4-square': 4,
+    'grid-5': 5,
+  }[layout]
+
+  if (!expectedCount || images?.length !== expectedCount) return null
+
+  const fullHeightIndex = layout === 'grid-3' ? (fullHeightImage || 1) - 1 : -1
+
+  const itemClass = (index) => {
+    if (layout === 'grid-3' && index === fullHeightIndex) return 'grid-item full-height'
+    if (layout === 'grid-5' && index === 0) return 'grid-item full-width'
+    return 'grid-item'
   }
 
-  if (layout === 'grid-3' && images?.length === 3) {
-    const fullHeightIndex = (fullHeightImage || 1) - 1
-    return (
-      <div className={`image-grid grid-3 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
-        {images.map((image, index) => (
-          <div key={index} className={`grid-item ${index === fullHeightIndex ? 'full-height' : ''}`}>
-            <img src={image?.asset?.url || ''} alt={`Project image ${index + 1}`} />
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  if ((layout === 'grid-4-horizontal' || layout === 'grid-4-square') && images?.length === 4) {
-    const gridClass = layout === 'grid-4-horizontal' ? 'grid-4-horizontal' : 'grid-4-square'
-    return (
-      <div className={`image-grid ${gridClass} ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
-        {images.map((image, index) => (
-          <div key={index} className="grid-item">
-            <img src={image?.asset?.url || ''} alt={`Project image ${index + 1}`} />
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  if (layout === 'grid-5' && images?.length === 5) {
-    return (
-      <div className={`image-grid grid-5 ${heightClass} ${enableGaps ? 'gaps-enabled' : 'gaps-disabled'}`}>
-        {images.map((image, index) => (
-          <div key={index} className={`grid-item ${index === 0 ? 'full-width' : ''}`}>
-            <img src={image?.asset?.url || ''} alt={`Project image ${index + 1}`} />
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  return null
+  return (
+    <div className={`image-grid ${layout} ${heightClass} ${gapClass}`}>
+      {images.map((image, index) => (
+        <div key={image?._key || index} className={itemClass(index)}>
+          <SanityImg
+            image={image}
+            fallbackAlt={`Project image ${index + 1}`}
+            sizes={sizes}
+            width={1280}
+          />
+        </div>
+      ))}
+    </div>
+  )
 }
 
 const SectionTitleBlock = ({ title }) => <h2 className="text-section-title">{title}</h2>
@@ -185,7 +214,16 @@ const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
     <div id={id} className="icon-heading-block">
       {iconUrl && (
         <div className="ihb-icon">
-          <img src={iconUrl} alt="" loading="lazy" />
+          {/* Rendered at 49×49; request 2x rather than the full original. */}
+          <img
+            src={sanityImageUrl(iconUrl, { width: 98 })}
+            alt=""
+            aria-hidden="true"
+            width="49"
+            height="49"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       )}
       {heading && <h2 className="ihb-heading type-display-small">{heading}</h2>}
@@ -258,12 +296,18 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
     }
     if (!videoSrc) return <div className="video-error"><p>Video source not available</p></div>
 
+    // gatsbyImageData exists only for build-time content; runtime-unlocked
+    // content carries a plain asset URL, so fall back to a CDN transform.
     const posterSrc = posterImage?.asset?.gatsbyImageData
       ? getImage(posterImage.asset.gatsbyImageData)?.images?.fallback?.src
-      : null
+      : sanityImageUrl(posterImage?.asset?.url, { width: 1280 }) || null
 
     return (
       <div className="video-container">
+        {/* The Sanity videoComponent schema has no caption-track field, so
+            there is no <track> to emit. The `caption` string below is
+            rendered as visible text instead. */}
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video controls autoPlay={autoplay} loop={loop} muted={muted} poster={posterSrc} className="video-player" preload="metadata">
           <source src={videoSrc} type={videoFile ? "video/mp4" : undefined} />
           Your browser does not support the video tag.
@@ -299,9 +343,8 @@ const SliderComponent = ({ slides }) => {
       {imageUrl && (
         <img
           className="slider-image"
-          src={imageUrl}
+          {...sanityImageProps(imageUrl, { width: 1280, sizes: '100vw' })}
           alt={slide?.image?.alt || `Slide ${current + 1}`}
-          loading="lazy"
         />
       )}
       <div className="slider-controls-bar">
@@ -444,21 +487,127 @@ const CaseStudyFooter = ({ relatedProjects }) => {
   )
 }
 
-const CaseStudyTemplate = ({ data }) => {
-  const caseStudy = data?.sanityCaseStudy
-  const project = caseStudy?.project
+/**
+ * Public shell shown for a locked case study before the password is entered.
+ * Deliberately limited to fields that are already public on the listing pages.
+ */
+const CaseStudyLockedShell = ({ project, loading, onRequestAccess }) => (
+  <>
+    {project.heroImage?.asset?.gatsbyImageData && (
+      <div className="hero-image">
+        <GatsbyImage
+          image={getImage(project.heroImage.asset.gatsbyImageData)}
+          alt={project.title}
+          className="hero-image-content"
+        />
+      </div>
+    )}
 
+    <div className="cs-intro-wrapper">
+      <div className="project-intro">
+        <h1 className="project-title">{project.title}</h1>
+        <div className="project-meta-row">
+          <div className="meta-item">
+            <span className="meta-label">Client:</span>
+            <span className="meta-value"> {project.client}</span>
+          </div>
+          <div className="meta-item">
+            <span className="meta-label">Project type:</span>
+            <span className="meta-value"> {project.projectType || "UX/UI Design"}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div className="cs-locked-panel">
+      <img src={InfoIcon} alt="" width="24" height="24" aria-hidden="true" />
+      <h2 className="cs-locked-title">This case study is protected</h2>
+      <p className="cs-locked-text">
+        The full write-up is covered by a non-disclosure agreement. Enter the access
+        password to read it, or get in touch to request one.
+      </p>
+      <button className="cs-locked-btn" onClick={onRequestAccess} disabled={loading}>
+        {loading ? "Checking access…" : "Enter password"}
+      </button>
+    </div>
+  </>
+)
+
+const CaseStudyTemplate = ({ data, pageContext }) => {
+  const slug = pageContext?.slug
+  const isLocked = pageContext?.locked === true
+
+  // For locked projects the page query resolves to null by design (see
+  // gatsby-node.js), so `sanityProject` supplies the public shell — the same
+  // title/client/year/hero fields already published on the listing pages.
+  const staticCaseStudy = data?.sanityCaseStudy
+  const shellProject = data?.sanityProject
+
+  const [unlockedCaseStudy, setUnlockedCaseStudy] = React.useState(null)
+  const [gateOpen, setGateOpen] = React.useState(false)
+  const [restoringAccess, setRestoringAccess] = React.useState(isLocked)
+  const [activeId, setActiveId] = React.useState(null)
+  const [tocOffset, setTocOffset] = React.useState(0)
+
+  const caseStudy = staticCaseStudy || unlockedCaseStudy
+  const contentProject = caseStudy?.project
+
+  // Merge shell over content: the runtime GROQ projection deliberately omits
+  // heroImage (the shell already has it, complete with gatsbyImageData), so
+  // without this the hero would disappear the moment a locked page unlocked.
+  const project = React.useMemo(() => {
+    if (!contentProject && !shellProject) return null
+    return { ...(shellProject || {}), ...(contentProject || {}) }
+  }, [contentProject, shellProject])
 
   const cmsRelatedProjects = caseStudy?.relatedProjects || []
   const autoRelatedProjects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
   const relatedProjects = cmsRelatedProjects.length > 0 ? cmsRelatedProjects : autoRelatedProjects
 
-  const components = caseStudy?._rawComponents || []
+  // Build-time content arrives as `_rawComponents`; runtime-unlocked content
+  // arrives as `components` from get-case-study. Both are the same raw shape.
+  const rawComponents = caseStudy?._rawComponents || caseStudy?.components
+  const components = React.useMemo(() => rawComponents || [], [rawComponents])
   const firstComponent = components[0]
   const hasHeroSectionComponent = firstComponent?._type === 'heroSection'
 
-  const [activeId, setActiveId] = React.useState(null)
-  const [tocOffset, setTocOffset] = React.useState(0)
+  // On a locked page, try to restore access from a token issued earlier this
+  // session before showing the password gate.
+  React.useEffect(() => {
+    if (!isLocked) return
+    let cancelled = false
+
+    const token = getStoredToken(slug)
+    if (!token) {
+      setRestoringAccess(false)
+      setGateOpen(true)
+      return
+    }
+
+    fetchProtectedCaseStudy(slug, token).then(result => {
+      if (cancelled) return
+      if (result.caseStudy) {
+        setUnlockedCaseStudy(result.caseStudy)
+      } else {
+        setGateOpen(true)
+      }
+      setRestoringAccess(false)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [isLocked, slug])
+
+  const handleUnlocked = React.useCallback(() => {
+    const token = getStoredToken(slug)
+    fetchProtectedCaseStudy(slug, token).then(result => {
+      if (result.caseStudy) {
+        setUnlockedCaseStudy(result.caseStudy)
+        setGateOpen(false)
+      }
+    })
+  }, [slug])
 
   React.useEffect(() => {
     const alignToc = () => {
@@ -489,7 +638,44 @@ const CaseStudyTemplate = ({ data }) => {
     return () => observer.disconnect()
   }, [components])
 
-  if (!caseStudy || !project) {
+  if (!project) {
+    return (
+      <Layout>
+        <div style={{ padding: "100px 20px", textAlign: "center" }}>
+          <h1>Case Study Not Found</h1>
+          <p>The requested case study could not be found.</p>
+          <Link to="/">← Back to Home</Link>
+        </div>
+      </Layout>
+    )
+  }
+
+  // Locked and not yet unlocked: render only the public shell plus the gate.
+  // The protected body is not in this bundle — it is fetched after unlock.
+  if (isLocked && !caseStudy) {
+    return (
+      <Layout>
+        <div className="case-study-page">
+          <CaseStudyLockedShell
+            project={project}
+            loading={restoringAccess}
+            onRequestAccess={() => setGateOpen(true)}
+          />
+          <CaseStudyFooter relatedProjects={relatedProjects} />
+        </div>
+
+        <LockedProjectModal
+          isOpen={gateOpen}
+          onClose={() => setGateOpen(false)}
+          projectSlug={slug}
+          projectTitle={project.title}
+          onPasswordCorrect={handleUnlocked}
+        />
+      </Layout>
+    )
+  }
+
+  if (!caseStudy) {
     return (
       <Layout>
         <div style={{ padding: "100px 20px", textAlign: "center" }}>
@@ -582,13 +768,66 @@ const CaseStudyTemplate = ({ data }) => {
         <CaseStudyFooter relatedProjects={relatedProjects} />
       </div>
 
-      <style jsx="true">{`
+      <style>{`
         .case-study-page {
           background: transparent;
           min-height: 100vh;
           margin: 0 0 0 -100px;
           position: relative;
           overflow-x: clip;
+        }
+
+        .cs-locked-panel {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          max-width: 560px;
+          margin: 0 170px 120px;
+          padding: 32px 35px;
+          border-radius: 5px;
+          background: var(--white-not-wyt);
+          border: 1px solid rgba(29, 28, 28, 0.08);
+        }
+
+        .cs-locked-title {
+          font-family: var(--font-nhd);
+          font-size: 25px;
+          font-weight: 700;
+          line-height: 130%;
+          color: var(--black-pitch-nah);
+          margin: 0;
+        }
+
+        .cs-locked-text {
+          font-family: var(--font-nhd);
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 140%;
+          color: var(--grey-just);
+          margin: 0;
+        }
+
+        .cs-locked-btn {
+          margin-top: 8px;
+          padding: 12px 22px;
+          border: none;
+          border-radius: 5px;
+          background: var(--orange);
+          color: var(--white-heavenly);
+          font-family: var(--font-nhd);
+          font-size: 14px;
+          font-weight: 500;
+          letter-spacing: 0.42px;
+          cursor: pointer;
+          transition: opacity 0.2s ease;
+        }
+
+        .cs-locked-btn:hover:not(:disabled) { opacity: 0.85; }
+        .cs-locked-btn:disabled { opacity: 0.6; cursor: default; }
+
+        @media (max-width: 900px) {
+          .cs-locked-panel { margin: 0 39px 80px; padding: 24px 22px; }
         }
 
         .hero-section-component {
@@ -1343,8 +1582,11 @@ const CaseStudyTemplate = ({ data }) => {
 }
 
 export const query = graphql`
-  query ($slug: String!) {
-    sanityCaseStudy(project: { slug: { current: { eq: $slug } } }) {
+  query ($slug: String!, $contentSlug: String!) {
+    # For locked projects gatsby-node.js sets contentSlug to a sentinel that
+    # matches no project, so this resolves to null and the protected body never
+    # reaches public/page-data. Unlocked projects pass their real slug here.
+    sanityCaseStudy(project: { slug: { current: { eq: $contentSlug } } }) {
       id
       _rawComponents(resolveReferences: { maxDepth: 10 })
       project {
@@ -1371,6 +1613,20 @@ export const query = graphql`
         }
       }
     }
+    # Public shell for locked pages. Only fields already exposed on the
+    # homepage/portfolio/sandbox listings — no introText, no components.
+    sanityProject(slug: { current: { eq: $slug } }) {
+      id
+      title
+      client
+      year
+      projectType
+      heroImage {
+        asset {
+          gatsbyImageData
+        }
+      }
+    }
     allSanityProject(
       filter: {
         locked: { ne: true }
@@ -1393,9 +1649,19 @@ export const query = graphql`
   }
 `
 
-export const Head = ({ data }) => {
-  const project = data?.sanityCaseStudy?.project
-  return <Seo title={project?.title || "Case Study"} />
+export const Head = ({ data, location }) => {
+  // sanityCaseStudy is null for locked projects, so fall back to the shell.
+  const project = data?.sanityCaseStudy?.project || data?.sanityProject
+  const heroSrc = project?.heroImage?.asset?.gatsbyImageData?.images?.fallback?.src
+
+  return (
+    <Seo
+      title={project?.title || "Case Study"}
+      description={data?.sanityCaseStudy?.project?.shortDescription}
+      image={heroSrc}
+      pathname={location?.pathname}
+    />
+  )
 }
 
 export default CaseStudyTemplate

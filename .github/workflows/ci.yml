@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      # The build needs read access to Sanity. It is skipped on forks and on
+      # any checkout where the secret is unavailable, so those PRs still get
+      # lint and test feedback rather than a spurious red build.
+      - name: Check for Sanity credentials
+        id: sanity
+        run: |
+          if [ -n "${{ secrets.SANITY_READ_TOKEN }}" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::SANITY_READ_TOKEN not set — skipping the production build step."
+          fi
+
+      - name: Build
+        if: steps.sanity.outputs.available == 'true'
+        env:
+          SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
+          SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ vars.SANITY_DATASET }}
+        run: npm run build
+
+      # Guards the fix for the leak where sndbx's page query selected the
+      # `password` field, publishing plaintext passwords in page-data JSON.
+      - name: Assert no passwords in build output
+        if: steps.sanity.outputs.available == 'true'
+        run: |
+          if grep -rqi '"password"' public/page-data/ 2>/dev/null; then
+            echo "::error::A 'password' field is present in public/page-data — a GraphQL query is leaking it."
+            grep -rli '"password"' public/page-data/ || true
+            exit 1
+          fi
+          echo "No password fields found in build output."
