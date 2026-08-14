@@ -7,7 +7,7 @@ const ContactPage = () => {
     <Layout>
       <div className="contact-container">
         <div className="container">
-          <div className="intro">
+          <div className="page-intro">
             <h1 className="page-title">Let's Connect</h1>
             <p className="page-description">
               I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out through any of the channels below.
@@ -123,27 +123,25 @@ const ContactPage = () => {
           padding: 101px 0px 60px 0px;
         }
 
-        .intro {
+        .page-intro {
           text-align: center;
           margin-bottom: 60px;
         }
 
         .page-title {
-          font-size: 48px;
+          font-size: 28px;
           font-weight: 700;
           line-height: 95%;
           color: var(--black-pitch-nah);
-          margin-bottom: 20px;
+          padding-bottom: 10px;
         }
 
         .page-description {
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 400;
-          line-height: 140%;
-          letter-spacing: 0.32px;
-          color: var(--grey-just);
-          max-width: 600px;
-          margin: 0 auto;
+          line-height: 145%;
+          letter-spacing: 0.42px;
+          color: var(--black-pitch-nah);
         }
 
         .contact-grid {
@@ -248,10 +246,6 @@ const ContactPage = () => {
         @media (max-width: 768px) {
           .container {
             padding: 100px 20px 60px 20px;
-          }
-
-          .page-title {
-            font-size: 32px;
           }
 
           .contact-grid {

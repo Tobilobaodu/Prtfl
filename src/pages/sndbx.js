@@ -36,9 +36,9 @@ const SndbxPage = ({ data }) => {
     <Layout>
       <div className="sndbx-container">
         <div className="container">
-          <div className="section-intro">
-            <h1 className="section-title">sndbx</h1>
-            <p className="section-description">
+          <div className="page-intro">
+            <h1 className="page-title">sndbx</h1>
+            <p className="page-description">
               I'm responsible for UX Strategy + Design, leading a team of three UX designers who are responsible for creating exceptional user experiences for OSB Group's digital products.
             </p>
           </div>
@@ -98,25 +98,24 @@ const SndbxPage = ({ data }) => {
           gap: 40px;
         }
 
-        .section-intro {
+        .page-intro {
           display: flex;
           flex-direction: column;
           gap: 3px;
         }
 
-        .section-title {
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+        .page-title {
           font-size: 28px;
           font-weight: 700;
           line-height: 95%;
           color: var(--black-pitch-nah);
+          padding-bottom: 10px;
         }
 
-        .section-description {
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
+        .page-description {
           font-size: 14px;
           font-weight: 400;
-          line-height: 120%;
+          line-height: 145%;
           letter-spacing: 0.42px;
           color: var(--black-pitch-nah);
         }
@@ -206,27 +205,10 @@ const SndbxPage = ({ data }) => {
             gap: 20px;
           }
 
-          .section-intro {
+          .page-intro {
             display: flex;
             flex-direction: column;
             gap: 10px;
-          }
-
-          .section-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 95%;
-            color: #1D1C1C;
-          }
-
-          .section-description {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.42px;
-            color: #1D1C1C;
           }
 
           .projects-list {

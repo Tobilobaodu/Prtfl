@@ -58,3 +58,18 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   })
 }
+
+// Gatsby's develop webpack config injects eslint-webpack-plugin using
+// ESLint v8-only options (extensions, useEslintrc, resolvePluginsRelativeTo,
+// rulePaths), which crashes `gatsby develop` on ESLint v9. Lint stays
+// available via `npm run lint` (flat config); just don't run it in the bundler.
+exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
+  if (stage === `develop`) {
+    const config = getConfig()
+    config.plugins = (config.plugins || []).filter(
+      (plugin) =>
+        !(plugin && plugin.constructor && plugin.constructor.name === `ESLintWebpackPlugin`)
+    )
+    actions.replaceWebpackConfig(config)
+  }
+}

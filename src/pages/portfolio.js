@@ -36,7 +36,7 @@ const PortfolioPage = ({ data }) => {
     <Layout>
       <div className="portfolio-container">
         <div className="container">
-          <div className="intro">
+          <div className="page-intro">
             <h1 className="page-title">wrk</h1>
             <p className="page-description">
               I'm responsible for UX Strategy + Design, leading a team of three UX designers who are responsible for creating exceptional user experiences for OSB Group's digital products.
@@ -134,7 +134,7 @@ const PortfolioPage = ({ data }) => {
           padding: 101px 0px 60px 0px;
         }
 
-        .intro {
+        .page-intro {
           display: flex;
           flex-direction: column;
           gap: 10px;
@@ -146,12 +146,13 @@ const PortfolioPage = ({ data }) => {
           font-weight: 700;
           line-height: 95%;
           color: var(--black-pitch-nah);
+          padding-bottom: 10px;
         }
 
         .page-description {
           font-size: 14px;
           font-weight: 400;
-          line-height: 120%;
+          line-height: 145%;
           letter-spacing: 0.42px;
           color: var(--black-pitch-nah);
         }
@@ -415,28 +416,11 @@ const PortfolioPage = ({ data }) => {
             padding: 134px 40px 0 40px;
           }
 
-          .intro {
+          .page-intro {
             display: flex;
             flex-direction: column;
             gap: 10px;
             margin-bottom: 20px;
-          }
-
-          .page-title {
-            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 95%;
-            color: #1D1C1C;
-          }
-
-          .page-description {
-            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.42px;
-            color: #1D1C1C;
           }
 
           .projects-grid {
