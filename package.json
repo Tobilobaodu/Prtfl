@@ -27,6 +27,9 @@
     "minimatch": "^9.0.7",
     "eslint-plugin-jsx-a11y": {
       "minimatch": "^3.1.2"
+    },
+    "gatsby-plugin-sitemap": {
+      "minimatch": "^3.1.2"
     }
   },
   "devDependencies": {
