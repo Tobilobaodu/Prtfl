@@ -51,7 +51,7 @@ const NotFoundPage = () => {
         }
 
         .not-found-text {
-          font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+          font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
           font-size: 12px;
           font-weight: 500;
           line-height: 1.2em;
@@ -100,7 +100,7 @@ const NotFoundPage = () => {
           justify-content: center;
           left: 32px;
           top: 13px;
-          font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+          font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
           font-size: 14px;
           font-weight: 700;
           line-height: 0.9em;

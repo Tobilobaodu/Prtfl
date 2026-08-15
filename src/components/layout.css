@@ -199,7 +199,8 @@
 html {
   font-size: 16px;
   line-height: 1.5;
-  overflow-y: scroll;
+ overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -496,8 +497,10 @@ main {
 /* ── Layout Navigation Responsive ── */
 
 @media (max-width: 1200px) {
+
+
   .navigation {
-    padding: 32px 20px;
+    padding: 32px 60px;
   }
 
   .menu-panel {
@@ -505,13 +508,21 @@ main {
   }
 
   main {
-    padding-left: 20px;
+    margin-left: 60px;
+    padding-left: 0px;
+    max-width: 1000px;
   }
 }
+ @media only screen and (min-width: 480px) and (max-width: 768px)
+ {
 
-@media (max-width: 768px) {
+
+
+  .container{
+    padding: 60px 60px!important;  
+  }
   .navigation {
-    padding: 32px 20px;
+    padding: 32px 60px;
   }
 
   .menu-panel {
@@ -524,7 +535,11 @@ main {
   }
 
   main {
-    padding-left: 20px;
+     
+    min-height: 0vh!important;
+
+    margin: auto;
+  
   }
 }
 
@@ -575,7 +590,7 @@ main {
   }
 
   .menu-link {
-    font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+    font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
     font-size: 14px;
     font-weight: 600;
     line-height: 120%;
@@ -585,17 +600,24 @@ main {
   main {
     padding-left: 0;
     padding-top: 0;
-    min-height: calc(100vh - 84px);
+    min-height: calc(100vh - 84px)!important;
+    max-height: 100vh;
+    margin: auto;
   }
-}
-
-@media (max-width: 480px) {
-  body {
+ body {
     background: #F9F9F8 url("/noise.png");
     background-size: auto, 100px 100px;
     background-blend-mode: normal;
   }
+
+   .home-container .container {
+    max-width: 100%;
+    padding: 10px 40px 0 40px!important;
+    gap: 40px;
+  }
 }
+
+
 
 /* ════════════════════════════════════════
    Homepage (index.js)
@@ -783,6 +805,27 @@ main {
 .social-link:hover {
   color: var(--orange);
   border-bottom-color: var(--orange);
+}
+
+/* ── Page title & description (shared) ─────────────
+   Every page uses the same intro structure:
+   .container > .intro > .page-title + .page-description.
+   Defined once here so a single change applies across all pages. */
+.page-title {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-large-size);
+  line-height: var(--type-title-large-line-height);
+  font-weight: var(--type-title-large-weight);
+  color: var(--black-pitch-nah);
+}
+
+.page-description {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-small-size);
+  line-height: var(--type-body-small-line-height);
+  font-weight: var(--type-body-small-weight);
+  letter-spacing: 0.42px;
+  color: var(--black-pitch-nah);
 }
 
 @media (max-width: 1200px) {

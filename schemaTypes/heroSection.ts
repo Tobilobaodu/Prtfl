@@ -9,7 +9,7 @@ export default defineType({
       name: 'headline',
       title: 'Headline',
       type: 'string',
-      description: 'Main hero headline. Desktop: 80px, Tablet/Mobile: 45px. Font: Neue Haas Grotesk Display Pro 65 Medium.',
+      description: 'Main hero headline. Desktop: 80px, Tablet/Mobile: 45px. Font: Neue Haas Display 65 Medium.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -17,7 +17,7 @@ export default defineType({
       title: 'Subtext',
       type: 'text',
       rows: 3,
-      description: 'Supporting text below the headline. All breakpoints: 20px. Font: Neue Haas Grotesk Display Pro 55 Roman.',
+      description: 'Supporting text below the headline. All breakpoints: 20px. Font: Neue Haas Display 55 Roman.',
     }),
     defineField({
       name: 'date',

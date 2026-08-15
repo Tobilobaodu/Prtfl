@@ -1,0 +1,56 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "public/**",
+    ".cache/**",
+    "node_modules/**",
+    "dist/**",
+    ".sanity/**",
+    "package-lock.json",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "extends": ["eslint:recommended"],
+  "overrides": [
+    {
+      "files": ["src/**/*.{js,jsx}", "gatsby-browser.js"],
+      "env": { "browser": true, "es2022": true },
+      "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "ecmaFeatures": { "jsx": true }
+      },
+      "plugins": ["react", "react-hooks", "jsx-a11y"],
+      "extends": [
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:jsx-a11y/recommended"
+      ],
+      "settings": { "react": { "version": "detect" } },
+      "rules": {
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+        "react/no-unescaped-entities": "off",
+        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+      }
+    },
+    {
+      "files": [
+        "gatsby-node.js",
+        "gatsby-config.js",
+        "gatsby-ssr.js",
+        "netlify/**/*.js",
+        "scripts/**/*.js",
+        "test/**/*.js"
+      ],
+      "env": { "node": true, "es2022": true },
+      "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "script"
+      },
+      "rules": {
+        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+      }
+    }
+  ]
+}

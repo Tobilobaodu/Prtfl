@@ -250,7 +250,7 @@ const SndbxPage = ({ data }) => {
           }
 
           .project-name {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -265,7 +265,7 @@ const SndbxPage = ({ data }) => {
 
           .brand-name,
           .project-year {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;

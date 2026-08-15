@@ -56,7 +56,7 @@ exports.handler = async (event) => {
 
   let slug, token
   try {
-    ;({ slug, token } = JSON.parse(event.body))
+    ({ slug, token } = JSON.parse(event.body))
   } catch {
     return json(400, { error: 'Invalid request body' })
   }

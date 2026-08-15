@@ -401,7 +401,7 @@ const ExperiencePage = ({ data }) => {
           }
 
           .experience-date span {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 12px;
             font-weight: 400;
             line-height: 120%;
@@ -432,7 +432,7 @@ const ExperiencePage = ({ data }) => {
           }
 
           .role-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 16px;
             font-weight: 700;
             line-height: 95%;
@@ -445,7 +445,7 @@ const ExperiencePage = ({ data }) => {
 
           .at-symbol,
           .company-name {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -454,7 +454,7 @@ const ExperiencePage = ({ data }) => {
           }
 
           .experience-description {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -478,7 +478,7 @@ const ExperiencePage = ({ data }) => {
           }
 
           .footer-text {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 400;
             line-height: 120%;
@@ -528,7 +528,7 @@ const ExperiencePage = ({ data }) => {
           }
 
           .button-content span {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
+            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 14px;
             font-weight: 700;
             line-height: 90%;
