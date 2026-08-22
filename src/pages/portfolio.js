@@ -39,7 +39,7 @@ const PortfolioPage = ({ data }) => {
           <div className="intro">
             <h1 className="page-title">wrk</h1>
             <p className="page-description">
-              I'm responsible for UX Strategy + Design, leading a team of three UX designers who are responsible for creating exceptional user experiences for OSB Group's digital products.
+              Selected product design case studies from recent roles and projects, each one includes context, decisions, and the outcomes I achieved.
             </p>
           </div>
 

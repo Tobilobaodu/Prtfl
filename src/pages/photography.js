@@ -13,7 +13,8 @@ const PhotographyPage = ({ data }) => {
           <div className="intro">
             <h1 className="page-title">phtgrphy</h1>
             <p className="page-description">
-              Here is a collection of photos taken on my phone, most are visual representation of my interests, scenes that not just pique my interest but captures my attention. responsible for UX Strategy + Design, leading a team of three UX designers who are responsible for creating exceptional user experiences for OSB Group's digital products.
+              A collection of photos taken on my phone, mostly from everyday scenes and places.
+              They're visual notes of light, texture, and small details that catch my attention.
             </p>
           </div>
 

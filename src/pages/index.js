@@ -53,7 +53,7 @@ const IndexPage = ({ data }) => {
           <section className="bio-section">
             <div className="bio">
               <p className="bio-text">
-                I'm a <strong>multidisciplinary designer</strong> passionate about design, technology, and how they both shape our lives and experience. I've extensive experience in marketing and driving sustainable growth, and have contributed to the success of some of Africa's biggest startups.
+                I'm a <strong>Product Designer</strong> who helps companies turn complex digital journeys into simple, useful experiences. Over the past seven years, I've used research, behavioural insight, and UI design to improve usability, conversion, and customer confidence. I've worked with high-growth startups and now lead design at OSB Group, shaping accessible financial products from early ideas to implementation. I enjoy partnering closely with people across product and engineering to make meaningful improvements that customers can actually feel.
               </p>
             </div>
           </section>

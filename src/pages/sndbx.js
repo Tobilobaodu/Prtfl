@@ -39,7 +39,7 @@ const SndbxPage = ({ data }) => {
           <div className="section-intro">
             <h1 className="section-title">sndbx</h1>
             <p className="section-description">
-              I'm responsible for UX Strategy + Design, leading a team of three UX designers who are responsible for creating exceptional user experiences for OSB Group's digital products.
+              These are self-initiated and exploratory projects I've worked on outside formal roles, they show how I test ideas, tools, and approaches without client constraints.
             </p>
           </div>
 
