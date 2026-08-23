@@ -1,0 +1,116 @@
+/**
+ * Cursor-following project preview.
+ *
+ * Two fixed followers (the card and the "View" pill) are positioned by JS in a
+ * rAF loop — see HoverReel.js — so nothing here may set `transform` on .card or
+ * .pill themselves. The scale/opacity reveal lives on the inner elements
+ * instead, which keeps the JS-owned transform and the CSS-owned transition from
+ * fighting over the same property.
+ */
+
+.card {
+  --reel-size: 260px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* Below the nav (z-index: 100 in layout.css), above the page content. */
+  z-index: 50;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+.cardInner {
+  width: var(--reel-size);
+  height: var(--reel-size);
+  overflow: hidden;
+  border-radius: 5px;
+  background: var(--grey-misty);
+  opacity: 0;
+  transform: scale(0.82);
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card.isVisible .cardInner {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/*
+ * Every thumbnail is stacked in one strip that is N × --reel-size tall, and the
+ * strip is translated by -(index / N) * 100% of its own height. One transform
+ * per project change, no per-layer bookkeeping.
+ */
+.reel {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.cell {
+  position: relative;
+  width: 100%;
+  height: var(--reel-size);
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pill {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 51;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+.pillInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--white-heavenly);
+  font-family: var(--font-nhd);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pill.isVisible .pillInner {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Belt and braces: the JS gate already refuses to mount on touch devices. */
+@media (hover: none), (pointer: coarse) {
+  .card,
+  .pill {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardInner,
+  .pillInner,
+  .reel {
+    transition: none;
+  }
+}

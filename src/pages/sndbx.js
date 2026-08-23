@@ -3,10 +3,13 @@ import { graphql, navigate } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
+import HoverReel from "../components/HoverReel"
 
 const SndbxPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
   const [selectedProject, setSelectedProject] = React.useState(null)
+  // { id, rect } — rect is set only for keyboard focus. See HoverReel.
+  const [hovered, setHovered] = React.useState(null)
 
   const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
@@ -50,9 +53,13 @@ const SndbxPage = ({ data }) => {
                 role="button"
                 tabIndex={0}
                 aria-label={`${project.title}${project.locked ? ' (password protected)' : ''}`}
-                className="project-item"
+                className={`project-item ${hovered?.id === project.id ? 'is-previewing' : ''}`}
                 onClick={(e) => handleProjectClick(project, e)}
                 onKeyDown={(e) => handleProjectKeyDown(project, e)}
+                onMouseEnter={() => setHovered({ id: project.id, rect: null })}
+                onMouseLeave={() => setHovered(null)}
+                onFocus={(e) => setHovered({ id: project.id, rect: e.currentTarget.getBoundingClientRect() })}
+                onBlur={() => setHovered(null)}
               >
                 <div className="project-row">
                   <div className="project-name">{project.title}</div>
@@ -71,6 +78,8 @@ const SndbxPage = ({ data }) => {
               </div>
             ))}
           </div>
+
+          <HoverReel projects={projects} active={hovered} />
         </div>
       </div>
 
@@ -132,6 +141,28 @@ const SndbxPage = ({ data }) => {
           flex-direction: column;
           gap: 10px;
           cursor: pointer;
+        }
+
+        /* The preview card covers the hovered row, so the row steps back
+           rather than competing with it. Pointer-capable devices only —
+           HoverReel does not mount anywhere else. */
+        @media (hover: hover) and (pointer: fine) {
+          .project-item .project-name,
+          .project-item .project-metadata {
+            transition: opacity 0.25s ease;
+          }
+
+          .project-item.is-previewing .project-name,
+          .project-item.is-previewing .project-metadata {
+            opacity: 0.35;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .project-item .project-name,
+          .project-item .project-metadata {
+            transition: none;
+          }
         }
 
         .project-row {
@@ -311,6 +342,32 @@ export const query = graphql`
           locked
           slug {
             current
+          }
+          # Feeds the cursor-following preview. Both are already public on the
+          # listing pages, so this exposes nothing new for locked projects.
+          heroImage {
+            asset {
+              url
+              metadata {
+                palette {
+                  dominant {
+                    background
+                  }
+                }
+              }
+            }
+          }
+          hoverImage {
+            asset {
+              url
+              metadata {
+                palette {
+                  dominant {
+                    background
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -728,42 +728,30 @@ main {
   opacity: 0.5;
 }
 
-.project-image-preview {
-  position: fixed;
-  right: 100px;
-  top: 159px;
-  width: 750px;
-  height: 400px;
-  pointer-events: none;
-  z-index: 50;
-  animation: fadeInImage 0.3s ease;
+/*
+ * The static hover panel that used to live here (.project-image-preview, fixed
+ * at right: 100px) was replaced by src/components/HoverReel.js, which follows
+ * the cursor and owns its own styles as a CSS module. What remains is the row
+ * treatment: the preview card covers the hovered row, so the row steps back
+ * rather than competing with it.
+ */
+@media (hover: hover) and (pointer: fine) {
+  .project-item .project-title,
+  .project-item .project-meta {
+    transition: opacity 0.25s ease;
+  }
+
+  .project-item.is-previewing .project-title,
+  .project-item.is-previewing .project-meta {
+    opacity: 0.35;
+  }
 }
 
-@keyframes fadeInImage {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-.project-image-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.project-image-preview .gatsby-image-wrapper {
-  width: 100%;
-  height: 100%;
-}
-
-.project-image-preview .gatsby-image-wrapper picture {
-  width: 100%;
-  height: 100%;
-}
-
-.project-image-preview .gatsby-image-wrapper img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
+@media (prefers-reduced-motion: reduce) {
+  .project-item .project-title,
+  .project-item .project-meta {
+    transition: none;
+  }
 }
 
 .socials-section {
@@ -827,12 +815,6 @@ main {
   color: var(--black-pitch-nah);
 }
 
-@media (max-width: 1200px) {
-  .project-image-preview {
-    display: none;
-  }
-}
-
 @media (max-width: 768px) {
   .home-container .container {
     padding: 60px 20px;
@@ -850,9 +832,6 @@ main {
     gap: 12px;
   }
 
-  .project-image-preview {
-    display: none;
-  }
 }
 
 @media (max-width: 480px) {
@@ -982,7 +961,4 @@ main {
     height: 14px;
   }
 
-  .project-image-preview {
-    display: none;
-  }
 }

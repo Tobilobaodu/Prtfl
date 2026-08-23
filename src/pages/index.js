@@ -1,19 +1,20 @@
 import * as React from "react"
 import { graphql, navigate } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
 import PageLoader from "../components/PageLoader"
+import HoverReel from "../components/HoverReel"
 
 const IndexPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
-  const [hoveredProject, setHoveredProject] = React.useState(null)
+  // { id, rect } — rect is set only for keyboard focus, where there is no
+  // cursor for the preview to follow. See HoverReel.
+  const [hovered, setHovered] = React.useState(null)
   const [selectedProject, setSelectedProject] = React.useState(null)
   const [emailCopied, setEmailCopied] = React.useState(false)
 
   const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
-  const preview = projects.find(p => p.id === hoveredProject)
 
   const handleProjectClick = (project, e) => {
     e.preventDefault()
@@ -66,11 +67,11 @@ const IndexPage = ({ data }) => {
                   role="button"
                   tabIndex={0}
                   aria-label={`${project.title}${project.locked ? ' (password protected)' : ''}`}
-                  className={`project-item clickable ${project.locked ? 'locked' : ''}`}
-                  onMouseEnter={() => setHoveredProject(project.id)}
-                  onMouseLeave={() => setHoveredProject(null)}
-                  onFocus={() => setHoveredProject(project.id)}
-                  onBlur={() => setHoveredProject(null)}
+                  className={`project-item clickable ${project.locked ? 'locked' : ''} ${hovered?.id === project.id ? 'is-previewing' : ''}`}
+                  onMouseEnter={() => setHovered({ id: project.id, rect: null })}
+                  onMouseLeave={() => setHovered(null)}
+                  onFocus={(e) => setHovered({ id: project.id, rect: e.currentTarget.getBoundingClientRect() })}
+                  onBlur={() => setHovered(null)}
                   onClick={(e) => handleProjectClick(project, e)}
                   onKeyDown={(e) => handleProjectKeyDown(project, e)}
                 >
@@ -92,17 +93,9 @@ const IndexPage = ({ data }) => {
               ))}
             </div>
 
-            {/* Keyed by project id rather than list index, so reordering in
+            {/* Matched by project id rather than list index, so reordering in
                 Sanity cannot desync the preview from the hovered row. */}
-            {preview && (preview.hoverImage?.asset?.gatsbyImageData || preview.heroImage?.asset?.gatsbyImageData) && (
-              <div className="project-image-preview">
-                <GatsbyImage
-                  image={getImage((preview.hoverImage || preview.heroImage).asset.gatsbyImageData)}
-                  alt=""
-                  className="project-image"
-                />
-              </div>
-            )}
+            <HoverReel projects={projects} active={hovered} />
           </section>
 
           <section className="socials-section">
@@ -171,14 +164,31 @@ export const query = graphql`
           slug {
             current
           }
+          # HoverReel builds its own square CDN transform from the raw URL, so
+          # gatsbyImageData would only ship a second, unused set of sources.
+          # The dominant colour backs each cell while its thumbnail loads.
           heroImage {
             asset {
-              gatsbyImageData
+              url
+              metadata {
+                palette {
+                  dominant {
+                    background
+                  }
+                }
+              }
             }
           }
           hoverImage {
             asset {
-              gatsbyImageData
+              url
+              metadata {
+                palette {
+                  dominant {
+                    background
+                  }
+                }
+              }
             }
           }
         }

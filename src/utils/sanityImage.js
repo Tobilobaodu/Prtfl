@@ -21,14 +21,19 @@ const isSanityImage = (url) => {
 }
 
 /**
+ * `height` is only meaningful alongside `fit: 'crop'` (or another fit that
+ * honours both dimensions) — it exists so callers can ask for a fixed aspect
+ * ratio, e.g. the square thumbnails in HoverReel.
+ *
  * @returns {string} the URL with transform params applied, or the input
  *   unchanged if it is not a Sanity CDN image.
  */
-export const sanityImageUrl = (url, { width, quality = 80, fit = 'max' } = {}) => {
+export const sanityImageUrl = (url, { width, height, quality = 80, fit = 'max' } = {}) => {
   if (!isSanityImage(url)) return url || ''
 
   const parsed = new URL(url)
   if (width) parsed.searchParams.set('w', String(width))
+  if (height) parsed.searchParams.set('h', String(height))
   parsed.searchParams.set('q', String(quality))
   parsed.searchParams.set('fit', fit)
   parsed.searchParams.set('auto', 'format')
