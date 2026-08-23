@@ -48,10 +48,10 @@ const PhotographyPage = ({ data }) => {
         }
 
         .container {
-          max-width: 600px;
+          max-width: var(--container-max);
           margin: 0;
           margin-left: 0;
-          padding: 101px 0px 60px 0px;
+          padding: 101px var(--gutter) 60px;
         }
 
         .intro {
@@ -139,11 +139,11 @@ const PhotographyPage = ({ data }) => {
 
         @media (max-width: 768px) {
           .container {
-            padding: 100px 20px 60px 20px;
+            padding: 100px var(--gutter) 60px;
           }
 
           .photo-image {
-            height: auto !important;
+            height: auto;
             min-height: 250px;
           }
         }
@@ -209,7 +209,7 @@ const PhotographyPage = ({ data }) => {
           }
 
           .photo-image {
-            height: 400px !important;
+            height: 400px;
             width: 100%;
             object-fit: cover;
             border-radius: 0;

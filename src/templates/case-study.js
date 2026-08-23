@@ -769,10 +769,14 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
       </div>
 
       <style>{`
+        /* Full-bleed by being a plain full-width block. It used to carry
+           margin-left: -100px to cancel main's padding, which also widened its
+           auto width by 100px and left every centred child half that distance
+           off the page's true centre. main owns no inset now, so neither is
+           needed. */
         .case-study-page {
           background: transparent;
           min-height: 100vh;
-          margin: 0 0 0 -100px;
           position: relative;
           overflow-x: clip;
         }
@@ -783,7 +787,8 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
           align-items: flex-start;
           gap: 12px;
           max-width: 560px;
-          margin: 0 170px 120px;
+          margin: 0 0 120px;
+          margin-inline-start: var(--page-inline);
           padding: 32px 35px;
           border-radius: 5px;
           background: var(--white-not-wyt);
@@ -827,7 +832,7 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
         .cs-locked-btn:disabled { opacity: 0.6; cursor: default; }
 
         @media (max-width: 900px) {
-          .cs-locked-panel { margin: 0 39px 80px; padding: 24px 22px; }
+          .cs-locked-panel { margin-bottom: 80px; padding: 24px 22px; }
         }
 
         .hero-section-component {
@@ -835,7 +840,8 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
           grid-template-columns: 1fr 1fr;
           gap: 40px;
           align-items: center;
-          padding: 100px 170px;
+          padding: 100px 0;
+          padding-inline: var(--page-inline);
         }
 
         .hero-section-text {
@@ -907,11 +913,13 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
           .hero-section-component {
             grid-template-columns: 1fr;
             gap: 30px;
-            padding: 40px 0;
+            /* Was 40px 0, which left no room for the fixed nav and put the
+               headline behind the logo. */
+            padding-block: calc(var(--nav-h) + 24px) 40px;
           }
           .hero-section-headline { font-size: 45px; }
           .hero-section-image {
-            width: min(313px, 100%);
+            width: 100%;
             height: 350px;
             justify-self: stretch;
           }
@@ -921,7 +929,6 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
           .hero-section-headline { font-size: 45px; }
           .hero-section-image {
             width: 100%;
-            max-width: 313px;
             height: auto;
             max-height: 350px;
             justify-self: stretch;
@@ -944,22 +951,23 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
           scroll-behavior: smooth;
         }
 
+        /* Figma desktop splits the 1240 content into a 420 track (TOC text is
+           216 wide inside it) and an 820 body column. 420px + 1fr reproduces
+           that exactly at 1240 and lets the body absorb the difference below. */
         .cs-intro-wrapper {
           display: grid;
-          grid-template-columns: 280px 1fr;
-          gap: 60px;
-          max-width: 1240px;
-          margin: 0 auto;
-          padding: 60px 0px 40px;
+          grid-template-columns: 420px 1fr;
+          gap: 0;
+          padding: 60px 0 40px;
+          padding-inline: var(--page-inline);
         }
 
         .cs-body-layout {
           display: grid;
-          grid-template-columns: 280px 1fr;
-          gap: 60px;
-          max-width: 1240px;
-          margin: 0 auto;
-          padding: 0px 0px 100px;
+          grid-template-columns: 420px 1fr;
+          gap: 0;
+          padding: 0 0 100px;
+          padding-inline: var(--page-inline);
           align-items: start;
         }
 
@@ -1392,7 +1400,8 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
         /* ── Case Study Footer ── */
         .cs-footer {
           width: 100%;
-          padding: 0 100px 60px;
+          padding: 0 0 60px;
+          padding-inline: var(--page-inline);
           border-top: solid rgba(29,28,28,0.2) 0.5px;
         }
 
@@ -1500,15 +1509,15 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
         .social-link:hover { color: var(--orange); }
 
         /* ── Responsive ── */
-        @media (max-width: 1200px) {
-          .case-study-page { margin-left: -20px; }
-          .cs-intro-wrapper { padding: 40px 20px 30px; gap: 40px; }
-          .cs-body-layout { padding: 0px 20px 100px; gap: 40px; }
-          .cs-footer { padding: 0 20px 60px; }
+        /* Horizontal insets are owned by --page-inline at every width, so the
+           only things left here are vertical rhythm and type scale. The column
+           collapse moves to 1199 to match the Figma tablet frame, which has no
+           table of contents. */
+        @media (max-width: 1199px) {
+          .cs-intro-wrapper { padding-block: 40px 30px; }
+          .cs-body-layout { padding-block: 0 100px; }
           .project-title { font-size: 45px; }
-        }
 
-        @media (max-width: 1024px) {
           .cs-intro-wrapper { grid-template-columns: 1fr; }
           .project-intro { grid-column: 1; }
           .cs-body-layout { grid-template-columns: 1fr; }
@@ -1516,7 +1525,6 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
         }
 
         @media (max-width: 768px) {
-          .case-study-page { margin: 0; }
           .project-title { font-size: 35px; }
           .project-meta-row { flex-direction: column; gap: 10px; }
           .cs-footer-bottom {
@@ -1532,12 +1540,11 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
         @media (max-width: 480px) {
           .case-study-page {
             background: transparent;
-            margin: 0;
             padding: 0;
           }
           .hero-image { width: 100%; height: 346px; margin-top: 0; }
-          .cs-intro-wrapper { padding: 40px 39px 20px; gap: 40px; }
-          .cs-body-layout { padding: 0px 39px 100px; gap: 40px; }
+          .cs-intro-wrapper { padding-block: 40px 20px; }
+          .cs-body-layout { padding-block: 0 100px; }
           .project-intro { display: flex; flex-direction: column; gap: 20px; }
           .project-title {
             font-size: 32.5px;
@@ -1562,7 +1569,6 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
             letter-spacing: 0.42px;
             color: #1D1C1C;
           }
-          .cs-footer { padding: 0 20px 60px; }
           .cs-footer-bottom { flex-wrap: wrap; gap: 16px; }
           .social-links { flex-wrap: wrap; gap: 12px; }
           .height-fixed-800 { max-height: 350px; }

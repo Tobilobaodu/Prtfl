@@ -117,10 +117,10 @@ const ContactPage = () => {
         }
 
         .container {
-          max-width: 600px;
+          max-width: var(--container-max);
           margin: 0;
           margin-left: 0;
-          padding: 101px 0px 60px 0px;
+          padding: 101px var(--gutter) 60px;
         }
 
         .intro {

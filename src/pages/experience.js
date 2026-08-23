@@ -183,10 +183,10 @@ const ExperiencePage = ({ data }) => {
         }
 
         .container {
-          max-width: 600px;
+          max-width: var(--container-max);
           margin: 0;
           margin-left: 0;
-          padding: 97px 0 60px 0;
+          padding: 97px var(--gutter) 60px;
           display: flex;
           flex-direction: column;
           gap: 40px;
@@ -348,7 +348,7 @@ const ExperiencePage = ({ data }) => {
 
         @media (max-width: 768px) {
           .container {
-            padding: 100px 20px 60px 20px;
+            padding: 100px var(--gutter) 60px;
           }
 
           .experience-item {
@@ -379,7 +379,7 @@ const ExperiencePage = ({ data }) => {
 
           .container {
             max-width: 100%;
-            padding: 134px 40px 0 40px;
+            padding: 134px var(--gutter) 0;
             gap: 20px;
           }
 
