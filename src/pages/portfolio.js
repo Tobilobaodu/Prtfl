@@ -178,7 +178,7 @@ const PortfolioPage = ({ data }) => {
 
         .project-image-wrapper {
           position: relative;
-          height: 250px;
+          height: 400px;
           width: 100%;
           overflow: hidden;
           border-radius: 4px 4px 0 0;
