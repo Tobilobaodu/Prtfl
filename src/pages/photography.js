@@ -168,22 +168,11 @@ const PhotographyPage = ({ data }) => {
             margin-bottom: 168px;
           }
 
-          .page-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 95%;
-            color: #1D1C1C;
-          }
-
-          .page-description {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.42px;
-            color: #1D1C1C;
-          }
+          /* .page-title and .page-description restated the shared rules from
+             layout.css exactly, except that they asked for
+             'Neue Haas Grotesk Display Pro' — a family with no @font-face
+             anywhere in the project — so both fell through to the system UI
+             font below 480px only. Removed; the shared rules now apply. */
 
           .images-container {
             width: 100%;
@@ -249,7 +238,7 @@ const PhotographyPage = ({ data }) => {
             font-weight: 400;
             line-height: 120%;
             letter-spacing: 0.36px;
-            color: #A3A3A3;
+            color: var(--grey-misty);
           }
         }
       `}</style>

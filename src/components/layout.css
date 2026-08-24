@@ -7,121 +7,44 @@
    was invalid: CSS requires @import to precede all other rules, so browsers
    ignored it and Inter never loaded. It is dropped rather than moved — the
    --font-nhd stack already falls back through Inter to the system UI fonts,
-   so nothing needs a render-blocking third-party request. */
+   so nothing needs a render-blocking third-party request.
 
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayThin.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayThin.ttf') format('truetype');
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayXThin.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayXThin.ttf') format('truetype');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayLight.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayLight.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
+   Three faces, not fourteen. The declarations for 100/200/300/900 and for every
+   italic were removed: nothing in the codebase requests them. Note that they
+   were never a download cost — @font-face only fetches a face when text
+   actually matches it — so this is build-output and readability housekeeping
+   rather than a performance win. The unreferenced files under Assets/Font are
+   no longer emitted, since webpack only emits assets something url()s.
+
+   There is deliberately no 600. No SemiBold file exists, so `font-weight: 600`
+   was silently resolving to this 700 face; those call sites now say 700. */
+
 @font-face {
   font-family: 'Neue Haas Display';
   src: url('../Assets/Font/NeueHaasDisplayRoman.woff2') format('woff2'),
        url('../Assets/Font/NeueHaasDisplayRoman.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 400; /* 55 Roman */
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Neue Haas Display';
   src: url('../Assets/Font/NeueHaasDisplayMediu.woff2') format('woff2'),
        url('../Assets/Font/NeueHaasDisplayMediu.ttf') format('truetype');
-  font-weight: 500;
+  font-weight: 500; /* 65 Medium */
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Neue Haas Display';
   src: url('../Assets/Font/NeueHaasDisplayBold.woff2') format('woff2'),
        url('../Assets/Font/NeueHaasDisplayBold.ttf') format('truetype');
-  font-weight: 700;
+  font-weight: 700; /* 75 Bold */
   font-style: normal;
   font-display: swap;
 }
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayBlack.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayBlack.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayThinItalic.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayThinItalic.ttf') format('truetype');
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayXThinItalic.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayXThinItalic.ttf') format('truetype');
-  font-weight: 200;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayLightItalic.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayLightItalic.ttf') format('truetype');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayRomanItalic.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayRomanItalic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayMediumItalic.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayMediumItalic.ttf') format('truetype');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayBoldItalic.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayBoldItalic.ttf') format('truetype');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Neue Haas Display';
-  src: url('../Assets/Font/NeueHaasDisplayBlackItalic.woff2') format('woff2'),
-       url('../Assets/Font/NeueHaasDisplayBlackItalic.ttf') format('truetype');
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-}
-
 
 :root {
   --white-not-wyt: #F9F9F8;
@@ -505,7 +428,7 @@ html.loader-skip .js-page-loader {
 .menu-link {
   font-family: 'Neue Haas Display', 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 120%;
   color: var(--black-pitch-nah);
   text-decoration: none;
@@ -645,13 +568,26 @@ main {
   gap: 10px;
 }
 
+/* display: block is load-bearing — the row is an <a>, which is inline by
+   default, and would otherwise collapse around its children. The
+   `transition: opacity` that used to live here was dead: nothing has ever set
+   opacity on .project-item itself. The fade happens on .project-title and
+   .project-meta, which carry their own transitions below. */
 .project-item {
+  display: block;
   position: relative;
-  transition: opacity 0.2s ease;
 }
 
 .project-item.clickable {
   cursor: pointer;
+}
+
+/* Rows are keyboard-reachable and until now had no focus treatment of their
+   own beyond the UA default. :focus-visible so a mouse click does not leave a
+   ring behind. */
+.project-item:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
 }
 
 .project-info {
@@ -826,27 +762,16 @@ main {
     width: 100%;
   }
 
-  .bio-text {
-    font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 145%;
-    letter-spacing: 0.42px;
-    color: #1D1C1C;
-  }
+  /* .bio-text, .bio-text strong, .projects-section, .projects-list,
+     .project-meta, .project-brand/.project-year, .home-container .social-links
+     and .social-link svg were all restated here byte-for-byte, differing only
+     in a font-family fallback list that body's var(--font-nhd) already
+     supplies. They are gone; the base rules apply unchanged. Every rule left in
+     this block carries at least one declaration that genuinely differs. */
 
-  .bio-text strong {
-    font-weight: 700;
-  }
-
-  .projects-section {
-    gap: 10px;
-  }
-
-  .projects-list {
-    gap: 10px;
-  }
-
+  /* NOT redundant, despite looking it: the 5px flex gap here and the 5px
+     margin-bottom below combine to reproduce the base rule's single 10px
+     between the row text and its divider. Removing either alone halves it. */
   .project-item {
     display: flex;
     flex-direction: column;
@@ -854,55 +779,31 @@ main {
   }
 
   .project-info {
-    display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
     margin-bottom: 5px;
   }
 
+  /* The one real difference: mobile rows are Roman, not Bold. */
   .home-container .project-title {
-    font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-    font-size: 14px;
     font-weight: 400;
-    line-height: 120%;
-    color: #1D1C1C;
   }
 
-  .project-meta {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .project-brand,
-  .project-year {
-    font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 120%;
-    letter-spacing: 0.42px;
-    color: #A3A3A3;
-  }
-
-  .dot {
-    width: 2.73px;
-    height: 2.674px;
-    background: #A3A3A3;
-    border-radius: 50%;
-  }
-
+  /* The markup carries width=16 height=17. */
   .project-meta svg {
     width: 16px;
     height: 16px;
   }
 
-  .project-divider {
-    width: 100%;
-    height: 1px;
-    opacity: 0.5;
-    background: rgba(236, 240, 241, 0.5);
-  }
+  /* .dot was setting width/height on an inline <span> — which does nothing —
+     plus a background and a border-radius, so the result was a grey box painted
+     behind the ● glyph rather than the intended 2.73px circle. Dropped
+     entirely: the dot is now the same 4px ● at every width. */
+
+  /* .project-divider was rgba(236, 240, 241, 0.5) here — a near-white line on
+     the #F9F9F8 page, effectively invisible. It now inherits the base rule's
+     rgba(29, 28, 28, 0.5) like every other breakpoint. */
 
   /* margin-top stays `auto` (inherited from the base rule) so the socials are
      pushed to the foot of the column, the same way they behave on desktop and
@@ -912,63 +813,22 @@ main {
      .home-container .container carries flex: 1, so `auto` has room to work;
      when the content does overflow the viewport it simply resolves to 0. */
 
-  .home-container .social-links {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
   .social-link {
-    font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 18px;
-    color: #777;
-    border-bottom: 1px solid #777;
-    display: flex;
-    align-items: center;
-    gap: 5px;
     padding-bottom: 0;
   }
 
-  .social-link svg {
-    width: 14px;
-    height: 14px;
-  }
-
-
   .navigation {
-    display: flex;
-    width: 100%;
     padding: 30px var(--gutter);
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     height: var(--nav-h);
-    z-index: 100;
-    background: transparent;
   }
 
   .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 5px;
   }
 
+  /* Intrinsic size on mobile rather than the base rule's fixed 21px. */
   .logo svg {
     height: auto;
-    width: auto;
-  }
-
-  .menu-icon {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
   }
 
   .menu-panel {
@@ -977,25 +837,11 @@ main {
   }
 
   .menu-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
     gap: 10px;
   }
 
-  .menu-link {
-    font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 120%;
-    color: var(--black-pitch-nah);
-  }
-
-
-
-   .home-container .container {
+  .home-container .container {
     max-width: 100%;
     padding: 10px var(--gutter) 0;
-    gap: 40px;
   }
 }

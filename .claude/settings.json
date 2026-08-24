@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -)",
+      "Bash(grep -vE \"^NeueHaasDisplay\\(Roman|Mediu|Bold\\)\\\\.\\(woff2|ttf\\)$\")",
+      "Bash(read -r f)",
+      "Bash(rm src/Assets/Font/__TRACKED_VAR__)",
+      "Bash(npm test *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" --max-time 5 http://localhost:8001/)",
+      "Bash(node -e \"console.log\\(require.resolve\\('playwright'\\)\\)\")",
+      "Read(//c/Users/second/AppData/Local/ms-playwright/**)",
+      "Bash(npm init *)",
+      "Bash(npm i *)",
+      "Bash(node -e \"console.log\\('ok', require\\('playwright/package.json'\\).version\\)\")",
+      "Bash(node probe.mjs)",
+      "Bash(node verify.mjs)",
+      "Bash(node deadzone.mjs)",
+      "Bash(node kbd.mjs)",
+      "Bash(node shots.mjs)",
+      "Bash(node -e ' *)",
+      "Bash(cat \"C:/Users/second/.claude/projects/c--Users-second-Documents-GitHub-Prtfl/memory/MEMORY.md\" 2>/dev/null || echo \"\\(no MEMORY.md yet\\)\"; echo \"---\"; ls \"C:/Users/second/.claude/projects/c--Users-second-Documents-GitHub-Prtfl/memory/\" 2>/dev/null)",
+      "Read(//c/Users/second/.claude/projects/c--Users-second-Documents-GitHub-Prtfl/memory/**)"
+    ]
+  }
+}

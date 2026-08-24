@@ -1441,7 +1441,7 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
         .cs-footer-project-name {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 14px;
-          font-weight: 600;
+          font-weight: 700;
           line-height: 120%;
           color: var(--black-pitch-nah);
           transition: color 0.2s ease;

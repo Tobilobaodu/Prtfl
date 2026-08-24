@@ -1,5 +1,5 @@
 import * as React from "react"
-import { graphql, navigate } from "gatsby"
+import { Link, graphql, navigate } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
@@ -8,25 +8,19 @@ import HoverReel from "../components/HoverReel"
 const SndbxPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
   const [selectedProject, setSelectedProject] = React.useState(null)
-  // { id, rect } — rect is set only for keyboard focus. See HoverReel.
+  // { id, el } — el is set only for keyboard focus. See HoverReel.
   const [hovered, setHovered] = React.useState(null)
 
   const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
+  // Rows are real links, so an unlocked project just navigates. Locked ones
+  // intercept and show the gate instead — the destination page carries its own
+  // gate too, so the no-JS path still lands somewhere correct.
   const handleProjectClick = (project, e) => {
+    if (!project.locked) return
     e.preventDefault()
     setSelectedProject(project)
-
-    if (project.locked) {
-      setModalOpen(true)
-    } else {
-      navigate(`/case-study/${project.slug.current}`)
-    }
-  }
-
-  const handleProjectKeyDown = (project, e) => {
-    if (e.key !== "Enter" && e.key !== " ") return
-    handleProjectClick(project, e)
+    setModalOpen(true)
   }
 
   const handlePasswordCorrect = () => {
@@ -46,19 +40,18 @@ const SndbxPage = ({ data }) => {
             </p>
           </div>
 
-          <div className="projects-list">
+          {/* The clear lives on the list, not on each row — see index.js for
+              why the 10px inter-row gap made per-row clearing flicker. */}
+          <div className="projects-list" onMouseLeave={() => setHovered(null)}>
             {projects.map((project) => (
-              <div
+              <Link
                 key={project.id}
-                role="button"
-                tabIndex={0}
+                to={`/case-study/${project.slug.current}`}
                 aria-label={`${project.title}${project.locked ? ' (password protected)' : ''}`}
                 className={`project-item ${hovered?.id === project.id ? 'is-previewing' : ''}`}
                 onClick={(e) => handleProjectClick(project, e)}
-                onKeyDown={(e) => handleProjectKeyDown(project, e)}
-                onMouseEnter={() => setHovered({ id: project.id, rect: null })}
-                onMouseLeave={() => setHovered(null)}
-                onFocus={(e) => setHovered({ id: project.id, rect: e.currentTarget.getBoundingClientRect() })}
+                onMouseEnter={() => setHovered({ id: project.id, el: null })}
+                onFocus={(e) => setHovered({ id: project.id, el: e.currentTarget })}
                 onBlur={() => setHovered(null)}
               >
                 <div className="project-row">
@@ -75,7 +68,7 @@ const SndbxPage = ({ data }) => {
                   </div>
                 </div>
                 <div className="project-divider"></div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -143,6 +136,13 @@ const SndbxPage = ({ data }) => {
           cursor: pointer;
         }
 
+        /* The row is an <a>; give it a real focus ring. :focus-visible so a
+           mouse click does not leave one behind. */
+        .project-item:focus-visible {
+          outline: 2px solid var(--orange);
+          outline-offset: 4px;
+        }
+
         /* The preview card covers the hovered row, so the row steps back
            rather than competing with it. Pointer-capable devices only —
            HoverReel does not mount anywhere else. */
@@ -174,7 +174,7 @@ const SndbxPage = ({ data }) => {
         .project-name {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
           font-size: 14px;
-          font-weight: 600;
+          font-weight: 700;
           line-height: 120%;
           color: var(--black-pitch-nah);
         }
@@ -195,9 +195,14 @@ const SndbxPage = ({ data }) => {
           color: var(--grey-misty);
         }
 
+        /* inline-block is load-bearing: the span is empty, and width/height do
+           not apply to a non-replaced inline element — so without it the dot
+           had zero width and never rendered at all. */
         .dot-separator {
+          display: inline-block;
           width: 2.73px;
           height: 2.67px;
+          border-radius: 50%;
           background: var(--grey-misty);
         }
 
@@ -227,7 +232,7 @@ const SndbxPage = ({ data }) => {
 
         @media (max-width: 480px) {
           .sndbx-container {
-            background: #F9F9F8;
+            background: var(--white-not-wyt);
             min-height: calc(100vh - 84px);
           }
 
@@ -237,90 +242,41 @@ const SndbxPage = ({ data }) => {
             gap: 20px;
           }
 
+          /* .section-title, .section-description, .project-metadata,
+             .brand-name/.project-year, .dot-separator and .lock-icon were
+             restated here identically to the base rules and have been removed.
+             Two of them were actively harmful: they asked for
+             'Neue Haas Grotesk Display Pro', a family with no @font-face
+             anywhere in the project, so the sandbox heading and intro fell
+             through to the system UI font below 480px only. Dropping the rules
+             restores var(--font-nhd).
+
+             What remains is only what genuinely differs from the base. */
+
           .section-intro {
-            display: flex;
-            flex-direction: column;
             gap: 10px;
           }
 
-          .section-title {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 95%;
-            color: #1D1C1C;
-          }
-
-          .section-description {
-            font-family: 'Neue Haas Grotesk Display Pro', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.42px;
-            color: #1D1C1C;
-          }
-
           .projects-list {
-            display: flex;
-            flex-direction: column;
             gap: 20px;
           }
 
           .project-item {
-            display: flex;
-            flex-direction: column;
             gap: 5px;
-            cursor: pointer;
           }
 
           .project-row {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
             gap: 5px;
           }
 
           .project-name {
-            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
             font-weight: 400;
-            line-height: 120%;
-            color: #1D1C1C;
           }
 
-          .project-metadata {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-          }
-
-          .brand-name,
-          .project-year {
-            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.42px;
-            color: #A3A3A3;
-          }
-
-          .dot-separator {
-            width: 2.73px;
-            height: 2.674px;
-            background: #A3A3A3;
-          }
-
-          .lock-icon {
-            width: 16px;
-            height: 16px;
-          }
-
-          .project-divider {
-            width: 100%;
-            height: 1px;
-            opacity: 0.5;
-            background: rgba(236, 240, 241, 0.5);
-          }
+          /* .project-divider used to set a 1px rgba(236, 240, 241, 0.5)
+             background here — a near-white line on the #F9F9F8 page — while
+             never clearing the base rule's border-top, so mobile drew both.
+             Removed: the base treatment now applies at every width. */
         }
       `}</style>
     </Layout>

@@ -3,13 +3,33 @@
  *
  * Two fixed followers (the card and the "View" pill) are positioned by JS in a
  * rAF loop — see HoverReel.js — so nothing here may set `transform` on .card or
- * .pill themselves. The scale/opacity reveal lives on the inner elements
- * instead, which keeps the JS-owned transform and the CSS-owned transition from
- * fighting over the same property.
+ * .pill themselves. The scale reveal lives on the inner elements instead, which
+ * keeps the JS-owned transform and the CSS-owned transition from fighting over
+ * the same property.
+ *
+ * The reveal is scale only. Interior contrast stays flat through both
+ * directions in the reference, so there is deliberately no opacity fade here.
+ *
+ * The two curves are mirrored, not reused: in decelerates and is quicker, out
+ * accelerates and is longer, so the card hangs for a moment and then snaps
+ * away. Each state carries its own transition — the base rule owns the EXIT,
+ * the .isVisible rule owns the ENTER — which is what makes them mirror.
  */
 
+.card,
+.pill {
+  /* GSAP power3 == quart. Declared on both roots rather than :root so a CSS
+     module does not put two generic names into the global scope; the inner
+     elements inherit them. */
+  --reel-in: cubic-bezier(0.165, 0.84, 0.44, 1);      /* quart-out */
+  --reel-out: cubic-bezier(0.895, 0.03, 0.685, 0.22); /* quart-in */
+}
+
 .card {
-  --reel-size: 260px;
+  /* The reference card is 27.5% of the viewport width. Clamped so it neither
+     swallows the page on an ultrawide nor shrinks below legibility on a small
+     laptop: 276px at 1024, 345px at 1280, 389px at 1440, 400px beyond ~1482. */
+  --reel-size: clamp(240px, 27vw, 400px);
   position: fixed;
   top: 0;
   left: 0;
@@ -24,27 +44,27 @@
   width: var(--reel-size);
   height: var(--reel-size);
   overflow: hidden;
-  border-radius: 5px;
   background: var(--grey-misty);
-  opacity: 0;
-  transform: scale(0.82);
-  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0);
+  transition: transform 0.4s var(--reel-out);
 }
 
 .card.isVisible .cardInner {
-  opacity: 1;
   transform: scale(1);
+  transition: transform 0.3s var(--reel-in);
 }
 
 /*
  * Every thumbnail is stacked in one strip that is N × --reel-size tall, and the
  * strip is translated by -(index / N) * 100% of its own height. One transform
- * per project change, no per-layer bookkeeping.
+ * per project change, no per-layer bookkeeping — and because the offset is a
+ * percentage of the strip's own height it stays correct at any --reel-size,
+ * including across a viewport resize.
  */
 .reel {
   display: flex;
   flex-direction: column;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.225s var(--reel-in);
   will-change: transform;
 }
 
@@ -75,28 +95,25 @@
 
 .pillInner {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  width: 72px;
-  height: 72px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   background: var(--orange);
   color: var(--white-heavenly);
   font-family: var(--font-nhd);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: scale(0);
+  transition: transform 0.4s var(--reel-out);
 }
 
 .pill.isVisible .pillInner {
-  opacity: 1;
   transform: scale(1);
+  transition: transform 0.3s var(--reel-in);
 }
 
 /* Belt and braces: the JS gate already refuses to mount on touch devices. */
@@ -107,9 +124,15 @@
   }
 }
 
+/* The .isVisible selectors must be repeated here. Because the enter transition
+   lives on `.card.isVisible .cardInner` (specificity 0,3,0), a bare `.cardInner`
+   override (0,1,0) loses to it — a media query adds no specificity of its own —
+   and the reveal would keep animating for people who asked it not to. */
 @media (prefers-reduced-motion: reduce) {
   .cardInner,
+  .card.isVisible .cardInner,
   .pillInner,
+  .pill.isVisible .pillInner,
   .reel {
     transition: none;
   }

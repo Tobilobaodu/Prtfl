@@ -1,5 +1,5 @@
 import * as React from "react"
-import { graphql, navigate } from "gatsby"
+import { Link, graphql, navigate } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -10,20 +10,14 @@ const PortfolioPage = ({ data }) => {
   const [selectedProject, setSelectedProject] = React.useState(null)
   const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
+  // Cards are real links, so an unlocked project just navigates. Locked ones
+  // intercept and show the gate instead — the destination page carries its own
+  // gate too, so the no-JS path still lands somewhere correct.
   const handleProjectClick = (project, e) => {
+    if (!project.locked) return
     e.preventDefault()
     setSelectedProject(project)
-
-    if (project.locked) {
-      setModalOpen(true)
-    } else {
-      navigate(`/case-study/${project.slug.current}`)
-    }
-  }
-
-  const handleProjectKeyDown = (project, e) => {
-    if (e.key !== "Enter" && e.key !== " ") return
-    handleProjectClick(project, e)
+    setModalOpen(true)
   }
 
   const handlePasswordCorrect = () => {
@@ -45,14 +39,12 @@ const PortfolioPage = ({ data }) => {
 
           <div className="projects-grid">
             {projects.map((project) => (
-              <div
+              <Link
                 key={project.id}
-                role="button"
-                tabIndex={0}
+                to={`/case-study/${project.slug.current}`}
                 aria-label={`${project.title}${project.locked ? ' (password protected)' : ''}`}
                 className="project-card"
                 onClick={(e) => handleProjectClick(project, e)}
-                onKeyDown={(e) => handleProjectKeyDown(project, e)}
               >
                 <div className="project-image-wrapper">
                   {project.heroImage?.asset?.gatsbyImageData && (
@@ -97,17 +89,21 @@ const PortfolioPage = ({ data }) => {
                         <span className="project-year">{project.year}</span>
                       </div>
                     </div>
-                    <button className="view-project-btn">
+                    {/* A span, not a button: the card itself is now the link,
+                        and interactive content cannot nest inside an <a>. It
+                        never carried a handler, so this only removes a tab stop
+                        that did nothing. */}
+                    <span className="view-project-btn">
                       {project.locked && (
                         <svg className="btn-lock-icon" width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M2.6665 14.667V5.33366H4.6665V4.00033C4.6665 3.0781 4.99162 2.29188 5.64184 1.64166C6.29162 0.991881 7.07762 0.666992 7.99984 0.666992C8.92206 0.666992 9.70828 0.991881 10.3585 1.64166C11.0083 2.29188 11.3332 3.0781 11.3332 4.00033V5.33366H13.3332V14.667H2.6665ZM5.99984 5.33366H9.99984V4.00033C9.99984 3.44477 9.80539 2.97255 9.4165 2.58366C9.02762 2.19477 8.55539 2.00033 7.99984 2.00033C7.44428 2.00033 6.97206 2.19477 6.58317 2.58366C6.19428 2.97255 5.99984 3.44477 5.99984 4.00033V5.33366ZM3.99984 13.3337H11.9998V6.66699H3.99984V13.3337ZM7.99984 11.3337C8.3665 11.3337 8.6805 11.2032 8.94184 10.9423C9.20273 10.681 9.33317 10.367 9.33317 10.0003C9.33317 9.63366 9.20273 9.31966 8.94184 9.05833C8.6805 8.79744 8.3665 8.66699 7.99984 8.66699C7.63317 8.66699 7.31939 8.79744 7.0585 9.05833C6.79717 9.31966 6.6665 9.63366 6.6665 10.0003C6.6665 10.367 6.79717 10.681 7.0585 10.9423C7.31939 11.2032 7.63317 11.3337 7.99984 11.3337Z" fill="currentColor" />
                         </svg>
                       )}
                       VIEW PROJECT
-                    </button>
+                    </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -171,6 +167,13 @@ const PortfolioPage = ({ data }) => {
           overflow: hidden;
           cursor: pointer;
           position: relative;
+        }
+
+        /* The card is an <a>; give it a real focus ring. :focus-visible so a
+           mouse click does not leave one behind. */
+        .project-card:focus-visible {
+          outline: 2px solid var(--orange);
+          outline-offset: 4px;
         }
 
         .project-image-wrapper {
@@ -328,7 +331,7 @@ const PortfolioPage = ({ data }) => {
 
         .hover-state .project-brand {
           font-size: 12px;
-          font-weight: 600;
+          font-weight: 700;
           color: #A3A3A3;
         }
 

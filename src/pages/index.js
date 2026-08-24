@@ -1,5 +1,5 @@
 import * as React from "react"
-import { graphql, navigate } from "gatsby"
+import { Link, graphql, navigate } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
@@ -8,29 +8,22 @@ import HoverReel from "../components/HoverReel"
 
 const IndexPage = ({ data }) => {
   const [modalOpen, setModalOpen] = React.useState(false)
-  // { id, rect } — rect is set only for keyboard focus, where there is no
-  // cursor for the preview to follow. See HoverReel.
+  // { id, el } — el is set only for keyboard focus, where there is no cursor
+  // for the preview to follow. See HoverReel.
   const [hovered, setHovered] = React.useState(null)
   const [selectedProject, setSelectedProject] = React.useState(null)
   const [emailCopied, setEmailCopied] = React.useState(false)
 
   const projects = data?.allSanityProject?.edges?.map(edge => edge.node) || []
 
+  // Rows are real links, so an unlocked project just navigates. Locked ones
+  // intercept and show the gate instead — the destination page carries its own
+  // gate too, so the no-JS path still lands somewhere correct.
   const handleProjectClick = (project, e) => {
+    if (!project.locked) return
     e.preventDefault()
     setSelectedProject(project)
-
-    if (project.locked) {
-      setModalOpen(true)
-    } else {
-      navigate(`/case-study/${project.slug.current}`)
-    }
-  }
-
-  // Enter/Space should activate a project row the same way a click does.
-  const handleProjectKeyDown = (project, e) => {
-    if (e.key !== "Enter" && e.key !== " ") return
-    handleProjectClick(project, e)
+    setModalOpen(true)
   }
 
   const handlePasswordCorrect = () => {
@@ -60,20 +53,22 @@ const IndexPage = ({ data }) => {
           </section>
 
           <section className="projects-section">
-            <div className="projects-list">
+            {/* The clear lives on the list, not on each row. Rows are separated
+                by a 10px flex gap that belongs to no row, so clearing per-row
+                meant every boundary crossing hid the preview for ~20-50ms:
+                the reel lurched back toward the first cell and, worse, the
+                follower re-seeded onto the cursor and lost its entire trail. */}
+            <div className="projects-list" onMouseLeave={() => setHovered(null)}>
               {projects.map((project) => (
-                <div
+                <Link
                   key={project.id}
-                  role="button"
-                  tabIndex={0}
+                  to={`/case-study/${project.slug.current}`}
                   aria-label={`${project.title}${project.locked ? ' (password protected)' : ''}`}
                   className={`project-item clickable ${project.locked ? 'locked' : ''} ${hovered?.id === project.id ? 'is-previewing' : ''}`}
-                  onMouseEnter={() => setHovered({ id: project.id, rect: null })}
-                  onMouseLeave={() => setHovered(null)}
-                  onFocus={(e) => setHovered({ id: project.id, rect: e.currentTarget.getBoundingClientRect() })}
+                  onMouseEnter={() => setHovered({ id: project.id, el: null })}
+                  onFocus={(e) => setHovered({ id: project.id, el: e.currentTarget })}
                   onBlur={() => setHovered(null)}
                   onClick={(e) => handleProjectClick(project, e)}
-                  onKeyDown={(e) => handleProjectKeyDown(project, e)}
                 >
                   <div className="project-info">
                     <h3 className="project-title">{project.title}</h3>
@@ -83,13 +78,13 @@ const IndexPage = ({ data }) => {
                       <span className="project-year">{project.year}</span>
                       {project.locked && (
                         <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                          <path d="M2.66699 15.167V5.83366H4.66699V4.50033C4.66699 3.5781 4.9921 2.79188 5.64233 2.14166C6.2921 1.49188 7.0781 1.16699 8.00033 1.16699C8.92255 1.16699 9.70877 1.49188 10.359 2.14166C11.0088 2.79188 11.3337 3.5781 11.3337 4.50033V5.83366H13.3337V15.167H2.66699ZM6.00033 5.83366H10.0003V4.50033C10.0003 3.94477 9.80588 3.47255 9.41699 3.08366C9.0281 2.69477 8.55588 2.50033 8.00033 2.50033C7.44477 2.50033 6.97255 2.69477 6.58366 3.08366C6.19477 3.47255 6.00033 3.94477 6.00033 4.50033V5.83366ZM4.00033 13.8337H12.0003V7.16699H4.00033V13.8337ZM8.00033 11.8337C8.36699 11.8337 8.68099 11.7032 8.94233 11.4423C9.20321 11.181 9.33366 10.867 9.33366 10.5003C9.33366 10.1337 9.20321 9.81966 8.94233 9.55833C8.68099 9.29744 8.36699 9.16699 8.00033 9.16699C7.63366 9.16699 7.31988 9.29744 7.05899 9.05833C6.79766 9.31966 6.66699 9.63366 6.66699 10.5003C6.66699 10.867 6.79766 11.181 7.05899 11.4423C7.31988 11.7032 7.63366 11.8337 8.00033 11.8337Z" fill="#A3A3A3"/>
+                          <path d="M2.66699 15.167V5.83366H4.66699V4.50033C4.66699 3.5781 4.9921 2.79188 5.64233 2.14166C6.2921 1.49188 7.0781 1.16699 8.00033 1.16699C8.92255 1.16699 9.70877 1.49188 10.359 2.14166C11.0088 2.79188 11.3337 3.5781 11.3337 4.50033V5.83366H13.3337V15.167H2.66699ZM6.00033 5.83366H10.0003V4.50033C10.0003 3.94477 9.80588 3.47255 9.41699 3.08366C9.0281 2.69477 8.55588 2.50033 8.00033 2.50033C7.44477 2.50033 6.97255 2.69477 6.58366 3.08366C6.19477 3.47255 6.00033 3.94477 6.00033 4.50033V5.83366ZM4.00033 13.8337H12.0003V7.16699H4.00033V13.8337ZM8.00033 11.8337C8.36699 11.8337 8.68099 11.7032 8.94233 11.4423C9.20321 11.181 9.33366 10.867 9.33366 10.5003C9.33366 10.1337 9.20321 9.81966 8.94233 9.55833C8.68099 9.29744 8.36699 9.16699 8.00033 9.16699C7.63366 9.16699 7.31988 9.29744 7.05899 9.55833C6.79766 9.81966 6.66699 10.1337 6.66699 10.5003C6.66699 10.867 6.79766 11.181 7.05899 11.4423C7.31988 11.7032 7.63366 11.8337 8.00033 11.8337Z" fill="#A3A3A3"/>
                         </svg>
                       )}
                     </div>
                   </div>
                   <div className="project-divider"></div>
-                </div>
+                </Link>
               ))}
             </div>
 

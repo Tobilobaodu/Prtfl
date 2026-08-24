@@ -193,7 +193,7 @@ const ContactPage = () => {
 
         .contact-link {
           font-size: 14px;
-          font-weight: 600;
+          font-weight: 700;
           color: var(--orange);
           text-decoration: none;
           transition: opacity 0.3s ease;
