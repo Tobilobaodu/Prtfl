@@ -76,6 +76,18 @@
   --page-inline: max(var(--gutter), calc((100% - var(--content-max)) / 2));
   --nav-h: 85px;
 
+  /* Width of the case-study table-of-contents track. Lives here rather than in
+     the template because three grids have to agree on it: .cs-body-layout (the
+     TOC itself), .cs-intro-wrapper (an empty spacer column that keeps the case
+     study title above the body text), and .cs-demo-layout on /cs-components/,
+     which mirrors the layout so blocks are reviewed at their true width. A
+     page-scoped <style> token could not be shared across those two pages.
+
+     Only referenced by those three rules — defining it here affects no other
+     page. Below 1200px the TOC is display: none and both grids collapse to a
+     single column, so this value has no effect there. */
+  --cs-toc-w: 270px;
+
   /* Cap for the narrow single-column pages (home, work, sandbox, photography,
      experience). Because of the global border-box, this includes the gutters —
      so at 600px with 100px gutters only 400px of it was left for content, which

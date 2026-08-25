@@ -972,21 +972,29 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
           scroll-behavior: smooth;
         }
 
-        /* Figma desktop splits the 1240 content into a 420 track (TOC text is
-           216 wide inside it) and an 820 body column. 420px + 1fr reproduces
-           that exactly at 1240 and lets the body absorb the difference below. */
+        /* Two grids, one track. --cs-toc-w (layout.css) sizes the table of
+           contents; the body absorbs whatever is left via 1fr, so the content
+           column widens as the TOC narrows rather than being pinned.
+
+           .cs-intro-wrapper's first column holds nothing — .project-intro sits
+           in column 2. Its only job is to match the TOC track so the case study
+           title lands directly above the body text, which is why both rules
+           must read the same token. Three of the four case studies render this
+           wrapper; the fourth opens with a heroSection instead. */
         .cs-intro-wrapper {
           display: grid;
-          grid-template-columns: 420px 1fr;
-          gap: 0;
+          grid-template-columns: var(--cs-toc-w) 1fr;
+          gap: 0 60px;
           padding: 60px 0 40px;
           padding-inline: var(--page-inline);
         }
 
         .cs-body-layout {
           display: grid;
-          grid-template-columns: 420px 1fr;
-          gap: 0;
+          grid-template-columns: var(--cs-toc-w) 1fr;
+          /* Column channel only. The 1fr content column absorbs it, so the
+             TOC stays exactly --cs-toc-w wide. */
+          gap: 0 60px;
           padding: 0 0 100px;
           padding-inline: var(--page-inline);
           align-items: start;

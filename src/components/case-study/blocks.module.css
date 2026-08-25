@@ -47,8 +47,9 @@
  * auto-fit, not a fixed column count with viewport breakpoints.
  *
  * The column these blocks live in does not get wider as the viewport does: the
- * case-study body drops its 420px table-of-contents column at 1199px, so the
- * content column measures ~565px at a 1200px viewport but ~849px at 1024px.
+ * case-study body drops its table-of-contents column (--cs-toc-w) at 1199px,
+ * so the content column measures ~715px at a 1200px viewport but ~849px at
+ * 1024px.
  * Viewport media queries therefore produce the wrong answer in that band — a
  * three-up grid at 1200 gave 175px cards. Sizing off the available inline space
  * instead makes each grid respond to the space it actually has, on this page

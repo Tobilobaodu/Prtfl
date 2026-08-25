@@ -15,7 +15,7 @@ import {
  * Working page for reviewing the case-study block components in isolation.
  *
  * It reproduces the measuring context of a real case study — the same
- * `420px 1fr` grid and `--page-inline` gutter as `.cs-body-layout` in
+ * `var(--cs-toc-w) 1fr` grid and `--page-inline` gutter as `.cs-body-layout` in
  * src/templates/case-study.js — so each block renders at exactly the width it
  * will occupy in production (~820px at 1440). Reviewing them full-bleed would
  * flatter layouts that do not actually fit.
@@ -158,10 +158,12 @@ const CsComponentsPage = ({ data }) => {
         }
 
         /* Mirrors .cs-body-layout in src/templates/case-study.js so the blocks
-           render at their true production width. Keep the two in step. */
+           render at their true production width. Both read --cs-toc-w from
+           layout.css, so the two cannot drift apart. */
         .cs-demo-layout {
           display: grid;
-          grid-template-columns: 420px 1fr;
+          grid-template-columns: var(--cs-toc-w) 1fr;
+          gap: 0 60px;
           padding-inline: var(--page-inline);
           align-items: start;
         }
