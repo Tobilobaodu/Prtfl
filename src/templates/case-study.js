@@ -6,6 +6,17 @@ import Seo from "../components/seo"
 import LockedProjectModal from "../components/LockedProjectModal"
 import { getStoredToken, fetchProtectedCaseStudy } from "../utils/caseStudyAccess"
 import { sanityImageProps, sanityImageUrl, sanityImageSrcSet } from "../utils/sanityImage"
+import { slugify } from "../utils/slugify"
+// Newer blocks live outside this file so the review page at /cs-components/
+// can import them too; the older blocks below are still local consts.
+import {
+  SplitHero,
+  ImagePodGrid,
+  IconPodGrid,
+  NumberedFindings,
+  PullQuote,
+  ObjectivesList,
+} from "../components/case-study"
 import LeftActive from "../Assets/SVG/Left_Active.svg"
 import LeftDisabled from "../Assets/SVG/Left_Disabled.svg"
 import RightActive from "../Assets/SVG/Right_Active.svg"
@@ -194,8 +205,6 @@ const ImageComponent = ({ layout, images, enableGaps = true, fullHeightImage = 1
 const SectionTitleBlock = ({ title }) => <h2 className="text-section-title">{title}</h2>
 
 const TagBlock = ({ tag }) => <div className="text-tag">{tag}</div>
-
-const slugify = (str) => str?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') || ''
 
 const SectionDivider = ({ tag, title, dividerStyle = 'line' }) => {
   const id = slugify(title || tag)
@@ -758,6 +767,18 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
                   return <IconHeadingBlock key={index} {...component} />
                 case 'ndaNotice':
                   return <NdaNotice key={index} {...component} />
+                case 'splitHero':
+                  return <SplitHero key={index} {...component} />
+                case 'imagePodGrid':
+                  return <ImagePodGrid key={index} {...component} />
+                case 'iconPodGrid':
+                  return <IconPodGrid key={index} {...component} />
+                case 'numberedFindings':
+                  return <NumberedFindings key={index} {...component} />
+                case 'pullQuote':
+                  return <PullQuote key={index} {...component} />
+                case 'objectivesList':
+                  return <ObjectivesList key={index} {...component} />
                 default:
                   return null
               }

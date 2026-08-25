@@ -9,6 +9,12 @@
  * The GROQ projection mirrors what the build-time GraphQL query produces via
  * `_rawComponents(resolveReferences: { maxDepth: 10 })`, so the template can
  * render either source with the same component code.
+ *
+ * That mirroring is manual, and it is the easy thing to forget: `...` spreads
+ * scalars, but every image field needs its own `asset->` line or it arrives as
+ * an unresolved `_ref` and renders as nothing. Adding a component type with an
+ * image means adding it here too — and the failure only shows up behind a
+ * password, never in ordinary local testing.
  */
 
 const { createClient } = require('@sanity/client')
@@ -32,7 +38,9 @@ const CASE_STUDY_QUERY = `*[_type == "caseStudy" && project->slug.current == $sl
     posterImage{ ..., asset-> },
     videoFile{ ..., asset-> },
     images[]{ ..., asset-> },
-    slides[]{ ..., image{ ..., asset-> } }
+    slides[]{ ..., image{ ..., asset-> } },
+    image{ ..., asset-> },
+    pods[]{ ..., image{ ..., asset-> }, icon{ ..., asset-> } }
   },
   project->{ _id, title, client, year, projectType, introText, shortDescription },
   "relatedProjects": relatedProjects[]->{ _id, title, client, year, slug }

@@ -31,6 +31,12 @@ export default defineType({
         { type: 'ndaNotice' },
         { type: 'spacer' },
         { type: 'sectionDivider' },
+        { type: 'splitHero' },
+        { type: 'imagePodGrid' },
+        { type: 'iconPodGrid' },
+        { type: 'numberedFindings' },
+        { type: 'pullQuote' },
+        { type: 'objectivesList' },
       ],
       validation: (Rule) =>
         Rule.custom((components: Array<{ _type: string }> | undefined) => {

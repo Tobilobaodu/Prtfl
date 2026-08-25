@@ -1,0 +1,389 @@
+/**
+ * Shared styles for the extracted case-study block components.
+ *
+ * One stylesheet rather than six: the orange ordinal is common to
+ * NumberedFindings and ObjectivesList, and the hairline rule is common to
+ * three of them. CSS Modules scope per file, so importing this from six
+ * components is correct — webpack emits it once.
+ *
+ * These blocks render inside .cs-content-col, which is a flex column with no
+ * gap, so every block owns its own vertical rhythm via --block-gap. Horizontal
+ * insets are owned entirely by the parent column: nothing here sets a page
+ * gutter, which is what lets the same components sit unchanged on the review
+ * page at /cs-components/.
+ *
+ * Colours and type come from the site tokens in layout.css, never from the
+ * Figma values, so these blocks restyle with the rest of the site.
+ */
+
+.block {
+  --block-gap: 60px;
+  --rule: rgba(29, 28, 28, 0.15);
+  --ordinal-size: 12px;
+
+  width: 100%;
+  margin-block: var(--block-gap);
+  font-family: var(--font-nhd);
+  color: var(--black-pitch-nah);
+}
+
+/* The orange 01 / 02 / 03. Tabular figures so the column of numbers stays
+   aligned once the list runs past item nine. */
+.ordinal {
+  flex-shrink: 0;
+  color: var(--orange);
+  font-size: var(--ordinal-size);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ════════════════════════════════════════
+   SplitHero
+   ════════════════════════════════════════ */
+
+/*
+ * auto-fit, not a fixed column count with viewport breakpoints.
+ *
+ * The column these blocks live in does not get wider as the viewport does: the
+ * case-study body drops its 420px table-of-contents column at 1199px, so the
+ * content column measures ~565px at a 1200px viewport but ~849px at 1024px.
+ * Viewport media queries therefore produce the wrong answer in that band — a
+ * three-up grid at 1200 gave 175px cards. Sizing off the available inline space
+ * instead makes each grid respond to the space it actually has, on this page
+ * and on the review page alike.
+ */
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  align-items: center;
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 25px;
+}
+
+.heroHeadline {
+  margin: 0;
+  /* --type-display-xlarge is already 80px / 500 / 90%, which is exactly what
+     the Figma frame specifies, so the headline needs no bespoke type. It is
+     clamped down here because the block sits in an ~820px column rather than
+     the 1240px artboard. */
+  font-size: clamp(38px, 5.5vw, var(--type-display-xlarge-size));
+  font-weight: var(--type-display-xlarge-weight);
+  line-height: var(--type-display-xlarge-line-height);
+}
+
+.heroBody {
+  margin: 0;
+  max-width: 46ch;
+  letter-spacing: 0.42px;
+}
+
+.heroMedia {
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--grey-misty);
+  aspect-ratio: 477 / 407;
+}
+
+.heroMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Matches .cs-locked-btn in case-study.js rather than the Figma grey box, so
+   every call to action on a case study reads as the same control. */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 5px;
+  background: var(--orange);
+  color: var(--white-heavenly);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.42px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a.cta:hover {
+  opacity: 0.85;
+}
+
+.cta svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   ImagePodGrid
+   ════════════════════════════════════════ */
+
+/* 240px floor: three across in the ~805px desktop column, two once it narrows
+   past ~760px, one below ~500px. See the note on .hero above. */
+.podGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.pod {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.podMedia {
+  width: 100%;
+  /* 350 x 333 in the Figma frame. */
+  aspect-ratio: 350 / 333;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--grey-misty);
+}
+
+.podMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.podCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+/* .type-title-small is 20px / 700 — the Figma value exactly. */
+.podTitle {
+  margin: 0;
+  font-size: var(--type-title-small-size);
+  font-weight: var(--type-title-small-weight);
+  line-height: 1.25;
+}
+
+.podText {
+  margin: 0;
+  letter-spacing: 0.42px;
+  color: var(--grey-just);
+}
+
+/* ════════════════════════════════════════
+   IconPodGrid
+   ════════════════════════════════════════ */
+
+/* 280px floor: two across in the desktop column, one once it narrows past
+   ~610px. See the note on .hero above. */
+.iconGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 54px 50px;
+}
+
+.iconPod {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.iconBadge {
+  flex-shrink: 0;
+  width: 42px;
+  height: 47px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.iconBadge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.iconCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  min-width: 0;
+}
+
+.iconHeading {
+  margin: 0;
+  font-size: var(--type-body-small-semibold-size);
+  font-weight: var(--type-body-small-semibold-weight);
+  line-height: 1.2;
+  letter-spacing: 0.42px;
+}
+
+.iconText {
+  margin: 0;
+  line-height: 1.45;
+  letter-spacing: 0.42px;
+  color: var(--grey-just);
+}
+
+/* ════════════════════════════════════════
+   NumberedFindings
+   ════════════════════════════════════════ */
+
+.findings {
+  display: flex;
+  flex-direction: column;
+}
+
+.finding {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  column-gap: 20px;
+  padding-block: 24px;
+  border-top: 1px solid var(--rule);
+}
+
+/* The rules sit between rows, not around the set. */
+.finding:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.findingHeading {
+  margin: 0;
+  font-size: var(--type-body-small-bold-size);
+  font-weight: var(--type-body-small-bold-weight);
+  line-height: 1.4;
+}
+
+.findingBody {
+  margin: 6px 0 0;
+  line-height: 1.55;
+  letter-spacing: 0.42px;
+  color: var(--grey-just);
+}
+
+/* The ordinal sits on the heading's own baseline rather than the row's top. */
+.finding .ordinal {
+  line-height: 1.4;
+  padding-top: 2px;
+}
+
+/* ════════════════════════════════════════
+   PullQuote
+   ════════════════════════════════════════ */
+
+/* No `margin: 0` here to reset the <figure> default — the global reset in
+   layout.css already does that, and because this rule and .block have equal
+   specificity the later one would win, silently cancelling --block-gap and
+   collapsing the space between this block and the next. */
+.quote {
+  padding-left: 24px;
+  border-left: 2px solid var(--orange);
+}
+
+.quoteText {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.2px;
+}
+
+.quoteAttribution {
+  display: block;
+  margin-top: 14px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--grey-misty);
+}
+
+/* ════════════════════════════════════════
+   ObjectivesList
+   ════════════════════════════════════════ */
+
+.objectives {
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  background: var(--white-heavenly);
+  overflow: hidden;
+}
+
+.objective {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 24px;
+  border-top: 1px solid var(--rule);
+}
+
+.objective:first-child {
+  border-top: none;
+}
+
+.objectiveLabel {
+  margin: 0;
+  font-size: var(--type-body-small-size);
+  line-height: 1.4;
+  letter-spacing: 0.42px;
+}
+
+/* ════════════════════════════════════════
+   Responsive
+   ════════════════════════════════════════ */
+
+/* Column counts are handled by auto-fit above; these queries only tune the
+   spacing and type that genuinely track the viewport rather than the column. */
+@media (max-width: 1199px) {
+  .block {
+    --block-gap: 50px;
+  }
+
+  .hero {
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .block {
+    --block-gap: 40px;
+  }
+
+  .iconGrid {
+    gap: 32px;
+  }
+
+  .finding {
+    grid-template-columns: 32px minmax(0, 1fr);
+    column-gap: 14px;
+    padding-block: 20px;
+  }
+
+  .quote {
+    padding-left: 18px;
+  }
+
+  .quoteText {
+    font-size: 16px;
+  }
+
+  .objective {
+    padding: 16px 18px;
+    gap: 14px;
+  }
+}

@@ -19,7 +19,30 @@
       "Bash(node shots.mjs)",
       "Bash(node -e ' *)",
       "Bash(cat \"C:/Users/second/.claude/projects/c--Users-second-Documents-GitHub-Prtfl/memory/MEMORY.md\" 2>/dev/null || echo \"\\(no MEMORY.md yet\\)\"; echo \"---\"; ls \"C:/Users/second/.claude/projects/c--Users-second-Documents-GitHub-Prtfl/memory/\" 2>/dev/null)",
-      "Read(//c/Users/second/.claude/projects/c--Users-second-Documents-GitHub-Prtfl/memory/**)"
+      "Read(//c/Users/second/.claude/projects/c--Users-second-Documents-GitHub-Prtfl/memory/**)",
+      "Bash(curl -s -o /dev/null -w \"8001: %{http_code}\\\\n\" --max-time 4 http://localhost:8001/)",
+      "Bash(sed -i \"s|case-study/mobile-banking-app/|case-study/better-product-page-cut-support-calls-60/|g\" blocks.mjs)",
+      "Bash(node blocks.mjs)",
+      "Bash(curl -s -X POST http://localhost:8001/___graphql -H 'Content-Type: application/json' -d '{\"query\":\"{ allSitePage\\(filter:{path:{regex:\\\\\"/case-study/\\\\\"}}\\) { nodes { path } } }\"}')",
+      "Bash(python -c \"import sys,json;d=json.load\\(sys.stdin\\);[print\\(n['path']\\) for n in d['data']['allSitePage']['nodes']]\")",
+      "Bash(sed -i \"s|case-study/better-product-page-cut-support-calls-60/|case-study/getting-brokers-off-the-phone-and-onto-the-page/|g\" blocks.mjs)",
+      "Bash(node spacing.mjs)",
+      "Bash(npx tsc *)",
+      "Bash(timeout 180 ./node_modules/.bin/sanity schema validate)",
+      "Bash(node schemacheck.mjs)",
+      "Bash(rm -f /tmp/schemacheck.mjs)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}' --max-time 4 http://localhost:8001/cs-components/)",
+      "Bash(echo \"port: $\\(curl -s -o /dev/null -w '%{http_code}' --max-time 4 http://localhost:8001/cs-components/ || echo down\\)\")",
+      "Bash(cp package-lock.json /tmp/lock-before.json)",
+      "Bash(cp package.json /tmp/pkg-before.json)",
+      "Bash(python -c ' *)",
+      "Bash(timeout 300 ./node_modules/.bin/sanity schema validate)",
+      "Bash(npm ls *)",
+      "Read(//c/Users/second/AppData/Local/Temp/**)",
+      "PowerShell(Get-CimInstance Win32_Process -Filter \"Name='node.exe'\" | Where-Object { $_.CommandLine -match 'gatsby|develop' } | Select-Object ProcessId, @{n='cmd';e={$_.CommandLine.Substring\\(0,[Math]::Min\\(120,$_.CommandLine.Length\\)\\)}} | Format-List)",
+      "PowerShell(Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue | Where-Object { $_.OwningProcess -in @\\(33236,23924\\) } | Select-Object LocalPort, OwningProcess | Sort-Object LocalPort | Format-Table -AutoSize)",
+      "Bash(timeout 420 ./node_modules/.bin/sanity graphql deploy --dry-run)",
+      "Bash(curl -s -X POST http://localhost:8000/___graphql -H 'Content-Type: application/json' -d '{\"query\":\"{ allSanityCaseStudy { nodes { project { slug { current } } _rawComponents } } }\"}')"
     ]
   }
 }
