@@ -42,7 +42,23 @@
       "PowerShell(Get-CimInstance Win32_Process -Filter \"Name='node.exe'\" | Where-Object { $_.CommandLine -match 'gatsby|develop' } | Select-Object ProcessId, @{n='cmd';e={$_.CommandLine.Substring\\(0,[Math]::Min\\(120,$_.CommandLine.Length\\)\\)}} | Format-List)",
       "PowerShell(Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue | Where-Object { $_.OwningProcess -in @\\(33236,23924\\) } | Select-Object LocalPort, OwningProcess | Sort-Object LocalPort | Format-Table -AutoSize)",
       "Bash(timeout 420 ./node_modules/.bin/sanity graphql deploy --dry-run)",
-      "Bash(curl -s -X POST http://localhost:8000/___graphql -H 'Content-Type: application/json' -d '{\"query\":\"{ allSanityCaseStudy { nodes { project { slug { current } } _rawComponents } } }\"}')"
+      "Bash(curl -s -X POST http://localhost:8000/___graphql -H 'Content-Type: application/json' -d '{\"query\":\"{ allSanityCaseStudy { nodes { project { slug { current } } _rawComponents } } }\"}')",
+      "Bash(node -e \"console.log\\(require\\('./package.json'\\).dependencies.lenis\\)\")",
+      "PowerShell(Get-CimInstance Win32_Process -Filter \"Name='node.exe'\" | Where-Object { $_.CommandLine -match 'gatsby' } | Select-Object ProcessId, @{n='Cmd';e={$_.CommandLine.Substring\\(0,[Math]::Min\\(90,$_.CommandLine.Length\\)\\)}} | Format-Table -AutoSize | Out-String -Width 200)",
+      "Bash(curl -s \"http://localhost:8000/___graphql\" -H \"Content-Type: application/json\" -d '{\"query\":\"{allSanityProject{nodes{slug{current} locked title}}}\"}')",
+      "Bash(node lenis.mjs)",
+      "Bash(sed -i 's|a\\\\.project-card\\\\.locked|a.project-card[aria-label*=\"password protected\"]|g' modal.mjs)",
+      "Bash(node modal.mjs)",
+      "Bash(grep -v \"outdated JSX\\\\|DevTools\\\\|HMR\\\\|gatsby background\\\\|loading indicator\\\\|^$\\\\|disable\")",
+      "Bash(sed -i 's|\\\\[class\\\\*=\"modal\"\\\\]|[role=\"dialog\"]|' probe5.mjs)",
+      "Bash(node probe5.mjs)",
+      "Bash(node probe6.mjs)",
+      "Bash(cp src/components/HoverReel.js /tmp/HoverReel.bak.js)",
+      "Bash(cp src/components/HoverReel.js \"C:/Users/second/AppData/Local/Temp/claude/c--Users-second-Documents-GitHub-Prtfl/0932d2cc-7e8b-4621-b07d-a2a8c91aadfb/scratchpad/HoverReel.bak.js\")",
+      "Bash(cd \"c:/Users/second/Documents/GitHub/Prtfl\" && ls *.md docs/*.md 2>/dev/null; find . -iname \"*hover*spec*\" -not -path \"./node_modules/*\" 2>/dev/null; ls \"C:/Users/second/Downloads\" 2>/dev/null | head -20)",
+      "Read(//c/Users/second/Downloads/**)",
+      "Bash(node motion.mjs)",
+      "PowerShell($g = @\\(Get-CimInstance Win32_Process -Filter \"Name='node.exe'\" | Where-Object { $_.CommandLine -match 'gatsby' }\\); \"gatsby processes: $\\($g.Count\\)\"; \\(Test-NetConnection -ComputerName localhost -Port 8000 -InformationLevel Quiet -WarningAction SilentlyContinue\\) | ForEach-Object { \"port 8000 open: $_\" })"
     ]
   }
 }

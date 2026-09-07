@@ -158,12 +158,8 @@ const SndbxPage = ({ data }) => {
           }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-          .project-item .project-name,
-          .project-item .project-metadata {
-            transition: none;
-          }
-        }
+        /* No reduced-motion override: a 0.25s opacity fade, no movement. Same
+           reasoning as the matching rule in layout.css. */
 
         .project-row {
           display: flex;

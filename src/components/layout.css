@@ -46,6 +46,29 @@
   font-display: swap;
 }
 
+/**
+ * MOTION POLICY — prefers-reduced-motion
+ *
+ * The preference disables motion of the *page or viewport*. Motion contained
+ * inside a small element, and motion locked 1:1 to the pointer, stays.
+ *
+ * Off under `reduce`:
+ *   - Lenis smooth scroll        (src/lib/lenis.js — never constructed)
+ *   - the intro loader's panel   (PageLoader.module.css — viewport-sized slide)
+ *   - the HoverReel follow lag   (HoverReel.js — full-viewport travel)
+ *
+ * Kept under `reduce`:
+ *   - the HoverReel scale reveal and reel roll (contained in a ~389px box)
+ *   - row title/meta opacity fades (no movement at all)
+ *   - TOC anchor scrolling (a discrete move the visitor asked for)
+ *
+ * The line is drawn here rather than per-component because it was previously
+ * scattered across six blocks, which made the site's motion vanish wholesale
+ * for anyone who had simply turned Windows animations off for performance.
+ * Add a new `@media (prefers-reduced-motion: reduce)` block only for something
+ * that moves the page.
+ */
+
 :root {
   --white-not-wyt: #F9F9F8;
   --black-pitch-nah: #1D1C1C;
@@ -663,12 +686,9 @@ main {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .project-item .project-title,
-  .project-item .project-meta {
-    transition: none;
-  }
-}
+/* No reduced-motion override: this is a 0.25s opacity fade with no movement at
+   all, so there is nothing here for the preference to catch. See the motion
+   policy near the top of this file. */
 
 .socials-section {
   display: flex;

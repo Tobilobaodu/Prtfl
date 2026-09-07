@@ -1,5 +1,6 @@
 import * as React from "react"
 import { sanityImageUrl } from "../utils/sanityImage"
+import { subscribe } from "../lib/ticker"
 import * as styles from "./HoverReel.module.css"
 
 // The card is sized in vw (see --reel-size), topping out at 400px; 800 covers
@@ -65,7 +66,6 @@ const HoverReel = ({ projects = [], active = null }) => {
   const target = React.useRef({ x: 0, y: 0 })
   const cardPos = React.useRef({ x: 0, y: 0 })
   const pillPos = React.useRef({ x: 0, y: 0 })
-  const frame = React.useRef(null)
   const prevTime = React.useRef(0)
 
   // Set once, on the first pointer position of the page's life, and never
@@ -158,6 +158,10 @@ const HoverReel = ({ projects = [], active = null }) => {
       prevTime.current = now
 
       // Reduced motion drops the lag entirely: the followers sit on the target.
+      // This is the one piece of HoverReel the preference still turns off — the
+      // trail is full-viewport travel the visitor did not ask for, whereas with
+      // k=1 the card sits exactly where they are pointing. The scale reveal and
+      // the reel roll stay on; see the motion policy in layout.css.
       const cardK = reduced ? 1 : 1 - Math.exp(-CARD_LAMBDA * dt)
       const pillK = reduced ? 1 : 1 - Math.exp(-PILL_LAMBDA * dt)
 
@@ -175,11 +179,15 @@ const HoverReel = ({ projects = [], active = null }) => {
         pillRef.current.style.transform = `translate3d(${pillPos.current.x}px, ${pillPos.current.y}px, 0) translate(-50%, -50%)`
       }
 
-      frame.current = requestAnimationFrame(tick)
     }
 
-    frame.current = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame.current)
+    // The shared ticker rather than a private requestAnimationFrame, so this
+    // runs *after* Lenis has written the frame's scroll offset. aimAtAnchor
+    // measures a row with getBoundingClientRect, which moves as the page
+    // scrolls; with two independent loops the ordering is undefined and the
+    // card trails its row by a frame whenever you scroll with the pointer over
+    // the list.
+    return subscribe(tick)
   }, [visible, reduced])
 
   // Nothing to preview, or a device with no pointer to follow.

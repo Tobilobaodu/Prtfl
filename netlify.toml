@@ -6,9 +6,10 @@
   functions = "netlify/functions"
 
 [build.environment]
-  # Node 18 reached end-of-life in April 2025 and Sanity v5 requires >= 20.
+  # Sanity v6 requires Node >= 22.12, and this value also governs the
+  # Netlify Functions runtime, not just the build.
   # Keep this in sync with "engines" in package.json and .nvmrc.
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
 # Branch-based deployments
 [context.production]

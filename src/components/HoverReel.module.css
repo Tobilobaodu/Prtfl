@@ -64,7 +64,12 @@
 .reel {
   display: flex;
   flex-direction: column;
-  transition: transform 0.225s var(--reel-in);
+  /* The strip travel is its own motion, not the card's scale reveal, so it does
+     NOT use --reel-in. Sharing that token collapsed the roll to 225ms, which
+     put 51% of a cell height in the first 40ms — past the point where the eye
+     tracks a slide, so it read as a cut rather than a roll. Expo-out over 550ms
+     is what the original build used and what the reference reads like. */
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
@@ -124,16 +129,16 @@
   }
 }
 
-/* The .isVisible selectors must be repeated here. Because the enter transition
-   lives on `.card.isVisible .cardInner` (specificity 0,3,0), a bare `.cardInner`
-   override (0,1,0) loses to it — a media query adds no specificity of its own —
-   and the reveal would keep animating for people who asked it not to. */
-@media (prefers-reduced-motion: reduce) {
-  .cardInner,
-  .card.isVisible .cardInner,
-  .pillInner,
-  .pill.isVisible .pillInner,
-  .reel {
-    transition: none;
-  }
-}
+/* No `prefers-reduced-motion` override here, deliberately — see the motion
+   policy in layout.css.
+ *
+ * Everything this file animates is contained: a scale reveal inside a ~389px
+ * box and a strip translating within that same box. Neither moves the page.
+ * Killing them made the card's arrival and the reel's roll into hard cuts for
+ * every reduced-motion visitor — which is most Windows users who turned
+ * animations off for performance rather than for motion sensitivity.
+ *
+ * What does stay disabled under the preference is the cursor-follow lag, in
+ * HoverReel.js: that is the one full-viewport travel in this component, and
+ * with the lag off the card sits exactly on the pointer, so every pixel it
+ * moves is a pixel the visitor commanded. */

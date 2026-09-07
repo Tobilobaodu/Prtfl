@@ -1,5 +1,6 @@
 import * as React from "react"
 import { requestAccess } from "../utils/caseStudyAccess"
+import { getLenis } from "../lib/lenis"
 import * as styles from "./LockedProjectModal.module.css"
 
 const FOCUSABLE =
@@ -22,11 +23,30 @@ const LockedProjectModal = ({ isOpen, onClose, projectSlug, onPasswordCorrect, p
     previouslyFocused.current = document.activeElement
     inputRef.current?.focus()
 
+    // The lock goes on <html>, not just <body>.
+    //
+    // body { overflow: hidden } alone never worked here: overflow on <body>
+    // only propagates to the viewport when <html>'s own overflow is `visible`,
+    // and layout.css sets `html { overflow-y: auto }`. So the page has always
+    // been scrollable behind this dialog — measured at 730px of leak, the same
+    // with Lenis and without it.
+    //
+    // scrollbar-gutter: stable is already on <html>, so removing the scrollbar
+    // costs no layout shift.
+    const rootStyle = document.documentElement.style
     const originalOverflow = document.body.style.overflow
+    const originalRootOverflow = rootStyle.overflow
     document.body.style.overflow = "hidden"
+    rootStyle.overflow = "hidden"
+
+    // And overflow: hidden alone does not stop Lenis either — it drives scroll
+    // by assigning scrollTop, which an overflow-hidden container still honours.
+    getLenis()?.stop()
 
     return () => {
       document.body.style.overflow = originalOverflow
+      rootStyle.overflow = originalRootOverflow
+      getLenis()?.start()
       if (previouslyFocused.current instanceof HTMLElement) {
         previouslyFocused.current.focus()
       }

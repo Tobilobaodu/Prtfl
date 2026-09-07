@@ -40,6 +40,9 @@
 }
 
 /* Respect a reduced-motion preference: no slide, just get out of the way. */
+/* Stays disabled under the preference: this panel is viewport-sized and slides
+   the full height of the screen, which is exactly the page-level motion the
+   policy in layout.css keeps off. */
 @media (prefers-reduced-motion: reduce) {
   .loader {
     transition: none;

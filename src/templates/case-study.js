@@ -7,6 +7,7 @@ import LockedProjectModal from "../components/LockedProjectModal"
 import { getStoredToken, fetchProtectedCaseStudy } from "../utils/caseStudyAccess"
 import { sanityImageProps, sanityImageUrl, sanityImageSrcSet } from "../utils/sanityImage"
 import { slugify } from "../utils/slugify"
+import { getLenis } from "../lib/lenis"
 // Newer blocks live outside this file so the review page at /cs-components/
 // can import them too; the older blocks below are still local consts.
 import {
@@ -382,6 +383,49 @@ const SliderComponent = ({ slides }) => {
 
 const OVERVIEW_TOC_ITEM = { label: 'Overview', id: 'overview' }
 
+/**
+ * Eased jump to a section.
+ *
+ * Routed through Lenis when it exists so the jump uses the same easing as the
+ * rest of the page's scrolling. Before Lenis this relied on
+ * `html { scroll-behavior: smooth }`, which had to go: it drove a *second*
+ * native smooth scroll against the one Lenis animates, and the two fought each
+ * frame. (Lenis 1.3's own stylesheet does not neutralise scroll-behavior, so
+ * removing the rule was required rather than merely tidy.)
+ *
+ * The landing position comes from the target's own `scroll-margin-top` — 100px,
+ * set on .icon-heading-block and .section-divider — rather than a constant here.
+ * The native path below already honours it, so reading it keeps both paths
+ * agreeing and leaves the CSS as the single place the nav clearance is defined.
+ * Lenis does not read scroll-margin itself, hence computing the offset by hand
+ * instead of passing a selector to lenis.scrollTo.
+ *
+ * The fallback covers reduced-motion visitors, for whom Lenis is never
+ * constructed — and it passes 'auto' rather than 'smooth', because an explicit
+ * scrollIntoView behaviour is honoured as given and not downgraded by the
+ * browser the way a CSS scroll-behavior would be.
+ */
+const scrollToSection = (id) => {
+  const el = document.getElementById(id)
+  if (!el) return
+
+  const lenis = getLenis()
+  if (!lenis) {
+    // 'smooth', not 'auto'. Lenis is absent for reduced-motion visitors, and
+    // an anchor jump is a discrete move the visitor asked for rather than the
+    // continuous wheel smoothing the preference is aimed at — so it survives
+    // the tiering (see the motion policy in layout.css). Chrome does not
+    // downgrade this on its own: measured, scroll-behavior and an explicit
+    // 'smooth' both still animate under `reduce`, which is exactly why the
+    // previous `html { scroll-behavior: smooth }` used to ease this jump.
+    el.scrollIntoView({ behavior: 'smooth' })
+    return
+  }
+
+  const clearance = parseFloat(getComputedStyle(el).scrollMarginTop) || 0
+  lenis.scrollTo(el.getBoundingClientRect().top + window.scrollY - clearance)
+}
+
 const TableOfContents = ({ components, activeId }) => {
   const sections = [
     OVERVIEW_TOC_ITEM,
@@ -403,7 +447,7 @@ const TableOfContents = ({ components, activeId }) => {
               className={`toc-link${activeId === s.id ? ' toc-link--active' : ''}`}
               onClick={(e) => {
                 e.preventDefault()
-                document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth' })
+                scrollToSection(s.id)
               }}
             >
               {s.label}
@@ -966,10 +1010,6 @@ const CaseStudyTemplate = ({ data, pageContext }) => {
           width: 100%;
           height: 100%;
           object-fit: cover;
-        }
-
-        html {
-          scroll-behavior: smooth;
         }
 
         /* Two grids, one track. --cs-toc-w (layout.css) sizes the table of
