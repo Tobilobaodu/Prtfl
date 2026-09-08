@@ -393,36 +393,72 @@ const OVERVIEW_TOC_ITEM = { label: 'Overview', id: 'overview' }
  * removing the rule was required rather than merely tidy.)
  *
  * The landing position comes from the target's own `scroll-margin-top` — 100px,
- * set on .icon-heading-block and .section-divider — rather than a constant here.
- * The native path below already honours it, so reading it keeps both paths
- * agreeing and leaves the CSS as the single place the nav clearance is defined.
- * Lenis does not read scroll-margin itself, hence computing the offset by hand
- * instead of passing a selector to lenis.scrollTo.
- *
- * The fallback covers reduced-motion visitors, for whom Lenis is never
- * constructed — and it passes 'auto' rather than 'smooth', because an explicit
- * scrollIntoView behaviour is honoured as given and not downgraded by the
- * browser the way a CSS scroll-behavior would be.
+ * set on .icon-heading-block and .section-divider — rather than a constant here,
+ * so the CSS stays the single place the nav clearance is defined. Both paths
+ * below compute it the same way, which is what keeps them agreeing. Lenis does
+ * not read scroll-margin itself, hence doing the arithmetic by hand instead of
+ * passing a selector to lenis.scrollTo.
  */
+
+// Reduced-motion visitors never get a Lenis instance (see lib/lenis.js), so
+// they take the tween below instead. It is short and FIXED, deliberately not
+// distance-scaled like the Lenis path: the preference asks for less motion, so
+// the sweep stays bounded instead of growing with the length of the page.
+const REDUCED_MOTION_SCROLL_MS = 320
+
+// Handle for an in-flight tween. Without cancelling, clicking a second TOC entry
+// mid-flight leaves two rAF loops both writing window.scrollTo every frame, and
+// the page shudders between their two targets.
+let reducedMotionTween = 0
+
+const tweenScrollTo = (targetY) => {
+  cancelAnimationFrame(reducedMotionTween)
+
+  const startY = window.scrollY
+  const delta = targetY - startY
+  if (Math.abs(delta) < 2) return
+
+  const start = performance.now()
+
+  const step = (now) => {
+    const t = Math.min(1, (now - start) / REDUCED_MOTION_SCROLL_MS)
+    // The same cubic-out the wheel uses, so the two paths feel related.
+    const eased = 1 - Math.pow(1 - t, 3)
+
+    // `behavior: 'instant'` is explicit on purpose. A plain scrollTo inherits
+    // CSS scroll-behavior, so if anyone ever reinstates `html { scroll-behavior:
+    // smooth }` this tween would silently start fighting a native animation on
+    // every frame — the exact bug that rule caused with Lenis.
+    window.scrollTo({ top: Math.round(startY + delta * eased), behavior: 'instant' })
+
+    if (t < 1) reducedMotionTween = requestAnimationFrame(step)
+  }
+
+  reducedMotionTween = requestAnimationFrame(step)
+}
+
 const scrollToSection = (id) => {
   const el = document.getElementById(id)
   if (!el) return
 
-  const lenis = getLenis()
-  if (!lenis) {
-    // 'smooth', not 'auto'. Lenis is absent for reduced-motion visitors, and
-    // an anchor jump is a discrete move the visitor asked for rather than the
-    // continuous wheel smoothing the preference is aimed at — so it survives
-    // the tiering (see the motion policy in layout.css). Chrome does not
-    // downgrade this on its own: measured, scroll-behavior and an explicit
-    // 'smooth' both still animate under `reduce`, which is exactly why the
-    // previous `html { scroll-behavior: smooth }` used to ease this jump.
-    el.scrollIntoView({ behavior: 'smooth' })
-    return
-  }
-
   const clearance = parseFloat(getComputedStyle(el).scrollMarginTop) || 0
   const targetY = el.getBoundingClientRect().top + window.scrollY - clearance
+
+  const lenis = getLenis()
+  if (!lenis) {
+    // This used to call scrollIntoView({ behavior: 'smooth' }), on the claim
+    // that Chromium honours an explicit `smooth` under `reduce` and only
+    // downgrades a CSS scroll-behavior. Measured against Chromium 153 that is
+    // false: the jump finished in 2 frames at roughly 104,000px/s — an instant
+    // teleport. The comment had outlived the behaviour it described.
+    //
+    // A hard cut across 1700px is disorienting in its own right, so this eases
+    // instead. Anchor navigation is a discrete move the visitor asked for,
+    // which is a different category from the continuous wheel smoothing the
+    // preference is aimed at — but it is kept brief for exactly that reason.
+    tweenScrollTo(targetY)
+    return
+  }
 
   // The duration scales with the distance, and that is the whole point.
   //
