@@ -1,0 +1,96 @@
+/* Exit easing. One curve shared by the panel and both parallax layers — the
+   depth has to come from the differing distances, not from differing easings,
+   or the layers drift out of step mid-flight and read as jank. */
+.loader,
+.center,
+.tagline {
+  transition-property: transform, opacity;
+  transition-duration: var(--page-loader-exit, 1100ms);
+  transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+
+  /* Clips the layers once they trail past the panel edge, so the exit reads as
+     a curtain lifting over them rather than as content escaping the panel. */
+  overflow: hidden;
+}
+
+/* PARALLAX EXIT.
+   The panel leaves at 100vh. Each layer is pushed the other way by a fraction
+   of that, so its net travel is slower than the panel's:
+
+     panel    -100vh                      100% rate
+     gif      -100vh + 50vh  =  -50vh      50% rate   (furthest back, lingers)
+     tagline  -100vh + 25vh  =  -75vh      75% rate
+
+   Three different rates is the whole effect. Give the layers no transform and
+   they travel with the panel — which is exactly the flat slide this replaces. */
+.exiting {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+.exiting .center {
+  transform: translateY(50vh);
+  opacity: 0;
+}
+
+.exiting .tagline {
+  transform: translateY(25vh);
+  opacity: 0;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.gif {
+  width: 90px;
+  height: auto;
+  max-width: 150px;
+}
+
+.tagline {
+  font-family: var(--font-nhd);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 140%;
+  color: var(--grey-misty);
+  text-align: center;
+  margin: 0 0 40px;
+}
+
+/* Respect a reduced-motion preference: no parallax, just get out of the way.
+   Stays disabled under the preference because this panel is viewport-sized and
+   travels the full height of the screen — exactly the page-level motion the
+   policy in layout.css keeps off. A multi-layer parallax is more of that, not
+   less, so all three transitions go, not just the panel's.
+
+   The layer offsets are cleared too. Without this they would apply instantly
+   as a jump-cut rather than animate, which is a worse artefact than the plain
+   disappearance the preference is asking for. */
+@media (prefers-reduced-motion: reduce) {
+  .loader,
+  .center,
+  .tagline {
+    transition: none;
+  }
+
+  .exiting .center,
+  .exiting .tagline {
+    transform: none;
+  }
+}

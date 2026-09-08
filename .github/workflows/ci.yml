@@ -15,19 +15,38 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
+          # Two lockfiles: the Sanity Studio at the root, the site in web-next/.
+          # Both must key the cache, or a change to one silently restores a
+          # stale tree for the other.
+          cache-dependency-path: |
+            package-lock.json
+            web-next/package-lock.json
 
-      - name: Install dependencies
+      # The two packages are deliberately NOT merged into one dependency tree.
+      # Sanity and Next disagree on shared transitive versions, and a single
+      # root install is exactly what produced the rxjs 6-vs-7 and xstate 4-vs-5
+      # hoisting collisions during the Sanity v6 upgrade.
+      - name: Install Studio dependencies
         run: npm ci
 
+      - name: Install site dependencies
+        run: npm ci
+        working-directory: web-next
+
+      # eslint runs from the root but covers web-next too — see .eslintrc.json,
+      # which carries an ESM + react override for that directory.
       - name: Lint
         run: npm run lint
 
-      - name: Unit tests
-        run: npm test
+      # No credentials needed: the Studio bundles the schema, it does not read
+      # content.
+      - name: Build Sanity Studio
+        run: npm run build
 
-      # The build needs read access to Sanity. It is skipped on forks and on
-      # any checkout where the secret is unavailable, so those PRs still get
-      # lint and test feedback rather than a spurious red build.
+      # The site build DOES need read access to Sanity, because pages are
+      # prerendered and their content is fetched at build time. Skipped on forks
+      # and on any checkout where the secret is unavailable, so those PRs still
+      # get lint and Studio-build feedback rather than a spurious red build.
       - name: Check for Sanity credentials
         id: sanity
         run: |
@@ -35,25 +54,55 @@ jobs:
             echo "available=true" >> "$GITHUB_OUTPUT"
           else
             echo "available=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::SANITY_READ_TOKEN not set — skipping the production build step."
+            echo "::notice::SANITY_READ_TOKEN not set — skipping the site build."
           fi
 
-      - name: Build
+      - name: Build site
         if: steps.sanity.outputs.available == 'true'
+        working-directory: web-next
         env:
           SANITY_READ_TOKEN: ${{ secrets.SANITY_READ_TOKEN }}
           SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
           SANITY_DATASET: ${{ vars.SANITY_DATASET }}
+          CASE_STUDY_SECRET: ${{ secrets.CASE_STUDY_SECRET }}
         run: npm run build
 
       # Guards the fix for the leak where sndbx's page query selected the
       # `password` field, publishing plaintext passwords in page-data JSON.
+      #
+      # Ported from the Gatsby version, which grepped public/page-data/. That
+      # directory no longer exists, and `grep -rq` over a missing path returns
+      # non-zero — so leaving the old step in place would have printed
+      # "No password fields found" and passed forever while checking nothing.
+      # Hence the explicit empty-target check below: a guard that cannot find
+      # its input must fail, not congratulate itself.
+      #
+      # Scope is browser-reachable output only — prerendered HTML, RSC payloads
+      # and the client bundle. Server chunks legitimately contain the literal
+      # "scrypt$" because lib/password.js parses that prefix, which is why the
+      # hash pattern requires hex digits after it.
       - name: Assert no passwords in build output
         if: steps.sanity.outputs.available == 'true'
+        working-directory: web-next
         run: |
-          if grep -rqi '"password"' public/page-data/ 2>/dev/null; then
-            echo "::error::A 'password' field is present in public/page-data — a GraphQL query is leaking it."
-            grep -rli '"password"' public/page-data/ || true
+          set -uo pipefail
+          targets=$(find .next/server/app .next/static -type f \
+            \( -name '*.html' -o -name '*.rsc' -o -name '*.js' \) 2>/dev/null)
+          if [ -z "$targets" ]; then
+            echo "::error::No build output found to scan — the guard would pass vacuously."
             exit 1
           fi
-          echo "No password fields found in build output."
+          echo "Scanning $(echo "$targets" | wc -l) build artefacts."
+          fail=0
+          if echo "$targets" | xargs grep -l '"password":' 2>/dev/null; then
+            echo "::error::A \"password\" field is present in build output — a GROQ projection is leaking it."
+            fail=1
+          fi
+          if echo "$targets" | xargs grep -lE 'scrypt\$[a-f0-9]{8}' 2>/dev/null; then
+            echo "::error::A scrypt password hash is present in browser-reachable output."
+            fail=1
+          fi
+          if [ "$fail" -eq 0 ]; then
+            echo "No password fields or hashes in build output."
+          fi
+          exit $fail

@@ -21,11 +21,18 @@ const { createClient } = require('@sanity/client')
 const { verifyToken } = require('../lib/access-token')
 const { consume } = require('../lib/rate-limit')
 
+// `drafts` perspective so this endpoint can still read a case study whose body
+// has been unpublished. The dataset is public, so any published caseStudy body
+// is readable by an anonymous API caller regardless of the password gate;
+// keeping locked bodies as drafts is what actually hides them, since drafts
+// require a token. With no drafts present this behaves identically to the
+// default, so it is safe to deploy ahead of unpublishing anything.
 const client = createClient({
   projectId: process.env.SANITY_PROJECT_ID || 'bhfv0qe4',
   dataset: process.env.SANITY_DATASET || 'production',
   useCdn: false,
   apiVersion: '2024-01-01',
+  perspective: 'drafts',
   token: process.env.SANITY_READ_TOKEN,
 })
 

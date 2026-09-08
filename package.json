@@ -1,7 +1,7 @@
 {
   "name": "prtfl",
   "private": true,
-  "description": "Tobiloba Odu — product design portfolio. Gatsby site with a Sanity Studio.",
+  "description": "Tobiloba Odu — product design portfolio. Sanity Studio at the root; the site lives in web-next/.",
   "version": "1.0.0",
   "author": "Tobiloba Odu",
   "license": "0BSD",
@@ -12,27 +12,14 @@
     "@sanity/client": "^7.22.1",
     "@sanity/icons": "^5.2.1",
     "@sanity/vision": "^6.12.0",
-    "gatsby": "^5.16.1",
-    "gatsby-plugin-image": "^3.16.0",
-    "gatsby-plugin-manifest": "^5.16.0",
-    "gatsby-plugin-sharp": "^5.16.0",
-    "gatsby-plugin-sitemap": "^6.16.0",
-    "gatsby-source-sanity": "^7.9.2",
-    "gatsby-transformer-sharp": "^5.16.0",
-    "lenis": "^1.3.26",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "rxjs": "^7.8.2",
     "sanity": "^6.12.0",
-    "styled-components": "^6.5.3",
-    "xstate": "^5.32.6"
+    "styled-components": "^6.5.3"
   },
   "overrides": {
     "minimatch": "^9.0.7",
     "eslint-plugin-jsx-a11y": {
-      "minimatch": "^3.1.2"
-    },
-    "gatsby-plugin-sitemap": {
       "minimatch": "^3.1.2"
     }
   },
@@ -44,20 +31,21 @@
     "prettier": "^2.8.8"
   },
   "keywords": [
-    "gatsby",
     "portfolio",
-    "sanity"
+    "sanity",
+    "nextjs"
   ],
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
+    "dev": "sanity dev",
+    "start": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "lint": "eslint .",
     "test": "node --test \"test/*.test.js\"",
-    "start": "gatsby develop",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "hash-password": "node scripts/hash-password.js"
+    "hash-password": "node scripts/hash-password.js",
+    "site:dev": "npm --prefix web-next run dev",
+    "site:build": "npm --prefix web-next run build"
   },
   "repository": {
     "type": "git",

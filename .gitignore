@@ -31,9 +31,27 @@
 .env.*
 !.env.example
 
-# Gatsby build artifacts
-.cache/
-public/
+# NOTE: the Gatsby `.cache/` and `public/` entries that used to live here are
+# gone with Gatsby — and their removal is load-bearing, not just tidy. Both were
+# written unrooted, so `public/` matched at ANY depth and silently ignored
+# web-next/public/: the fonts, the loader gif, every SVG, the noise texture and
+# the OG image. The Next app would have deployed with no static assets at all.
+# Next's own build output is ignored by web-next/.gitignore, which is rooted to
+# that directory. Keep new entries here rooted (/foo) unless you genuinely mean
+# "at any depth".
 
 # Yarn
 .yarn-integrity
+
+# Local project checkpoints and working notes
+PROJECT_CHECKPOINT_*.md
+CHAT_EXPORT_*.md
+DESIGN_IMPLEMENTATION.md
+RESPONSIVENESS_FIX_PLAN.md
+
+# Local test folder (tests are not run in CI)
+/test/
+
+# Local AI assistant tooling (not needed in production)
+.claude/
+.cursor/

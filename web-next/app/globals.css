@@ -1,0 +1,879 @@
+/* Neue Haas Display.
+   woff2 first (~74% smaller than the TTFs), with the original TTF kept as a
+   fallback for anything that cannot handle woff2. Same glyph coverage — the
+   fonts are re-encoded, not subset.
+
+   The Google Fonts @import for Inter that used to sit at the end of this block
+   was invalid: CSS requires @import to precede all other rules, so browsers
+   ignored it and Inter never loaded. It is dropped rather than moved — the
+   --font-nhd stack already falls back through Inter to the system UI fonts,
+   so nothing needs a render-blocking third-party request.
+
+   Three faces, not fourteen. The declarations for 100/200/300/900 and for every
+   italic were removed: nothing in the codebase requests them. Note that they
+   were never a download cost — @font-face only fetches a face when text
+   actually matches it — so this is build-output and readability housekeeping
+   rather than a performance win. The unreferenced files under Assets/Font are
+   no longer emitted, since webpack only emits assets something url()s.
+
+   There is deliberately no 600. No SemiBold file exists, so `font-weight: 600`
+   was silently resolving to this 700 face; those call sites now say 700. */
+
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fonts/NeueHaasDisplayRoman.woff2') format('woff2'),
+       url('/fonts/NeueHaasDisplayRoman.ttf') format('truetype');
+  font-weight: 400; /* 55 Roman */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fonts/NeueHaasDisplayMediu.woff2') format('woff2'),
+       url('/fonts/NeueHaasDisplayMediu.ttf') format('truetype');
+  font-weight: 500; /* 65 Medium */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fonts/NeueHaasDisplayBold.woff2') format('woff2'),
+       url('/fonts/NeueHaasDisplayBold.ttf') format('truetype');
+  font-weight: 700; /* 75 Bold */
+  font-style: normal;
+  font-display: swap;
+}
+
+/**
+ * MOTION POLICY — prefers-reduced-motion
+ *
+ * The preference disables motion of the *page or viewport*. Motion contained
+ * inside a small element, and motion locked 1:1 to the pointer, stays.
+ *
+ * Off under `reduce`:
+ *   - Lenis smooth scroll        (src/lib/lenis.js — never constructed)
+ *   - the intro loader's panel   (PageLoader.module.css — viewport-sized slide)
+ *   - the HoverReel follow lag   (HoverReel.js — full-viewport travel)
+ *
+ * Kept under `reduce`:
+ *   - the HoverReel scale reveal and reel roll (contained in a ~389px box)
+ *   - row title/meta opacity fades (no movement at all)
+ *   - TOC anchor scrolling (a discrete move the visitor asked for)
+ *
+ * The line is drawn here rather than per-component because it was previously
+ * scattered across six blocks, which made the site's motion vanish wholesale
+ * for anyone who had simply turned Windows animations off for performance.
+ * Add a new `@media (prefers-reduced-motion: reduce)` block only for something
+ * that moves the page.
+ */
+
+:root {
+  --white-not-wyt: #F9F9F8;
+  --black-pitch-nah: #1D1C1C;
+  --orange: #EE550E;
+  --grey-misty: #A3A3A3;
+  --black-nue-ish-black: #26282B;
+  --white-heavenly: #FFF;
+  --grey-just: #777;
+  --black-nue-black: #232020;
+  --yellow: #FBBF24;
+  --socials-margin-top: 40px;
+
+  /* ── Layout grid ──
+     One source of truth for every horizontal inset on the site. Taken from the
+     Figma frames: Desktop 1440 (gutter 100 / content 1240), Tablet 834
+     (gutter 80 / content 674), Mobile 393 (gutter 40 / content 313). All three
+     fall out of `content = min(1240, 100% - 2 * gutter)`, so only the gutter
+     changes per breakpoint.
+
+     --page-inline is that formula expressed as padding: content is centred and
+     capped at --content-max on wide screens, and gutter-bound on narrow ones.
+     The `100%` resolves against each element's own containing block, so the
+     same value can be used on a full-bleed section and on a normal block and
+     both land on the same vertical line. Using padding rather than
+     max-width + auto margins keeps backgrounds able to bleed edge to edge. */
+  --gutter: 100px;
+  --content-max: 1240px;
+  --page-inline: max(var(--gutter), calc((100% - var(--content-max)) / 2));
+  --nav-h: 85px;
+
+  /* Width of the case-study table-of-contents track. Lives here rather than in
+     the template because three grids have to agree on it: .cs-body-layout (the
+     TOC itself), .cs-intro-wrapper (an empty spacer column that keeps the case
+     study title above the body text), and .cs-demo-layout on /cs-components/,
+     which mirrors the layout so blocks are reviewed at their true width. A
+     page-scoped <style> token could not be shared across those two pages.
+
+     Only referenced by those three rules — defining it here affects no other
+     page. Below 1200px the TOC is display: none and both grids collapse to a
+     single column, so this value has no effect there. */
+  --cs-toc-w: 270px;
+
+  /* Cap for the narrow single-column pages (home, work, sandbox, photography,
+     experience). Because of the global border-box, this includes the gutters —
+     so at 600px with 100px gutters only 400px of it was left for content, which
+     read as a squeezed column on anything wider than a tablet. 795px restores
+     ~595px of content at desktop gutters and ~635px at tablet gutters.
+     Deliberately unchanged at <=768, where 600px is not the binding constraint
+     (the viewport is) and the current spacing is correct. */
+  --container-max: 600px;
+
+  /* ── Typography tokens ── */
+  --font-nhd: 'Neue Haas Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica', sans-serif;
+
+  /* Body */
+  --type-body-small-size: 14px;
+  --type-body-small-line-height: 120%;
+  --type-body-small-weight: 400;           /* 55 Roman */
+
+  --type-body-small-semibold-size: 14px;
+  --type-body-small-semibold-line-height: 120%;
+  --type-body-small-semibold-weight: 500;  /* 65 Medium */
+
+  --type-body-small-bold-size: 14px;
+  --type-body-small-bold-line-height: 120%;
+  --type-body-small-bold-weight: 700;      /* 75 Bold */
+
+  --type-body-xsmall-size: 12px;
+  --type-body-xsmall-line-height: 120%;
+  --type-body-xsmall-weight: 700;          /* 75 Bold */
+
+  /* Title */
+  --type-title-xsmall-size: 18px;
+  --type-title-xsmall-line-height: 95%;
+  --type-title-xsmall-weight: 700;
+
+  --type-title-small-size: 20px;
+  --type-title-small-line-height: 95%;
+  --type-title-small-weight: 700;
+
+  --type-title-medium-size: 25px;
+  --type-title-medium-line-height: 130%;
+  --type-title-medium-weight: 700;
+
+  --type-title-large-size: 28px;
+  --type-title-large-line-height: 95%;
+  --type-title-large-weight: 700;
+
+  /* Display */
+  --type-display-small-size: 32.5px;
+  --type-display-small-line-height: 95%;
+  --type-display-small-weight: 700;
+
+  --type-display-medium-size: 45px;
+  --type-display-medium-line-height: 100%;
+  --type-display-medium-weight: 700;
+
+  --type-display-large-size: 65px;
+  --type-display-large-line-height: 100%;
+  --type-display-large-weight: 700;
+
+  --type-display-xlarge-size: 80px;
+  --type-display-xlarge-line-height: 90%;
+  --type-display-xlarge-weight: 500;       /* 65 Medium */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+ overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  color: var(--black-pitch-nah);
+  font-family: var(--font-nhd);
+  font-weight: 400;
+  margin: 0;
+  background: var(--white-not-wyt) url("/noise.png");
+  background-size: auto, 100px 100px;
+  background-blend-mode: normal;
+  word-wrap: break-word;
+}
+
+a {
+  background-color: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+img {
+  border-style: none;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ════════════════════════════════════════
+   Typography Utility Classes
+   ════════════════════════════════════════ */
+
+/* Body — Small */
+.type-body-small {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-small-size);
+  line-height: var(--type-body-small-line-height);
+  font-weight: var(--type-body-small-weight);
+}
+
+/* Body — Small Semibold */
+.type-body-small-semibold {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-small-semibold-size);
+  line-height: var(--type-body-small-semibold-line-height);
+  font-weight: var(--type-body-small-semibold-weight);
+}
+
+/* Body — Small Bold */
+.type-body-small-bold {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-small-bold-size);
+  line-height: var(--type-body-small-bold-line-height);
+  font-weight: var(--type-body-small-bold-weight);
+}
+
+/* Body — XSmall */
+.type-body-xsmall {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-xsmall-size);
+  line-height: var(--type-body-xsmall-line-height);
+  font-weight: var(--type-body-xsmall-weight);
+}
+
+/* Title — XSmall */
+.type-title-xsmall {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-xsmall-size);
+  line-height: var(--type-title-xsmall-line-height);
+  font-weight: var(--type-title-xsmall-weight);
+}
+
+/* Title — Small */
+.type-title-small {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-small-size);
+  line-height: var(--type-title-small-line-height);
+  font-weight: var(--type-title-small-weight);
+}
+
+/* Title — Medium */
+.type-title-medium {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-medium-size);
+  line-height: var(--type-title-medium-line-height);
+  font-weight: var(--type-title-medium-weight);
+}
+
+/* Title — Large */
+.type-title-large {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-large-size);
+  line-height: var(--type-title-large-line-height);
+  font-weight: var(--type-title-large-weight);
+}
+
+/* Display — Small */
+.type-display-small {
+  font-family: var(--font-nhd);
+  font-size: var(--type-display-small-size);
+  line-height: var(--type-display-small-line-height);
+  font-weight: var(--type-display-small-weight);
+}
+
+.ihb-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Display — Medium */
+.type-display-medium {
+  font-family: var(--font-nhd);
+  font-size: var(--type-display-medium-size);
+  line-height: var(--type-display-medium-line-height);
+  font-weight: var(--type-display-medium-weight);
+}
+
+/* Display — Large */
+.type-display-large {
+  font-family: var(--font-nhd);
+  font-size: var(--type-display-large-size);
+  line-height: var(--type-display-large-line-height);
+  font-weight: var(--type-display-large-weight);
+}
+
+/* Display — XLarge */
+.type-display-xlarge {
+  font-family: var(--font-nhd);
+  font-size: var(--type-display-xlarge-size);
+  line-height: var(--type-display-xlarge-line-height);
+  font-weight: var(--type-display-xlarge-weight);
+}
+
+/* ════════════════════════════════════════
+   Layout — Navigation & Menu
+   ════════════════════════════════════════ */
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px var(--gutter);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo svg {
+  height: 21px;
+  width: auto;
+}
+
+.menu-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 101;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.menu-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: #BBBBBB;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.menu-icon:hover::before {
+  width: 32px;
+  height: 32px;
+}
+
+/* Set by the pre-hydration script in gatsby-ssr.js on repeat visits within a
+   session, so the intro loader is hidden before it can flash. */
+html.loader-skip .js-page-loader {
+  display: none !important;
+}
+
+/* A <button> so the menu can be dismissed from the keyboard as well as by
+   pointer; the resets below keep it visually identical to the old <div>. */
+.menu-blur-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(2.5px);
+  z-index: 99;
+  animation: fadeIn 0.3s ease;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  cursor: default;
+  appearance: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.menu-panel {
+  position: fixed;
+  top: 57px;
+  right: 100px;
+  width: 76px;
+  background: transparent;
+  z-index: 100;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.menu-link {
+  font-family: 'Neue Haas Display', 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 120%;
+  color: var(--black-pitch-nah);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  padding: 5px 0;
+}
+
+.menu-link:hover {
+  color: var(--orange);
+}
+
+/* `main` carries no inset of its own. Horizontal position is owned entirely by
+   the container each page opts into (--page-inline / --gutter), so a full-bleed
+   section is just a block with no padding rather than a negative margin
+   cancelling a parent's padding. */
+main {
+  width: 100%;
+}
+
+/* ── Breakpoints ──
+   Matched to the Figma frames: >=1200 desktop, 768-1199 tablet (834 lands
+   here), <768 mobile (393 lands here). Only the gutter token moves. */
+
+@media (max-width: 1199px) {
+  :root {
+    --gutter: 80px;
+    --nav-h: 84px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 40px;
+  }
+}
+
+/* 769 and up only — 768 and below keeps the 600px cap untouched. */
+@media (min-width: 769px) {
+  :root {
+    --container-max: 795px;
+  }
+}
+
+/* ── Layout Navigation Responsive ── */
+
+@media (max-width: 1200px) {
+  .menu-panel {
+    right: 20px;
+  }
+}
+ /* 481 rather than 480: the mobile block below is max-width: 480, so a
+   min-width of 480 made both match at exactly 480px and forced the
+   !important that used to live in this block. */
+@media only screen and (min-width: 481px) and (max-width: 768px)
+ {
+
+ .home-container .container {
+      gap: 40px;
+  }
+
+
+  .container{
+    padding: 20px var(--gutter);
+  }
+
+  .menu-panel {
+    right: 20px;
+    top: 70px;
+  }
+
+  .menu-link {
+    font-size: 16px;
+  }
+
+}
+
+
+
+
+
+/* ════════════════════════════════════════
+   Homepage (index.js)
+   ════════════════════════════════════════ */
+
+.home-container {
+  width: 100%;
+  background: transparent;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: 100px;
+}
+
+.home-container .container {
+  max-width: var(--container-max);
+  margin: 0;
+  margin-left: 0;
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.bio-section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.bio-text {
+  font-family: 'Neue Haas Display', 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 145%;
+  letter-spacing: 0.42px;
+  color: var(--black-pitch-nah);
+}
+
+.bio-text strong {
+  font-weight: 700;
+}
+
+.projects-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* display: block is load-bearing — the row is an <a>, which is inline by
+   default, and would otherwise collapse around its children. The
+   `transition: opacity` that used to live here was dead: nothing has ever set
+   opacity on .project-item itself. The fade happens on .project-title and
+   .project-meta, which carry their own transitions below. */
+.project-item {
+  display: block;
+  position: relative;
+}
+
+.project-item.clickable {
+  cursor: pointer;
+}
+
+/* Rows are keyboard-reachable and until now had no focus treatment of their
+   own beyond the UA default. :focus-visible so a mouse click does not leave a
+   ring behind. */
+.project-item:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
+}
+
+.project-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.home-container .project-title {
+  font-family: 'Neue Haas Display', 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 120%;
+  color: var(--black-pitch-nah);
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.project-brand,
+.project-year {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0.42px;
+  color: var(--grey-misty);
+}
+
+.dot {
+  font-size: 4px;
+  color: var(--grey-misty);
+}
+
+.project-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(29, 28, 28, 0.5);
+  opacity: 0.5;
+}
+
+/*
+ * The static hover panel that used to live here (.project-image-preview, fixed
+ * at right: 100px) was replaced by src/components/HoverReel.js, which follows
+ * the cursor and owns its own styles as a CSS module. What remains is the row
+ * treatment: the preview card covers the hovered row, so the row steps back
+ * rather than competing with it.
+ */
+@media (hover: hover) and (pointer: fine) {
+  .project-item .project-title,
+  .project-item .project-meta {
+    transition: opacity 0.25s ease;
+  }
+
+  .project-item.is-previewing .project-title,
+  .project-item.is-previewing .project-meta {
+    opacity: 0.35;
+  }
+}
+
+/* No reduced-motion override: this is a 0.25s opacity fade with no movement at
+   all, so there is nothing here for the preference to catch. See the motion
+   policy near the top of this file. */
+
+.socials-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  margin-bottom: 100px;
+}
+
+.home-container .social-links {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  font-family: 'Neue Haas Display', 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--grey-just);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--grey-just);
+  padding-bottom: 1px;
+  transition: all 0.3s ease;
+}
+
+.social-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+.social-link:hover {
+  color: var(--orange);
+  border-bottom-color: var(--orange);
+}
+
+/* ── Page title & description (shared) ─────────────
+   Every page uses the same intro structure:
+   .container > .intro > .page-title + .page-description.
+   Defined once here so a single change applies across all pages. */
+.page-title {
+  font-family: var(--font-nhd);
+  font-size: var(--type-title-large-size);
+  line-height: var(--type-title-large-line-height);
+  font-weight: var(--type-title-large-weight);
+  color: var(--black-pitch-nah);
+}
+
+.page-description {
+  font-family: var(--font-nhd);
+  font-size: var(--type-body-small-size);
+  line-height: var(--type-body-small-line-height);
+  font-weight: var(--type-body-small-weight);
+  letter-spacing: 0.42px;
+  color: var(--black-pitch-nah);
+}
+
+@media (max-width: 768px) {
+  .home-container .container {
+    /* No bottom padding: the socials already carry a 100px bottom margin, and
+       adding 60px here put them 160px off the foot of the screen in this band
+       while every other width sits at 100. */
+    padding: 60px var(--gutter) 0;
+  }
+
+  .project-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .home-container .social-links {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+}
+
+/* ── Mobile (<=480) ──
+   Was split across two @media (max-width: 480px) blocks, one of which sat
+   ABOVE the base rules it was meant to override — so it only took effect via
+   !important. Both are joined here, below the base rules. The formerly-early
+   rules are kept LAST so the winners are exactly the ones that won before;
+   their !important is therefore no longer needed. */
+@media (max-width: 480px) {
+  /* The base rule already sets `background: transparent` and `min-height: 100vh`.
+     This block used to subtract the nav height (`calc(100vh - 84px)`), but the
+     nav is position: fixed and overlays the column rather than displacing it,
+     so the subtraction only left an 84px dead strip at the foot of the screen —
+     which is why the socials sat further from the bottom on mobile than on
+     desktop and tablet. */
+
+  .bio-section {
+    gap: 50px;
+  }
+
+  .bio {
+    width: 100%;
+  }
+
+  /* .bio-text, .bio-text strong, .projects-section, .projects-list,
+     .project-meta, .project-brand/.project-year, .home-container .social-links
+     and .social-link svg were all restated here byte-for-byte, differing only
+     in a font-family fallback list that body's var(--font-nhd) already
+     supplies. They are gone; the base rules apply unchanged. Every rule left in
+     this block carries at least one declaration that genuinely differs. */
+
+  /* NOT redundant, despite looking it: the 5px flex gap here and the 5px
+     margin-bottom below combine to reproduce the base rule's single 10px
+     between the row text and its divider. Removing either alone halves it. */
+  .project-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .project-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* The one real difference: mobile rows are Roman, not Bold. */
+  .home-container .project-title {
+    font-weight: 400;
+  }
+
+  /* The markup carries width=16 height=17. */
+  .project-meta svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* .dot was setting width/height on an inline <span> — which does nothing —
+     plus a background and a border-radius, so the result was a grey box painted
+     behind the ● glyph rather than the intended 2.73px circle. Dropped
+     entirely: the dot is now the same 4px ● at every width. */
+
+  /* .project-divider was rgba(236, 240, 241, 0.5) here — a near-white line on
+     the #F9F9F8 page, effectively invisible. It now inherits the base rule's
+     rgba(29, 28, 28, 0.5) like every other breakpoint. */
+
+  /* margin-top stays `auto` (inherited from the base rule) so the socials are
+     pushed to the foot of the column, the same way they behave on desktop and
+     tablet. Overriding it to 0 here left them floating mid-page with ~160-220px
+     of dead space beneath them whenever the content was shorter than the
+     viewport. .home-container is a flex column with a min-height, and
+     .home-container .container carries flex: 1, so `auto` has room to work;
+     when the content does overflow the viewport it simply resolves to 0. */
+
+  .social-link {
+    padding-bottom: 0;
+  }
+
+  .navigation {
+    padding: 30px var(--gutter);
+    height: var(--nav-h);
+  }
+
+  .logo {
+    gap: 5px;
+  }
+
+  /* Intrinsic size on mobile rather than the base rule's fixed 21px. */
+  .logo svg {
+    height: auto;
+  }
+
+  .menu-panel {
+    right: 40px;
+    top: 84px;
+  }
+
+  .menu-nav {
+    gap: 10px;
+  }
+
+  .home-container .container {
+    max-width: 100%;
+    padding: 10px var(--gutter) 0;
+  }
+}
