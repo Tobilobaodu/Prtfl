@@ -20,8 +20,9 @@ import { subscribe, PRIORITY_SCROLL } from "./ticker"
  * handler in the case-study page, a modal's scroll lock, and Gatsby's
  * onRouteUpdate — and that last one lives outside the React tree entirely.
  *
- * getLenis() returns null before the first mount and for the whole session when
- * the visitor prefers reduced motion, so every caller must handle null.
+ * getLenis() returns null before the first mount and after the last consumer
+ * releases, so every caller must still handle null. It no longer returns null
+ * for the whole session under reduced motion — see REDUCED_DURATION below.
  */
 
 // duration + easing, NOT lerp. Lenis takes whichever pair is set and duration
@@ -51,10 +52,8 @@ import { subscribe, PRIORITY_SCROLL } from "./ticker"
 // Cubic-out is the one that stopped feeling rigid: expo spends its whole budget
 // in the first third and then inches, which reads as the page shooting off and
 // then refusing to settle. Cubic distributes the movement and ends decisively.
-const OPTIONS = {
-  duration: 0.7,
-  // Cubic-out. Raise the exponent for a sharper stop, lower `duration` for a
-  // tighter feel, raise it for more glide.
+const BASE_OPTIONS = {
+  // Cubic-out. Raise the exponent for a sharper stop.
   easing: (t) => 1 - Math.pow(1 - t, 3),
   wheelMultiplier: 1,
   smoothWheel: true,
@@ -64,30 +63,88 @@ const OPTIONS = {
   // Driven by the shared ticker so Lenis writes the frame's scroll offset
   // before HoverReel measures rows against it.
   autoRaf: false,
+
+  // Part of the same deliberate override as REDUCED_DURATION below, and
+  // required for it to have any effect.
+  //
+  // Lenis carries its OWN reduced-motion handling, separate from this module's:
+  //
+  //   get prefersReducedMotion() {
+  //     return this.options.respectReducedMotion && this.reducedMotionMediaQuery.matches
+  //   }
+  //
+  // and when that is true it forces `lerp = 1, duration = undefined` on every
+  // non-programmatic scroll — instant, whatever duration we pass. So merely
+  // constructing the instance under `reduce` was not enough: measured, it still
+  // gave 9 animated frames per wheel notch against 38 for everyone else. This
+  // is the switch that actually removes the difference.
+  respectReducedMotion: false,
 }
+
+/** Lower for a tighter feel, higher for more glide. */
+const DURATION = 0.7
+
+/**
+ * Duration used when the visitor prefers reduced motion.
+ *
+ * DELIBERATE OVERRIDE — read before changing.
+ *
+ * This module used to destroy the instance outright under `prefers-reduced-
+ * motion: reduce`, which is the conventional behaviour. It no longer does, at
+ * the site owner's explicit direction, because leaving it on meant the smooth
+ * scroll was invisible on any machine with the OS animation setting off.
+ *
+ * It is deliberately EQUAL to DURATION, so reduced-motion visitors get exactly
+ * the same scrolling as everyone else. A shorter value was tried first — 0.25
+ * gave 9 animated frames per wheel notch against 38 for a normal visitor, which
+ * is smoother than native but visibly not the same thing, and the point of the
+ * override was to remove the difference rather than shrink it.
+ *
+ * To soften it instead, set this to something below DURATION. To restore the
+ * conventional behaviour, put `&& !reduced` back in reconcile() and this whole
+ * constant becomes unnecessary.
+ */
+const REDUCED_DURATION = DURATION
+
+const optionsFor = (isReduced) => ({
+  ...BASE_OPTIONS,
+  duration: isReduced ? REDUCED_DURATION : DURATION,
+})
 
 let instance = null
 let unsubscribe = null
 let consumers = 0
 let reduced = false
+// Which variant the live instance was built with, so a preference flip can be
+// detected. null whenever there is no instance.
+let builtReduced = null
 
 /** @returns {import('lenis').default | null} */
 export const getLenis = () => instance
 
-function reconcile() {
-  const wanted = consumers > 0 && !reduced
+function teardown() {
+  unsubscribe?.()
+  unsubscribe = null
+  instance?.destroy()
+  instance = null
+  builtReduced = null
+}
 
-  if (wanted && !instance) {
-    instance = new Lenis(OPTIONS)
-    unsubscribe = subscribe((time) => instance.raf(time), PRIORITY_SCROLL)
+function reconcile() {
+  if (consumers < 1) {
+    if (instance) teardown()
     return
   }
 
-  if (!wanted && instance) {
-    unsubscribe?.()
-    unsubscribe = null
-    instance.destroy()
-    instance = null
+  // Rebuild when the preference flips. Lenis reads `duration` from the options
+  // it was constructed with, so mutating the module constant would not reach a
+  // live instance — it has to be replaced.
+  if (instance && builtReduced !== reduced) teardown()
+
+  if (!instance) {
+    instance = new Lenis(optionsFor(reduced))
+    builtReduced = reduced
+    unsubscribe = subscribe((time) => instance.raf(time), PRIORITY_SCROLL)
   }
 }
 
@@ -101,7 +158,11 @@ export function releaseLenis() {
   reconcile()
 }
 
-/** Reduced motion tears the instance down regardless of how many consumers hold it. */
+/**
+ * Reduced motion no longer tears the instance down — it rebuilds it with
+ * REDUCED_DURATION instead. See the note on that constant for why, and for how
+ * to restore the conventional behaviour.
+ */
 export function setReducedMotion(next) {
   reduced = next
   reconcile()
