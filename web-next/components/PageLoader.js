@@ -5,7 +5,7 @@ import * as React from "react"
 const loaderGif = "/loader/loader.gif"
 import * as styles from "./PageLoader.module.css"
 
-const LOADER_DURATION_MS = 10000
+const LOADER_DURATION_MS = 2500
 
 // The exit is a parallax, not a fade: the panel and the two layers inside it
 // travel at different rates (see PageLoader.module.css). That needs longer than

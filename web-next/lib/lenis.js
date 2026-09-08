@@ -24,11 +24,38 @@ import { subscribe, PRIORITY_SCROLL } from "./ticker"
  * the visitor prefers reduced motion, so every caller must handle null.
  */
 
-// lerp is the only value that changes the feel: lower is heavier, higher is
-// tighter. Judge it on a long case study, not the home page — that one is a
-// single viewport tall and has nothing to scroll.
+// duration + easing, NOT lerp. Lenis takes whichever pair is set and duration
+// wins — see Animate.advance in lenis/dist/lenis.mjs:
+//
+//   if (this.duration && this.easing) { ...fixed curve, completes at 1 }
+//   else if (this.lerp)               { damp(...); completed only when
+//                                       Math.round(value) === Math.round(to) }
+//
+// That rounding condition is why `lerp: 0.1` felt rigid. Measured in a browser:
+// a single wheel notch covered 60% of its distance in the first 200ms and then
+// spent a further second crawling the last 11%, because an exponential damp
+// approaches its target asymptotically and cannot finish until the two values
+// round equal. It also has no ease-in at all — motion begins at peak velocity.
+//
+// duration + easing runs a designed curve that starts, eases and ends. Raise
+// `duration` for a heavier glide, lower it for a tighter, more immediate feel.
+// Judge it on a long case study, not the home page — that one is a single
+// viewport tall and has nothing to scroll.
+// Measured in a browser, single wheel notch, time to reach 99% of the target:
+//
+//   lerp: 0.1 (was)          ~830ms   60% of the distance inside 200ms, then a
+//                                     full second crawling the last 11%
+//   duration 1.05, expo-out   715ms   still heavily front-loaded
+//   duration 0.7, cubic-out   583ms   even decay, and it actually stops
+//
+// Cubic-out is the one that stopped feeling rigid: expo spends its whole budget
+// in the first third and then inches, which reads as the page shooting off and
+// then refusing to settle. Cubic distributes the movement and ends decisively.
 const OPTIONS = {
-  lerp: 0.1,
+  duration: 0.7,
+  // Cubic-out. Raise the exponent for a sharper stop, lower `duration` for a
+  // tighter feel, raise it for more glide.
+  easing: (t) => 1 - Math.pow(1 - t, 3),
   wheelMultiplier: 1,
   smoothWheel: true,
   // Touch stays native. Smoothed touch fights the platform's own momentum and

@@ -1,0 +1,72 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - link [ref=e3] [cursor=pointer]:
+      - /url: /
+    - button "Open menu" [ref=e12] [cursor=pointer]
+  - main [ref=e16]:
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - heading "wrk" [level=1] [ref=e20]
+        - paragraph [ref=e21]: Selected product design case studies from recent roles and projects, each one includes context, decisions, and the outcomes I achieved.
+      - generic [ref=e22]:
+        - link "Fixing job application one resume at a time (password protected)" [ref=e23] [cursor=pointer]:
+          - /url: /case-study/fixing-job-application-one-resume-at-a-time
+          - img "Fixing job application one resume at a time" [ref=e25]
+          - generic [ref=e29]:
+            - generic [ref=e31]:
+              - generic [ref=e32]:
+                - heading "Fixing job application one resume at a time" [level=3] [ref=e33]
+                - paragraph [ref=e34]: Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo two
+              - generic [ref=e35]:
+                - generic [ref=e36]: Personal
+                - generic [ref=e37]: "2026"
+            - generic:
+              - generic:
+                - generic:
+                  - heading "Fixing job application one resume at a time" [level=3]
+                  - paragraph: Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo two
+                - generic:
+                  - generic: Personal
+                  - generic: "2026"
+              - generic: VIEW PROJECT
+        - link "Getting brokers off the phone and onto the page" [ref=e38] [cursor=pointer]:
+          - /url: /case-study/getting-brokers-off-the-phone-and-onto-the-page
+          - img "Getting brokers off the phone and onto the page" [ref=e40]
+          - generic [ref=e41]:
+            - generic [ref=e43]:
+              - generic [ref=e44]:
+                - heading "Getting brokers off the phone and onto the page" [level=3] [ref=e45]
+                - paragraph [ref=e46]: Five clicks cut to two. Rates, criteria and documents moved above the fold. Support calls down 60% in the first month.
+              - generic [ref=e47]:
+                - generic [ref=e48]: Kent Reliance for Intermediaries
+                - generic [ref=e49]: "2023"
+            - generic:
+              - generic:
+                - generic:
+                  - heading "Getting brokers off the phone and onto the page" [level=3]
+                  - paragraph: Five clicks cut to two. Rates, criteria and documents moved above the fold. Support calls down 60% in the first month.
+                - generic:
+                  - generic: Kent Reliance for Intermediaries
+                  - generic: "2023"
+              - generic: VIEW PROJECT
+        - link "Mobile banking app (password protected)" [ref=e50] [cursor=pointer]:
+          - /url: /case-study/mobile-banking-app
+          - img "Mobile banking app" [ref=e52]
+          - generic [ref=e56]:
+            - generic [ref=e58]:
+              - generic [ref=e59]:
+                - heading "Mobile banking app" [level=3] [ref=e60]
+                - paragraph [ref=e61]: Precise resi calculator to pull from Ncino
+              - generic [ref=e62]:
+                - generic [ref=e63]: ABC Bank
+                - generic [ref=e64]: "2020"
+            - generic:
+              - generic:
+                - generic:
+                  - heading "Mobile banking app" [level=3]
+                  - paragraph: Precise resi calculator to pull from Ncino
+                - generic:
+                  - generic: ABC Bank
+                  - generic: "2020"
+              - generic: VIEW PROJECT
+  - button "Open Next.js Dev Tools" [ref=e70] [cursor=pointer]
