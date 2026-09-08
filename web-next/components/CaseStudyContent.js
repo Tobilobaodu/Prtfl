@@ -422,7 +422,24 @@ const scrollToSection = (id) => {
   }
 
   const clearance = parseFloat(getComputedStyle(el).scrollMarginTop) || 0
-  lenis.scrollTo(el.getBoundingClientRect().top + window.scrollY - clearance)
+  const targetY = el.getBoundingClientRect().top + window.scrollY - clearance
+
+  // The duration scales with the distance, and that is the whole point.
+  //
+  // lenis.scrollTo() defaults to OPTIONS.duration, which is tuned for a wheel
+  // notch of roughly 600px. Reusing it for a TOC jump is what made the TOC feel
+  // like it teleported: measured in a browser, a 1734px jump ran the full
+  // distance inside one 0.7s curve and peaked at 121px in a single frame —
+  // about 7,200px/s. That is animated, but far past the speed the eye can
+  // track, so it reads as a cut rather than a scroll.
+  //
+  // Holding velocity roughly constant instead means a long jump takes longer,
+  // which is what makes it legible. The clamp keeps short hops from feeling
+  // sluggish and long ones from outstaying their welcome.
+  const distance = Math.abs(targetY - window.scrollY)
+  const duration = Math.min(1.5, Math.max(0.6, distance / 1500))
+
+  lenis.scrollTo(targetY, { duration })
 }
 
 const TableOfContents = ({ components, activeId }) => {
