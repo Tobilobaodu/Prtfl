@@ -77,7 +77,11 @@ const AboutPage = () => {
           </div>
 
           <div className="download-button-wrapper">
-            <button className="download-cv-button">
+            <a
+              href="/Tobiloba_Odu_CV.docx"
+              download
+              className="download-cv-button"
+            >
               <div className="button-shadow"></div>
               <div className="button-main">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -86,7 +90,7 @@ const AboutPage = () => {
                 </svg>
                 <span>Download CV</span>
               </div>
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -205,6 +209,8 @@ const AboutPage = () => {
           width: 164px;
           height: 55px;
           background: none;
+          display: block;
+          text-decoration: none;
           border: none;
           cursor: pointer;
         }

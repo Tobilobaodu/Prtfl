@@ -439,10 +439,18 @@ html.loader-skip .js-page-loader {
   to { opacity: 1; }
 }
 
+/* The inset reads the same token .navigation pads with, so the panel and the
+   close button that opens it stay on one edge by construction rather than by
+   two sets of hard-coded numbers happening to agree. They previously agreed
+   only above 1200px: at 1200 the panel sat 20px from the edge while the button
+   sat 100px, an 80px overhang. It matters more than it looks, because the
+   breakpoints do not land where their numbers suggest — measured, a viewport
+   set to 767px reported innerWidth 767 yet did not match `max-width: 767px`,
+   so any alignment built on two breakpoint sets lining up is fragile. */
 .menu-panel {
   position: fixed;
   top: 57px;
-  right: 100px;
+  right: var(--gutter);
   width: 76px;
   background: transparent;
   z-index: 100;
@@ -509,11 +517,12 @@ main {
 
 /* ── Layout Navigation Responsive ── */
 
-@media (max-width: 1200px) {
-  .menu-panel {
-    right: 20px;
-  }
-}
+/* A `@media (max-width: 1200px) { .menu-panel { right: 20px } }` block lived
+   here. It was the whole reason the panel and the close button disagreed
+   between 769 and 1200: --gutter is 80-100px through that range, so pinning the
+   panel to 20px pushed it 60-80px past the button. The base rule now tracks
+   --gutter at every width, so no override is needed here at all.
+   The 481-768 and <=480 blocks below still set their own values. */
  /* 481 rather than 480: the mobile block below is max-width: 480, so a
    min-width of 480 made both match at exactly 480px and forced the
    !important that used to live in this block. */
@@ -529,8 +538,12 @@ main {
     padding: 20px var(--gutter);
   }
 
+  /* `right` is deliberately absent — the base rule's var(--gutter) applies, so
+     the panel keeps the same edge as .navigation's padding. It used to be
+     pinned to 20px here against a 40px gutter, leaving the panel 20px past the
+     close button across 490-760. `top` genuinely differs at this breakpoint,
+     so that one stays. */
   .menu-panel {
-    right: 20px;
     top: 70px;
   }
 

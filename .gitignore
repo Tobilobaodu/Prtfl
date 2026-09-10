@@ -55,3 +55,7 @@ RESPONSIVENESS_FIX_PLAN.md
 # Local AI assistant tooling (not needed in production)
 .claude/
 .cursor/
+
+# Playwright MCP writes screenshots and traces here. Rooted, like every other
+# entry: the old unrooted patterns matched at any depth.
+/.playwright-mcp/

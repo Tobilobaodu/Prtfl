@@ -77,3 +77,5 @@
 *.ico   binary
 *.mp4   binary
 *.psd   binary
+*.docx  binary
+*.pdf   binary

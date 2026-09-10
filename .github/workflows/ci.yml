@@ -38,6 +38,33 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # Unit tests for the access-token signing and password hashing helpers —
+      # the two pieces the case-study gate depends on.
+      #
+      # The count assertion is not defensive padding. `node --test` exits 0 when
+      # its glob matches nothing ("pass 0, fail 0"), so a test step that loses
+      # its files goes green while checking nothing. That already nearly
+      # happened: a stale copy of these tests sits in the repo-root `test/`,
+      # which .gitignore excludes, so `npm test` passed locally against files
+      # CI could never see. The tracked copies live in web-next/test/.
+      - name: Test
+        working-directory: web-next
+        run: |
+          set -uo pipefail
+          npm test 2>&1 | tee test-output.txt
+          status=${PIPESTATUS[0]}
+          passed=$(grep -oE '^# pass [0-9]+|^ℹ pass [0-9]+' test-output.txt | grep -oE '[0-9]+' | head -1)
+          rm -f test-output.txt
+          if [ "$status" -ne 0 ]; then
+            echo "::error::Tests failed."
+            exit 1
+          fi
+          if [ -z "${passed:-}" ] || [ "$passed" -lt 1 ]; then
+            echo "::error::The test runner reported ${passed:-no} passing tests — it found no test files."
+            exit 1
+          fi
+          echo "$passed tests passed."
+
       # No credentials needed: the Studio bundles the schema, it does not read
       # content.
       - name: Build Sanity Studio

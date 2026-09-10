@@ -12,10 +12,9 @@ shared transitive dependencies, and one root install is what produced the
 rxjs 6-vs-7 and xstate 4-vs-5 hoisting collisions during the Sanity v6 upgrade.
 Two lockfiles is the cheaper problem.
 
-> **Deploy status.** Moving to Coolify, via `web-next/Dockerfile`. Until DNS is
-> cut over, the live site is still the last successful Gatsby deploy on Netlify.
-> Netlify can no longer build this repo — the Gatsby source is gone — so pushing
-> will fail that build while leaving the served site untouched. See
+> **Deploy status.** Coolify, via `web-next/Dockerfile`. Netlify is gone: its
+> config was removed once it turned out DNS had never pointed there, so it was
+> never serving this domain in the first place. See
 > [Deploying — Coolify](#deploying--coolify).
 
 ## Getting started
@@ -30,9 +29,9 @@ npm run site:dev   # the site   → http://localhost:3000
 npm run dev        # the Studio → http://localhost:3333
 ```
 
-Unlike the Gatsby setup, the Netlify CLI is no longer needed to exercise the
-password gate — those endpoints are Next Route Handlers under
-`web-next/app/api/`, so `npm run site:dev` serves them directly.
+Unlike the Gatsby setup, nothing extra is needed to exercise the password gate —
+those endpoints are Next Route Handlers under `web-next/app/api/`, so
+`npm run site:dev` serves them directly.
 
 ## Scripts
 
@@ -45,7 +44,7 @@ Run from the repo root:
 | `npm run deploy` | Deploy the Studio to its `studioHost` |
 | `npm run site:dev` | Next dev server for the site |
 | `npm run site:build` | Production build of the site |
-| `npm run lint` | ESLint over `web-next/`, `netlify/`, `scripts/` |
+| `npm run lint` | ESLint over `web-next/`, `scripts/` |
 | `npm test` | Unit tests for the access-token and password helpers |
 | `npm run hash-password -- "<password>"` | Hash a case study password for Sanity |
 
@@ -152,18 +151,21 @@ already expects.
 1. Deploy in Coolify and confirm it reaches **healthy**.
 2. Hit its temporary URL and check a locked case study still gates, and that
    the right password unlocks it.
-3. Point DNS at Coolify. Keep the Netlify site alive during propagation.
-4. Verify on the real domain, then retire the Netlify site.
-5. Only then delete `netlify.toml` and `netlify/` — see below.
+3. Add every hostname the site answers on to the application's **Domains**
+   field, production included. Traefik only requests a certificate for a
+   domain it has been told about, so a host missing here fails TLS with a
+   Cloudflare 525 rather than with anything that names the cause.
+4. If Cloudflare redirects `http://` to `https://`, exclude
+   `/.well-known/acme-challenge/*` from that rule, or set the records to
+   **DNS only** until the certificates issue. A redirect on that path means
+   Let's Encrypt can never read the challenge token, and the domain cannot
+   get the certificate the redirect target requires.
+5. Verify on the real domain.
 
-`netlify.toml` and `netlify/functions/` are still in the repo deliberately.
-They describe what is serving production right now. They stop being true at
-step 4, not before, and deleting live infrastructure's configuration ahead of
-its replacement taking traffic buys nothing.
-
-Note that a Netlify rebuild is already impossible — the Gatsby source is gone —
-so the rollback during cutover is "restore the last successful deploy" in the
-Netlify UI, which works regardless of whether those files exist.
+`robots.txt` needs nothing configured per environment. It compares the
+request's `Host` against `SITE_URL` and serves `Disallow: /` to anything that
+is not the canonical domain, so staging and preview hosts are closed by
+default — see the note at the top of `web-next/app/robots.js`.
 
 ## Notes
 

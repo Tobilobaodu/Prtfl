@@ -163,7 +163,11 @@ export default async function ExperiencePage() {
           </div>
 
           <div className="download-button-wrapper">
-            <button className="download-button">
+            <a
+              href="/Tobiloba_Odu_CV.docx"
+              download
+              className="download-button"
+            >
               <div className="button-bg-orange"></div>
               <div className="button-bg-black"></div>
               <div className="button-content">
@@ -172,7 +176,7 @@ export default async function ExperiencePage() {
                 </svg>
                 <span>Download CV</span>
               </div>
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -305,6 +309,8 @@ export default async function ExperiencePage() {
           width: 164px;
           height: 55px;
           background: none;
+          display: block;
+          text-decoration: none;
           border: none;
           cursor: pointer;
         }

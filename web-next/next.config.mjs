@@ -31,6 +31,43 @@ const nextConfig = {
       { protocol: 'https', hostname: 'asset.sanity.io' },
     ],
   },
+
+  // Ported from the [[headers]] blocks in netlify.toml, which is being deleted
+  // along with the rest of the Netlify config. These were platform
+  // configuration, not application code, so nothing carried them over when the
+  // site moved to Next — the headers were simply absent on Coolify.
+  //
+  // Only the security set is ported. The caching rules that sat beside them are
+  // deliberately dropped: they addressed Gatsby's output (/page-data/*, /app-*,
+  // /component-*, /static/*), none of which exists any more. Next sets
+  // immutable caching on its own /_next/static/* hashed assets.
+  //
+  // The functions' Cache-Control: no-store is NOT here because it already lives
+  // in the route handlers themselves — see the jsonResponse helper in
+  // app/api/verify-password/route.js — which is a better home for it: it
+  // survives a move to any other host.
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Frame-Options', value: 'DENY' },
+
+          // Explicitly disabled, not omitted. The legacy XSS auditor is
+          // deprecated and its filtering has itself been a source of
+          // vulnerabilities; "0" is the current OWASP recommendation.
+          { key: 'X-XSS-Protection', value: '0' },
+
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default nextConfig
