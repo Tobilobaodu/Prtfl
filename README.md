@@ -20,7 +20,7 @@ Two lockfiles is the cheaper problem.
 ## Getting started
 
 ```bash
-nvm use            # Node 22.12 (see .nvmrc)
+nvm use            # Node 22.23.2 (see .nvmrc)
 
 npm install                    # Studio dependencies
 npm install --prefix web-next  # site dependencies
@@ -166,6 +166,33 @@ already expects.
 request's `Host` against `SITE_URL` and serves `Disallow: /` to anything that
 is not the canonical domain, so staging and preview hosts are closed by
 default — see the note at the top of `web-next/app/robots.js`.
+
+## Node and lockfiles
+
+**Node 22.x, 22.20 or newer** — `.nvmrc`, `engines` in both `package.json`s, and
+`ARG NODE_VERSION` in `web-next/Dockerfile` all say the same thing, and all three
+need changing together.
+
+The floor is not arbitrary. `sanity` pulls `@sanity/cli` which pulls
+`skills@1.5.24`, and that requires `>=22.20.0`; Studio's `@inquirer/*` and `jsdom`
+want `^22.13.0`. The pin used to be 22.12, which satisfied none of them — the
+install printed `EBADENGINE` and carried on.
+
+**Generate lockfile changes under Node 22, not whatever is on your PATH.** Node
+22.23.2 ships npm 10.9.x, and that is the npm CI and the Docker build use. npm 11
+writes `libc` fields onto sharp's optional platform variants that npm 10 does not,
+so a lockfile touched by npm 11 and then by CI churns back and forth on lines that
+have nothing to do with the change you made. If your local Node is not 22, do it
+in the image the site ships on:
+
+```bash
+docker run --rm -v "$PWD:/w" -w /w node:22.23-alpine \
+  npm install --package-lock-only
+```
+
+`--package-lock-only` is the important part: it updates `package.json` and the
+lockfile without writing `node_modules`, so a Linux container cannot leave
+Linux-built native binaries in a Windows or macOS checkout.
 
 ## Notes
 

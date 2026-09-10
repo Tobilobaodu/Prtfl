@@ -3,7 +3,7 @@
 # Node 22.12 is the floor: Sanity v6 and @sanity/client v8 both require it.
 # Pinned to a digest-stable minor rather than `22` so a base image refresh
 # cannot move Node under the app.
-ARG NODE_VERSION=22.12-alpine
+ARG NODE_VERSION=22.23-alpine
 
 # ---------- deps ----------
 FROM node:${NODE_VERSION} AS deps
