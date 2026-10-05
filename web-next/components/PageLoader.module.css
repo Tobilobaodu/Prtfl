@@ -73,24 +73,36 @@
   margin: 0 0 40px;
 }
 
-/* Respect a reduced-motion preference: no parallax, just get out of the way.
-   Stays disabled under the preference because this panel is viewport-sized and
-   travels the full height of the screen — exactly the page-level motion the
-   policy in layout.css keeps off. A multi-layer parallax is more of that, not
-   less, so all three transitions go, not just the panel's.
+/* Respect a reduced-motion preference: no slide, no parallax — the panel fades
+   out in place instead. The slide stays off under the preference because this
+   panel is viewport-sized and travels the full height of the screen — exactly
+   the page-level motion the policy in globals.css keeps off. A fade has no
+   movement, which that policy keeps; without it the exit was a one-frame hard
+   cut that read as the animation being broken.
 
-   The layer offsets are cleared too. Without this they would apply instantly
-   as a jump-cut rather than animate, which is a worse artefact than the plain
-   disappearance the preference is asking for. */
+   400ms, not the 1.1s exit: that length exists for the parallax to read as
+   depth. A flat fade of a full-screen white panel that slow just reads as the
+   page being slow to arrive. */
 @media (prefers-reduced-motion: reduce) {
-  .loader,
+  .loader {
+    transition: opacity 400ms ease-out;
+  }
+
   .center,
   .tagline {
     transition: none;
   }
 
+  .exiting {
+    transform: none;
+    opacity: 0;
+  }
+
+  /* The layers ride the panel's fade. Left at their exit opacity of 0 with no
+     transition, they would snap out a frame before the panel starts fading. */
   .exiting .center,
   .exiting .tagline {
     transform: none;
+    opacity: 1;
   }
 }

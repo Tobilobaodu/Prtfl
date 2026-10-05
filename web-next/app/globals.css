@@ -54,7 +54,8 @@
  *
  * Off under `reduce`:
  *   - Lenis smooth scroll        (src/lib/lenis.js — never constructed)
- *   - the intro loader's panel   (PageLoader.module.css — viewport-sized slide)
+ *   - the intro loader's slide   (PageLoader.module.css — viewport-sized slide;
+ *                                 it fades out in place instead)
  *   - the HoverReel follow lag   (HoverReel.js — full-viewport travel)
  *
  * Kept under `reduce`:

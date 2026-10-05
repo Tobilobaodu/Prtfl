@@ -67,13 +67,16 @@ const PageLoader = ({ onDone }) => {
       return
     }
 
-    try {
-      window.sessionStorage.setItem(LOADER_SESSION_KEY, "true")
-    } catch {
-      // no-op
-    }
-
+    // The session is marked when the exit starts, not on mount. Strict Mode runs
+    // this effect, cleans it up and runs it again; marking on mount meant the
+    // second run read its own write as a repeat visit and unmounted the loader
+    // (and the layout effect above hid it) ~150ms in, so the exit never played.
     const exitTimer = setTimeout(() => {
+      try {
+        window.sessionStorage.setItem(LOADER_SESSION_KEY, "true")
+      } catch {
+        // no-op
+      }
       setExiting(true)
       onDone?.()
     }, LOADER_DURATION_MS)
