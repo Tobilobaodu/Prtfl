@@ -54,11 +54,11 @@
  *
  * Off under `reduce`:
  *   - Lenis smooth scroll        (src/lib/lenis.js — never constructed)
- *   - the intro loader's slide   (PageLoader.module.css — viewport-sized slide;
- *                                 it fades out in place instead)
+ *   - the intro loader's content scale (PageLoader.module.css — it just fades)
  *   - the HoverReel follow lag   (HoverReel.js — full-viewport travel)
  *
  * Kept under `reduce`:
+ *   - the intro loader's wipe-up reveal (a clip-path edge; nothing moves)
  *   - the HoverReel scale reveal and reel roll (contained in a ~389px box)
  *   - row title/meta opacity fades (no movement at all)
  *   - TOC anchor scrolling (a discrete move the visitor asked for)

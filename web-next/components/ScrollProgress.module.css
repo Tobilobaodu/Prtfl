@@ -1,0 +1,14 @@
+/* Grows from the left as the page is read. Scale, not width, so each frame is a
+   compositor-only change rather than a layout. */
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  z-index: 100;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}

@@ -4,6 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import Layout from "./Layout"
 import LockedProjectModal from "./LockedProjectModal"
+import ScrollProgress from "./ScrollProgress"
 import { getStoredToken, fetchProtectedCaseStudy } from "../utils/caseStudyAccess"
 import { sanityImageProps, sanityImageUrl, sanityImageSrcSet } from "../utils/sanityImage"
 import { slugify } from "../utils/slugify"
@@ -797,6 +798,7 @@ export default function CaseStudyContent({
 
   return (
     <Layout>
+      <ScrollProgress />
       <div className="case-study-page">
 
         {!hasHeroSectionComponent && project.heroImage?.asset?.url && (

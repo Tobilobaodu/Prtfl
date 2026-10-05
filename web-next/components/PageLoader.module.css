@@ -1,14 +1,12 @@
-/* Exit easing. One curve shared by the panel and both parallax layers — the
-   depth has to come from the differing distances, not from differing easings,
-   or the layers drift out of step mid-flight and read as jank. */
-.loader,
-.center,
-.tagline {
-  transition-property: transform, opacity;
-  transition-duration: var(--page-loader-exit, 1100ms);
-  transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-}
+/* WIPE-UP EXIT — modelled on inherited.band.
+   The page is revealed by an edge that rises from the bottom of the screen and
+   covers the loader. That is a clip-path on the panel, not a transform: the
+   panel's visible region shrinks from the bottom up while nothing inside it
+   travels. The loader's content meanwhile sinks back (scale + fade), so the
+   page reads as arriving over it rather than the loader being lifted off.
 
+   Easings and the 100ms head start on the wipe are inherited.band's: the
+   content starts receding a beat before the edge sets off. */
 .loader {
   position: fixed;
   inset: 0;
@@ -18,35 +16,29 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  opacity: 1;
 
-  /* Clips the layers once they trail past the panel edge, so the exit reads as
-     a curtain lifting over them rather than as content escaping the panel. */
-  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+  transition: clip-path var(--page-loader-exit, 1200ms) cubic-bezier(0.6, 0.14, 0, 1) 100ms;
 }
 
-/* PARALLAX EXIT.
-   The panel leaves at 100vh. Each layer is pushed the other way by a fraction
-   of that, so its net travel is slower than the panel's:
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition-property: transform, opacity;
+  transition-duration: 600ms;
+  transition-timing-function: cubic-bezier(0.6, 0.14, 1, 0.3);
+}
 
-     panel    -100vh                      100% rate
-     gif      -100vh + 50vh  =  -50vh      50% rate   (furthest back, lingers)
-     tagline  -100vh + 25vh  =  -75vh      75% rate
-
-   Three different rates is the whole effect. Give the layers no transform and
-   they travel with the panel — which is exactly the flat slide this replaces. */
 .exiting {
-  transform: translateY(-100%);
+  clip-path: inset(0 0 100% 0);
   pointer-events: none;
 }
 
-.exiting .center {
-  transform: translateY(50vh);
-  opacity: 0;
-}
-
-.exiting .tagline {
-  transform: translateY(25vh);
+.exiting .content {
+  transform: scale(0.6);
   opacity: 0;
 }
 
@@ -73,36 +65,13 @@
   margin: 0 0 40px;
 }
 
-/* Respect a reduced-motion preference: no slide, no parallax — the panel fades
-   out in place instead. The slide stays off under the preference because this
-   panel is viewport-sized and travels the full height of the screen — exactly
-   the page-level motion the policy in globals.css keeps off. A fade has no
-   movement, which that policy keeps; without it the exit was a one-frame hard
-   cut that read as the animation being broken.
-
-   400ms, not the 1.1s exit: that length exists for the parallax to read as
-   depth. A flat fade of a full-screen white panel that slow just reads as the
-   page being slow to arrive. */
+/* Under a reduced-motion preference the wipe stays: it is a reveal, and nothing
+   on screen moves — the same category as the opacity fades the policy in
+   globals.css keeps. Only the content's scale goes, since that is movement; it
+   just fades. (This used to drop the whole exit to a fade, which meant anyone
+   with Windows animations turned off never saw the slide at all.) */
 @media (prefers-reduced-motion: reduce) {
-  .loader {
-    transition: opacity 400ms ease-out;
-  }
-
-  .center,
-  .tagline {
-    transition: none;
-  }
-
-  .exiting {
+  .exiting .content {
     transform: none;
-    opacity: 0;
-  }
-
-  /* The layers ride the panel's fade. Left at their exit opacity of 0 with no
-     transition, they would snap out a frame before the panel starts fading. */
-  .exiting .center,
-  .exiting .tagline {
-    transform: none;
-    opacity: 1;
   }
 }

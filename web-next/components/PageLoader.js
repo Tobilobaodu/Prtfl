@@ -7,11 +7,10 @@ import * as styles from "./PageLoader.module.css"
 
 const LOADER_DURATION_MS = 2500
 
-// The exit is a parallax, not a fade: the panel and the two layers inside it
-// travel at different rates (see PageLoader.module.css). That needs longer than
-// a flat slide to read as depth rather than as lag — under ~800ms the offset
-// between layers is too brief to register.
-const EXIT_DURATION_MS = 1100
+// Length of the wipe that reveals the page (see PageLoader.module.css). The
+// loader is unmounted once it, plus the wipe's 100ms delay, has finished.
+const EXIT_DURATION_MS = 1200
+const EXIT_DELAY_MS = 100
 
 // Kept in sync with LOADER_SKIP_SCRIPT in app/layout.js.
 export const LOADER_SESSION_KEY = "loader_shown"
@@ -83,7 +82,7 @@ const PageLoader = ({ onDone }) => {
 
     const removeTimer = setTimeout(() => {
       setVisible(false)
-    }, LOADER_DURATION_MS + EXIT_DURATION_MS)
+    }, LOADER_DURATION_MS + EXIT_DELAY_MS + EXIT_DURATION_MS)
 
     return () => {
       clearTimeout(exitTimer)
@@ -100,14 +99,16 @@ const PageLoader = ({ onDone }) => {
       role="status"
       aria-live="polite"
     >
-      <div className={styles.center}>
-        <img src={loaderGif} alt="" className={styles.gif} />
+      <div className={styles.content}>
+        <div className={styles.center}>
+          <img src={loaderGif} alt="" className={styles.gif} />
+        </div>
+        <p className={styles.tagline}>
+          Passionate about design and technology,
+          <br />
+          and how they both shape our lives.
+        </p>
       </div>
-      <p className={styles.tagline}>
-        Passionate about design and technology,
-        <br />
-        and how they both shape our lives.
-      </p>
     </div>
   )
 }
