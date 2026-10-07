@@ -1,4 +1,8 @@
-export const metadata = { title: "Experience" }
+export const metadata = {
+  title: "Experience",
+  description:
+    "Tobiloba Odu's career across product design, UX leadership, mentoring and growth marketing, from Jumia and OPay to leading design at OSB Group.",
+}
 
 import { client } from "../../sanity/client"
 import { EXPERIENCE } from "../../sanity/queries"
@@ -128,9 +132,9 @@ export default async function ExperiencePage() {
       <div className="experience-container">
         <div className="container">
           <div className="intro">
-            <h1 className="page-title">xprnc</h1>
+            <h1 className="page-title">What I&apos;ve been up to</h1>
             <p className="page-description">
-              Roles across product design, UX leadership, mentoring and growth marketing, most recent first.
+              Roles across product design, UX leadership, mentoring and growth marketing.
             </p>
           </div>
 
@@ -168,7 +172,7 @@ export default async function ExperiencePage() {
               <path d="M0.467529 30.1208L12.0387 23.9991L21.05 30.2917L33.2018 23.9248L41.1544 30.5356L52.6744 23.9912L61.2189 30.4902L69.8286 24.2208L78.7221 29.8124L79.1951 29.2476" stroke="#EE550E" strokeWidth="2" />
             </svg>
             <p className="footer-text">
-              Before Jumia, I looked after digital channels and digital product at Start-up Partner. Before that, I was a data analyst at Kantar and ran Zeus & Solace, a bespoke gentleman&apos;s clothing brand, in the two years after I finished university.
+              Before Jumia, I was at Startup Partners Africa, a venture firm backing early-stage start-ups across the continent. I looked after digital channels and digital product for two of its e-commerce businesses, Sunglasses.com.ng and Glamour.com.ng. Before that, in the two years after I finished university, I worked as a data analyst at TNS-RMS, the market research firm now part of Kantar, and ran Zeus &amp; Solace, a bespoke gentlemen&apos;s clothing brand. The analyst role gave me my grounding in data and user behaviour, and it is where my interest in user research started.
             </p>
           </div>
 
@@ -293,12 +297,15 @@ export default async function ExperiencePage() {
           flex-direction: column;
           align-items: center;
           gap: 15px;
-          padding: 26px 0 50px 119px;
+          padding: 26px 0 0 119px;
         }
 
+        /* The zigzag's 2px stroke starts and ends on the viewBox edge, so half
+           of it was clipped at both ends. */
         .end-section svg {
           width: 78.728px;
           height: auto;
+          overflow: visible;
         }
 
         .footer-text {
@@ -312,11 +319,14 @@ export default async function ExperiencePage() {
           max-width: 433px;
         }
 
+        /* In the flow, under the closing paragraph. It was fixed at right: 100px,
+           which is inside the text column on every width from 768 up, so it sat
+           on top of whichever description scrolled under it. The left padding
+           matches .end-section so the two centre on the same axis. */
         .download-button-wrapper {
-          position: fixed;
-          right: 100px;
-          top: 90%;
-          transform: translateY(-50%);
+          display: flex;
+          justify-content: center;
+          padding-left: 119px;
         }
 
         .download-button {
@@ -387,16 +397,6 @@ export default async function ExperiencePage() {
           .end-section {
             padding: 26px 0 50px 0;
           }
-
-          .download-button-wrapper {
-            position: relative;
-            right: auto;
-            top: auto;
-            transform: none;
-            display: flex;
-            justify-content: center;
-            margin-top: 40px;
-          }
         }
 
         @media (max-width: 767px) {
@@ -408,7 +408,9 @@ export default async function ExperiencePage() {
 
           .container {
             max-width: 100%;
-            padding: 134px var(--gutter) 0;
+            /* The 50px of bottom padding is the fixed CV bar's height, so the
+               end of the closing paragraph can scroll clear of it. */
+            padding: 134px var(--gutter) 50px;
             gap: 20px;
           }
 
@@ -448,7 +450,7 @@ export default async function ExperiencePage() {
             transform: none;
             display: flex;
             justify-content: flex-start;
-            margin-top: 0;
+            padding-left: 0;
             z-index: 100;
           }
 

@@ -1,4 +1,8 @@
-export const metadata = { title: "Photography" }
+export const metadata = {
+  title: "Photography",
+  description:
+    "Phone photography by Tobiloba Odu: everyday scenes and places, kept as visual notes of light, texture and the small details that catch the eye.",
+}
 
 import { client } from "../../sanity/client"
 import { PHOTOGRAPHY } from "../../sanity/queries"

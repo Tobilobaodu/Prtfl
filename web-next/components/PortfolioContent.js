@@ -41,7 +41,7 @@ export default function PortfolioContent({ projects }) {
           </div>
 
           <div className="projects-grid">
-            {projects.map((project) => (
+            {projects.map((project, index) => (
               <Link
                 key={project.id}
                 href={`/case-study/${project.slug.current}`}
@@ -56,6 +56,9 @@ export default function PortfolioContent({ projects }) {
                       alt={project.title}
                       className="project-image"
                       sizes="(max-width: 767px) 100vw, 50vw"
+                      // The first card is the LCP element. `priority` is deprecated in Next 16;
+                      // the docs point to loading/fetchPriority instead of `preload`.
+                      {...(index === 0 && { loading: 'eager', fetchPriority: 'high' })}
                       {...(sanityImageDimensions(project.heroImage.asset.url) || { width: 1280, height: 960 })}
                     />
                   )}

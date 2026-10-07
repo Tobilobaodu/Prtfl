@@ -2,7 +2,11 @@ import { client } from '../../sanity/client'
 import { PORTFOLIO_PROJECTS } from '../../sanity/queries'
 import PortfolioContent from '../../components/PortfolioContent'
 
-export const metadata = { title: 'Portfolio' }
+export const metadata = {
+  title: 'Portfolio',
+  description:
+    'Product design case studies by Tobiloba Odu. Each one sets out the problem, the decisions behind the design and what changed as a result.',
+}
 
 /**
  * Server component: fetches, then hands plain data to the client half.

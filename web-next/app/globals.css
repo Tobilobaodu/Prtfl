@@ -441,8 +441,11 @@ html.loader-skip .js-page-loader {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(2.5px);
+  /* Opaque enough to wash out whatever sits under the menu. The panel itself is
+     transparent and right-aligned to the gutter, so on case studies it lands on
+     the hero image; at 0.05 the dark links read ~1.2:1 over a black image. */
+  background: color-mix(in srgb, var(--white-not-wyt) 85%, transparent);
+  backdrop-filter: blur(8px);
   z-index: 99;
   animation: fadeIn 0.3s ease;
   border: none;

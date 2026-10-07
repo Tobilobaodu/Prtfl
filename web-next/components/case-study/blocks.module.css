@@ -306,7 +306,7 @@ a.cta:hover {
 .quoteAttribution {
   display: block;
   margin-top: 14px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: 1.2px;
@@ -325,9 +325,12 @@ a.cta:hover {
   overflow: hidden;
 }
 
+/* Baseline, not center: the 12px ordinal and 14px label have different line
+   boxes, so centring them left their text 2px apart, and a label that wraps
+   pulled its number down to the middle of the block. */
 .objective {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 20px;
   padding: 18px 24px;
   border-top: 1px solid var(--rule);

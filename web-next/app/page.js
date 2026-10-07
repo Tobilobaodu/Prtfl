@@ -3,7 +3,12 @@ import { HOME_PROJECTS } from '../sanity/queries'
 import Layout from '../components/Layout'
 import HomeProjects from '../components/HomeProjects'
 
-export const metadata = { title: 'Home' }
+// No title: the root layout's default is the site name, which is what the
+// home page should read as. 'Home' alone rendered as "Home | Tobiloba Odu".
+export const metadata = {
+  description:
+    'Product designer Tobiloba Odu turns complex digital journeys into simple, useful experiences. Seven years across start-ups and financial services.',
+}
 
 /**
  * Server component. It fetches on the server and hands plain data to a client

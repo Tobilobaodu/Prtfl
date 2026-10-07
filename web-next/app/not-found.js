@@ -140,8 +140,8 @@ const NotFoundPage = () => {
             height: 200px;
           }
 
+          /* 12px is the floor (--type-body-xsmall), so the base size holds. */
           .not-found-text {
-            font-size: 11px;
             letter-spacing: 2.5%;
           }
 
@@ -178,7 +178,6 @@ const NotFoundPage = () => {
           }
 
           .not-found-text {
-            font-size: 10px;
             letter-spacing: 2%;
           }
 
@@ -194,7 +193,7 @@ const NotFoundPage = () => {
           }
 
           .button-content {
-            font-size: 11px;
+            font-size: 12px;
             left: 20px;
             top: 8px;
           }
