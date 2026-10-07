@@ -597,7 +597,7 @@ const CaseStudyFooter = ({ relatedProjects }) => {
  * Public shell shown for a locked case study before the password is entered.
  * Deliberately limited to fields that are already public on the listing pages.
  */
-const CaseStudyLockedShell = ({ project, loading, onRequestAccess }) => (
+const CaseStudyLockedShell = ({ project, loading, error, onRetry, onRequestAccess }) => (
   <>
     {project.heroImage?.asset?.url && (
       <div className="hero-image">
@@ -634,8 +634,17 @@ const CaseStudyLockedShell = ({ project, loading, onRequestAccess }) => (
         The full write-up is covered by a non-disclosure agreement. Enter the access
         password to read it, or get in touch to request one.
       </p>
-      <button className="cs-locked-btn" onClick={onRequestAccess} disabled={loading}>
-        {loading ? "Checking access…" : "Enter password"}
+      {error && (
+        <p className="cs-locked-error" role="alert">
+          {error}
+        </p>
+      )}
+      <button
+        className="cs-locked-btn"
+        onClick={error ? onRetry : onRequestAccess}
+        disabled={loading}
+      >
+        {loading ? "Checking access…" : error ? "Try again" : "Enter password"}
       </button>
     </div>
   </>
@@ -656,6 +665,7 @@ export default function CaseStudyContent({
   const [unlockedCaseStudy, setUnlockedCaseStudy] = React.useState(null)
   const [gateOpen, setGateOpen] = React.useState(false)
   const [restoringAccess, setRestoringAccess] = React.useState(isLocked)
+  const [accessError, setAccessError] = React.useState("")
   const [activeId, setActiveId] = React.useState(null)
   const [tocOffset, setTocOffset] = React.useState(0)
 
@@ -680,43 +690,50 @@ export default function CaseStudyContent({
   const firstComponent = components[0]
   const hasHeroSectionComponent = firstComponent?._type === 'heroSection'
 
+  // Loads the body with the stored token. Only a missing or rejected token
+  // opens the password gate; any other failure (rate limit, network, server)
+  // is shown as an error with a retry, because the reader's token is still
+  // good. Every failure used to open the gate, so a reader who had just
+  // entered the right password could land on the page and be asked again.
+  const loadWithToken = React.useCallback(
+    (isCancelled = () => false) => {
+      setAccessError("")
+      const token = getStoredToken(slug)
+      if (!token) {
+        setRestoringAccess(false)
+        setGateOpen(true)
+        return
+      }
+
+      setRestoringAccess(true)
+      fetchProtectedCaseStudy(slug, token).then(result => {
+        if (isCancelled()) return
+        if (result.caseStudy) {
+          setUnlockedCaseStudy(result.caseStudy)
+          setGateOpen(false)
+        } else if (result.expired) {
+          setGateOpen(true)
+        } else {
+          setAccessError(result.error || "Unable to load this case study.")
+        }
+        setRestoringAccess(false)
+      })
+    },
+    [slug]
+  )
+
   // On a locked page, try to restore access from a token issued earlier this
   // session before showing the password gate.
   React.useEffect(() => {
     if (!isLocked) return
     let cancelled = false
-
-    const token = getStoredToken(slug)
-    if (!token) {
-      setRestoringAccess(false)
-      setGateOpen(true)
-      return
-    }
-
-    fetchProtectedCaseStudy(slug, token).then(result => {
-      if (cancelled) return
-      if (result.caseStudy) {
-        setUnlockedCaseStudy(result.caseStudy)
-      } else {
-        setGateOpen(true)
-      }
-      setRestoringAccess(false)
-    })
-
+    loadWithToken(() => cancelled)
     return () => {
       cancelled = true
     }
-  }, [isLocked, slug])
+  }, [isLocked, loadWithToken])
 
-  const handleUnlocked = React.useCallback(() => {
-    const token = getStoredToken(slug)
-    fetchProtectedCaseStudy(slug, token).then(result => {
-      if (result.caseStudy) {
-        setUnlockedCaseStudy(result.caseStudy)
-        setGateOpen(false)
-      }
-    })
-  }, [slug])
+  const handleUnlocked = React.useCallback(() => loadWithToken(), [loadWithToken])
 
   React.useEffect(() => {
     const alignToc = () => {
@@ -768,6 +785,8 @@ export default function CaseStudyContent({
           <CaseStudyLockedShell
             project={project}
             loading={restoringAccess}
+            error={accessError}
+            onRetry={() => loadWithToken()}
             onRequestAccess={() => setGateOpen(true)}
           />
           <CaseStudyFooter relatedProjects={relatedProjects} />
@@ -934,6 +953,15 @@ export default function CaseStudyContent({
           font-weight: 400;
           line-height: 140%;
           color: var(--grey-just);
+          margin: 0;
+        }
+
+        .cs-locked-error {
+          font-family: var(--font-nhd);
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 140%;
+          color: var(--orange);
           margin: 0;
         }
 

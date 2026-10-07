@@ -56,11 +56,14 @@
  *   - Lenis smooth scroll        (src/lib/lenis.js — never constructed)
  *   - the intro loader's content scale (PageLoader.module.css — it just fades)
  *   - the HoverReel follow lag   (HoverReel.js — full-viewport travel)
+ *   - the photography grow       (PhotoGrid.js — the photo fades in at its
+ *                                 expanded size instead of travelling)
  *
  * Kept under `reduce`:
- *   - the intro loader's wipe-up reveal (a clip-path edge; nothing moves)
+ *   - the intro loader's sideways wipe reveal (a clip-path edge; nothing moves)
  *   - the HoverReel scale reveal and reel roll (contained in a ~389px box)
  *   - row title/meta opacity fades (no movement at all)
+ *   - the nav's hide-on-scroll slide (the nav bar only, not the page)
  *   - TOC anchor scrolling (a discrete move the visitor asked for)
  *
  * The line is drawn here rather than per-component because it was previously
@@ -365,6 +368,21 @@ button {
   left: 0;
   right: 0;
   z-index: 100;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Set by Layout while scrolling down. Transform, not top, so the slide stays on
+   the compositor. */
+.navigation.is-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* Tabbing into a hidden nav brings it back, so keyboard focus is never
+   off-screen. */
+.navigation.is-hidden:focus-within {
+  transform: none;
+  opacity: 1;
 }
 
 .logo {

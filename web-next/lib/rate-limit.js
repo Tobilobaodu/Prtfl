@@ -55,9 +55,10 @@ const clientIp = (request) => {
 
 /**
  * Records an attempt and reports whether the caller is over the limit.
+ * @param {number} [max] — attempts allowed per window in this bucket.
  * @returns {{ limited: boolean, retryAfter: number }}
  */
-export const consume = (request, bucket = 'default') => {
+export const consume = (request, bucket = 'default', max = MAX_ATTEMPTS) => {
   const now = Date.now()
   prune(now)
 
@@ -70,7 +71,7 @@ export const consume = (request, bucket = 'default') => {
   }
 
   entry.count += 1
-  if (entry.count > MAX_ATTEMPTS) {
+  if (entry.count > max) {
     return { limited: true, retryAfter: Math.ceil((entry.resetAt - now) / 1000) }
   }
   return { limited: false, retryAfter: 0 }

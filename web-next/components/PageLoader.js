@@ -4,12 +4,18 @@ import * as React from "react"
 // Served from public/, not bundled: Next resolves /loader/loader.gif at runtime.
 const loaderGif = "/loader/loader.gif"
 import * as styles from "./PageLoader.module.css"
+import {
+  WIPE_EASE,
+  WIPE_EASE_FALLBACK,
+  WIPE_DURATION_MS,
+  supportsLinearEasing,
+} from "../lib/curves"
 
 const LOADER_DURATION_MS = 2500
 
 // Length of the wipe that reveals the page (see PageLoader.module.css). The
 // loader is unmounted once it, plus the wipe's 100ms delay, has finished.
-const EXIT_DURATION_MS = 1200
+const EXIT_DURATION_MS = WIPE_DURATION_MS
 const EXIT_DELAY_MS = 100
 
 // Kept in sync with LOADER_SKIP_SCRIPT in app/layout.js.
@@ -95,7 +101,14 @@ const PageLoader = ({ onDone }) => {
   return (
     <div
       className={`js-page-loader ${styles.loader} ${exiting ? styles.exiting : ""}`}
-      style={{ "--page-loader-exit": `${EXIT_DURATION_MS}ms` }}
+      style={{
+        "--page-loader-exit": `${EXIT_DURATION_MS}ms`,
+        // Resolved only once exiting, so the server render and the first
+        // client render agree — CSS.supports does not exist on the server.
+        ...(exiting && {
+          "--page-loader-ease": supportsLinearEasing() ? WIPE_EASE : WIPE_EASE_FALLBACK,
+        }),
+      }}
       role="status"
       aria-live="polite"
     >

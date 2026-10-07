@@ -70,13 +70,33 @@ export const requestAccess = async (slug, password) => {
   return { success: false, error: 'Incorrect password. Please try again.' }
 }
 
+// In-flight requests, keyed by slug and token. Strict Mode runs the restoring
+// effect twice in development; sharing the request means it costs one read.
+const inFlight = new Map()
+
 /**
  * Fetches protected case study content using a previously issued token.
+ *
+ * `expired` means the token is missing or no longer valid — the only case that
+ * should send the reader back to the password gate. `error` is everything else
+ * (rate limit, network, server), where the token may well still be good.
+ *
  * @returns {Promise<{ caseStudy?: object, expired?: boolean, error?: string }>}
  */
-export const fetchProtectedCaseStudy = async (slug, token) => {
-  if (!token) return { expired: true }
+export const fetchProtectedCaseStudy = (slug, token) => {
+  if (!token) return Promise.resolve({ expired: true })
 
+  const key = `${slug}\n${token}`
+  if (!inFlight.has(key)) {
+    inFlight.set(
+      key,
+      requestCaseStudy(slug, token).finally(() => inFlight.delete(key))
+    )
+  }
+  return inFlight.get(key)
+}
+
+const requestCaseStudy = async (slug, token) => {
   let res
   try {
     res = await fetch('/api/get-case-study', {
@@ -91,6 +111,10 @@ export const fetchProtectedCaseStudy = async (slug, token) => {
   if (res.status === 401) {
     clearToken(slug)
     return { expired: true }
+  }
+
+  if (res.status === 429) {
+    return { error: 'Too many requests right now. Please try again in a few minutes.' }
   }
 
   let data = {}

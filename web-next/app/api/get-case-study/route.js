@@ -22,16 +22,15 @@ const json = (status, body, extraHeaders = {}) =>
     headers: { 'Cache-Control': 'no-store', ...extraHeaders },
   })
 
-export async function POST(request) {
-  const { limited, retryAfter } = consume(request, 'get-case-study')
-  if (limited) {
-    return json(
-      429,
-      { error: 'Too many requests.' },
-      { 'Retry-After': String(retryAfter) }
-    )
-  }
+// Reads by a valid token holder. Generous, because every visit to an unlocked
+// page spends one (two in development, where Strict Mode runs effects twice) —
+// see the note in POST.
+const MAX_READS = 120
 
+const tooMany = (retryAfter) =>
+  json(429, { error: 'Too many requests.' }, { 'Retry-After': String(retryAfter) })
+
+export async function POST(request) {
   let slug, token
   try {
     ({ slug, token } = await request.json())
@@ -43,9 +42,19 @@ export async function POST(request) {
     return json(400, { error: 'Missing slug' })
   }
 
+  // Valid and invalid tokens are limited separately. Both used to share one
+  // 8-per-10-minutes bucket, so a reader who had already entered the right
+  // password was locked out after a handful of page views: the 9th load got a
+  // 429, and the page answered it by reopening the password gate. Only failed
+  // tokens are the guessing risk, so only they get the tight limit.
   if (!verifyToken(token, slug)) {
+    const { limited, retryAfter } = consume(request, 'get-case-study')
+    if (limited) return tooMany(retryAfter)
     return json(401, { error: 'Access token is missing, invalid or expired.' })
   }
+
+  const { limited, retryAfter } = consume(request, 'get-case-study-read', MAX_READS)
+  if (limited) return tooMany(retryAfter)
 
   let caseStudy
   try {

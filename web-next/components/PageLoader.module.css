@@ -1,12 +1,12 @@
-/* WIPE-UP EXIT — modelled on inherited.band.
-   The page is revealed by an edge that rises from the bottom of the screen and
-   covers the loader. That is a clip-path on the panel, not a transform: the
-   panel's visible region shrinks from the bottom up while nothing inside it
-   travels. The loader's content meanwhile sinks back (scale + fade), so the
-   page reads as arriving over it rather than the loader being lifted off.
+/* SIDEWAYS WIPE EXIT — the paywall backdrop wipe from motion.dev's App Store
+   example, played as a reveal. An edge sweeps from the left of the screen to the
+   right and uncovers the page behind it. That is a clip-path on the panel, not a
+   transform: the panel's visible region shrinks from the left while nothing
+   inside it travels. The loader's content meanwhile sinks back (scale + fade).
 
-   Easings and the 100ms head start on the wipe are inherited.band's: the
-   content starts receding a beat before the edge sets off. */
+   The curve and length come from ../lib/curves.js (WIPE_EASE), set from
+   PageLoader.js as --page-loader-ease once the exit starts. The 100ms head start
+   lets the content begin receding a beat before the edge sets off. */
 .loader {
   position: fixed;
   inset: 0;
@@ -18,7 +18,7 @@
   justify-content: center;
 
   clip-path: inset(0 0 0 0);
-  transition: clip-path var(--page-loader-exit, 1200ms) cubic-bezier(0.6, 0.14, 0, 1) 100ms;
+  transition: clip-path var(--page-loader-exit, 450ms) var(--page-loader-ease, ease-out) 100ms;
 }
 
 .content {
@@ -33,7 +33,7 @@
 }
 
 .exiting {
-  clip-path: inset(0 0 100% 0);
+  clip-path: inset(0 0 0 100%);
   pointer-events: none;
 }
 

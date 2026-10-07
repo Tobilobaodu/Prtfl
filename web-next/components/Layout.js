@@ -2,6 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { subscribe } from '../lib/ticker'
+
+// The nav stays put until the page has scrolled past this, so it never slides
+// away while it still overlaps the top of the page.
+const HIDE_AFTER = 150
+// Movement smaller than this is ignored, so the tail of a Lenis ease or a
+// trackpad's jitter does not flick the nav back and forth.
+const DIRECTION_TOLERANCE = 4
 
 /**
  * Site chrome: the scroll-reactive nav and the slide-in menu.
@@ -18,6 +26,7 @@ import Link from 'next/link'
 const Layout = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrollOpacity, setScrollOpacity] = useState(0)
+  const [navHidden, setNavHidden] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +38,30 @@ const Layout = ({ children }) => {
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Scrolling down hides the nav, scrolling up brings it back. Runs on the
+  // shared ticker rather than a scroll listener so it reads the offset after
+  // Lenis has written it for the frame. A page too short to scroll never gets
+  // past HIDE_AFTER, so its nav simply never hides.
+  useEffect(() => {
+    let lastY = window.scrollY
+    let current = false
+
+    return subscribe(() => {
+      const y = window.scrollY
+      const delta = y - lastY
+      // lastY only advances once the tolerance is crossed, so a slow scroll
+      // still accumulates into a direction instead of being dropped frame by
+      // frame.
+      if (Math.abs(delta) < DIRECTION_TOLERANCE) return
+      lastY = y
+
+      const next = delta > 0 && y > HIDE_AFTER
+      if (next === current) return
+      current = next
+      setNavHidden(next)
+    })
   }, [])
 
   // Escape closes the menu, matching the click-outside affordance.
@@ -44,7 +77,8 @@ const Layout = ({ children }) => {
   return (
     <>
       <nav
-        className="navigation"
+        // Never hidden while the menu is open: the close button lives in it.
+        className={`navigation ${navHidden && !menuOpen ? 'is-hidden' : ''}`}
         style={{
           background:
             scrollOpacity > 0
