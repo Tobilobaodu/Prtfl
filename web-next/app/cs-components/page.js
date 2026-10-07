@@ -211,7 +211,7 @@ export default async function CsComponentsPage() {
           .cs-demo-gutter { display: none; }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           .cs-demo-page { padding-top: 120px; }
           .cs-demo-intro { margin-bottom: 40px; }
         }

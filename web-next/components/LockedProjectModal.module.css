@@ -193,7 +193,7 @@
   margin-top: 5px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .content {
     padding: 25px 20px;
     max-width: 95%;

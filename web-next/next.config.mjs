@@ -32,6 +32,14 @@ const nextConfig = {
     ],
   },
 
+  // /about was an older copy of /experience whose dates disagreed with it. The
+  // page is gone; the redirect keeps old links and search results working.
+  async redirects() {
+    return [
+      { source: '/about', destination: '/experience', permanent: true },
+    ]
+  },
+
   // Ported from the [[headers]] blocks in netlify.toml, which is being deleted
   // along with the rest of the Netlify config. These were platform
   // configuration, not application code, so nothing carried them over when the

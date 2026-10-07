@@ -2,7 +2,19 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { subscribe } from '../lib/ticker'
+
+// In nav order. External links open in a new tab and are never "current".
+const MENU_LINKS = [
+  { href: '/portfolio', label: 'WRKS' },
+  { href: '/experience', label: 'XPRNC' },
+  { href: '/sndbx', label: 'SNDBX' },
+  { href: '/photography', label: 'PHTGRPHY' },
+  { href: 'https://medium.com/@tobilobaodu', label: 'NTPD', external: true },
+  // Was /cntct, which has no matching page and 404'd site-wide.
+  { href: '/contact', label: 'CNTCT' },
+]
 
 // The nav stays put until the page has scrolled past this, so it never slides
 // away while it still overlaps the top of the page.
@@ -24,6 +36,7 @@ const DIRECTION_TOLERANCE = 4
  * components, so their data fetching never ships to the browser.
  */
 const Layout = ({ children }) => {
+  const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrollOpacity, setScrollOpacity] = useState(0)
   const [navHidden, setNavHidden] = useState(false)
@@ -136,13 +149,21 @@ const Layout = ({ children }) => {
           />
           <div className="menu-panel" id="primary-menu">
             <nav className="menu-nav" aria-label="Primary">
-              <Link href="/portfolio" className="menu-link" onClick={() => setMenuOpen(false)}>WRKS</Link>
-              <Link href="/experience" className="menu-link" onClick={() => setMenuOpen(false)}>XPRNC</Link>
-              <Link href="/sndbx" className="menu-link" onClick={() => setMenuOpen(false)}>SNDBX</Link>
-              <Link href="/photography" className="menu-link" onClick={() => setMenuOpen(false)}>PHTGRPHY</Link>
-              <a href="https://medium.com/@tobilobaodu" target="_blank" rel="noopener noreferrer" className="menu-link" onClick={() => setMenuOpen(false)}>NTPD</a>
-              {/* Was /cntct, which has no matching page and 404'd site-wide. */}
-              <Link href="/contact" className="menu-link" onClick={() => setMenuOpen(false)}>CNTCT</Link>
+              {MENU_LINKS.map(({ href, label, external }) =>
+                external ? (
+                  <a key={href} href={href} target="_blank" rel="noopener noreferrer" className="menu-link" onClick={() => setMenuOpen(false)}>{label}</a>
+                ) : (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="menu-link"
+                    aria-current={pathname === href ? 'page' : undefined}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {label}
+                  </Link>
+                )
+              )}
             </nav>
           </div>
         </>

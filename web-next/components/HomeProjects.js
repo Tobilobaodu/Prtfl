@@ -83,7 +83,7 @@ export default function HomeProjects({ projects }) {
                     <h3 className="project-title">{project.title}</h3>
                     <div className="project-meta">
                       <span className="project-brand">{project.client}</span>
-                      <span className="dot" aria-hidden="true">●</span>
+                      <span className="dot" aria-hidden="true" />
                       <span className="project-year">{project.year}</span>
                       {project.locked && (
                         <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

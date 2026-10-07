@@ -100,7 +100,7 @@ const HeroSection = ({ headline, subtext, date, heroImage }) => {
           <img
             src={sanityImageUrl(imageUrl, { width: 1280 })}
             srcSet={sanityImageSrcSet(imageUrl)}
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 767px) 100vw, 50vw"
             alt={heroImage?.alt || headline || 'Hero image'}
             loading="eager"
             fetchPriority="high"
@@ -145,11 +145,11 @@ const SanityImg = ({ image, fallbackAlt, sizes, width, className }) => {
 // the right srcset candidate.
 const GRID_SIZES = {
   single: '100vw',
-  'grid-2': '(max-width: 768px) 100vw, 50vw',
-  'grid-3': '(max-width: 768px) 100vw, 33vw',
-  'grid-4-horizontal': '(max-width: 480px) 50vw, 25vw',
-  'grid-4-square': '(max-width: 480px) 50vw, 25vw',
-  'grid-5': '(max-width: 768px) 50vw, 33vw',
+  'grid-2': '(max-width: 767px) 100vw, 50vw',
+  'grid-3': '(max-width: 767px) 100vw, 33vw',
+  'grid-4-horizontal': '(max-width: 767px) 50vw, 25vw',
+  'grid-4-square': '(max-width: 767px) 50vw, 25vw',
+  'grid-5': '(max-width: 767px) 50vw, 33vw',
 }
 
 const ImageComponent = ({ layout, images, enableGaps = true, fullHeightImage = 1 }) => {
@@ -533,6 +533,9 @@ const CopyIcon = () => (
   </svg>
 )
 
+// Rows in the "More projects" footer on every case study.
+const RELATED_PROJECTS_COUNT = 5
+
 const CaseStudyFooter = ({ relatedProjects }) => {
   const [copied, setCopied] = React.useState(false)
 
@@ -559,6 +562,7 @@ const CaseStudyFooter = ({ relatedProjects }) => {
                 <span className="cs-footer-project-name">{project.title}</span>
                 <div className="cs-footer-project-meta">
                   <span className="cs-footer-project-client">{project.client}</span>
+                  <span className="dot" aria-hidden="true" />
                   <span className="cs-footer-project-year">{project.year}</span>
                 </div>
               </div>
@@ -680,8 +684,21 @@ export default function CaseStudyContent({
     return { ...(shellProject || {}), ...(contentProject || {}) }
   }, [contentProject, shellProject])
 
-  const cmsRelatedProjects = caseStudy?.relatedProjects || []
-  const relatedProjects = cmsRelatedProjects.length > 0 ? cmsRelatedProjects : autoRelatedProjects
+  // Hand-picked projects lead, and the automatic list tops them up, so every
+  // footer shows the same number of rows. The CMS list used to replace the
+  // automatic one outright: one pick on Dara Sans meant a one-row footer while
+  // Brokers showed five. A dangling reference dereferences to null, and a
+  // project may name itself, so both are dropped before deduping.
+  const relatedProjects = React.useMemo(() => {
+    const seen = new Set()
+    return [...(caseStudy?.relatedProjects || []), ...autoRelatedProjects]
+      .filter((p) => {
+        if (!p?.id || p.slug?.current === slug || seen.has(p.id)) return false
+        seen.add(p.id)
+        return true
+      })
+      .slice(0, RELATED_PROJECTS_COUNT)
+  }, [caseStudy?.relatedProjects, autoRelatedProjects, slug])
 
   // Build-time content arrives as `_rawComponents`; runtime-unlocked content
   // arrives as `components` from get-case-study. Both are the same raw shape.
@@ -983,7 +1000,7 @@ export default function CaseStudyContent({
         .cs-locked-btn:hover:not(:disabled) { opacity: 0.85; }
         .cs-locked-btn:disabled { opacity: 0.6; cursor: default; }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1199px) {
           .cs-locked-panel { margin-bottom: 80px; padding: 24px 22px; }
         }
 
@@ -1061,7 +1078,7 @@ export default function CaseStudyContent({
           display: block;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1199px) {
           .hero-section-component {
             grid-template-columns: 1fr;
             gap: 30px;
@@ -1077,7 +1094,7 @@ export default function CaseStudyContent({
           }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 767px) {
           .hero-section-headline { font-size: 45px; }
           .hero-section-image {
             width: 100%;
@@ -1393,11 +1410,13 @@ export default function CaseStudyContent({
         }
 
         /* ── Icon Heading Block ── */
+        /* Left-aligned, on the same edge as the body text below it. The icon
+           and heading used to be centred in a narrow column above full-width,
+           left-aligned paragraphs. */
         .icon-heading-block {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          text-align: center;
+          align-items: flex-start;
           width: 100%;
           scroll-margin-top: 100px;
         }
@@ -1413,18 +1432,14 @@ export default function CaseStudyContent({
         }
 
         .ihb-heading {
-          text-align: center;
           margin-bottom: 20px;
           max-width: 400px;
-          margin-left: auto;
-          margin-right: auto;
         }
 
         .ihb-body {
           display: flex;
           flex-direction: column;
           gap: 20px;
-          text-align: left;
           width: 100%;
         }
 
@@ -1433,7 +1448,7 @@ export default function CaseStudyContent({
           letter-spacing: 0.42px;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 767px) {
           .ihb-heading { font-size: 25px; }
         }
 
@@ -1542,11 +1557,11 @@ export default function CaseStudyContent({
           background: #EE550E;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           .slider-component { width: 100%; margin-left: 0; }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 767px) {
           .slider-component {
             width: calc(100% + 78px);
             margin-left: -39px;
@@ -1603,9 +1618,11 @@ export default function CaseStudyContent({
           transition: color 0.2s ease;
         }
 
+        /* Same client · year treatment as the home and sandbox lists. */
         .cs-footer-project-meta {
           display: flex;
-          gap: 12px;
+          align-items: center;
+          gap: 5px;
         }
 
         .cs-footer-project-client,
@@ -1621,7 +1638,8 @@ export default function CaseStudyContent({
 
         .cs-footer-project-link:hover .cs-footer-project-name { color: #EE550E; }
         .cs-footer-project-link:hover .cs-footer-project-client,
-        .cs-footer-project-link:hover .cs-footer-project-year { color: var(--black-pitch-nah); }
+        .cs-footer-project-link:hover .cs-footer-project-year,
+        .cs-footer-project-link:hover .dot { color: var(--black-pitch-nah); }
 
         .cs-footer-divider {
           width: 100%;
@@ -1680,7 +1698,7 @@ export default function CaseStudyContent({
           .cs-toc-col { display: none; }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           .project-title { font-size: 35px; }
           .project-meta-row { flex-direction: column; gap: 10px; }
           .cs-footer-bottom {
@@ -1693,7 +1711,7 @@ export default function CaseStudyContent({
           .image-single.height-fixed-800 { max-height: 450px; }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 767px) {
           .case-study-page {
             background: transparent;
             padding: 0;
@@ -1729,6 +1747,12 @@ export default function CaseStudyContent({
           .social-links { flex-wrap: wrap; gap: 12px; }
           .height-fixed-800 { max-height: 350px; }
           .image-single.height-fixed-800 { max-height: 350px; }
+          /* The caps above are for one image. A grid stacks its images into
+             a single column here, so capping the grid box let the images spill
+             out of it and over "More projects" (867px of images in a 350px
+             box on Android minimalist theme). The grid takes its content's
+             height instead. */
+          .image-grid.height-fixed-800 { max-height: none; }
           .image-grid.grid-2 { grid-template-columns: 1fr; }
           .nda-notice { padding: 16px 18px; }
           .image-grid.grid-3 { grid-template-columns: 1fr; grid-template-rows: auto; }

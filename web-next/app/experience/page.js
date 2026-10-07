@@ -110,11 +110,14 @@ export default async function ExperiencePage() {
     return isNaN(date.getTime()) ? new Date(0) : date
   }
 
-  // Sort Sanity data: Current roles first, then by start date descending
+  // Current roles first, longest-running first, so the main job leads (and
+  // takes the highlight) rather than a side role that started later, such as
+  // mentoring alongside it. Past roles follow, most recent first.
   const sortedSanityExperiences = [...sanityExperiences].sort((a, b) => {
     if (a.current && !b.current) return -1
     if (!a.current && b.current) return 1
-    return parseDateForSorting(b.startDate) - parseDateForSorting(a.startDate)
+    const byStart = parseDateForSorting(b.startDate) - parseDateForSorting(a.startDate)
+    return a.current ? -byStart : byStart
   })
 
   // Final list of experiences to display
@@ -124,6 +127,13 @@ export default async function ExperiencePage() {
     <Layout>
       <div className="experience-container">
         <div className="container">
+          <div className="intro">
+            <h1 className="page-title">xprnc</h1>
+            <p className="page-description">
+              Roles across product design, UX leadership, mentoring and growth marketing, most recent first.
+            </p>
+          </div>
+
           <div className="experience-list">
             {displayExperiences.map((exp, index) => (
               <div key={index} className="experience-item">
@@ -158,7 +168,7 @@ export default async function ExperiencePage() {
               <path d="M0.467529 30.1208L12.0387 23.9991L21.05 30.2917L33.2018 23.9248L41.1544 30.5356L52.6744 23.9912L61.2189 30.4902L69.8286 24.2208L78.7221 29.8124L79.1951 29.2476" stroke="#EE550E" strokeWidth="2" />
             </svg>
             <p className="footer-text">
-              Before Jumia I was with Start-up partner looking after digital channels and digital product, before SPA, I was with Kantar as a data analyst and running Zeus & Solace, a bespoke gentleman's clothing brand, this was 2 years after I finished uni.
+              Before Jumia, I looked after digital channels and digital product at Start-up Partner. Before that, I was a data analyst at Kantar and ran Zeus & Solace, a bespoke gentleman&apos;s clothing brand, in the two years after I finished university.
             </p>
           </div>
 
@@ -191,7 +201,8 @@ export default async function ExperiencePage() {
           max-width: var(--container-max);
           margin: 0;
           margin-left: 0;
-          padding: 97px var(--gutter) 60px;
+          /* 101px, the shared title offset (see .intro in globals.css). */
+          padding: 101px var(--gutter) 60px;
           display: flex;
           flex-direction: column;
           gap: 40px;
@@ -208,8 +219,12 @@ export default async function ExperiencePage() {
           gap: 50px;
         }
 
+        /* A fixed track, not a min-width: dates such as "Nov 2020 – Feb 2022"
+           are wider than 100px, so a minimum let each row's date push its
+           text column to a different x (250-259px measured). 120px holds the
+           longest range with room to spare. */
         .experience-date {
-          min-width: 100px;
+          flex: 0 0 120px;
         }
 
         .experience-date span {
@@ -353,7 +368,7 @@ export default async function ExperiencePage() {
           text-transform: uppercase;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           .container {
             padding: 100px var(--gutter) 60px;
           }
@@ -361,6 +376,12 @@ export default async function ExperiencePage() {
           .experience-item {
             flex-direction: column;
             gap: 10px;
+          }
+
+          /* Stacked above the role here, so the desktop track would set its
+             height instead of its width. */
+          .experience-date {
+            flex: none;
           }
 
           .end-section {
@@ -378,9 +399,10 @@ export default async function ExperiencePage() {
           }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 767px) {
+          /* No background here: a flat fill used to cover the body's noise
+             texture on this page only. */
           .experience-container {
-            background: #F9F9F8;
             min-height: calc(100vh - 84px);
           }
 
@@ -394,104 +416,26 @@ export default async function ExperiencePage() {
             gap: 20px;
           }
 
-          .experience-item {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-          }
-
-          .experience-date {
-            min-width: auto;
-            text-align: center;
-          }
-
+          /* Left-aligned like every other page at this width. This block used
+             to centre the date, role, company and description, and stack
+             "@" and the company onto lines of their own. It also restated
+             every font and colour from the base rules with hard-coded values;
+             only the declarations that differ are kept. */
           .experience-date span {
-            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 12px;
-            font-weight: 400;
-            line-height: 120%;
             text-transform: uppercase;
           }
 
-          .experience-date .current {
-            color: #1D1C1C;
-          }
-
-          .experience-date .past {
-            color: #A3A3A3;
-          }
-
-          .experience-details {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            text-align: center;
-          }
-
           .role-company {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-          }
-
-          .role-title {
-            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            line-height: 95%;
-            color: #1D1C1C;
-          }
-
-          .role-title.highlighted {
-            color: #EE550E;
-          }
-
-          .at-symbol,
-          .company-name {
-            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.42px;
-            color: #1D1C1C;
-          }
-
-          .experience-description {
-            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.42px;
-            color: #1D1C1C;
-            text-align: center;
+            flex-wrap: wrap;
+            row-gap: 4px;
           }
 
           .end-section {
-            display: flex;
             padding-top: 26px;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
             padding-bottom: 25px;
           }
 
-          .end-section svg {
-            width: 78.728px;
-            height: auto;
-          }
-
           .footer-text {
-            font-family: 'Neue Haas Display', -apple-system, Roboto, Helvetica, sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 120%;
-            letter-spacing: 0.42px;
-            text-align: center;
-            color: #1D1C1C;
             max-width: 100%;
           }
 

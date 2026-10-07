@@ -8,7 +8,7 @@ const ContactPage = () => {
       <div className="contact-container">
         <div className="container">
           <div className="intro">
-            <h1 className="page-title">Let's Connect</h1>
+            <h1 className="page-title">cntct</h1>
             <p className="page-description">
               I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out through any of the channels below.
             </p>
@@ -112,7 +112,6 @@ const ContactPage = () => {
       <style>{`
         .contact-container {
           width: 100%;
-          background: var(--white-not-wyt);
           min-height: calc(100vh - 85px);
         }
 
@@ -123,27 +122,11 @@ const ContactPage = () => {
           padding: 101px var(--gutter) 60px;
         }
 
+        /* The heading is the shared .intro / .page-title / .page-description
+           from globals.css, like wrk, sndbx and phtgrphy. It used to be centred,
+           with a 48px title and a 16px grey description. */
         .intro {
-          text-align: center;
-          margin-bottom: 60px;
-        }
-
-        .page-title {
-          font-size: 48px;
-          font-weight: 700;
-          line-height: 95%;
-          color: var(--black-pitch-nah);
-          margin-bottom: 20px;
-        }
-
-        .page-description {
-          font-size: 16px;
-          font-weight: 400;
-          line-height: 140%;
-          letter-spacing: 0.32px;
-          color: var(--grey-just);
-          max-width: 600px;
-          margin: 0 auto;
+          margin-bottom: 40px;
         }
 
         .contact-grid {
@@ -245,13 +228,17 @@ const ContactPage = () => {
           transform: translateY(-2px);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
+          /* The shared mobile title offset and the site gutter. This was
+             100px 20px, which put the page on a 20px gutter where every other
+             page uses 40px. */
           .container {
-            padding: 100px 20px 60px 20px;
+            max-width: 100%;
+            padding: 134px var(--gutter) 60px;
           }
 
-          .page-title {
-            font-size: 32px;
+          .intro {
+            margin-bottom: 20px;
           }
 
           .contact-grid {

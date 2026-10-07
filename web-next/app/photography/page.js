@@ -39,26 +39,10 @@ export default async function PhotographyPage() {
           padding: 101px var(--gutter) 60px;
         }
 
+        /* Layout, title and description come from the shared .intro /
+           .page-title / .page-description in globals.css. */
         .intro {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
           margin-bottom: 20px;
-        }
-
-        .page-title {
-          font-size: 28px;
-          font-weight: 700;
-          line-height: 95%;
-          color: var(--black-pitch-nah);
-        }
-
-        .page-description {
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 120%;
-          letter-spacing: 0.42px;
-          color: var(--black-pitch-nah);
         }
 
         .images-container {
@@ -216,7 +200,7 @@ export default async function PhotographyPage() {
           color: var(--grey-misty);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           .container {
             padding: 100px var(--gutter) 60px;
           }
@@ -227,24 +211,24 @@ export default async function PhotographyPage() {
           }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 767px) {
           .photography-container {
             min-height: calc(100vh - 84px);
           }
 
+          /* 134px, the shared mobile title offset, carried by the container
+             as on every other page. The intro used to carry its own
+             hard-coded padding: 275px 40px 0 instead, with a 168px gap below
+             it, which put this title 140px lower than wrk or sndbx. */
           .container {
             max-width: 100%;
-            padding: 0;
+            padding: 134px var(--gutter) 0;
             display: flex;
             flex-direction: column;
           }
 
           .intro {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 275px 40px 0 40px;
-            margin-bottom: 168px;
+            margin-bottom: 20px;
           }
 
           /* .page-title and .page-description restated the shared rules from
@@ -255,7 +239,7 @@ export default async function PhotographyPage() {
 
           .images-container {
             width: 100%;
-            padding: 0 40px 60px 40px;
+            padding: 0 0 60px;
           }
 
           .images-grid {

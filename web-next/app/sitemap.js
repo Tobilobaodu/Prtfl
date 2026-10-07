@@ -23,7 +23,6 @@ import { SITE_URL } from '../lib/site'
 // Kept in the order they appear in the nav. `''` is the homepage.
 const STATIC_ROUTES = [
   '',
-  '/about',
   '/portfolio',
   '/sndbx',
   '/photography',

@@ -35,9 +35,9 @@ export default function SndbxContent({ projects }) {
     <Layout>
       <div className="sndbx-container">
         <div className="container">
-          <div className="section-intro">
-            <h1 className="section-title">sndbx</h1>
-            <p className="section-description">
+          <div className="intro">
+            <h1 className="page-title">sndbx</h1>
+            <p className="page-description">
               These are self-initiated and exploratory projects I've worked on outside formal roles, they show how I test ideas, tools, and approaches without client constraints.
             </p>
           </div>
@@ -60,7 +60,7 @@ export default function SndbxContent({ projects }) {
                   <div className="project-name">{project.title}</div>
                   <div className="project-metadata">
                     <span className="brand-name">{project.client}</span>
-                    <span className="dot-separator"></span>
+                    <span className="dot" aria-hidden="true" />
                     <span className="project-year">{project.year}</span>
                     {project.locked && (
                       <svg className="lock-icon" width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -96,33 +96,15 @@ export default function SndbxContent({ projects }) {
           max-width: var(--container-max);
           margin: 0;
           margin-left: 0;
-          padding: 111px var(--gutter) 60px;
+          /* 101px, the shared title offset. It was 111px, which put the
+             sandbox heading 10px lower than wrk and phtgrphy. The heading
+             itself uses the shared .intro / .page-title / .page-description
+             from globals.css; its own copies had a 3px title-to-text gap
+             where every other page has 10px. */
+          padding: 101px var(--gutter) 60px;
           display: flex;
           flex-direction: column;
           gap: 40px;
-        }
-
-        .section-intro {
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
-        }
-
-        .section-title {
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 28px;
-          font-weight: 700;
-          line-height: 95%;
-          color: var(--black-pitch-nah);
-        }
-
-        .section-description {
-          font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 120%;
-          letter-spacing: 0.42px;
-          color: var(--black-pitch-nah);
         }
 
         .projects-list {
@@ -193,16 +175,7 @@ export default function SndbxContent({ projects }) {
           color: var(--grey-misty);
         }
 
-        /* inline-block is load-bearing: the span is empty, and width/height do
-           not apply to a non-replaced inline element — so without it the dot
-           had zero width and never rendered at all. */
-        .dot-separator {
-          display: inline-block;
-          width: 2.73px;
-          height: 2.67px;
-          border-radius: 50%;
-          background: var(--grey-misty);
-        }
+        /* The separator is the shared .dot in globals.css. */
 
         .lock-icon {
           width: 16px;
@@ -216,7 +189,7 @@ export default function SndbxContent({ projects }) {
           border-top: 0.5px solid rgba(29, 28, 28, 0.5);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           .container {
             padding: 100px var(--gutter) 60px;
           }
@@ -228,9 +201,8 @@ export default function SndbxContent({ projects }) {
           }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 767px) {
           .sndbx-container {
-            background: var(--white-not-wyt);
             min-height: calc(100vh - 84px);
           }
 
@@ -241,7 +213,7 @@ export default function SndbxContent({ projects }) {
           }
 
           /* .section-title, .section-description, .project-metadata,
-             .brand-name/.project-year, .dot-separator and .lock-icon were
+             .brand-name/.project-year, the separator dot and .lock-icon were
              restated here identically to the base rules and have been removed.
              Two of them were actively harmful: they asked for
              'Neue Haas Grotesk Display Pro', a family with no @font-face
@@ -250,10 +222,6 @@ export default function SndbxContent({ projects }) {
              restores var(--font-nhd).
 
              What remains is only what genuinely differs from the base. */
-
-          .section-intro {
-            gap: 10px;
-          }
 
           .projects-list {
             gap: 20px;
@@ -265,10 +233,6 @@ export default function SndbxContent({ projects }) {
 
           .project-row {
             gap: 5px;
-          }
-
-          .project-name {
-            font-weight: 400;
           }
 
           /* .project-divider used to set a 1px rgba(236, 240, 241, 0.5)

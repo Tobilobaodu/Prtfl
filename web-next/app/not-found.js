@@ -8,10 +8,15 @@ const NotFoundPage = () => {
     <Layout>
       <div className="not-found-page">
         <div className="not-found-container">
-          <img 
-            src="/404-image.png" 
-            alt="404 Error" 
+          {/* fetchPriority="low" stops React's server renderer from emitting a
+              <link rel="preload"> for this image. The root not-found boundary
+              is carried by every page, so without it every route preloaded an
+              image only this page shows. */}
+          <img
+            src="/404-image.png"
+            alt="404 Error"
             className="not-found-image"
+            fetchPriority="low"
           />
           <p className="not-found-text">
             Mistakes happen, we’ve all made one.
@@ -26,7 +31,6 @@ const NotFoundPage = () => {
 
       <style>{`
         .not-found-page {
-          background: #F9F9F8;
           min-height: 100vh;
           display: flex;
           align-items: center;
@@ -122,7 +126,7 @@ const NotFoundPage = () => {
           color: #FFFFFF;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           .not-found-page {
             padding: 40px 20px;
           }
@@ -159,7 +163,7 @@ const NotFoundPage = () => {
           }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 767px) {
           .not-found-page {
             padding: 20px 15px;
           }

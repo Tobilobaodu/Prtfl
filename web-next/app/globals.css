@@ -120,7 +120,7 @@
      so at 600px with 100px gutters only 400px of it was left for content, which
      read as a squeezed column on anything wider than a tablet. 795px restores
      ~595px of content at desktop gutters and ~635px at tablet gutters.
-     Deliberately unchanged at <=768, where 600px is not the binding constraint
+     Deliberately unchanged at <=767, where 600px is not the binding constraint
      (the viewport is) and the current spacing is correct. */
   --container-max: 600px;
 
@@ -322,12 +322,12 @@ button {
   font-weight: var(--type-display-small-weight);
 }
 
+/* Case-study section heading. Left-aligned to match the body text; see
+   .icon-heading-block in CaseStudyContent.js, whose 400px max-width is the
+   one that applies on case-study pages. */
 .ihb-heading {
-  text-align: center;
   margin-bottom: 20px;
   max-width: 440px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* Display — Medium */
@@ -466,9 +466,12 @@ html.loader-skip .js-page-loader {
    breakpoints do not land where their numbers suggest — measured, a viewport
    set to 767px reported innerWidth 767 yet did not match `max-width: 767px`,
    so any alignment built on two breakpoint sets lining up is fragile. */
+/* top: 86px is the nav's 32px padding + the 24px button + a 30px gap, the same
+   gap the mobile rule below leaves (30 + 24 + 30 = 84). It was 57px, which put
+   the first link 1px under the close button on tablet and desktop. */
 .menu-panel {
   position: fixed;
-  top: 57px;
+  top: 86px;
   right: var(--gutter);
   width: 76px;
   background: transparent;
@@ -502,6 +505,12 @@ html.loader-skip .js-page-loader {
   color: var(--orange);
 }
 
+/* The page you are on. Layout sets aria-current, so screen readers announce
+   it too. */
+.menu-link[aria-current="page"] {
+  color: var(--orange);
+}
+
 /* `main` carries no inset of its own. Horizontal position is owned entirely by
    the container each page opts into (--page-inline / --gutter), so a full-bleed
    section is just a block with no padding rather than a negative margin
@@ -512,7 +521,12 @@ main {
 
 /* ── Breakpoints ──
    Matched to the Figma frames: >=1200 desktop, 768-1199 tablet (834 lands
-   here), <768 mobile (393 lands here). Only the gutter token moves. */
+   here), <768 mobile (393 lands here). These are the ONLY two width queries
+   on the site — every page and component uses `max-width: 1199px` or
+   `max-width: 767px`, so a page's layout and its gutter always change at the
+   same width. They used to drift: page rules switched at 768 and 480 (plus
+   one-offs at 900, 1024 and 1200), which gave 481-767 a fourth layout and
+   left 768 itself with tablet gutters around mobile page rules. */
 
 @media (max-width: 1199px) {
   :root {
@@ -527,8 +541,10 @@ main {
   }
 }
 
-/* 769 and up only — 768 and below keeps the 600px cap untouched. */
-@media (min-width: 769px) {
+/* Tablet and desktop. Mobile keeps the 600px cap, where the viewport rather
+   than the cap is the binding constraint. Written as the inverse of the mobile
+   query so the two can never both match, or both miss, at any width. */
+@media not all and (max-width: 767px) {
   :root {
     --container-max: 795px;
   }
@@ -541,39 +557,12 @@ main {
    between 769 and 1200: --gutter is 80-100px through that range, so pinning the
    panel to 20px pushed it 60-80px past the button. The base rule now tracks
    --gutter at every width, so no override is needed here at all.
-   The 481-768 and <=480 blocks below still set their own values. */
- /* 481 rather than 480: the mobile block below is max-width: 480, so a
-   min-width of 480 made both match at exactly 480px and forced the
-   !important that used to live in this block. */
-@media only screen and (min-width: 481px) and (max-width: 768px)
- {
 
- .home-container .container {
-      gap: 40px;
-  }
-
-
-  .container{
-    padding: 20px var(--gutter);
-  }
-
-  /* `right` is deliberately absent — the base rule's var(--gutter) applies, so
-     the panel keeps the same edge as .navigation's padding. It used to be
-     pinned to 20px here against a 40px gutter, leaving the panel 20px past the
-     close button across 490-760. `top` genuinely differs at this breakpoint,
-     so that one stays. */
-  .menu-panel {
-    top: 70px;
-  }
-
-  .menu-link {
-    font-size: 16px;
-  }
-
-}
-
-
-
+   A `min-width: 481px and max-width: 768px` block also lived here. It gave that
+   band its own menu (top: 70px, 16px links) found at no other width, plus a
+   `.container` padding and a `.home-container .container` gap that the page
+   rules already set. With mobile now running to 767, that band is simply
+   mobile, and the mobile block below covers it. */
 
 
 /* ════════════════════════════════════════
@@ -687,8 +676,22 @@ main {
   color: var(--grey-misty);
 }
 
+/* The one meta separator, shared by the home list, the sandbox list and the
+   case-study "More projects" footer, which used to draw three different
+   ones: a ● glyph here (its size depended on whichever fallback font supplied
+   the character), a CSS circle on sndbx, and nothing at all in the footer.
+   Drawn rather than typed. 3px rather than Figma's 2.73 x 2.67: a fractional
+   circle antialiased differently row to row, so the same list showed
+   visibly different dots. inline-block is load-bearing: width and height do
+   not apply to an inline span. Painted in currentColor so a row's hover
+   colour reaches the dot along with the text beside it. */
 .dot {
-  font-size: 4px;
+  display: inline-block;
+  flex: none;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
   color: var(--grey-misty);
 }
 
@@ -765,7 +768,16 @@ main {
 /* ── Page title & description (shared) ─────────────
    Every page uses the same intro structure:
    .container > .intro > .page-title + .page-description.
-   Defined once here so a single change applies across all pages. */
+   Defined once here so a single change applies across all pages. The title
+   sits 101px from the top on tablet and desktop and 134px on mobile; each
+   page's .container sets that as its top padding. Pages add their own
+   margin-bottom on .intro where the content below needs it. */
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .page-title {
   font-family: var(--font-nhd);
   font-size: var(--type-title-large-size);
@@ -783,34 +795,22 @@ main {
   color: var(--black-pitch-nah);
 }
 
-@media (max-width: 768px) {
-  .home-container .container {
-    /* No bottom padding: the socials already carry a 100px bottom margin, and
-       adding 60px here put them 160px off the foot of the screen in this band
-       while every other width sits at 100. */
-    padding: 60px var(--gutter) 0;
-  }
-
-  .project-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .home-container .social-links {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-}
-
-/* ── Mobile (<=480) ──
+/* ── Mobile (<=767) ──
    Was split across two @media (max-width: 480px) blocks, one of which sat
    ABOVE the base rules it was meant to override — so it only took effect via
    !important. Both are joined here, below the base rules. The formerly-early
    rules are kept LAST so the winners are exactly the ones that won before;
-   their !important is therefore no longer needed. */
-@media (max-width: 480px) {
+   their !important is therefore no longer needed.
+
+   A separate max-width: 768px block also sat just above this one. Once both
+   queries became the mobile tier, its .home-container .container padding and
+   .project-info rules were overridden here in full, so only its social-links
+   gap is carried over. */
+@media (max-width: 767px) {
+  .home-container .social-links {
+    gap: 12px;
+  }
+
   /* The base rule already sets `background: transparent` and `min-height: 100vh`.
      This block used to subtract the nav height (`calc(100vh - 84px)`), but the
      nav is position: fixed and overlays the column rather than displacing it,
@@ -849,10 +849,8 @@ main {
     margin-bottom: 5px;
   }
 
-  /* The one real difference: mobile rows are Roman, not Bold. */
-  .home-container .project-title {
-    font-weight: 400;
-  }
+  /* Row titles stay Bold here as at every other width. A Roman override used
+     to sit here, so the same list changed weight between tablet and phone. */
 
   /* The markup carries width=16 height=17. */
   .project-meta svg {
@@ -860,10 +858,8 @@ main {
     height: 16px;
   }
 
-  /* .dot was setting width/height on an inline <span> — which does nothing —
-     plus a background and a border-radius, so the result was a grey box painted
-     behind the ● glyph rather than the intended 2.73px circle. Dropped
-     entirely: the dot is now the same 4px ● at every width. */
+  /* .dot used to be restated here; the base rule now draws the 2.73px
+     circle at every width. */
 
   /* .project-divider was rgba(236, 240, 241, 0.5) here — a near-white line on
      the #F9F9F8 page, effectively invisible. It now inherits the base rule's

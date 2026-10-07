@@ -55,7 +55,7 @@ export default function PortfolioContent({ projects }) {
                       src={project.heroImage.asset.url}
                       alt={project.title}
                       className="project-image"
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      sizes="(max-width: 767px) 100vw, 50vw"
                       {...(sanityImageDimensions(project.heroImage.asset.url) || { width: 1280, height: 960 })}
                     />
                   )}
@@ -387,7 +387,7 @@ export default function PortfolioContent({ projects }) {
           margin-bottom: 2px;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           .container {
             padding: 100px var(--gutter) 60px;
           }
@@ -413,7 +413,7 @@ export default function PortfolioContent({ projects }) {
            }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 767px) {
           .portfolio-container {
             min-height: calc(100vh - 84px);
           }
@@ -484,10 +484,12 @@ export default function PortfolioContent({ projects }) {
             height: auto;
           }
           
+          /* A floor, not a fixed height: 75px clipped any caption longer than
+             one title line, cutting descriptions and the year off mid-line. */
           .default-state {
-            min-height: auto;
+            min-height: 75px;
             padding: 21px 20px;
-            height: 75px;
+            height: auto;
             flex-direction: row;
             justify-content: center;
             align-items: center;
