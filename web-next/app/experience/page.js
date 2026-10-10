@@ -319,14 +319,17 @@ export default async function ExperiencePage() {
           max-width: 433px;
         }
 
-        /* In the flow, under the closing paragraph. It was fixed at right: 100px,
-           which is inside the text column on every width from 768 up, so it sat
-           on top of whichever description scrolled under it. The left padding
-           matches .end-section so the two centre on the same axis. */
+        /* Fixed to the screen while the page scrolls, its right edge on the
+           menu's + as drawn: the glyph sits 4px inside its 24px button, and the
+           black face is the button's right edge (11px offset + 153px face =
+           164px). Below roughly 980px wide the text column reaches further
+           right than this, so descriptions pass under it at tablet widths. */
         .download-button-wrapper {
-          display: flex;
-          justify-content: center;
-          padding-left: 119px;
+          position: fixed;
+          right: calc(var(--gutter) + 4px);
+          top: 90%;
+          transform: translateY(-50%);
+          z-index: 50;
         }
 
         .download-button {
@@ -443,6 +446,7 @@ export default async function ExperiencePage() {
 
           .download-button-wrapper {
             position: fixed;
+            top: auto;
             bottom: 0;
             left: 0;
             right: 0;
