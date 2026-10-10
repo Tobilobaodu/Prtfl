@@ -7,3 +7,6 @@
  * Keeping it here makes that class of drift impossible rather than unlikely.
  */
 export const SITE_URL = 'https://tobilobaodu.com'
+
+/** The address the "Get in touch" panel copies. */
+export const CONTACT_EMAIL = 'the@tobilobaodu.com'

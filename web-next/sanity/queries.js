@@ -134,6 +134,23 @@ export const ALL_PROJECT_SLUGS = `
 `
 
 /**
+ * Case studies worth indexing. An unlocked project with no caseStudy body still
+ * gets a page from generateStaticParams, but it renders "Case Study Not Found",
+ * so it stays out of the sitemap. Locked projects are kept: their page is
+ * public even though the body isn't.
+ *
+ * Matches on `project._ref`, not references(): a caseStudy that only lists this
+ * project under relatedProjects is not its body.
+ */
+export const SITEMAP_PROJECT_SLUGS = `
+  *[_type == "project"
+    && defined(slug.current)
+    && (locked == true || count(*[_type == "caseStudy" && project._ref == ^._id]) > 0)]{
+    "slug": slug.current
+  }
+`
+
+/**
  * The gated body of a case study. Ported from CASE_STUDY_QUERY in
  * netlify/functions/get-case-study.js, unchanged.
  *

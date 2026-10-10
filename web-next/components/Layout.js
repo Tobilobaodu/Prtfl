@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { subscribe } from '../lib/ticker'
+import ContactPanel from './ContactPanel'
 
 // In nav order. External links open in a new tab and are never "current".
 const MENU_LINKS = [
@@ -12,8 +13,9 @@ const MENU_LINKS = [
   { href: '/sndbx', label: 'SNDBX' },
   { href: '/photography', label: 'PHTGRPHY' },
   { href: 'https://medium.com/@tobilobaodu', label: 'NTPD', external: true },
-  // Was /cntct, which has no matching page and 404'd site-wide.
-  { href: '/contact', label: 'CNTCT' },
+  // Opens the "Get in touch" panel over the current page. There is no
+  // /contact page any more; that URL redirects to /?contact, which opens it.
+  { contact: true, label: 'CNTCT' },
 ]
 
 // The nav stays put until the page has scrolled past this, so it never slides
@@ -38,7 +40,22 @@ const DIRECTION_TOLERANCE = 4
 const Layout = ({ children }) => {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [contactOpen, setContactOpen] = useState(false)
+  const closeContact = useCallback(() => setContactOpen(false), [])
   const [scrollOpacity, setScrollOpacity] = useState(0)
+
+  // /contact redirects to /?contact. Read from location rather than
+  // useSearchParams, which would force every page using Layout to render
+  // inside a Suspense boundary. The flag is stripped so a reload or a shared
+  // link from here doesn't reopen it.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (!params.has('contact')) return
+    params.delete('contact')
+    const query = params.toString()
+    window.history.replaceState(window.history.state, '', window.location.pathname + (query ? `?${query}` : '') + window.location.hash)
+    setContactOpen(true)
+  }, [])
   const [navHidden, setNavHidden] = useState(false)
 
   useEffect(() => {
@@ -115,7 +132,10 @@ const Layout = ({ children }) => {
         <button
           type="button"
           className={`menu-icon ${menuOpen ? 'open' : ''}`}
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => {
+            setContactOpen(false)
+            setMenuOpen(!menuOpen)
+          }}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
           aria-controls="primary-menu"
@@ -149,8 +169,21 @@ const Layout = ({ children }) => {
           />
           <div className="menu-panel" id="primary-menu">
             <nav className="menu-nav" aria-label="Primary">
-              {MENU_LINKS.map(({ href, label, external }) =>
-                external ? (
+              {MENU_LINKS.map(({ href, label, external, contact }) =>
+                contact ? (
+                  <button
+                    key={label}
+                    type="button"
+                    className="menu-link"
+                    aria-haspopup="dialog"
+                    onClick={() => {
+                      setMenuOpen(false)
+                      setContactOpen(true)
+                    }}
+                  >
+                    {label}
+                  </button>
+                ) : external ? (
                   <a key={href} href={href} target="_blank" rel="noopener noreferrer" className="menu-link" onClick={() => setMenuOpen(false)}>{label}</a>
                 ) : (
                   <Link
@@ -168,6 +201,8 @@ const Layout = ({ children }) => {
           </div>
         </>
       )}
+
+      <ContactPanel open={contactOpen} onClose={closeContact} />
 
       <main>{children}</main>
     </>

@@ -1,5 +1,5 @@
 import { publicClient } from '../sanity/client'
-import { ALL_PROJECT_SLUGS } from '../sanity/queries'
+import { SITEMAP_PROJECT_SLUGS } from '../sanity/queries'
 import { SITE_URL } from '../lib/site'
 
 /**
@@ -7,9 +7,11 @@ import { SITE_URL } from '../lib/site'
  *
  * That plugin walked Gatsby's own page graph, so it needed no route list. Next
  * has no equivalent registry to introspect at build time, so the static routes
- * are enumerated here and the case studies are fetched — the same source
- * generateStaticParams uses, which is what keeps the two from disagreeing about
- * which case studies exist.
+ * are enumerated here and the case studies are fetched.
+ *
+ * Case studies come from SITEMAP_PROJECT_SLUGS, a subset of what
+ * generateStaticParams builds: a project with no body still gets a page, but
+ * that page says "Case Study Not Found" and has no business being indexed.
  *
  * Fetched with `publicClient`: a sitemap must only ever contain what an
  * anonymous visitor can reach. Using the tokened client risks listing a URL
@@ -27,15 +29,12 @@ const STATIC_ROUTES = [
   '/sndbx',
   '/photography',
   '/experience',
-  '/contact',
-  // Parity note: gatsby-plugin-sitemap excluded only /404 and /404.html, so
-  // this internal block-review page was in the old sitemap too. Kept to match
-  // current behaviour — drop it here if you would rather it not be indexed.
-  '/cs-components',
+  // /cs-components is left out on purpose: it is an internal block-review page
+  // and sets noindex itself. /about and /contact are redirects.
 ]
 
 export default async function sitemap() {
-  const projects = await publicClient.fetch(ALL_PROJECT_SLUGS)
+  const projects = await publicClient.fetch(SITEMAP_PROJECT_SLUGS)
 
   // One timestamp for the whole run. Calling new Date() per entry would emit
   // rows that differ by milliseconds, implying edits that never happened.

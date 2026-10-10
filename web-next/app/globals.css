@@ -441,11 +441,11 @@ html.loader-skip .js-page-loader {
   left: 0;
   right: 0;
   bottom: 0;
-  /* Opaque enough to wash out whatever sits under the menu. The panel itself is
-     transparent and right-aligned to the gutter, so on case studies it lands on
-     the hero image; at 0.05 the dark links read ~1.2:1 over a black image. */
-  background: color-mix(in srgb, var(--white-not-wyt) 85%, transparent);
-  backdrop-filter: blur(8px);
+  /* Same backdrop as the password modal (LockedProjectModal.module.css
+     .overlay), so every overlay on the site dims the page the same way. */
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.15) 100%);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   z-index: 99;
   animation: fadeIn 0.3s ease;
   border: none;
@@ -472,12 +472,26 @@ html.loader-skip .js-page-loader {
 /* top: 86px is the nav's 32px padding + the 24px button + a 30px gap, the same
    gap the mobile rule below leaves (30 + 24 + 30 = 84). It was 57px, which put
    the first link 1px under the close button on tablet and desktop. */
+/* The password modal's card (LockedProjectModal.module.css .content): the same
+   solid #2e2a2a and 5px radius, so the menu and the modal read as one family.
+   Being solid, it also keeps the links legible over any hero image without a
+   blur fallback.
+   --glass-x/-y are the card's padding; --glass-y is taken back off the top so
+   the first link stays where the transparent panel put it.
+   The card's right edge lines up with the close X as drawn, not its 24px
+   button box: the rotated cross sits --icon-inset (measured 5.1px including
+   its stroke) inside the box, so anchoring to the box left the card visibly
+   overhanging the X. */
 .menu-panel {
+  --glass-x: 16px;
+  --glass-y: 12px;
+  --icon-inset: 5px;
   position: fixed;
-  top: 86px;
-  right: var(--gutter);
-  width: 76px;
-  background: transparent;
+  top: calc(86px - var(--glass-y));
+  right: calc(var(--gutter) + var(--icon-inset));
+  padding: var(--glass-y) var(--glass-x);
+  background: #2e2a2a;
+  border-radius: 5px;
   z-index: 100;
   animation: slideDown 0.3s ease;
 }
@@ -498,7 +512,8 @@ html.loader-skip .js-page-loader {
   font-size: 14px;
   font-weight: 700;
   line-height: 120%;
-  color: var(--black-pitch-nah);
+  /* White on the dark card, as the modal's own text is. */
+  color: #fff;
   text-decoration: none;
   transition: color 0.2s ease;
   padding: 5px 0;
@@ -506,6 +521,17 @@ html.loader-skip .js-page-loader {
 
 .menu-link:hover {
   color: var(--orange);
+}
+
+/* CNTCT opens the contact panel, so it is a <button>; these resets make it
+   render like the <a> links beside it. */
+button.menu-link {
+  background: none;
+  border: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: right;
+  letter-spacing: inherit;
 }
 
 /* The page you are on. Layout sets aria-current, so screen readers announce
@@ -894,9 +920,9 @@ main {
     height: auto;
   }
 
+  /* Right is left to the base rule, which reads --gutter like the nav does. */
   .menu-panel {
-    right: 40px;
-    top: 84px;
+    top: calc(84px - var(--glass-y));
   }
 
   .menu-nav {

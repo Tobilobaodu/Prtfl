@@ -37,6 +37,10 @@ const nextConfig = {
   async redirects() {
     return [
       { source: '/about', destination: '/experience', permanent: true },
+      // The contact page became the "Get in touch" panel, which ?contact opens.
+      // Not permanent: the panel's trigger may change, and a cached 308 can't
+      // be taken back.
+      { source: '/contact', destination: '/?contact', permanent: false },
     ]
   },
 
