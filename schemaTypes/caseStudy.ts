@@ -74,8 +74,8 @@ export default defineType({
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'project' }] }],
       description:
-        'Up to 8 projects shown in the side panel. Leave empty to auto-populate from featured/homepage/sandbox projects.',
-      validation: (Rule) => Rule.max(8),
+        'Up to 4 projects for the "More projects" list at the end of the case study. Your picks come first; featured, homepage and sandbox projects fill any remaining rows.',
+      validation: (Rule) => Rule.max(4),
     }),
   ],
   preview: {

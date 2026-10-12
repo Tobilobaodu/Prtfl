@@ -523,7 +523,7 @@ const TableOfContents = ({ components, activeId }) => {
 }
 
 // Rows in the "More projects" footer on every case study.
-const RELATED_PROJECTS_COUNT = 5
+const RELATED_PROJECTS_COUNT = 4
 
 const CaseStudyFooter = ({ relatedProjects }) => {
   return (
@@ -1639,13 +1639,19 @@ export default function CaseStudyContent({
           border-top: 0.5px solid rgba(29,28,28,0.2);
         }
 
-        /* Bottom bar */
+        /* The rules go between rows, so the list ends on its last project
+           rather than on a rule. */
+        .cs-footer-project-link:last-child .cs-footer-divider {
+          display: none;
+        }
+
+        /* Bottom bar. No top rule: it sat 54px under the last project, far
+           enough from the list to read as a stray line rather than part of it. */
         .cs-footer-bottom {
           display: flex;
           justify-content: space-between;
           align-items: center;
           padding-top: 32px;
-          border-top: 0.5px solid rgba(29,28,28,0.2);
         }
 
         /* Social links */
