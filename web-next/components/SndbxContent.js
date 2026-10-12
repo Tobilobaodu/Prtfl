@@ -32,7 +32,7 @@ export default function SndbxContent({ projects }) {
   }
 
   return (
-    <Layout>
+    <Layout footer>
       <div className="sndbx-container">
         <div className="container">
           <div className="intro">

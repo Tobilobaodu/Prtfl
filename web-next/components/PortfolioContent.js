@@ -30,7 +30,7 @@ export default function PortfolioContent({ projects }) {
   }
 
   return (
-    <Layout>
+    <Layout footer>
       <div className="portfolio-container">
         <div className="container">
           <div className="intro">

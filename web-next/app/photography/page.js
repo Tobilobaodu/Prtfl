@@ -13,7 +13,7 @@ export default async function PhotographyPage() {
   const photos = await client.fetch(PHOTOGRAPHY)
 
   return (
-    <Layout>
+    <Layout footer>
       <div className="photography-container">
         <div className="container">
           <div className="intro">
@@ -72,104 +72,14 @@ export default async function PhotographyPage() {
           width: 100%;
         }
 
-        .image-pod {
-          cursor: zoom-in;
-        }
-
-        /* Wraps each photo so the grid can be opened from the keyboard. The
-           resets keep it out of the layout: the photo inside sizes exactly as
-           it did as a direct child of .image-pod. */
-        .photo-open {
-          display: block;
-          width: 100%;
-          padding: 0;
-          margin: 0;
-          border: 0;
-          background: none;
-          font: inherit;
-          color: inherit;
-          cursor: inherit;
-          border-radius: 4px;
-        }
-
-        .photo-open:focus-visible {
-          outline: 2px solid var(--orange);
-          outline-offset: 2px;
-        }
-
+        /* Every photo is a square of at most 400px, cropped from the centre
+           to fill it whatever its shape. */
         .photo-image {
           display: block;
           width: 100%;
+          max-width: 400px;
+          aspect-ratio: 1 / 1;
           object-fit: cover;
-          border-radius: 4px;
-        }
-
-        /* The expanded view. Its geometry is set and animated by PhotoGrid.js;
-           this only styles it. */
-        .photo-view {
-          position: fixed;
-          inset: 0;
-          z-index: 1000;
-        }
-
-        .photo-view-backdrop {
-          position: absolute;
-          inset: 0;
-          background: rgba(29, 28, 28, 0.85);
-          cursor: zoom-out;
-        }
-
-        /* Laid out once at the expanded size; only the transforms move. The
-           frame clips, so the counter-scaled image inside crops to it. */
-        .photo-view-frame {
-          position: fixed;
-          overflow: hidden;
-          transform-origin: 0 0;
-          will-change: transform;
-          cursor: zoom-out;
-        }
-
-        .photo-view-frame > img {
-          display: block;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transform-origin: 50% 50%;
-          will-change: transform;
-        }
-
-        /* Positioned under the frame's expanded rect by PhotoGrid.js. */
-        .photo-view-caption {
-          position: fixed;
-          padding-top: 12px;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-
-        .photo-view-caption .photo-title {
-          color: var(--white-not-wyt);
-        }
-
-        .photo-view-close {
-          position: fixed;
-          top: 16px;
-          right: 16px;
-          z-index: 1;
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 0;
-          border: 0;
-          background: none;
-          cursor: pointer;
-        }
-
-        .photo-view-close:focus-visible {
-          outline: 2px solid var(--orange);
-          outline-offset: 2px;
         }
 
         .photo-info {
@@ -207,11 +117,6 @@ export default async function PhotographyPage() {
         @media (max-width: 767px) {
           .container {
             padding: 100px var(--gutter) 60px;
-          }
-
-          .photo-image {
-            height: auto;
-            min-height: 250px;
           }
         }
 
@@ -262,18 +167,6 @@ export default async function PhotographyPage() {
             align-items: flex-start;
             gap: 11px;
             width: 100%;
-          }
-
-          .photo-open {
-            border-radius: 0;
-          }
-
-          .photo-image {
-            height: 400px;
-            width: 100%;
-            object-fit: cover;
-            border-radius: 0;
-            min-height: auto;
           }
 
           .photo-info {

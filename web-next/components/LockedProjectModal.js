@@ -3,6 +3,7 @@
 import * as React from "react"
 import { requestAccess } from "../utils/caseStudyAccess"
 import { getLenis } from "../lib/lenis"
+import { CONTACT_EMAIL } from "../lib/site"
 import * as styles from "./LockedProjectModal.module.css"
 
 const FOCUSABLE =
@@ -191,7 +192,7 @@ const LockedProjectModal = ({ isOpen, onClose, projectSlug, onPasswordCorrect, p
               {loading ? "Checking…" : "Unlock case study"}
             </button>
 
-            <a href="mailto:oluwatobiodu@outlook.com" className={styles.requestPassword}>
+            <a href={`mailto:${CONTACT_EMAIL}`} className={styles.requestPassword}>
               Need access? <span className={styles.underline}>Request password</span>
             </a>
           </form>

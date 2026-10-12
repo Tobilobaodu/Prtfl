@@ -4,6 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import Layout from "./Layout"
 import LockedProjectModal from "./LockedProjectModal"
+import SocialLinks from "./SocialLinks"
 import ScrollProgress from "./ScrollProgress"
 import { getStoredToken, fetchProtectedCaseStudy } from "../utils/caseStudyAccess"
 import { sanityImageProps, sanityImageUrl, sanityImageSrcSet } from "../utils/sanityImage"
@@ -512,40 +513,10 @@ const TableOfContents = ({ components, activeId }) => {
   )
 }
 
-// Shared arrow-out icon used by all social links
-const ArrowOutIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 2V14H14V8H12.6667V12.6667H3.33333V3.33333H8V2H2ZM9.33333 2V3.33333H11.724L5.52865 9.52865L6.47135 10.4714L12.6667 4.27604V6.66667H14V2H9.33333Z" fill="currentColor"/>
-  </svg>
-)
-
-// Copy icon used for the Email button
-const CopyIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clipPath="url(#clip0_2822_1218)">
-      <path d="M10.6667 0.666992H1.33337V11.3337H2.66671V2.00033H10.6667V0.666992ZM14 3.33366H4.00004V15.3337H14V3.33366ZM12.6667 14.0003H5.33337V4.66699H12.6667V14.0003Z" fill="currentColor"/>
-    </g>
-    <defs>
-      <clipPath id="clip0_2822_1218">
-        <rect width="16" height="16" fill="white"/>
-      </clipPath>
-    </defs>
-  </svg>
-)
-
 // Rows in the "More projects" footer on every case study.
 const RELATED_PROJECTS_COUNT = 5
 
 const CaseStudyFooter = ({ relatedProjects }) => {
-  const [copied, setCopied] = React.useState(false)
-
-  const handleEmailCopy = () => {
-    navigator.clipboard.writeText('tobilobaodu@gmail.com').then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
-  }
-
   return (
     <footer className="cs-footer">
       {/* More projects */}
@@ -574,24 +545,7 @@ const CaseStudyFooter = ({ relatedProjects }) => {
 
       {/* Bottom bar */}
       <div className="cs-footer-bottom">
-        <div className="social-links">
-          <button className="social-link email-copy-btn" onClick={handleEmailCopy}>
-            <span>{copied ? 'Copied!' : 'Email'}</span>
-            <CopyIcon />
-          </button>
-          <a href="https://www.behance.net/tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
-            <span>Behance</span>
-            <ArrowOutIcon />
-          </a>
-          <a href="https://dribbble.com/tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
-            <span>Dribbble</span>
-            <ArrowOutIcon />
-          </a>
-          <a href="https://github.com/Tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
-            <span>Github</span>
-            <ArrowOutIcon />
-          </a>
-        </div>
+        <SocialLinks />
       </div>
     </footer>
   )

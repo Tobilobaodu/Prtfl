@@ -56,8 +56,6 @@
  *   - Lenis smooth scroll        (src/lib/lenis.js — never constructed)
  *   - the intro loader's content scale (PageLoader.module.css — it just fades)
  *   - the HoverReel follow lag   (HoverReel.js — full-viewport travel)
- *   - the photography grow       (PhotoGrid.js — the photo fades in at its
- *                                 expanded size instead of travelling)
  *
  * Kept under `reduce`:
  *   - the intro loader's sideways wipe reveal (a clip-path edge; nothing moves)
@@ -792,6 +790,35 @@ main {
 .social-link:hover {
   color: var(--orange);
   border-bottom-color: var(--orange);
+}
+
+/* Social links at the foot of the pages that have no footer of their own
+   (portfolio, sndbx, photography, experience). Same row, spacing and bottom
+   margin as the home page's .socials-section. */
+.site-footer {
+  padding: 40px var(--gutter) 100px;
+}
+
+.site-footer .social-links {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+  .site-footer {
+    padding-bottom: 60px;
+  }
+
+  .site-footer .social-links {
+    gap: 12px;
+  }
+
+  /* /experience pins a 50px CV bar to the bottom of the screen on mobile. */
+  body:has(.download-button-wrapper) .site-footer {
+    padding-bottom: 110px;
+  }
 }
 
 /* ── Page title & description (shared) ─────────────

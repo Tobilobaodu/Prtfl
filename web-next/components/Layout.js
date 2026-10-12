@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { subscribe } from '../lib/ticker'
 import ContactPanel from './ContactPanel'
+import SocialLinks from './SocialLinks'
 
 // In nav order. External links open in a new tab and are never "current".
 const MENU_LINKS = [
@@ -37,7 +38,7 @@ const DIRECTION_TOLERANCE = 4
  * It stays a leaf: pages render it, but the pages themselves remain server
  * components, so their data fetching never ships to the browser.
  */
-const Layout = ({ children }) => {
+const Layout = ({ children, footer = false }) => {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
@@ -205,6 +206,14 @@ const Layout = ({ children }) => {
       <ContactPanel open={contactOpen} onClose={closeContact} />
 
       <main>{children}</main>
+
+      {/* Opt-in: home and case studies place SocialLinks in their own footers,
+          and the 404 page has none. */}
+      {footer && (
+        <footer className="site-footer">
+          <SocialLinks />
+        </footer>
+      )}
     </>
   )
 }

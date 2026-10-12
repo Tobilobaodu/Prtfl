@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import PageLoader from './PageLoader'
 import HoverReel from './HoverReel'
 import LockedProjectModal from './LockedProjectModal'
+import SocialLinks from './SocialLinks'
 
 /**
  * The interactive half of the homepage.
@@ -23,7 +24,6 @@ export default function HomeProjects({ projects }) {
   // for the preview to follow. See HoverReel.
   const [hovered, setHovered] = useState(null)
   const [selectedProject, setSelectedProject] = useState(null)
-  const [emailCopied, setEmailCopied] = useState(false)
 
   // Rows are real links, so an unlocked project just navigates. Locked ones
   // intercept and show the gate instead — the destination page carries its own
@@ -39,13 +39,6 @@ export default function HomeProjects({ projects }) {
     if (selectedProject) {
       router.push(`/case-study/${selectedProject.slug.current}`)
     }
-  }
-
-  const handleEmailCopy = () => {
-    navigator.clipboard.writeText('oluwatobiodu@outlook.com').then(() => {
-      setEmailCopied(true)
-      setTimeout(() => setEmailCopied(false), 2000)
-    })
   }
 
   return (
@@ -103,39 +96,7 @@ export default function HomeProjects({ projects }) {
           </section>
 
           <section className="socials-section">
-            <div className="social-links">
-              <button type="button" className="social-link email-copy-btn" onClick={handleEmailCopy}>
-                <span>{emailCopied ? 'Copied!' : 'Email'}</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <g clipPath="url(#clip0_2822_1218)">
-                    <path d="M10.6667 0.666992H1.33337V11.3337H2.66671V2.00033H10.6667V0.666992ZM14 3.33366H4.00004V15.3337H14V3.33366ZM12.6667 14.0003H5.33337V4.66699H12.6667V14.0003Z" fill="currentColor"/>
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_2822_1218">
-                      <rect width="16" height="16" fill="white"/>
-                    </clipPath>
-                  </defs>
-                </svg>
-              </button>
-              <a href="https://www.behance.net/tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
-                <span>Behance</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M2 2V14H14V8H12.6667V12.6667H3.33333V3.33333H8V2H2ZM9.33333 2V3.33333H11.724L5.52865 9.52865L6.47135 10.4714L12.6667 4.27604V6.66667H14V2H9.33333Z" fill="currentColor"/>
-                </svg>
-              </a>
-              <a href="https://dribbble.com/tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
-                <span>Dribbble</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M2 2V14H14V8H12.6667V12.6667H3.33333V3.33333H8V2H2ZM9.33333 2V3.33333H11.724L5.52865 9.52865L6.47135 10.4714L12.6667 4.27604V6.66667H14V2H9.33333Z" fill="currentColor"/>
-                </svg>
-              </a>
-              <a href="https://github.com/Tobilobaodu" target="_blank" rel="noopener noreferrer" className="social-link">
-                <span>Github</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M2 2V14H14V8H12.6667V12.6667H3.33333V3.33333H8V2H2ZM9.33333 2V3.33333H11.724L5.52865 9.52865L6.47135 10.4714L12.6667 4.27604V6.66667H14V2H9.33333Z" fill="currentColor"/>
-                </svg>
-              </a>
-            </div>
+            <SocialLinks />
           </section>
         </div>
       </div>

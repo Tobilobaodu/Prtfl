@@ -128,7 +128,7 @@ export default async function ExperiencePage() {
   const displayExperiences = sortedSanityExperiences.length > 0 ? sortedSanityExperiences : experiences
 
   return (
-    <Layout>
+    <Layout footer>
       <div className="experience-container">
         <div className="container">
           <div className="intro">
