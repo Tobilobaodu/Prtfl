@@ -18,6 +18,13 @@ import CaseStudyContent from '../../../components/CaseStudyContent'
  * workaround collapses into the `if (!shell.locked)` below.
  */
 
+/**
+ * Regenerate in the background at most once a minute. Without it the page was
+ * frozen at build time: Sanity edits waited for the next deploy, and a build
+ * that ran mid-edit served an empty case study until the one after.
+ */
+export const revalidate = 60
+
 export async function generateStaticParams() {
   const projects = await publicClient.fetch(ALL_PROJECT_SLUGS)
   return projects.map((p) => ({ slug: p.slug }))
@@ -53,9 +60,14 @@ export default async function CaseStudyPage({ params }) {
   // The body is fetched ONLY for unlocked projects. For a locked one it is
   // never requested here at all, so it cannot reach the static output; the
   // browser gets it from /api/get-case-study after the password check.
+  //
+  // Published only. The client's default 'drafts' perspective exists for
+  // locked bodies, which are kept unpublished; here it put whatever draft was
+  // mid-edit onto the public page, and one caught half-changed returned
+  // nothing at all.
   const staticCaseStudy = isLocked
     ? null
-    : await client.fetch(CASE_STUDY_BODY, { slug })
+    : await client.fetch(CASE_STUDY_BODY, { slug }, { perspective: 'published' })
 
   const autoRelatedProjects = await publicClient.fetch(AUTO_RELATED_PROJECTS, {
     slug,
