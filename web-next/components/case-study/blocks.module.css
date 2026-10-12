@@ -301,39 +301,90 @@ a.cta:hover {
    specificity the later one would win, silently cancelling --block-gap and
    collapsing the space between this block and the next.
 
-   A solid panel in the colour picked in the Studio; PullQuote.js sets
-   --quote-bg and the text colour that reads on it, --quote-fg. Padding and
-   type scale with the viewport between their mobile and desktop sizes, so
-   there are no breakpoint overrides below. */
+   Figma "Quote" (3835-26): a solid panel in the colour picked in the Studio,
+   a double quote mark hanging left of 45px bold text, and an avatar beside
+   the speaker's name and role. PullQuote.js sets --quote-bg and the text
+   colour that reads on it, --quote-fg, which the mark shares. Type and
+   padding scale with the viewport between their mobile and desktop sizes, so
+   there are no breakpoint overrides below.
+
+   The left padding is the outer inset plus room for the hanging mark (1.09em:
+   the frame's 31px mark and 18px gap at 45px), so the text and the avatar
+   beneath it share one left edge, as in the frame. Frame values at 1350px:
+   68px inset, 50px top and bottom, 34px from text to avatar. */
 .quote {
+  --quote-size: clamp(24px, 3.5vw, 45px);
+  --quote-inset: clamp(24px, 4vw, 68px);
+
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: clamp(28px, 5vw, 56px);
+  gap: clamp(20px, 2.4vw, 34px);
+  padding: clamp(28px, 3.5vw, 50px) var(--quote-inset) clamp(28px, 3.5vw, 50px)
+    calc(var(--quote-inset) + 1.09 * var(--quote-size));
   background: var(--quote-bg, var(--orange));
   color: var(--quote-fg, var(--white-heavenly));
 }
 
-/* Bold (700) is the heaviest Neue Haas Display weight the site loads; the
-   design's 800 would only render as a synthesised bold. 24ch keeps the lines
-   short, so the quote breaks into a few large lines. */
+/* 24.5em (~1100px at 45px): the frame's text box is narrower than its panel,
+   so its first line breaks after "not go" (1067px) rather than running on.
+   In the case study column the panel is the narrower of the two and this
+   never applies. No letter-spacing: at normal spacing that first line
+   measures 1067px, exactly the frame's. */
 .quoteText {
+  position: relative;
   margin: 0;
-  max-width: 24ch;
-  font-size: clamp(26px, 3.4vw, 40px);
+  max-width: 24.5em;
+  font-size: var(--quote-size);
   font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
+  line-height: 1.02;
+  letter-spacing: 0;
 }
 
-/* 19px bold counts as large text for contrast (over 18.66px bold), which is
-   what lets PullQuote.js hold the panel to the 3:1 large-text bar. Keep it at
-   least that size. */
-.quoteAttribution {
+/* Sized in em so it scales with the quote: 31 x 22px at 45px in the frame,
+   18px clear of the text, its top level with the first line's capitals
+   (0.127em below the top of a 1.02 line box in this face). */
+.quoteMark {
+  position: absolute;
+  top: 0.127em;
+  right: 100%;
+  width: 0.69em;
+  height: 0.49em;
+  margin-right: 0.4em;
   display: block;
-  font-size: 19px;
+}
+
+.quoteBy {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.quoteAvatar {
+  flex-shrink: 0;
+  width: clamp(56px, 6vw, 72px);
+  height: clamp(56px, 6vw, 72px);
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.quoteWho {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.quoteName {
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.2;
+}
+
+.quoteRole {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
 }
 
 /* ════════════════════════════════════════

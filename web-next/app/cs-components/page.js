@@ -209,8 +209,10 @@ export default async function CsComponentsPage() {
               <NumberedFindings items={FINDINGS} />
             </Block>
 
-            <Block type="pullQuote" note="From your screenshot">
+            <Block type="pullQuote" note="Figma 3835-26 — avatar is a stand-in project image">
               <PullQuote
+                name="James Hardley"
+                avatar={projects[1]?.heroImage}
                 quote="I need to answer my client's question right now, not go hunting through a website while they're sat in front of me."
                 attribution="Independent mortgage broker"
               />

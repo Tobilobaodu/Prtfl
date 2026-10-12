@@ -168,6 +168,7 @@ export const CASE_STUDY_BODY = `
       ...,
       heroImage{ ..., asset-> },
       icon{ ..., asset-> },
+      avatar{ ..., asset-> },
       posterImage{ ..., asset-> },
       videoFile{ ..., asset-> },
       images[]{ ..., asset-> },

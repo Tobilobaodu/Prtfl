@@ -10,14 +10,30 @@ export default defineType({
       title: 'Quote',
       type: 'text',
       rows: 3,
-      description: 'Quotation marks are not added automatically — include them if you want them.',
+      description:
+        'An opening quote mark is added automatically, so leave quotation marks out of the text.',
       validation: Rule => Rule.required()
     }),
     defineField({
-      name: 'attribution',
-      title: 'Attribution',
+      name: 'name',
+      title: 'Name',
       type: 'string',
-      description: 'Shown beneath the quote, e.g. "Independent mortgage broker".'
+      description: 'Who said it, shown in bold beneath the quote, e.g. "James Hardley". Optional.'
+    }),
+    // Stored as `attribution` because quotes written before the name field
+    // existed hold the role there; renaming it would orphan that text.
+    defineField({
+      name: 'attribution',
+      title: 'Role',
+      type: 'string',
+      description: 'Shown under the name, e.g. "Independent mortgage broker".'
+    }),
+    defineField({
+      name: 'avatar',
+      title: 'Avatar',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Optional photo beside the name, cropped to a circle.'
     }),
     defineField({
       name: 'color',
@@ -32,11 +48,12 @@ export default defineType({
     })
   ],
   preview: {
-    select: {quote: 'quote', attribution: 'attribution', hex: 'color.hex'},
-    prepare({quote, attribution, hex}) {
+    select: {quote: 'quote', name: 'name', attribution: 'attribution', hex: 'color.hex', media: 'avatar'},
+    prepare({quote, name, attribution, hex, media}) {
       return {
         title: quote || 'Pull Quote',
-        subtitle: [attribution || 'Pull Quote', hex].filter(Boolean).join(' · ')
+        subtitle: [name || attribution || 'Pull Quote', hex].filter(Boolean).join(' · '),
+        media
       }
     }
   }
