@@ -14,6 +14,17 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'accentColor',
+      title: 'Accent colour',
+      type: 'color',
+      description:
+        'Used across this case study: stat numbers, highlighted words, the chosen option, highlighted process steps, and any Pull Quote without its own colour. Leave empty for the site orange. Pick something dark enough to read on the light page background.',
+      options: {
+        disableAlpha: true,
+        colorList: ['#EE550E', '#EC3013', '#B73764', '#201E1D'],
+      },
+    }),
+    defineField({
       name: 'components',
       title: 'Page Components',
       type: 'array',
@@ -37,6 +48,15 @@ export default defineType({
         { type: 'numberedFindings' },
         { type: 'pullQuote' },
         { type: 'objectivesList' },
+        { type: 'decisionBlock' },
+        { type: 'statsBand' },
+        { type: 'detailsGrid' },
+        { type: 'journeyCards' },
+        { type: 'calloutBanner' },
+        { type: 'keyQuestion' },
+        { type: 'optionsComparison' },
+        { type: 'findingDecisionMap' },
+        { type: 'processFlow' },
       ],
       validation: (Rule) =>
         Rule.custom((components: Array<{ _type: string }> | undefined) => {

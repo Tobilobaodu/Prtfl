@@ -19,6 +19,15 @@ import {
   NumberedFindings,
   PullQuote,
   ObjectivesList,
+  DecisionBlock,
+  StatsBand,
+  DetailsGrid,
+  JourneyCards,
+  CalloutBanner,
+  KeyQuestion,
+  OptionsComparison,
+  FindingDecisionMap,
+  ProcessFlow,
 } from "./case-study"
 // Served from public/, not bundled — Next resolves these at runtime.
 const LeftActive = "/svg/Left_Active.svg"
@@ -227,13 +236,13 @@ const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
     <div id={id} className="icon-heading-block">
       {iconUrl && (
         <div className="ihb-icon">
-          {/* Rendered at 49×49; request 2x rather than the full original. */}
+          {/* Rendered 100px wide; request 2x rather than the full original. */}
           <img
-            src={sanityImageUrl(iconUrl, { width: 98 })}
+            src={sanityImageUrl(iconUrl, { width: 200 })}
             alt=""
             aria-hidden="true"
-            width="49"
-            height="49"
+            width="100"
+            height="100"
             loading="lazy"
             decoding="async"
           />
@@ -630,6 +639,13 @@ export default function CaseStudyContent({
   const caseStudy = staticCaseStudy || unlockedCaseStudy
   const contentProject = caseStudy?.project
 
+  // The case study's accent colour (Sanity colour picker), as --cs-accent for
+  // the blocks to read. Only a well-formed #rrggbb gets through; otherwise the
+  // blocks fall back to the site orange.
+  const accent = /^#[0-9a-f]{6}$/i.test(caseStudy?.accentColor?.hex ?? "")
+    ? caseStudy.accentColor.hex
+    : undefined
+
   // Merge shell over content: the runtime GROQ projection deliberately omits
   // heroImage (the shell already has it, complete with gatsbyImageData), so
   // without this the hero would disappear the moment a locked page unlocked.
@@ -789,7 +805,7 @@ export default function CaseStudyContent({
   return (
     <Layout>
       <ScrollProgress />
-      <div className="case-study-page">
+      <div className="case-study-page" style={accent ? { "--cs-accent": accent } : undefined}>
 
         {!hasHeroSectionComponent && project.heroImage?.asset?.url && (
           <div className="hero-image">
@@ -869,9 +885,27 @@ export default function CaseStudyContent({
                 case 'numberedFindings':
                   return <NumberedFindings key={index} {...component} />
                 case 'pullQuote':
-                  return <PullQuote key={index} {...component} />
+                  return <PullQuote key={index} {...component} accent={accent} />
                 case 'objectivesList':
                   return <ObjectivesList key={index} {...component} />
+                case 'decisionBlock':
+                  return <DecisionBlock key={index} {...component} />
+                case 'statsBand':
+                  return <StatsBand key={index} {...component} />
+                case 'detailsGrid':
+                  return <DetailsGrid key={index} {...component} />
+                case 'journeyCards':
+                  return <JourneyCards key={index} {...component} />
+                case 'calloutBanner':
+                  return <CalloutBanner key={index} {...component} />
+                case 'keyQuestion':
+                  return <KeyQuestion key={index} {...component} />
+                case 'optionsComparison':
+                  return <OptionsComparison key={index} {...component} />
+                case 'findingDecisionMap':
+                  return <FindingDecisionMap key={index} {...component} />
+                case 'processFlow':
+                  return <ProcessFlow key={index} {...component} />
                 default:
                   return null
               }
@@ -1380,14 +1414,18 @@ export default function CaseStudyContent({
           flex-shrink: 0;
         }
 
+        /* 100px wide; height follows the icon's own shape. */
         .ihb-icon img {
+          width: 100px;
+          height: auto;
           object-fit: contain;
           display: block;
         }
 
+        /* Wide enough that headings run to two lines rather than three. */
         .ihb-heading {
           margin-bottom: 20px;
-          max-width: 400px;
+          max-width: 650px;
         }
 
         .ihb-body {

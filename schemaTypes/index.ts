@@ -1,4 +1,13 @@
 import caseStudy from './caseStudy'
+import calloutBanner from './calloutBanner'
+import decisionBlock from './decisionBlock'
+import detailsGrid from './detailsGrid'
+import findingDecisionMap from './findingDecisionMap'
+import journeyCards from './journeyCards'
+import keyQuestion from './keyQuestion'
+import optionsComparison from './optionsComparison'
+import processFlow from './processFlow'
+import statsBand from './statsBand'
 import experience from './experience'
 import finding from './finding'
 import heroSection from './heroSection'
@@ -25,6 +34,15 @@ import textBlock from './textBlock'
 import videoComponent from './videoComponent'
 
 export const schemaTypes = [
+  calloutBanner,
+  decisionBlock,
+  detailsGrid,
+  findingDecisionMap,
+  journeyCards,
+  keyQuestion,
+  optionsComparison,
+  processFlow,
+  statsBand,
   caseStudy,
   experience,
   finding,

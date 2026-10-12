@@ -20,6 +20,16 @@
   --block-gap: 60px;
   --rule: rgba(29, 28, 28, 0.15);
   --ordinal-size: 12px;
+  /* The case study's accent colour, set on .case-study-page from its Sanity
+     document; the site orange anywhere it is not set (e.g. /cs-components). */
+  --accent: var(--cs-accent, var(--orange));
+  /* For the blocks added from the KRFI design (DecisionBlock onwards): a
+     heavier rule, a tint for cards, and a muted text grey dark enough for
+     small text. --grey-just (#777) is about 4.2:1 on the page, under the
+     4.5:1 small text needs. */
+  --rule-strong: var(--black-pitch-nah);
+  --card: rgba(29, 28, 28, 0.05);
+  --muted: #5f5c5c;
 
   width: 100%;
   margin-block: var(--block-gap);
@@ -289,29 +299,41 @@ a.cta:hover {
 /* No `margin: 0` here to reset the <figure> default — the global reset in
    layout.css already does that, and because this rule and .block have equal
    specificity the later one would win, silently cancelling --block-gap and
-   collapsing the space between this block and the next. */
+   collapsing the space between this block and the next.
+
+   A solid panel in the colour picked in the Studio; PullQuote.js sets
+   --quote-bg and the text colour that reads on it, --quote-fg. Padding and
+   type scale with the viewport between their mobile and desktop sizes, so
+   there are no breakpoint overrides below. */
 .quote {
-  padding-left: 24px;
-  border-left: 2px solid var(--orange);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: clamp(28px, 5vw, 56px);
+  background: var(--quote-bg, var(--orange));
+  color: var(--quote-fg, var(--white-heavenly));
 }
 
+/* Bold (700) is the heaviest Neue Haas Display weight the site loads; the
+   design's 800 would only render as a synthesised bold. 24ch keeps the lines
+   short, so the quote breaks into a few large lines. */
 .quoteText {
   margin: 0;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0.2px;
+  max-width: 24ch;
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
 }
 
+/* 19px bold counts as large text for contrast (over 18.66px bold), which is
+   what lets PullQuote.js hold the panel to the 3:1 large-text bar. Keep it at
+   least that size. */
 .quoteAttribution {
   display: block;
-  margin-top: 14px;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 19px;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: var(--grey-misty);
 }
 
 /* ════════════════════════════════════════
@@ -348,6 +370,561 @@ a.cta:hover {
 }
 
 /* ════════════════════════════════════════
+   Blocks from the KRFI case study design
+   DecisionBlock, StatsBand, DetailsGrid, JourneyCards, CalloutBanner,
+   KeyQuestion, OptionsComparison, FindingDecisionMap, ProcessFlow.
+
+   Layout and scale follow the design; type and colour come from the site
+   tokens. Bold (700) is the heaviest Neue Haas Display weight loaded, so the
+   design's 800/900 render as 700. Grids use auto-fit for the reason given on
+   .hero above.
+   ════════════════════════════════════════ */
+
+/* ── Shared pieces ── */
+
+/* The small uppercase label: column heads, tags, block titles. */
+.label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* A label sitting above a whole block, e.g. "Where brokers dropped out". */
+.blockTitle {
+  margin-bottom: 12px;
+}
+
+/* Darker than .label: it names the thing below it rather than describing it. */
+.eyebrow {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--black-pitch-nah);
+}
+
+.bodyText {
+  margin: 0;
+  font-size: var(--type-body-small-size);
+  line-height: 1.55;
+  letter-spacing: 0.42px;
+}
+
+.footnote {
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 64ch;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── DecisionBlock ── */
+
+.decision {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.decisionHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.decisionNumber {
+  flex-shrink: 0;
+  font-size: clamp(44px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.decisionTitles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.decisionTitle {
+  margin: 0;
+  max-width: 24ch;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.decisionColumns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 20px 32px;
+}
+
+.decisionColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 2px solid var(--rule-strong);
+}
+
+/* ── StatsBand ── */
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* nowrap: "5 → 2" must not break around its arrow. */
+.statValue {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+.statLabel {
+  margin: 0;
+  font-size: var(--type-body-small-size);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.42px;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: 24px;
+  padding: 28px 0 24px;
+  border-top: 2px solid var(--rule-strong);
+  border-bottom: 2px solid var(--rule-strong);
+}
+
+.statsRow .statValue {
+  font-size: clamp(36px, 4.5vw, 48px);
+}
+
+.statsCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 12px;
+}
+
+.statsCards .stat {
+  gap: 14px;
+  padding: 24px 24px 28px;
+  background: var(--card);
+}
+
+.statsCards .statValue {
+  font-size: clamp(56px, 7vw, 88px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.statsCards .statLabel {
+  font-size: 16px;
+}
+
+/* Secondary results: number and label on one line, in plain text colour. */
+.statsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  column-gap: 24px;
+  border-top: 2px solid var(--rule-strong);
+}
+
+/* A grid, not a wrapping flex row: with wrap, a long label dropped under its
+   number while a short one sat beside it, so neighbouring items disagreed. */
+.statsList .stat {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 4px 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.statsList .stat .label {
+  grid-column: 1 / -1;
+}
+
+.statsList .statValue {
+  font-size: 32px;
+  color: inherit;
+}
+
+/* ── DetailsGrid ── */
+
+.detailsCompact,
+.detailsWide {
+  display: grid;
+  margin: 0;
+}
+
+.detailsCompact {
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+  column-gap: 24px;
+}
+
+.detailsCompact .detail {
+  padding: 16px 0 20px;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.detailsWide {
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  column-gap: 32px;
+  border-top: 2px solid var(--rule-strong);
+}
+
+.detailsWide .detail {
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.detail .label {
+  margin-bottom: 6px;
+}
+
+.detailBody {
+  margin: 0;
+  font-size: var(--type-body-small-size);
+  line-height: 1.5;
+  letter-spacing: 0.42px;
+}
+
+/* Short values like "Four week design sprint" read as data, not prose. */
+.detailsCompact .detailBody {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+/* ── JourneyCards ── */
+
+.journeyList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+  gap: 12px;
+}
+
+/* Each card spans three rows of the list and shares them (subgrid), so the
+   head, number and description line up across a row of cards even when one
+   step name wraps to two lines and its neighbours' do not. */
+.journeyCard {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  align-content: start;
+  row-gap: 10px;
+  min-width: 0;
+  padding: 18px 20px 24px;
+  background: var(--card);
+  border-top: 3px solid var(--rule-strong);
+}
+
+/* min-height: the last card has no arrow, and its head must stay as tall as
+   the others so the numbers line up across the row. */
+.journeyHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 20px;
+}
+
+.journeyArrow {
+  flex-shrink: 0;
+}
+
+/* A container query, not a media query: the cards stack when the block is
+   narrow, which depends on the column it sits in, not the viewport (see the
+   note on .hero). Stacked, the next card is below, so the arrow points down. */
+.journey {
+  container-type: inline-size;
+}
+
+@container (max-width: 340px) {
+  .journeyArrow {
+    transform: rotate(90deg);
+  }
+}
+
+.journeyValue {
+  margin: 0;
+  font-size: clamp(30px, 3.5vw, 40px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+
+/* ── CalloutBanner ── */
+
+.callout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 24px;
+  padding: clamp(22px, 3vw, 32px);
+  background: var(--black-pitch-nah);
+  color: var(--white-not-wyt);
+}
+
+.calloutLabel {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #d7d3d3;
+}
+
+.calloutStatement {
+  margin: 0;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+/* ── KeyQuestion ── */
+
+.keyQuestion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 48px;
+  border-top: 2px solid var(--rule-strong);
+}
+
+.keyStatement {
+  margin: 0;
+  max-width: 21ch;
+  font-size: clamp(30px, 4.4vw, 52px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.keyHighlight {
+  color: var(--accent);
+}
+
+/* ── OptionsComparison ── */
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 12px;
+}
+
+/* A transparent top rule on every option, so the chosen one's accent rule
+   does not push its content 3px lower than its neighbour's. */
+.option {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 24px 24px 28px;
+  background: var(--card);
+  border-top: 3px solid transparent;
+}
+
+.optionChosen {
+  border-top-color: var(--accent);
+}
+
+.optionBadge {
+  align-self: flex-start;
+  margin: 0;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--rule-strong);
+}
+
+.optionChosen .optionBadge {
+  background: var(--black-pitch-nah);
+  color: var(--white-not-wyt);
+}
+
+.optionTitle {
+  margin: 0;
+  font-size: var(--type-title-small-size);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ── FindingDecisionMap ── */
+
+.map {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--rule-strong);
+}
+
+.mapRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.mapFinding,
+.mapDecision {
+  flex: 1 1 220px;
+  margin: 0;
+  font-size: var(--type-body-small-size);
+  line-height: 1.45;
+  letter-spacing: 0.42px;
+}
+
+.mapSource {
+  color: var(--muted);
+}
+
+.mapArrow {
+  flex-shrink: 0;
+}
+
+.mapDecision {
+  font-weight: 700;
+}
+
+/* ── ProcessFlow ── */
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(20px, 3vw, 32px);
+  background: var(--card);
+}
+
+.flowSteps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.flowItem {
+  flex: 1 1 180px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.flowStep {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 14px 16px 16px;
+  background: var(--white-not-wyt);
+  border-top: 3px solid var(--rule-strong);
+}
+
+.flowStepHighlight {
+  border-top-color: var(--accent);
+}
+
+.flowTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.flowOwner {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.flowArrow {
+  flex-shrink: 0;
+}
+
+/* Stacked when the panel is too narrow for the steps side by side: each
+   arrow drops below its step and points down, and every step takes the full
+   width, including the last, which has no arrow beside it to share a line
+   with. A container query for the same reason as .journey. */
+.flow {
+  container-type: inline-size;
+}
+
+@container (max-width: 560px) {
+  .flowItem {
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .flowStep {
+    flex: none;
+  }
+
+  .flowArrow {
+    align-self: center;
+    transform: rotate(90deg);
+  }
+}
+
+.flowLoop {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  font-size: var(--type-body-small-size);
+  line-height: 1.5;
+  letter-spacing: 0.42px;
+}
+
+.flowLoopIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--accent);
+}
+
+/* ════════════════════════════════════════
    Responsive
    ════════════════════════════════════════ */
 
@@ -376,14 +953,6 @@ a.cta:hover {
     grid-template-columns: 32px minmax(0, 1fr);
     column-gap: 14px;
     padding-block: 20px;
-  }
-
-  .quote {
-    padding-left: 18px;
-  }
-
-  .quoteText {
-    font-size: 16px;
   }
 
   .objective {

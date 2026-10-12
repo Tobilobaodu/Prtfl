@@ -10,7 +10,7 @@ export default defineType({
       title: 'Icon',
       type: 'image',
       options: {hotspot: false},
-      description: 'Icon image displayed above the heading (49×49)'
+      description: 'Icon image displayed above the heading, 100px wide'
     }),
     defineField({
       name: 'heading',

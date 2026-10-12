@@ -163,6 +163,7 @@ export const SITEMAP_PROJECT_SLUGS = `
 export const CASE_STUDY_BODY = `
   *[_type == "caseStudy" && project->slug.current == $slug][0]{
     "id": _id,
+    accentColor,
     "components": components[]{
       ...,
       heroImage{ ..., asset-> },
