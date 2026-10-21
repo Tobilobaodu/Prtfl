@@ -1,8 +1,10 @@
 import caseStudy from './caseStudy'
 import calloutBanner from './calloutBanner'
+import cardGrid from './cardGrid'
 import decisionBlock from './decisionBlock'
 import detailsGrid from './detailsGrid'
 import findingDecisionMap from './findingDecisionMap'
+import hierarchyDiagram from './hierarchyDiagram'
 import journeyCards from './journeyCards'
 import keyQuestion from './keyQuestion'
 import optionsComparison from './optionsComparison'
@@ -35,9 +37,11 @@ import videoComponent from './videoComponent'
 
 export const schemaTypes = [
   calloutBanner,
+  cardGrid,
   decisionBlock,
   detailsGrid,
   findingDecisionMap,
+  hierarchyDiagram,
   journeyCards,
   keyQuestion,
   optionsComparison,

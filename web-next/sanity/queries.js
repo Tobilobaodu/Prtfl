@@ -75,12 +75,21 @@ export const PORTFOLIO_PROJECTS = `
 `
 
 /** cs-components — the block review page just needs a few hero images. */
-export const CS_COMPONENT_SAMPLES = `
-  *[_type == "project" && defined(heroImage)][0...3]{
+// Five images because the largest image grid (grid-5) takes five. The video
+// and icon are the first real ones authored on any case study; the brackets
+// flatten every case study's components into one list before filtering.
+export const CS_COMPONENT_SAMPLES = `{
+  "projects": *[_type == "project" && defined(heroImage)][0...5]{
     "id": _id,
     heroImage ${IMAGE}
+  },
+  "video": (*[_type == "caseStudy"].components[])[_type == "videoComponent" && defined(videoFile.asset)][0]{
+    "videoFile": { "asset": { "url": videoFile.asset->url } }
+  },
+  "icon": (*[_type == "caseStudy"].components[])[_type == "iconHeadingBlock" && defined(icon.asset)][0].icon{
+    "asset": { "url": asset->url }
   }
-`
+}`
 
 /** Sandbox */
 export const SANDBOX_PROJECTS = `

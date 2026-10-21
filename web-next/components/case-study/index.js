@@ -1,10 +1,10 @@
 /**
  * Case-study block components.
  *
- * These are the blocks that live outside src/templates/case-study.js, so that
- * both the template and the review page at /cs-components/ can import them.
- * The eleven older blocks are still local consts inside the template; they are
- * deliberately untouched.
+ * These are the blocks that live outside CaseStudyContent.js, so that both it
+ * and the review page at /cs-components/ can import them. The eleven older
+ * blocks still live in CaseStudyContent.js, which exports them for the review
+ * page.
  */
 export { default as SplitHero } from "./SplitHero"
 export { default as ImagePodGrid } from "./ImagePodGrid"
@@ -21,3 +21,5 @@ export { default as KeyQuestion } from "./KeyQuestion"
 export { default as OptionsComparison } from "./OptionsComparison"
 export { default as FindingDecisionMap } from "./FindingDecisionMap"
 export { default as ProcessFlow } from "./ProcessFlow"
+export { default as CardGrid } from "./CardGrid"
+export { default as HierarchyDiagram } from "./HierarchyDiagram"

@@ -57,6 +57,8 @@ export default defineType({
         { type: 'optionsComparison' },
         { type: 'findingDecisionMap' },
         { type: 'processFlow' },
+        { type: 'cardGrid' },
+        { type: 'hierarchyDiagram' },
       ],
       validation: (Rule) =>
         Rule.custom((components: Array<{ _type: string }> | undefined) => {

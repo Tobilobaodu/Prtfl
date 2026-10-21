@@ -10,8 +10,9 @@ import { getStoredToken, fetchProtectedCaseStudy } from "../utils/caseStudyAcces
 import { sanityImageProps, sanityImageUrl, sanityImageSrcSet } from "../utils/sanityImage"
 import { slugify } from "../utils/slugify"
 import { getLenis } from "../lib/lenis"
-// Newer blocks live outside this file so the review page at /cs-components/
-// can import them too; the older blocks below are still local consts.
+// Newer blocks live outside this file. The older blocks below, and the
+// stylesheet they depend on (CaseStudyStyles), are exported so the review page
+// at /cs-components/ can render them too.
 import {
   SplitHero,
   ImagePodGrid,
@@ -28,6 +29,8 @@ import {
   OptionsComparison,
   FindingDecisionMap,
   ProcessFlow,
+  CardGrid,
+  HierarchyDiagram,
 } from "./case-study"
 // Served from public/, not bundled — Next resolves these at runtime.
 const LeftActive = "/svg/Left_Active.svg"
@@ -36,7 +39,7 @@ const RightActive = "/svg/Right_Active.svg"
 const RightDisabled = "/svg/Right_Disabled.svg"
 const InfoIcon = "/svg/Info.svg"
 
-const TextBlock = ({ content, type, blockType }) => {
+export const TextBlock = ({ content, type, blockType }) => {
   const blockTypeValue = type || blockType || 'type-body-small'
 
   const typeClass = {
@@ -90,7 +93,7 @@ const TextBlock = ({ content, type, blockType }) => {
   return <div className={typeClass}>{renderRichText(content)}</div>
 }
 
-const HeroSection = ({ headline, subtext, date, heroImage }) => {
+export const HeroSection = ({ headline, subtext, date, heroImage }) => {
   const imageUrl = heroImage?.asset?.url
   return (
     <div id="overview" className="hero-section-component">
@@ -122,7 +125,7 @@ const HeroSection = ({ headline, subtext, date, heroImage }) => {
   )
 }
 
-const NdaNotice = ({ text }) => {
+export const NdaNotice = ({ text }) => {
   if (!text) return null
   return (
     <div className="nda-notice">
@@ -162,7 +165,7 @@ const GRID_SIZES = {
   'grid-5': '(max-width: 767px) 50vw, 33vw',
 }
 
-const ImageComponent = ({ layout, images, enableGaps = true, fullHeightImage = 1 }) => {
+export const ImageComponent = ({ layout, images, enableGaps = true, fullHeightImage = 1 }) => {
   const heightClass = 'height-fixed-800'
   const sizes = GRID_SIZES[layout] || '100vw'
   const gapClass = enableGaps ? 'gaps-enabled' : 'gaps-disabled'
@@ -215,11 +218,11 @@ const ImageComponent = ({ layout, images, enableGaps = true, fullHeightImage = 1
   )
 }
 
-const SectionTitleBlock = ({ title }) => <h2 className="text-section-title">{title}</h2>
+export const SectionTitleBlock = ({ title }) => <h2 className="text-section-title">{title}</h2>
 
-const TagBlock = ({ tag }) => <div className="text-tag">{tag}</div>
+export const TagBlock = ({ tag }) => <div className="text-tag">{tag}</div>
 
-const SectionDivider = ({ tag, title, dividerStyle = 'line' }) => {
+export const SectionDivider = ({ tag, title, dividerStyle = 'line' }) => {
   const id = slugify(title || tag)
   return (
     <div id={id} className={`section-divider section-anchor divider-style-${dividerStyle}`}>
@@ -229,7 +232,7 @@ const SectionDivider = ({ tag, title, dividerStyle = 'line' }) => {
   )
 }
 
-const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
+export const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
   const iconUrl = icon?.asset?.url
   const id = heading ? slugify(heading) : undefined
   return (
@@ -260,7 +263,7 @@ const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
   )
 }
 
-const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, muted, caption }) => {
+export const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, muted, caption }) => {
   try {
     const extractYouTubeId = (url) => {
       const patterns = [
@@ -341,12 +344,12 @@ const VideoComponent = ({ videoFile, videoUrl, posterImage, autoplay, loop, mute
   }
 }
 
-const Spacer = ({ size }) => {
+export const Spacer = ({ size }) => {
   const pixelSize = parseInt(size) || 20
   return <div className="spacer" style={{ height: `${pixelSize}px` }} />
 }
 
-const SliderComponent = ({ slides }) => {
+export const SliderComponent = ({ slides }) => {
   const [current, setCurrent] = React.useState(0)
   if (!slides?.length) return null
 
@@ -906,6 +909,10 @@ export default function CaseStudyContent({
                   return <FindingDecisionMap key={index} {...component} />
                 case 'processFlow':
                   return <ProcessFlow key={index} {...component} />
+                case 'cardGrid':
+                  return <CardGrid key={index} {...component} />
+                case 'hierarchyDiagram':
+                  return <HierarchyDiagram key={index} {...component} />
                 default:
                   return null
               }
@@ -916,7 +923,12 @@ export default function CaseStudyContent({
         <CaseStudyFooter relatedProjects={relatedProjects} />
       </div>
 
-      <style>{`
+      <CaseStudyStyles />
+    </Layout>
+  )
+}
+
+const CASE_STUDY_CSS = `
         /* Full-bleed by being a plain full-width block. It used to carry
            margin-left: -100px to cancel main's padding, which also widened its
            auto width by 100px and left every centred child half that distance
@@ -1192,10 +1204,15 @@ export default function CaseStudyContent({
           background: #FBBF24;
         }
 
+        /* The only vertical spacing between components: 20px, every pair, at
+           every width. Components set no vertical margin of their own, because
+           a flex column adds margins to its gap instead of collapsing them. A
+           spacer sits inside this rhythm, so one of size N puts N + 40px
+           between the components either side of it. */
         .cs-content-col {
           display: flex;
           flex-direction: column;
-          gap: 0px;
+          gap: 20px;
           min-width: 0;  /* prevent grid item from expanding beyond its 1fr track */
         }
 
@@ -1445,7 +1462,8 @@ export default function CaseStudyContent({
         }
 
         /* ── Video Component ── */
-        .video-container { width: 100%; margin: 20px 0; }
+        /* No vertical margin: .cs-content-col's gap spaces it. */
+        .video-container { width: 100%; }
 
         .video-player {
           width: 100%;
@@ -1760,9 +1778,10 @@ export default function CaseStudyContent({
           .image-grid.grid-5 { grid-template-columns: 1fr 1fr; }
           .image-grid.grid-5 .grid-item.full-width { grid-column: 1 / -1; }
         }
-      `}</style>
-    </Layout>
-  )
-}
+      `
+
+// A component rather than an inline <style> so /cs-components/ renders the
+// same rules around the same blocks.
+export const CaseStudyStyles = () => <style>{CASE_STUDY_CSS}</style>
 
 
