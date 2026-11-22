@@ -7,7 +7,7 @@ import LockedProjectModal from "./LockedProjectModal"
 import SocialLinks from "./SocialLinks"
 import ScrollProgress from "./ScrollProgress"
 import { getStoredToken, fetchProtectedCaseStudy } from "../utils/caseStudyAccess"
-import { sanityImageProps, sanityImageUrl, sanityImageSrcSet } from "../utils/sanityImage"
+import { sanityImageProps, sanityImageUrl, sanityImageSrcSet, sanityCropRect } from "../utils/sanityImage"
 import { slugify } from "../utils/slugify"
 import { getLenis } from "../lib/lenis"
 // Newer blocks live outside this file. The older blocks below, and the
@@ -95,6 +95,9 @@ export const TextBlock = ({ content, type, blockType }) => {
 
 export const HeroSection = ({ headline, subtext, date, heroImage }) => {
   const imageUrl = heroImage?.asset?.url
+  // Honour the crop set in Studio, e.g. trimming transparent padding off a
+  // mockup export so the mockup itself fills the box.
+  const rect = sanityCropRect(imageUrl, heroImage?.crop)
   return (
     <div id="overview" className="hero-section-component">
       <div className="hero-section-text">
@@ -111,8 +114,8 @@ export const HeroSection = ({ headline, subtext, date, heroImage }) => {
         <div className="hero-section-image">
           {/* Above the fold and usually the LCP element, so load it eagerly. */}
           <img
-            src={sanityImageUrl(imageUrl, { width: 1280 })}
-            srcSet={sanityImageSrcSet(imageUrl)}
+            src={sanityImageUrl(imageUrl, { width: 1280, rect })}
+            srcSet={sanityImageSrcSet(imageUrl, { rect })}
             sizes="(max-width: 767px) 100vw, 50vw"
             alt={heroImage?.alt || headline || 'Hero image'}
             loading="eager"
@@ -1023,9 +1026,9 @@ const CASE_STUDY_CSS = `
 
         .hero-section-headline {
           font-family: 'Neue Haas Display', 'Inter', sans-serif;
-          font-size: 80px;
+          font-size: 75px;
           font-weight: 500;
-          line-height: 95%;
+          line-height: 100%;
           color: var(--black-pitch-nah);
           margin: 0;
         }
@@ -1059,16 +1062,12 @@ const CASE_STUDY_CSS = `
           flex-shrink: 0;
         }
 
+        /* Fixed 512 x 400 on desktop. The grid's align-items: center centres
+           the text column against it. Tablet and mobile override the size
+           below. */
         .hero-section-image {
-          width: 565px;
-          height: 665px;
-          overflow: hidden;
-          justify-self: end;
-        }
-
-        .hero-section-image {
-          width: 500px;
-          height: 100%;
+          width: 512px;
+          height: 400px;
           overflow: hidden;
           justify-self: end;
         }
@@ -1088,7 +1087,8 @@ const CASE_STUDY_CSS = `
                headline behind the logo. */
             padding-block: calc(var(--nav-h) + 24px) 40px;
           }
-          .hero-section-headline { font-size: 45px; }
+          /* line-height kept at 95%, as before the desktop change to 100%. */
+          .hero-section-headline { font-size: 45px; line-height: 95%; }
           .hero-section-image {
             width: 100%;
             height: 350px;
@@ -1097,7 +1097,7 @@ const CASE_STUDY_CSS = `
         }
 
         @media (max-width: 767px) {
-          .hero-section-headline { font-size: 45px; }
+          .hero-section-headline { font-size: 45px; line-height: 95%; }
           .hero-section-image {
             width: 100%;
             height: auto;
