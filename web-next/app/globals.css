@@ -319,12 +319,11 @@ button {
   font-weight: var(--type-display-small-weight);
 }
 
-/* Case-study section heading. Left-aligned to match the body text; see
-   .icon-heading-block in CaseStudyContent.js, whose 400px max-width is the
-   one that applies on case-study pages. */
+/* Case-study section heading. Left-aligned and as wide as the body text below
+   it; the rule in CaseStudyContent.js is the one that applies on case-study
+   pages. */
 .ihb-heading {
   margin-bottom: 20px;
-  max-width: 440px;
 }
 
 /* Display — Medium */

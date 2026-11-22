@@ -1439,10 +1439,10 @@ const CASE_STUDY_CSS = `
           display: block;
         }
 
-        /* Wide enough that headings run to two lines rather than three. */
+        /* Spans the full content column, the same width as .ihb-body below. */
         .ihb-heading {
           margin-bottom: 20px;
-          max-width: 650px;
+          max-width: none;
         }
 
         .ihb-body {
