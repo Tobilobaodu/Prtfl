@@ -322,6 +322,7 @@ export default async function CsComponentsPage() {
               <Item type="iconHeadingBlock" note="Adds an entry to the table of contents">
                 <IconHeadingBlock
                   icon={icon}
+                  tag="01. Problem"
                   heading="A support team spending its days reading out documents"
                   bodyParagraphs={[
                     "Brokers rang for answers the product page already held, so the Broker Liaison team spent its days finding documents and reading them out.",

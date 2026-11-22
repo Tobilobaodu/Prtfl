@@ -232,7 +232,7 @@ export const SectionDivider = ({ tag, title, dividerStyle = 'line' }) => {
   )
 }
 
-export const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
+export const IconHeadingBlock = ({ icon, tag, heading, bodyParagraphs }) => {
   const iconUrl = icon?.asset?.url
   const id = heading ? slugify(heading) : undefined
   return (
@@ -251,6 +251,8 @@ export const IconHeadingBlock = ({ icon, heading, bodyParagraphs }) => {
           />
         </div>
       )}
+      {/* Same yellow tag as the section divider's. */}
+      {tag && <p className="section-tag ihb-tag">{tag}</p>}
       {heading && <h2 className="ihb-heading type-display-small">{heading}</h2>}
       {bodyParagraphs?.length > 0 && (
         <div className="ihb-body">
@@ -1437,6 +1439,10 @@ const CASE_STUDY_CSS = `
           height: auto;
           object-fit: contain;
           display: block;
+        }
+
+        .ihb-tag {
+          margin: 0 0 16px;
         }
 
         /* Spans the full content column, the same width as .ihb-body below. */

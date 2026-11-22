@@ -13,6 +13,12 @@ export default defineType({
       description: 'Icon image displayed above the heading, 100px wide'
     }),
     defineField({
+      name: 'tag',
+      title: 'Tag',
+      type: 'string',
+      description: 'Optional yellow tag above the heading, e.g. "01. Problem"'
+    }),
+    defineField({
       name: 'heading',
       title: 'Heading',
       type: 'string',
@@ -28,12 +34,13 @@ export default defineType({
   ],
   preview: {
     select: {
-      heading: 'heading'
+      heading: 'heading',
+      tag: 'tag'
     },
-    prepare({heading}) {
+    prepare({heading, tag}) {
       return {
         title: heading || 'Icon Heading Block',
-        subtitle: 'Icon Heading Block'
+        subtitle: tag ? `Icon Heading Block · ${tag}` : 'Icon Heading Block'
       }
     }
   }
