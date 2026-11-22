@@ -183,6 +183,8 @@ export const CASE_STUDY_BODY = `
       images[]{ ..., asset-> },
       slides[]{ ..., image{ ..., asset-> } },
       image{ ..., asset-> },
+      beforeImage{ ..., asset-> },
+      afterImage{ ..., asset-> },
       pods[]{ ..., image{ ..., asset-> }, icon{ ..., asset-> } }
     },
     project->{ "id": _id, title, client, year, projectType, introText, shortDescription },

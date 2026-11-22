@@ -40,6 +40,7 @@ import {
   ProcessFlow,
   CardGrid,
   HierarchyDiagram,
+  BeforeAfterSlider,
 } from "../../components/case-study"
 import SpacingGuides from "./SpacingGuides"
 
@@ -444,6 +445,14 @@ export default async function CsComponentsPage() {
                   clicksBefore={5}
                   clicksBeforeLabel="5 clicks on average"
                   clicksAfter={2}
+                />
+              </Item>
+
+              <Item type="beforeAfterSlider" note="Drag the handle; two different project images stand in for a before and after">
+                <BeforeAfterSlider
+                  beforeImage={images[1]}
+                  afterImage={images[0]}
+                  caption="Sample caption under the comparison."
                 />
               </Item>
 

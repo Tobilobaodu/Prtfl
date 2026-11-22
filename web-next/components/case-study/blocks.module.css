@@ -1170,6 +1170,128 @@ a.cta:hover {
   color: var(--accent);
 }
 
+/* ── BeforeAfterSlider ── */
+
+/* The white frame around the images, as in the reference. */
+.ba {
+  margin: 0;
+}
+
+.baFrame {
+  position: relative;
+  overflow: hidden;
+  border: 8px solid var(--white-not-wyt);
+  border-radius: 10px;
+  background: var(--grey-misty);
+  box-shadow: 0 0 0 1px rgba(29, 28, 28, 0.06);
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.baDragging {
+  cursor: grabbing;
+}
+
+.baImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* Everything right of the divider is cut away, showing the after image. */
+.baBefore {
+  clip-path: inset(0 calc(100% - var(--ba-pos)) 0 0);
+}
+
+.baDivider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--ba-pos);
+  width: 2px;
+  transform: translateX(-1px);
+  background: #fff;
+  pointer-events: none;
+}
+
+.baHandle {
+  position: absolute;
+  top: 50%;
+  left: var(--ba-pos);
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: #fff;
+  /* Orange chevrons, whatever the case study's accent. */
+  color: var(--orange);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  cursor: grab;
+}
+
+.baHandle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.baLabel {
+  position: absolute;
+  top: 16px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--black-pitch-nah);
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.baLabelBefore {
+  left: 16px;
+}
+
+.baLabelAfter {
+  right: 16px;
+  /* Green for the new design. White on #18794E is about 5.4:1. */
+  background: #18794e;
+  color: #fff;
+}
+
+@media (max-width: 767px) {
+  .baFrame {
+    border-width: 6px;
+  }
+
+  .baLabel {
+    top: 10px;
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  .baLabelBefore {
+    left: 10px;
+  }
+
+  .baLabelAfter {
+    right: 10px;
+  }
+
+  .baHandle {
+    width: 36px;
+    height: 36px;
+  }
+}
+
 /* ════════════════════════════════════════
    Responsive
    ════════════════════════════════════════ */

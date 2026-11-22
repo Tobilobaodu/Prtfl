@@ -59,6 +59,7 @@ export default defineType({
         { type: 'processFlow' },
         { type: 'cardGrid' },
         { type: 'hierarchyDiagram' },
+        { type: 'beforeAfterSlider' },
       ],
       validation: (Rule) =>
         Rule.custom((components: Array<{ _type: string }> | undefined) => {

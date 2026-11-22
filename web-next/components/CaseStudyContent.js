@@ -30,6 +30,7 @@ import {
   FindingDecisionMap,
   ProcessFlow,
   CardGrid,
+  BeforeAfterSlider,
   HierarchyDiagram,
 } from "./case-study"
 // Served from public/, not bundled — Next resolves these at runtime.
@@ -918,6 +919,8 @@ export default function CaseStudyContent({
                   return <CardGrid key={index} {...component} />
                 case 'hierarchyDiagram':
                   return <HierarchyDiagram key={index} {...component} />
+                case 'beforeAfterSlider':
+                  return <BeforeAfterSlider key={index} {...component} />
                 default:
                   return null
               }
