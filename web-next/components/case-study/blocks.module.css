@@ -1157,14 +1157,17 @@ a.cta:hover {
   gap: 8px;
 }
 
+/* A mouse icon per click (Mouse in icons.js). It draws in currentColor:
+   grey for before, the accent for after. */
 .hierSquare {
-  width: 16px;
-  height: 16px;
-  background: var(--grey-just);
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--grey-just);
 }
 
 .hierSquareAfter {
-  background: var(--accent);
+  color: var(--accent);
 }
 
 /* ════════════════════════════════════════

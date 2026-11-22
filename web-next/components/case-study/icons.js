@@ -43,3 +43,23 @@ export const ArrowReturn = ({ size = 20, className }) => (
     <path d="M4 9h11a5 5 0 0 1 0 10h-3" />
   </svg>
 )
+
+/** A computer mouse, for counting clicks (HierarchyDiagram). */
+export const Mouse = ({ size = 20, className }) => (
+  <svg
+    className={className}
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M6 7a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V7Z" />
+    <path d="M12 3v7" />
+    <path d="M6 10h12" />
+  </svg>
+)

@@ -1,9 +1,10 @@
 import * as React from "react"
 import * as styles from "./blocks.module.css"
+import { Mouse } from "./icons"
 
 const clickText = (count, label) => label || `${count} click${count === 1 ? "" : "s"}`
 
-/** One square per click, then the figure in words: the squares are decoration. */
+/** One mouse icon per click, then the figure in words: the icons are decoration. */
 const ClickRow = ({ term, count, label, after }) => (
   <div className={styles.hierClickRow}>
     <dt className={`${styles.label} ${styles.hierClickTerm}`}>{term}</dt>
@@ -11,7 +12,7 @@ const ClickRow = ({ term, count, label, after }) => (
       <span className={styles.hierSquares} aria-hidden="true">
         {/* Capped at the Studio's maximum, so a bad value cannot draw hundreds. */}
         {Array.from({ length: Math.min(Math.round(count), 12) }, (_, i) => (
-          <span key={i} className={after ? `${styles.hierSquare} ${styles.hierSquareAfter}` : styles.hierSquare} />
+          <Mouse key={i} className={after ? `${styles.hierSquare} ${styles.hierSquareAfter}` : styles.hierSquare} />
         ))}
       </span>
       {clickText(count, label)}
