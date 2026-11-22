@@ -5,13 +5,13 @@ export default defineType({
   title: 'Options Comparison',
   type: 'object',
   description:
-    'Options side by side, each with a status badge, a title and a description. Mark the one you went with as chosen to highlight it.',
+    'One option, or up to four side by side, each with a status badge, a title and a description. Mark the one you went with as chosen to highlight it.',
   fields: [
     defineField({
       name: 'options',
       title: 'Options',
       type: 'array',
-      validation: Rule => Rule.required().min(2).max(4),
+      validation: Rule => Rule.required().min(1).max(4),
       of: [
         defineArrayMember({
           name: 'option',

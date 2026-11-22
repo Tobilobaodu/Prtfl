@@ -1070,6 +1070,12 @@ const CASE_STUDY_CSS = `
           height: 400px;
           overflow: hidden;
           justify-self: end;
+          /* Matches the shadow baked into the KRFI mockup export: a short
+             glow at the sides (gone by ~30px) and a longer fall below (gone
+             by ~80px). overflow: hidden clips the image, not this shadow. */
+          box-shadow:
+            0 0 24px rgba(0, 0, 0, 0.08),
+            0 30px 60px -20px rgba(0, 0, 0, 0.3);
         }
 
         .hero-section-image img {

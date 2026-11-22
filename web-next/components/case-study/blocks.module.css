@@ -320,6 +320,7 @@ a.cta:hover {
   padding: clamp(28px, 3.5vw, 50px) var(--quote-inset) clamp(28px, 3.5vw, 50px)
     calc(var(--quote-inset) + 1.09 * var(--quote-size));
   background: var(--quote-bg, var(--orange));
+  border-radius: 10px;
   color: var(--quote-fg, var(--white-heavenly));
 }
 
@@ -590,6 +591,7 @@ a.cta:hover {
   gap: 14px;
   padding: 24px 24px 28px;
   background: var(--card);
+  border-radius: 10px;
 }
 
 .statsCards .statValue {
@@ -672,10 +674,10 @@ a.cta:hover {
 
 /* Short values like "Four week design sprint" read as data, not prose. */
 .detailsCompact .detailBody {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.35;
   letter-spacing: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.35;
 }
 
 /* ── JourneyCards ── */
@@ -699,6 +701,7 @@ a.cta:hover {
   padding: 18px 20px 24px;
   background: var(--card);
   border-top: 3px solid var(--rule-strong);
+  border-radius: 10px;
 }
 
 /* min-height: the last card has no arrow, and its head must stay as tall as
@@ -808,6 +811,7 @@ a.cta:hover {
   padding: 24px 24px 28px;
   background: var(--card);
   border-top: 3px solid transparent;
+  border-radius: 10px;
 }
 
 .optionChosen {
@@ -883,6 +887,7 @@ a.cta:hover {
   gap: 16px;
   padding: clamp(20px, 3vw, 32px);
   background: var(--card);
+  border-radius: 10px;
 }
 
 .flowSteps {
@@ -1024,6 +1029,7 @@ a.cta:hover {
   min-width: 0;
   padding: 22px 20px 24px;
   background: var(--card);
+  border-radius: 10px;
 }
 
 .cardHeading {
@@ -1042,6 +1048,7 @@ a.cta:hover {
   gap: 18px;
   padding: clamp(20px, 3vw, 32px);
   background: var(--card);
+  border-radius: 10px;
 }
 
 .hierHead {
