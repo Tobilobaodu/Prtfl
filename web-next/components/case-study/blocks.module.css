@@ -1312,3 +1312,351 @@ a.cta:hover {
     gap: 14px;
   }
 }
+
+/* ════════════════════════════════════════
+   RoleResults
+   Project details and headline results in one block, in six layouts
+   (A to F in the KRFI review options). Grids use auto-fit for the reason
+   given on .hero.
+   ════════════════════════════════════════ */
+
+/* ── Shared pieces ── */
+
+.rrDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.rrDetailBody {
+  margin: 0;
+  font-size: var(--type-body-small-size);
+  line-height: 1.45;
+  letter-spacing: 0.42px;
+}
+
+.rrStat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* nowrap: "5 → 2" must not break around its arrow. */
+.rrStatValue {
+  margin: 0;
+  font-size: clamp(36px, 4.5vw, 48px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+.rrStatLabel {
+  margin: 0;
+  font-size: var(--type-body-small-size);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.42px;
+}
+
+.rrStatsRow,
+.rrStatsGrid2,
+.rrTimelineStats,
+.rrLedgerStats,
+.rrTrack {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rrStatsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: 24px;
+}
+
+.rrDetailsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: 20px 24px;
+  margin: 0;
+}
+
+/* ── A: statsLead ── */
+
+.rrLead {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.rrLeadHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 16px;
+}
+
+.rrLeadNote {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Quieter than the results: smaller text, muted, under a hairline. */
+.rrLeadDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: 20px 24px;
+  margin-top: 6px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+}
+
+.rrLeadDetails .rrDetailBody {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── B: sidebar ── */
+
+.rrSidebar {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 32px;
+}
+
+.rrSidebarDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding-right: 28px;
+  border-right: 1px solid var(--rule);
+}
+
+.rrStatsGrid2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px 24px;
+}
+
+/* ── C: panel ── */
+
+.rrPanelBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.rrPanel {
+  padding: 24px 24px 20px;
+  border-radius: 10px;
+  background: var(--black-pitch-nah);
+}
+
+.rrPanel .rrStatValue {
+  font-size: clamp(32px, 4vw, 40px);
+}
+
+.rrPanel .rrStatLabel {
+  color: var(--white-heavenly);
+}
+
+/* #a8a5a0 on the panel is about 7:1, past the 4.5:1 small text needs. */
+.rrPanel .footnote {
+  color: #a8a5a0;
+}
+
+/* ── D: statement ── */
+
+.rrStatement {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.rrStatementText {
+  margin: 0;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.rrHighlight {
+  color: var(--accent);
+}
+
+.rrStatementMeta {
+  margin: 0;
+  max-width: 80ch;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ── E: ledger ── */
+
+/* Every row is the same three columns, label or number / text / category,
+   so the details and the results line up as one list. */
+.rrLedgerDetails,
+.rrLedgerStats {
+  margin: 0;
+}
+
+.rrLedgerDetails .rrDetail,
+.rrLedgerStat {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) minmax(0, 140px);
+  align-items: baseline;
+  gap: 4px 20px;
+  padding: 14px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.rrLedgerDetails .rrDetail:first-child {
+  border-top: none;
+}
+
+.rrLedgerDetails .rrDetail .rrDetailBody {
+  grid-column: 2 / -1;
+}
+
+/* The heavy rule is where the details end and the results begin. */
+.rrLedgerStats {
+  margin-top: 8px;
+  border-top: 2px solid var(--rule-strong);
+}
+
+.rrLedgerStats .rrLedgerStat:first-child {
+  border-top: none;
+}
+
+.rrLedgerStat .rrStatValue {
+  font-size: 32px;
+}
+
+.rrLedgerStat .rrStatLabel {
+  font-size: 16px;
+}
+
+.rrLedgerCategory {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* ── F: timeline ── */
+
+/* The track is the top border of each phase, with a dot at its start; the
+   last dot, on the results, is in the accent. */
+.rrTrack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 28px 24px;
+}
+
+.rrPhase {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding-top: 30px;
+}
+
+.rrPhase::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 0;
+  right: -24px;
+  height: 2px;
+  background: var(--rule-strong);
+}
+
+.rrPhase:last-child::before {
+  right: 0;
+}
+
+.rrDot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--rule-strong);
+}
+
+.rrPhaseResults .rrDot {
+  background: var(--accent);
+}
+
+.rrPhaseResults > .label {
+  color: var(--accent);
+}
+
+.rrPhaseBody {
+  margin: 0;
+  font-size: var(--type-body-small-size);
+  line-height: 1.5;
+  letter-spacing: 0.42px;
+}
+
+.rrPhaseNote {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* One grid for all the results, so every label starts at the same point
+   however wide the number before it. */
+.rrTimelineStats {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px 12px;
+}
+
+.rrTimelineStats .rrStat {
+  display: contents;
+}
+
+.rrTimelineStats .rrStatValue {
+  font-size: 24px;
+}
+
+@media (max-width: 767px) {
+  .rrSidebar {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .rrSidebarDetails {
+    padding: 0 0 24px;
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .rrLedgerDetails .rrDetail,
+  .rrLedgerStat {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rrLedgerCategory {
+    text-align: left;
+  }
+
+  /* Stacked, a run of track between phases would point nowhere. */
+  .rrPhase::before {
+    right: 0;
+  }
+}

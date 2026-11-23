@@ -41,6 +41,7 @@ import {
   CardGrid,
   HierarchyDiagram,
   BeforeAfterSlider,
+  RoleResults,
 } from "../../components/case-study"
 import SpacingGuides from "./SpacingGuides"
 
@@ -191,6 +192,39 @@ const FLOW_STEPS = [
   { title: "Draft in plain English", owner: "Me, with Communications" },
   { title: "Compliance review", owner: "Legal", highlight: true },
   { title: "Live on the page", owner: "Signed off" },
+]
+
+// RoleResults samples: the copy from the KRFI review options (A to F).
+const RR_DETAILS = [
+  { label: "Role", body: "Product designer, end to end. Research, navigation, page and copy" },
+  { label: "Timeline", body: "4-week sprint in a 2.5-month project. Launched 2024" },
+  { label: "Team", body: "3 broker liaison leads, CRO analyst, Head of Comms, Legal, developers" },
+  { label: "Constraint", body: "Every line of copy needed legal sign off" },
+]
+
+const RR_STATS = [
+  { value: "60%", label: "fewer calls asking for guides and documents", category: "Broker support" },
+  { value: "15%", label: "more case submissions", category: "Conversion" },
+  { value: "5 → 2", label: "clicks from homepage to product page", category: "Navigation" },
+  { value: "55%", label: "fewer dead clicks", category: "Usability" },
+]
+
+const RR_STATEMENT =
+  "I ran the research, rebuilt the navigation, designed the page and wrote every line of copy. In the 30 days after launch, brokers needed 3 clicks fewer, 2 instead of 5, to reach a product, made 15% more case submissions and phoned us 60% less for documents. Dead clicks fell by 55%."
+
+const RR_HIGHLIGHTS = ["3 clicks fewer, 2 instead of 5", "15% more", "60% less", "55%"]
+
+const RR_PHASES = [
+  {
+    label: "Weeks 1–4 · Sprint",
+    body: "I ran research, restructured navigation, designed the page and wrote the copy.",
+    note: "With 3 broker liaison leads, a CRO analyst, Head of Comms, Legal and developers",
+  },
+  {
+    label: "Launch · 2024",
+    body: "Shipped after a 2.5-month build.",
+    note: "Every line of copy cleared Legal before go-live",
+  },
 ]
 
 // The Studio's default notice text (schemaTypes/ndaNotice.ts).
@@ -345,6 +379,60 @@ export default async function CsComponentsPage() {
 
               <Item type="sectionDivider" note="Opening the next section">
                 <SectionDivider tag="Design" title="What changed" dividerStyle="line" />
+              </Item>
+
+              <Item type="roleResults" note="layout: statsLead (A), results lead, details as a quiet strip">
+                <RoleResults
+                  layout="statsLead"
+                  details={RR_DETAILS}
+                  stats={RR_STATS}
+                  footnote="First 30 days after launch"
+                />
+              </Item>
+
+              <Item type="roleResults" note="layout: sidebar (B), details in a column, results 2 by 2">
+                <RoleResults
+                  layout="sidebar"
+                  details={RR_DETAILS}
+                  stats={RR_STATS}
+                  footnote="Measured over the first 30 days after launch."
+                />
+              </Item>
+
+              <Item type="roleResults" note="layout: panel (C), results in a dark panel">
+                <RoleResults
+                  layout="panel"
+                  details={RR_DETAILS}
+                  stats={RR_STATS}
+                  footnote="Measured over the first 30 days after launch."
+                />
+              </Item>
+
+              <Item type="roleResults" note="layout: statement (D), numbers written into the story">
+                <RoleResults
+                  layout="statement"
+                  statement={RR_STATEMENT}
+                  highlights={RR_HIGHLIGHTS}
+                  details={RR_DETAILS}
+                />
+              </Item>
+
+              <Item type="roleResults" note="layout: ledger (E), details and results in one list">
+                <RoleResults
+                  layout="ledger"
+                  details={RR_DETAILS}
+                  stats={RR_STATS}
+                  footnote="Measured over the first 30 days after launch."
+                />
+              </Item>
+
+              <Item type="roleResults" note="layout: timeline (F), results pinned at day 30">
+                <RoleResults
+                  layout="timeline"
+                  phases={RR_PHASES}
+                  stats={RR_STATS}
+                  resultsLabel="Day 30 · Results"
+                />
               </Item>
 
               <Item type="splitHero" note="Figma 3813-77">
