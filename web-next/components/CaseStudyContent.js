@@ -31,6 +31,7 @@ import {
   ProcessFlow,
   CardGrid,
   BeforeAfterSlider,
+  RoleResults,
   HierarchyDiagram,
 } from "./case-study"
 // Served from public/, not bundled — Next resolves these at runtime.
@@ -921,6 +922,8 @@ export default function CaseStudyContent({
                   return <HierarchyDiagram key={index} {...component} />
                 case 'beforeAfterSlider':
                   return <BeforeAfterSlider key={index} {...component} />
+                case 'roleResults':
+                  return <RoleResults key={index} {...component} />
                 default:
                   return null
               }

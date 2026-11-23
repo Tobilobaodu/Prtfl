@@ -9,6 +9,7 @@ import hierarchyDiagram from './hierarchyDiagram'
 import journeyCards from './journeyCards'
 import keyQuestion from './keyQuestion'
 import optionsComparison from './optionsComparison'
+import roleResults from './roleResults'
 import processFlow from './processFlow'
 import statsBand from './statsBand'
 import experience from './experience'
@@ -48,6 +49,7 @@ export const schemaTypes = [
   keyQuestion,
   optionsComparison,
   processFlow,
+  roleResults,
   statsBand,
   caseStudy,
   experience,
