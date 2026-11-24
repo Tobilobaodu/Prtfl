@@ -1456,20 +1456,20 @@ a.cta:hover {
 .rrPanel {
   padding: 24px 24px 20px;
   border-radius: 10px;
-  background: var(--black-pitch-nah);
+  background: #0b5d4d;
 }
 
 .rrPanel .rrStatValue {
   font-size: clamp(32px, 4vw, 40px);
+  color: #2ecc71;
 }
 
 .rrPanel .rrStatLabel {
-  color: var(--white-heavenly);
+  color: #e6efea;
 }
 
-/* #a8a5a0 on the panel is about 7:1, past the 4.5:1 small text needs. */
 .rrPanel .footnote {
-  color: #a8a5a0;
+  color: #93aba1;
 }
 
 /* ── D: statement ── */
