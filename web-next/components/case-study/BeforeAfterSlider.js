@@ -3,6 +3,7 @@
 import * as React from "react"
 import { sanityImageUrl, sanityImageSrcSet } from "../../utils/sanityImage"
 import * as styles from "./blocks.module.css"
+import { DemoLink } from "./LiveDemoLink"
 
 const clamp = (n) => Math.min(100, Math.max(0, n))
 
@@ -33,6 +34,9 @@ const BeforeAfterSlider = ({
   beforeLabel = "Before",
   afterLabel = "After",
   caption,
+  demo,
+  linkUrl,
+  linkLabel,
 }) => {
   const [pos, setPos] = React.useState(50)
   const [dragging, setDragging] = React.useState(false)
@@ -130,7 +134,12 @@ const BeforeAfterSlider = ({
           <Chevrons />
         </div>
       </div>
-      {caption && <figcaption className={styles.footnote}>{caption}</figcaption>}
+      {(caption || demo || linkUrl) && (
+        <figcaption className={`${styles.demoRow} ${styles.baCaption}`}>
+          {caption && <span className={styles.footnote}>{caption}</span>}
+          <DemoLink demo={demo} linkUrl={linkUrl} linkLabel={linkLabel} />
+        </figcaption>
+      )}
     </figure>
   )
 }

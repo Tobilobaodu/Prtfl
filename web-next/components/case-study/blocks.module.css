@@ -700,7 +700,6 @@ a.cta:hover {
   min-width: 0;
   padding: 18px 20px 24px;
   background: var(--card);
-  border-top: 3px solid var(--rule-strong);
   border-radius: 10px;
 }
 
@@ -1188,6 +1187,40 @@ a.cta:hover {
 
 .baDragging {
   cursor: grabbing;
+}
+
+/* Text on the left, the demo link on the right; they stack when the row runs
+   out of room. Used by LiveDemoLink and under the BeforeAfterSlider frame. */
+.demoRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px 24px;
+}
+
+.demoRow .footnote {
+  margin: 0;
+}
+
+.baCaption {
+  margin-top: 16px;
+}
+
+.demoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.demoLink:hover {
+  text-decoration-thickness: 2px;
 }
 
 .baImage {

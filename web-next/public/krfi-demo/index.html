@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Residential mortgages – KRFI design demo</title>
+  <meta name="description" content="A working HTML build of the Kent Reliance for Intermediaries residential pages, designed by Tobiloba Odu.">
+  <!-- A portfolio demo, not the live site: keep it out of search results. -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/krfi-demo/styles.css">
+</head>
+<body>
+
+  <div class="demo-bar">
+    Design demo by Tobiloba Odu. This is not the live Kent Reliance site.
+    <a href="/">Back to portfolio</a>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="/krfi-demo">
+        <span class="logo-word"><span>Kent</span>Reliance</span>
+        <span class="logo-sub">for Intermediaries</span>
+      </a>
+
+      <nav class="utility-nav" aria-label="Utility">
+        <a href="#">About us</a>
+        <a href="#">BDM finder</a>
+        <a href="#">Conveyancing</a>
+        <a href="#">Contact us</a>
+        <span class="divider" aria-hidden="true"></span>
+        <a class="strong" href="#">Login</a>
+        <a class="strong" href="#">Register</a>
+      </nav>
+
+      <button class="menu-toggle" type="button" aria-expanded="false">
+        <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#menu"></use></svg>
+        <span class="visually-hidden">Open menu</span>
+      </button>
+
+      <nav class="main-nav" aria-label="Main">
+        <a href="#">Buy to Let <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></a>
+        <a href="/krfi-demo/products" aria-current="page">Residential <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></a>
+        <a href="#">Insight and events</a>
+      </nav>
+    </div>
+  </header>
+
+  <aside class="help-panel" aria-label="Help for brokers">
+    <button class="help-toggle" type="button" aria-expanded="false" aria-controls="help-links">
+      Want to know more about how we can help your clients?
+      <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#plus"></use></svg>
+    </button>
+    <ul class="help-links" id="help-links">
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-download"></use></svg>Download product guide</a></li>
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-criteria"></use></svg>Residential criteria</a></li>
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-calculator"></use></svg>Residential calculator</a></li>
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-value"></use></svg>Fair Value Assessment</a></li>
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-bdm"></use></svg>Find a Local BDM</a></li>
+    </ul>
+    <div class="help-close-row">
+      <button class="help-close" type="button">
+        <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#close"></use></svg>
+        <span class="visually-hidden">Close help</span>
+      </button>
+    </div>
+  </aside>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <h1 class="hero-title">Our latest <span class="script">residential</span> mortgage products</h1>
+        <p class="hero-text">Our residential products are designed to support a wide range of client types, making it easier for you to place your cases.</p>
+        <div class="hero-stats">
+          <p class="stat">
+            <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#percent"></use></svg>
+            Rates from <strong>3.34%</strong>
+          </p>
+          <p class="stat">
+            <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#pie"></use></svg>
+            Up to <strong>95% LTV</strong>
+          </p>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="/krfi-demo/img/hero-couple.jpg" alt="A young couple sitting on the floor of their new home with mugs of tea" width="1600" height="1288">
+        <button class="need-help" type="button" aria-expanded="false" aria-controls="help-links">
+          <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#plus"></use></svg>
+          Need help?
+        </button>
+      </div>
+    </section>
+
+    <section class="features" aria-label="Product features">
+      <p class="feature">
+        <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#clipboard"></use></svg>
+        Fixed and Percentage Fee options
+      </p>
+      <p class="feature">
+        <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#moneybag"></use></svg>
+        No maximum loan amount on selected products
+      </p>
+      <p class="feature">
+        <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#calendar"></use></svg>
+        Available for purchase and remortgage
+      </p>
+      <p class="feature">
+        <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#house"></use></svg>
+        £75,000 minimum property value
+      </p>
+    </section>
+
+    <section class="carousel" aria-roledescription="carousel" aria-label="Why choose us">
+      <div class="carousel-controls">
+        <button type="button" data-prev>
+          <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#arrow-left"></use></svg> Prev
+        </button>
+        <button type="button" data-next>
+          Next <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#arrow-right"></use></svg>
+        </button>
+      </div>
+      <p class="visually-hidden" aria-live="polite"></p>
+
+      <ul class="carousel-track">
+        <li class="slide" aria-roledescription="slide">
+          <div class="slide-body">
+            <p class="slide-eyebrow">Core flexibility</p>
+            <h2 class="slide-title">We’ll always look to find the <span class="script">potential</span> in any case</h2>
+            <p class="slide-text">We understand that sometimes, depending on your clients profile you may need a little extra flexibility. Applying common-sense to our decision making means we could help your clients where other lenders may struggle to.</p>
+          </div>
+          <div class="slide-actions">
+            <a class="btn-magenta" href="/krfi-demo/products">Product page <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#arrow-up-right"></use></svg></a>
+            <a class="btn-teal" href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#download"></use></svg> Download guide</a>
+          </div>
+        </li>
+        <li class="slide" aria-roledescription="slide">
+          <div class="slide-body">
+            <p class="slide-eyebrow">Core flexibility</p>
+            <h2 class="slide-title">We’ll always look to find the <span class="script">potential</span> in any case</h2>
+            <p class="slide-text">We understand that sometimes, depending on your clients profile you may need a little extra flexibility. Applying common-sense to our decision making means we could help your clients where other lenders may struggle to.</p>
+          </div>
+          <div class="slide-actions">
+            <a class="btn-magenta" href="/krfi-demo/products">Product page <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#arrow-up-right"></use></svg></a>
+            <a class="btn-teal" href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#download"></use></svg> Download guide</a>
+          </div>
+        </li>
+        <li class="slide" aria-roledescription="slide">
+          <div class="slide-body">
+            <p class="slide-eyebrow">Core flexibility</p>
+            <h2 class="slide-title">We’ll always look to find the <span class="script">potential</span> in any case</h2>
+            <p class="slide-text">We understand that sometimes, depending on your clients profile you may need a little extra flexibility. Applying common-sense to our decision making means we could help your clients where other lenders may struggle to.</p>
+          </div>
+          <div class="slide-actions">
+            <a class="btn-magenta" href="/krfi-demo/products">Product page <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#arrow-up-right"></use></svg></a>
+            <a class="btn-teal" href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#download"></use></svg> Download guide</a>
+          </div>
+        </li>
+        <li class="slide" aria-roledescription="slide">
+          <div class="slide-body">
+            <p class="slide-eyebrow">Core flexibility</p>
+            <h2 class="slide-title">We’ll always look to find the <span class="script">potential</span> in any case</h2>
+            <p class="slide-text">We understand that sometimes, depending on your clients profile you may need a little extra flexibility. Applying common-sense to our decision making means we could help your clients where other lenders may struggle to.</p>
+          </div>
+          <div class="slide-actions">
+            <a class="btn-magenta" href="/krfi-demo/products">Product page <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#arrow-up-right"></use></svg></a>
+            <a class="btn-teal" href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#download"></use></svg> Download guide</a>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="wrap help-section">
+      <div class="help-copy">
+        <h2 class="help-title"><span class="script">Here to help,</span> whatever the case</h2>
+        <p>We know that every residential case is different and while some lenders may not be able to help, we see the potential. Our strength lies in our common-sense approach.</p>
+        <p>With a willingness to consider cases that fall outside of standard criteria and the ability to be flexible with our income multiples, we could provide solutions for even the most complex of scenarios.</p>
+
+        <div class="accordion">
+          <div class="acc-item">
+            <h3 style="margin:0">
+              <button class="acc-trigger" type="button" aria-expanded="false" aria-controls="acc-1">
+                <svg class="star" aria-hidden="true"><use href="/krfi-demo/icons.svg#star"></use></svg>
+                Multi-source income
+                <svg class="chev" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg>
+              </button>
+            </h3>
+            <div class="acc-panel" id="acc-1" hidden><p>Demo content: how income from more than one source is assessed goes here.</p></div>
+          </div>
+          <div class="acc-item">
+            <h3 style="margin:0">
+              <button class="acc-trigger" type="button" aria-expanded="false" aria-controls="acc-2">
+                <svg class="star" aria-hidden="true"><use href="/krfi-demo/icons.svg#star"></use></svg>
+                Entrepreneurs
+                <svg class="chev" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg>
+              </button>
+            </h3>
+            <div class="acc-panel" id="acc-2" hidden><p>Demo content: criteria for entrepreneurs go here.</p></div>
+          </div>
+          <div class="acc-item">
+            <h3 style="margin:0">
+              <button class="acc-trigger" type="button" aria-expanded="false" aria-controls="acc-3">
+                <svg class="star" aria-hidden="true"><use href="/krfi-demo/icons.svg#star"></use></svg>
+                Self-employed
+                <svg class="chev" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg>
+              </button>
+            </h3>
+            <div class="acc-panel" id="acc-3" hidden><p>Demo content: criteria for self-employed clients go here.</p></div>
+          </div>
+          <div class="acc-item">
+            <h3 style="margin:0">
+              <button class="acc-trigger" type="button" aria-expanded="false" aria-controls="acc-4">
+                <svg class="star" aria-hidden="true"><use href="/krfi-demo/icons.svg#star"></use></svg>
+                High net worth income
+                <svg class="chev" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg>
+              </button>
+            </h3>
+            <div class="acc-panel" id="acc-4" hidden><p>Demo content: criteria for high net worth clients go here.</p></div>
+          </div>
+          <div class="acc-item">
+            <h3 style="margin:0">
+              <button class="acc-trigger" type="button" aria-expanded="false" aria-controls="acc-5">
+                <svg class="star" aria-hidden="true"><use href="/krfi-demo/icons.svg#star"></use></svg>
+                Newly qualified professionals
+                <svg class="chev" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg>
+              </button>
+            </h3>
+            <div class="acc-panel" id="acc-5" hidden><p>Demo content: criteria for newly qualified professionals go here.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mosaic">
+        <img class="m1" src="/krfi-demo/img/case-musician.jpg" alt="A musician wearing headphones at a keyboard" loading="lazy">
+        <img class="m2" src="/krfi-demo/img/case-designer.jpg" alt="A designer sketching at a desk" loading="lazy">
+        <img class="m3" src="/krfi-demo/img/case-business.jpg" alt="A businesswoman holding a tablet" loading="lazy">
+        <img class="m4" src="/krfi-demo/img/case-chef.jpg" alt="A smiling café owner in an apron" loading="lazy">
+        <img class="m5" src="/krfi-demo/img/case-nurse.jpg" alt="A nurse with a stethoscope" loading="lazy">
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <ul class="footer-links">
+        <li><a href="#">Covid-19 FAQs</a></li>
+        <li><a href="#">Online criteria guide</a></li>
+        <li><a href="#">Insights and events</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Cookies policy</a></li>
+        <li><a href="#">Terms and Conditions</a></li>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Modern Slavery Statement</a></li>
+        <li><a href="#">Site map</a></li>
+      </ul>
+
+      <div class="footer-badges">
+        <span class="badge-etech">eTech</span>
+        <div class="social">
+          <a class="badge-square badge-in" href="#" aria-label="LinkedIn">in</a>
+          <a class="badge-square badge-tw" href="#" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M22 5.9c-.7.3-1.5.5-2.4.6.9-.5 1.5-1.3 1.8-2.3-.8.5-1.7.8-2.6 1-1.6-1.7-4.4-1.5-5.9.3-.7.9-1 2.1-.8 3.2-3.3-.2-6.4-1.7-8.5-4.3-1.1 1.9-.5 4.3 1.3 5.5-.7 0-1.3-.2-1.9-.5 0 2 1.4 3.7 3.3 4.1-.6.2-1.2.2-1.9.1.5 1.7 2.1 2.9 3.9 2.9-1.7 1.4-3.9 2-6.1 1.8 1.9 1.2 4.1 1.9 6.4 1.9 7.7 0 12-6.5 11.8-12.4.8-.6 1.5-1.3 2-2.1z"/></svg>
+          </a>
+        </div>
+        <div class="badge-yana" aria-label="Proudly supporting You Are Not Alone">
+          <div class="yana-top"><span>HM Government</span><span>Proudly supporting<br><span class="yana-tag">#YouAreNotAlone</span></span></div>
+          <div class="yana-foot">Find support at: gov.uk/domestic-abuse</div>
+        </div>
+      </div>
+
+      <div class="legal">
+        <p>© OneSavings Bank plc 2021.</p>
+        <p>krbs, Kent Reliance Banking Services and Kent Reliance are trading names of OneSavings Bank plc. Registered in England and Wales (company number 7312896). Registered office: Reliance House, Sun Pier, Chatham, Kent, ME4 4ET. OneSavings Bank plc is authorised by the Prudential Regulation Authority and regulated by the Financial Conduct Authority and the Prudential Regulation Authority (registered number 530504). We subscribe to the Financial Services Compensation Scheme and the Financial Ombudsman Service.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/krfi-demo/script.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Residential products – KRFI design demo</title>
+  <meta name="description" content="A working HTML build of the Kent Reliance for Intermediaries residential products page, designed by Tobiloba Odu.">
+  <!-- A portfolio demo, not the live site: keep it out of search results. -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/krfi-demo/styles.css">
+</head>
+<body class="products-page">
+
+  <div class="demo-bar">
+    Design demo by Tobiloba Odu. This is not the live Kent Reliance site.
+    <a href="/">Back to portfolio</a>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="/krfi-demo">
+        <span class="logo-word"><span>Kent</span>Reliance</span>
+        <span class="logo-sub">for Intermediaries</span>
+      </a>
+
+      <nav class="utility-nav" aria-label="Utility">
+        <a href="#">About us</a>
+        <a href="#">BDM finder</a>
+        <a href="#">Conveyancing</a>
+        <a href="#">Contact us</a>
+        <span class="divider" aria-hidden="true"></span>
+        <a class="strong" href="#">Login</a>
+        <a class="strong" href="#">Register</a>
+      </nav>
+
+      <button class="menu-toggle" type="button" aria-expanded="false">
+        <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#menu"></use></svg>
+        <span class="visually-hidden">Open menu</span>
+      </button>
+
+      <nav class="main-nav" aria-label="Main">
+        <a href="#">Buy to Let <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></a>
+        <a href="/krfi-demo" aria-current="page">Residential <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></a>
+        <a href="#">Insight and events</a>
+      </nav>
+    </div>
+  </header>
+
+  <aside class="help-panel" aria-label="Help for brokers">
+    <button class="help-toggle" type="button" aria-expanded="false" aria-controls="help-links">
+      Want to know more about how we can help your clients?
+      <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#plus"></use></svg>
+    </button>
+    <ul class="help-links" id="help-links">
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-download"></use></svg>Download product guide</a></li>
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-criteria"></use></svg>Residential criteria</a></li>
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-calculator"></use></svg>Residential calculator</a></li>
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-value"></use></svg>Fair Value Assessment</a></li>
+      <li><a href="#"><svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sp-bdm"></use></svg>Find a Local BDM</a></li>
+    </ul>
+    <div class="help-close-row">
+      <button class="help-close" type="button">
+        <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#close"></use></svg>
+        <span class="visually-hidden">Close help</span>
+      </button>
+    </div>
+  </aside>
+
+  <button class="need-help" type="button" aria-expanded="false" aria-controls="help-links">
+    <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#plus"></use></svg>
+    Need help?
+  </button>
+
+  <main>
+    <section class="intro">
+      <h1 class="intro-title"><span class="script">Residential</span> mortgage products for clients who need extra <span class="script">flexibility</span></h1>
+      <p>With our flexible solutions available for a variety of clients including young professionals, the self-employed, entrepreneurs, high net worth individuals or those with a complex income, our underwriters can consider cases that fall outside of standard criteria.</p>
+      <p>You can see our latest residential mortgage products below, but we’d always recommend getting in touch with one of our <a href="#">BDMs</a> to discuss your case.</p>
+    </section>
+
+    <div class="photo-pair">
+      <img src="/krfi-demo/img/product-building.jpg" alt="" width="1400" height="489">
+      <img src="/krfi-demo/img/product-house.jpg" alt="" width="1400" height="484">
+    </div>
+
+    <section class="feature-band" aria-label="Product features">
+      <div class="features">
+        <p class="feature">
+          <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#percent"></use></svg>
+          Rates from <strong>4.24%</strong>
+        </p>
+        <p class="feature">
+          <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#pie"></use></svg>
+          Up to <strong>85% LTV</strong>
+        </p>
+        <p class="feature">
+          <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#clipboard"></use></svg>
+          Fixed and percentage fee options
+        </p>
+        <p class="feature">
+          <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#moneybag"></use></svg>
+          No maximum loan amount
+        </p>
+        <p class="feature">
+          <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#calendar"></use></svg>
+          Available for purchase and remortgage
+        </p>
+        <p class="feature">
+          <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#house"></use></svg>
+          £75,000 minimum value
+        </p>
+      </div>
+    </section>
+
+    <section class="wrap products" aria-labelledby="products-caption">
+      <table class="products-table">
+        <caption id="products-caption" class="visually-hidden">Residential mortgage products. Sample data for the demo.</caption>
+        <thead>
+          <tr>
+            <th scope="col"><button class="sort-btn" type="button" data-sort="msv">MSV <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sort"></use></svg></button></th>
+            <th scope="col"><button class="sort-btn" type="button" data-sort="ltv">LTV <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sort"></use></svg></button></th>
+            <th scope="col"><button class="sort-btn" type="button" data-sort="type">Mortgage Type <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sort"></use></svg></button></th>
+            <th scope="col"><button class="sort-btn" type="button" data-sort="term">Term <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sort"></use></svg></button></th>
+            <th scope="col"><button class="sort-btn" type="button" data-sort="rate">Initial Rate <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sort"></use></svg></button></th>
+            <th scope="col"><button class="sort-btn" type="button" data-sort="fee">Product Fee <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#sort"></use></svg></button></th>
+            <th scope="col" class="static">ERC</th>
+            <th scope="col" class="static"><span class="visually-hidden">Details</span></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <button class="load-more" type="button">
+        Load more <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg>
+      </button>
+
+      <div class="revert">
+        <div>
+          <p>Revert rate :&nbsp; BBR + 3.49%/ Bank of England Base Rate (BBR): 1.25%</p>
+          <p class="revert-note">You can find out more about the types of professions we’ll consider in our <a href="#">product guide</a></p>
+        </div>
+        <a class="btn-apply" href="#">Apply <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#arrow-right"></use></svg></a>
+      </div>
+    </section>
+
+    <section aria-labelledby="criteria-title">
+      <div class="wrap">
+        <h2 class="criteria-title" id="criteria-title">Acceptable credit criteria</h2>
+      </div>
+      <div class="criteria">
+        <div class="criteria-tabs">
+          <div role="tablist" aria-orientation="vertical" aria-label="Credit criteria">
+            <button class="criteria-tab" role="tab" id="tab-1" aria-selected="false" aria-controls="cp-1" tabindex="-1">Missed mortgage/rent arrears <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></button>
+            <button class="criteria-tab" role="tab" id="tab-2" aria-selected="false" aria-controls="cp-2" tabindex="-1">Unsecured arrears <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></button>
+            <button class="criteria-tab" role="tab" id="tab-3" aria-selected="true" aria-controls="cp-3">County court judgments (CCJ)<br>or registered defaults <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></button>
+            <button class="criteria-tab" role="tab" id="tab-4" aria-selected="false" aria-controls="cp-4" tabindex="-1">Individual voluntary arrangement (IVA)<br>and discharged bankrupts <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></button>
+            <button class="criteria-tab" role="tab" id="tab-5" aria-selected="false" aria-controls="cp-5" tabindex="-1">Repossessions <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></button>
+          </div>
+        </div>
+        <div class="criteria-panel" role="tabpanel" id="cp-1" aria-labelledby="tab-1" hidden>
+          <p>Demo content: criteria for missed mortgage or rent arrears go here.</p>
+        </div>
+        <div class="criteria-panel" role="tabpanel" id="cp-2" aria-labelledby="tab-2" hidden>
+          <p>Demo content: criteria for unsecured arrears go here.</p>
+        </div>
+        <div class="criteria-panel" role="tabpanel" id="cp-3" aria-labelledby="tab-3">
+          <ol>
+            <li>0 in the last 36 months</li>
+            <li>All CCJs/defaults were registered more than three years ago and satisfied prior to mortgage application</li>
+            <li>All CCJs/defaults were satisfied more than 12 months prior to application regardless of date of registration</li>
+            <li>The CCJs/defaults in aggregate amount to less than £300, regardless of date of registration, and were satisfied prior to mortgage application</li>
+          </ol>
+        </div>
+        <div class="criteria-panel" role="tabpanel" id="cp-4" aria-labelledby="tab-4" hidden>
+          <p>Demo content: criteria for IVAs and discharged bankrupts go here.</p>
+        </div>
+        <div class="criteria-panel" role="tabpanel" id="cp-5" aria-labelledby="tab-5" hidden>
+          <p>Demo content: criteria for repossessions go here.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <section class="note is-grey">
+      <div class="note-inner">
+        <h2>Residential products now revert to Bank of England Base Rate (BBR) trackers</h2>
+        <p>On expiry of the fixed rate product, the mortgage will revert to a rate of interest which will be at a variable rate above the Bank of England Base Rate (“BBR”) for the remainder of the loan.</p>
+        <p>The rate will move up and down in line with BBR but if BBR falls below 0.00% the rate the customer is charged won’t change. Please refer to individual products for details on the rates applicable.</p>
+      </div>
+    </section>
+
+    <section class="note">
+      <div class="note-inner">
+        <h2>Important note regarding valuations</h2>
+        <p>A physical valuation will be sourced from Connells via the standard process. Connells has issued prescriptive guidance to follow around inspection protocols, which you can find here.</p>
+        <p>If this guidance isn’t adhered to (e.g., the property is occupied or doors have been left closed), the surveyor may not go ahead with the valuation but will still charge the valuation fee for the on-site visit.</p>
+      </div>
+    </section>
+
+    <section class="note is-grey">
+      <div class="note-inner">
+        <h2>Terms and conditions</h2>
+        <p>At the end of any initial deal, the interest rate will revert to the Bank of England Base Rate (BBR) tracker. All of our BBR products have a floor.</p>
+        <div id="terms-more" hidden>
+          <p>Demo content: the full terms and conditions go here.</p>
+        </div>
+        <button class="see-more" type="button" aria-expanded="false" aria-controls="terms-more">See more <svg class="icon" aria-hidden="true"><use href="/krfi-demo/icons.svg#chevron"></use></svg></button>
+      </div>
+    </section>
+
+    <div class="spacer"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <ul class="footer-links">
+        <li><a href="#">Covid-19 FAQs</a></li>
+        <li><a href="#">Online criteria guide</a></li>
+        <li><a href="#">Insights and events</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Cookies policy</a></li>
+        <li><a href="#">Terms and Conditions</a></li>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Modern Slavery Statement</a></li>
+        <li><a href="#">Site map</a></li>
+      </ul>
+
+      <div class="footer-badges">
+        <span class="badge-etech">eTech</span>
+        <div class="social">
+          <a class="badge-square badge-in" href="#" aria-label="LinkedIn">in</a>
+          <a class="badge-square badge-tw" href="#" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M22 5.9c-.7.3-1.5.5-2.4.6.9-.5 1.5-1.3 1.8-2.3-.8.5-1.7.8-2.6 1-1.6-1.7-4.4-1.5-5.9.3-.7.9-1 2.1-.8 3.2-3.3-.2-6.4-1.7-8.5-4.3-1.1 1.9-.5 4.3 1.3 5.5-.7 0-1.3-.2-1.9-.5 0 2 1.4 3.7 3.3 4.1-.6.2-1.2.2-1.9.1.5 1.7 2.1 2.9 3.9 2.9-1.7 1.4-3.9 2-6.1 1.8 1.9 1.2 4.1 1.9 6.4 1.9 7.7 0 12-6.5 11.8-12.4.8-.6 1.5-1.3 2-2.1z"/></svg>
+          </a>
+        </div>
+        <div class="badge-yana" aria-label="Proudly supporting You Are Not Alone">
+          <div class="yana-top"><span>HM Government</span><span>Proudly supporting<br><span class="yana-tag">#YouAreNotAlone</span></span></div>
+          <div class="yana-foot">Find support at: gov.uk/domestic-abuse</div>
+        </div>
+      </div>
+
+      <div class="legal">
+        <p>© OneSavings Bank plc 2021.</p>
+        <p>krbs, Kent Reliance Banking Services and Kent Reliance are trading names of OneSavings Bank plc. Registered in England and Wales (company number 7312896). Registered office: Reliance House, Sun Pier, Chatham, Kent, ME4 4ET. OneSavings Bank plc is authorised by the Prudential Regulation Authority and regulated by the Financial Conduct Authority and the Prudential Regulation Authority (registered number 530504). We subscribe to the Financial Services Compensation Scheme and the Financial Ombudsman Service.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/krfi-demo/script.js" type="module"></script>
+</body>
+</html>

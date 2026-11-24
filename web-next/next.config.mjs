@@ -44,6 +44,17 @@ const nextConfig = {
     ]
   },
 
+  // Static HTML demos live in public/<name>/ and are served as-is. Next only
+  // serves exact file paths from public/, so these give each demo a clean URL
+  // (/krfi-demo, not /krfi-demo/index.html). The pages use absolute paths for
+  // their CSS, JS and images, so they work at either address.
+  async rewrites() {
+    return [
+      { source: '/krfi-demo', destination: '/krfi-demo/index.html' },
+      { source: '/krfi-demo/products', destination: '/krfi-demo/products.html' },
+    ]
+  },
+
   // Ported from the [[headers]] blocks in netlify.toml, which is being deleted
   // along with the rest of the Netlify config. These were platform
   // configuration, not application code, so nothing carried them over when the

@@ -60,6 +60,7 @@ export default defineType({
         { type: 'cardGrid' },
         { type: 'hierarchyDiagram' },
         { type: 'beforeAfterSlider' },
+        { type: 'liveDemoLink' },
         { type: 'roleResults' },
       ],
       validation: (Rule) =>

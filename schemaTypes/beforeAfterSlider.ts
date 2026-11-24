@@ -1,4 +1,5 @@
 import {defineType, defineField} from 'sanity'
+import {demoLinkFields} from './demos'
 
 /**
  * Two images stacked in one frame with a draggable divider: drag left to
@@ -58,7 +59,9 @@ export default defineType({
       title: 'Caption',
       type: 'string',
       description: 'Optional line under the frame.'
-    })
+    }),
+    // Optional here: a link on the right of the caption.
+    ...demoLinkFields()
   ],
   preview: {
     select: {media: 'afterImage', caption: 'caption'},

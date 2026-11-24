@@ -41,6 +41,7 @@ import {
   CardGrid,
   HierarchyDiagram,
   BeforeAfterSlider,
+  LiveDemoLink,
   RoleResults,
 } from "../../components/case-study"
 import SpacingGuides from "./SpacingGuides"
@@ -541,6 +542,14 @@ export default async function CsComponentsPage() {
                   beforeImage={images[1]}
                   afterImage={images[0]}
                   caption="Sample caption under the comparison."
+                  demo="/krfi-demo"
+                />
+              </Item>
+
+              <Item type="liveDemoLink" note="Optional text on the left, the link on the right">
+                <LiveDemoLink
+                  text="The products page, built as a working HTML prototype."
+                  demo="/krfi-demo/products"
                 />
               </Item>
 

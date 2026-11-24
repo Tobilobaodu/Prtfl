@@ -31,6 +31,7 @@ import {
   ProcessFlow,
   CardGrid,
   BeforeAfterSlider,
+  LiveDemoLink,
   RoleResults,
   HierarchyDiagram,
 } from "./case-study"
@@ -922,6 +923,8 @@ export default function CaseStudyContent({
                   return <HierarchyDiagram key={index} {...component} />
                 case 'beforeAfterSlider':
                   return <BeforeAfterSlider key={index} {...component} />
+                case 'liveDemoLink':
+                  return <LiveDemoLink key={index} {...component} />
                 case 'roleResults':
                   return <RoleResults key={index} {...component} />
                 default:
