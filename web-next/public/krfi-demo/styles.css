@@ -228,6 +228,195 @@ button {
   display: none;
 }
 
+/* ── Mega menu (desktop only; built by script.js) ──
+   The open tab becomes a raspberry block that runs to the bottom of the bar,
+   and the panel hangs underneath it, the width of the page. */
+
+.site-header {
+  position: relative;
+  z-index: 30;
+}
+
+@media (min-width: 761px) {
+  .main-nav {
+    gap: 16px;
+  }
+
+  .main-nav a {
+    padding: 8px 18px 28px;
+    margin-bottom: -28px;
+    transition: background-color 0.2s ease;
+  }
+
+  .main-nav a:hover {
+    text-decoration: none;
+  }
+
+  .main-nav a:hover,
+  .main-nav a.is-open {
+    background: var(--raspberry);
+  }
+
+  .main-nav a.is-open .icon {
+    transform: rotate(180deg);
+  }
+}
+
+.mega {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  display: grid;
+  grid-template-columns: 30% 34% 36%;
+  width: min(var(--wrap), 100% - 2 * var(--gutter));
+  min-height: 360px;
+  transform: translateX(-50%);
+  background: #fff;
+  color: var(--navy);
+  text-align: left;
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.18);
+  animation: mega-in 0.2s ease;
+}
+
+.mega ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mega-sections,
+.mega-pages {
+  padding: 24px 0;
+}
+
+.mega-sections a,
+.mega-pages a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--navy);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.mega-sections .icon {
+  width: 16px;
+  height: 16px;
+  transform: rotate(-90deg);
+  opacity: 0.5;
+}
+
+.mega-sections .is-active a,
+.mega-pages a.is-active,
+.mega-pages a:hover {
+  color: var(--raspberry);
+}
+
+.mega-sections .is-active .icon {
+  opacity: 1;
+}
+
+.mega-summary {
+  display: flex;
+  flex-direction: column;
+  padding: 36px 44px 40px;
+  background: var(--mist);
+}
+
+/* No page hovered yet: the live site shows no grey column at all. */
+.mega-summary:empty {
+  background: transparent;
+}
+
+/* Residential's Calculator has no pages: the summary takes the middle. */
+.mega.no-pages .mega-pages {
+  display: none;
+}
+
+.mega.no-pages .mega-summary {
+  grid-column: 2 / -1;
+}
+
+.mega-summary-title {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* A second group in one summary, e.g. "Near Prime 1:" under "Prime loans:". */
+.mega-points + .mega-summary-title {
+  margin-top: 4px;
+}
+
+.mega-summary .mega-button {
+  margin-top: auto;
+}
+
+.mega-points:last-of-type {
+  margin-bottom: 24px;
+}
+
+.mega-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 14.5px;
+  line-height: 1.4;
+}
+
+.mega-points .icon {
+  flex: none;
+  width: 17px;
+  height: 17px;
+  margin-top: 1px;
+  color: #1f9a62;
+}
+
+.mega-button {
+  align-self: flex-start;
+  margin-top: auto;
+  min-width: 60%;
+  padding: 12px 24px;
+  background: #1f9a62;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.mega-button:hover {
+  background: #17804f;
+}
+
+.mega.no-pages .mega-button {
+  min-width: 40%;
+}
+
+/* The live site's soft fade when a column's content changes. */
+.mega-fade {
+  animation: mega-fade 0.25s ease;
+}
+
+@keyframes mega-fade {
+  from { opacity: 0; }
+}
+
+@keyframes mega-in {
+  from { opacity: 0; }
+}
+
+@media (max-width: 760px) {
+  .mega {
+    display: none !important;
+  }
+}
+
 /* ── Help panel (the pink tab fixed at the right) ── */
 
 .help-panel {
@@ -1515,5 +1704,10 @@ th[aria-sort] .sort-btn .icon {
   .carousel-track,
   .slide {
     transition: none;
+  }
+
+  .mega,
+  .mega-fade {
+    animation: none;
   }
 }

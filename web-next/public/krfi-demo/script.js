@@ -18,6 +18,277 @@ if (header && menuToggle) {
   })
 }
 
+/* ── Mega menu (desktop) ──
+   Copied from a screen recording of the live site, text included. Three
+   columns: sections on the left, that section's pages in the middle, and a
+   grey summary of the hovered page on the right with a checklist and a button.
+
+   How it behaves, as recorded: it opens with no section chosen; hovering a
+   section lists its pages; the summary only appears once a page is hovered.
+   Residential's Calculator has no pages, so its summary fills the middle.
+   A summary is a title and points, or a list of titled groups of points. */
+
+const MEGA = {
+  btl: [
+    { name: 'Products', button: 'View products', pages: [
+      { name: 'Buy to let mortgages', title: 'Buy to let mortgages:',
+        points: ['Up to 75% LTV available', 'Applications in individual name', 'Maximum loan £3m'] },
+      { name: 'Buy to let product transfer',
+        points: ['New mortgage products for existing customers', 'Online submission available for some accounts', 'No underwriting assessment required'] },
+      { name: 'Buy to let further advances', title: 'Additional borrowing',
+        points: ['For existing customers requiring larger loans', 'Term must not exceed that of the original mortgage', 'Exclusions apply on use of funds'] },
+    ] },
+    { name: 'Criteria', button: 'View criteria', pages: [
+      { name: 'The applicant',
+        points: ['Portfolio landlords', 'Residency', 'SPV, limited companies (Ltd) and LLPs'] },
+      { name: 'The income',
+        points: ['Rental income requirements', 'Using passing rent to calculate estimated loan size', 'Income-backed buy to let'] },
+      { name: 'The loan',
+        points: ['Further advances', 'Source of deposit', 'Remortgages', 'Let to buy'] },
+      { name: 'The property',
+        points: ['Security', 'Exposure limits', 'Tenure', 'HMOs', 'Flats', 'Tenancy', 'Self-build'] },
+      { name: 'Fees and charges', title: 'Application and product fees',
+        points: ['Standard valuation fees', 'Specialist valuation fees', 'Complex valuation fees', 'Legal fees', 'Direct debits'] },
+    ] },
+    { name: 'Calculator', button: 'View', pages: [
+      { name: 'Buy to let calculator', title: 'Buy to let',
+        points: ['First-time landlords', 'Expanding a portfolio', 'Remortgages'] },
+    ] },
+    { name: 'Literature', button: 'View', pages: [
+      { name: 'Non-portfolio app forms',
+        points: ['Mortgage application form', 'Consents and declarations', 'Direct debit mandate', 'Buy to let property schedule'] },
+      { name: 'Portfolio app forms',
+        points: ['Mortgage application form', 'Consents and declarations', 'Direct debit mandate', 'Additional applicants application form', 'Buy to let property schedule', 'Business plan'] },
+      { name: 'Further advance app form',
+        points: ['Further advance AIP and application form'] },
+      { name: 'Product transfer app form',
+        points: ['Product transfer broker authorisation form'] },
+      { name: 'Downloads for solicitors',
+        points: ['Solicitor instructions', 'Solicitor registration form', 'Certificate of title', 'Consent and undertaking', 'Mortgage deed', 'Mortgage terms and conditions', 'Deed of postponement'] },
+      { name: 'Guides',
+        points: ['Buy to let mortgage products flyer', 'Broker portal user guide', 'Portfolio submission platform (BTL Hub) user guide'] },
+      { name: 'Client reference sheets',
+        points: ['Fees and charges'] },
+    ] },
+    { name: 'Placing business', button: 'Place case', pages: [
+      { name: 'Submitting non-portfolio apps',
+        points: ['Register', 'Log in to the portal', 'Select your journey', 'Produce an illustration', 'Submit an AIP', 'Submit your full app', 'Completion'] },
+      { name: 'Submitting portfolio apps',
+        points: ['Register', 'Log in to the portal', 'Select your journey', 'Produce an illustration', 'Submit an AIP', 'Submit your full app', 'Completion'] },
+      { name: 'Submitting further advances',
+        points: ['Complete form', 'Email', 'Completion'] },
+      { name: 'Submitting product transfers',
+        points: ['Use the correct online or paper process', 'Submit a product transfer request', 'Confirmation and completion'] },
+      { name: 'Request a transfer of equity', title: 'Submitting a transfer of equity',
+        points: ['Contact us'] },
+      { name: 'Transfer to limited company', title: 'Transfer to a limited company',
+        points: ['Ensure eligibility', 'Gather required details and forms', 'Contact our team', 'Completion'] },
+    ] },
+  ],
+  res: [
+    { name: 'Products', button: 'View products', pages: [
+      { name: 'Residential mortgage products', href: '/krfi-demo/products', groups: [
+        { title: 'Prime loans:', points: ['Up to 75% LTV available', 'Minimum loan £50k', 'Maximum loan £1m'] },
+        { title: 'Near Prime 1:', points: ['Up to 75% LTV available', 'Minimum property value £75,000', 'Maximum loan £1m'] },
+      ] },
+      { name: 'Shared ownership mortgages', title: 'Shared ownership mortgages:',
+        points: ['Part own/part rent mortgages', 'Up to 90% maximum share value'] },
+      { name: 'Residential product transfer',
+        points: ['New mortgage products for existing customers', 'Online submission available for some accounts', 'No underwriting assessment required'] },
+      { name: 'Residential further advance',
+        points: ['For existing customers requiring larger loans', 'Term must not exceed that of the original mortgage', 'Exclusions apply on use of funds'] },
+    ] },
+    { name: 'Criteria', button: 'View criteria', pages: [
+      { name: 'The applicant',
+        points: ['Prime criteria', 'Near prime criteria', 'Shared ownership criteria', 'Employed and self-employed criteria', 'Contractors criteria'] },
+      { name: 'The income', title: 'The Income',
+        points: ['Self-employed income', 'Overtime', 'Commission', 'Limited company income', 'Rental income', 'Secondary incomes'] },
+      { name: 'The loan',
+        points: ['Loan purpose', 'Minimum and maximum loans', 'Source of deposits', 'Remortgages', 'Further advances', 'Interest only'] },
+      { name: 'The property',
+        points: ['Flats', 'New builds, newly converted properties and renovations', 'Self-build', 'Shared ownership'] },
+      { name: 'Fees and charges', title: 'The fees and charges',
+        points: ['Application and product fees', 'Standard valuation fees', 'Mortgage payments (direct debit)'] },
+    ] },
+    { name: 'Calculator', button: 'View', summary: { title: 'Residential calculator',
+      points: ['Calculate your client’s maximum loan', 'For guide purposes only'] } },
+    { name: 'Literature', button: 'View', pages: [
+      { name: 'Residential app forms',
+        points: ['Mortgage application form', 'Additional applicants application form', 'Consents and declarations', 'Direct debit mandate', 'Buy to let property schedule'] },
+      { name: 'Further advance app forms',
+        points: ['Further advance AIP and application form'] },
+      { name: 'Product transfer app forms',
+        points: ['Product transfer broker authorisation form'] },
+      { name: 'Porting app form',
+        points: ['Mortgage porting app form'] },
+      { name: 'Downloads for solicitors',
+        points: ['Solicitor instructions', 'Solicitor registration form', 'Certificate of title', 'Consent and undertaking', 'Mortgage deed', 'Terms and conditions', 'Deed of postponement'] },
+      { name: 'Guides',
+        points: ['Residential mortgage product flyers', 'Broker portal user guide', 'Portfolio submission platform (BTL Hub) user guide'] },
+      // Not hovered in the recording, so its summary is unknown.
+      { name: 'Client reference sheets' },
+    ] },
+    { name: 'Placing business', button: 'Place case', pages: [
+      { name: 'Submitting new apps', title: 'Submitting a new app',
+        points: ['Register', 'Log in to the portal', 'Produce an illustration', 'Submit an AIP', 'Submit your full application', 'Completion'] },
+      { name: 'Submitting further advances',
+        points: ['Complete form', 'Email', 'Completion'] },
+      { name: 'Submitting product transfers',
+        points: ['Use the correct online or paper process', 'Submit a product transfer request', 'Confirmation and completion'] },
+      { name: 'Submitting porting apps',
+        points: ['Complete form', 'Email', 'Completion'] },
+      { name: 'Request a transfer of equity', title: 'Submitting transfer of equity',
+        points: ['Contact us'] },
+    ] },
+  ],
+}
+
+const megaTabs = [...document.querySelectorAll('.main-nav [data-mega]')]
+if (header && megaTabs.length) {
+  const desktop = window.matchMedia('(min-width: 761px)')
+  const mega = document.createElement('div')
+  mega.className = 'mega'
+  mega.id = 'mega-menu'
+  mega.hidden = true
+  mega.innerHTML = `
+    <ul class="mega-sections" role="list"></ul>
+    <ul class="mega-pages" role="list"></ul>
+    <div class="mega-summary"></div>`
+  header.append(mega)
+
+  const sectionsEl = mega.querySelector('.mega-sections')
+  const pagesEl = mega.querySelector('.mega-pages')
+  const summaryEl = mega.querySelector('.mega-summary')
+  let menu = null
+  let section = -1
+  let closeTimer = 0
+
+  // Re-run the short fade the live site plays when content changes.
+  const fade = (el) => {
+    el.classList.remove('mega-fade')
+    void el.offsetWidth
+    el.classList.add('mega-fade')
+  }
+
+  const points = (list) =>
+    `<ul class="mega-points" role="list">${list.map((p) => `<li>${icon('check')}${p}</li>`).join('')}</ul>`
+
+  const showSummary = (sec, page) => {
+    const s = sec.summary || page
+    if (!s) {
+      summaryEl.innerHTML = ''
+      return
+    }
+    const groups = s.groups || [{ title: s.title || s.name, points: s.points || [] }]
+    summaryEl.innerHTML = groups.map((g) =>
+      `<p class="mega-summary-title">${g.title}</p>${g.points.length ? points(g.points) : ''}`).join('') +
+      `<a class="mega-button" href="${page?.href || '#'}">${sec.button}</a>`
+    fade(summaryEl)
+  }
+
+  const showSection = (i) => {
+    section = i
+    const sec = MEGA[menu][i]
+    ;[...sectionsEl.children].forEach((li, n) => li.classList.toggle('is-active', n === i))
+    mega.classList.toggle('no-pages', !sec.pages)
+    pagesEl.innerHTML = (sec.pages || []).map((p, n) =>
+      `<li><a href="${p.href || '#'}" data-page="${n}">${p.name}</a></li>`).join('')
+    fade(pagesEl)
+    showSummary(sec, null) // a section with pages waits for one to be hovered
+  }
+
+  const showPage = (n) => {
+    const sec = MEGA[menu][section]
+    ;[...pagesEl.querySelectorAll('a')].forEach((a, i) => a.classList.toggle('is-active', i === n))
+    showSummary(sec, sec.pages[n])
+  }
+
+  const open = (tab) => {
+    clearTimeout(closeTimer)
+    const key = tab.dataset.mega
+    megaTabs.forEach((t) => {
+      t.classList.toggle('is-open', t === tab)
+      t.setAttribute('aria-expanded', String(t === tab))
+    })
+    if (menu === key && !mega.hidden) return
+    menu = key
+    section = -1
+    sectionsEl.innerHTML = MEGA[key].map((s, i) =>
+      `<li><a href="#" data-section="${i}">${s.name}${icon('chevron')}</a></li>`).join('')
+    pagesEl.innerHTML = ''
+    summaryEl.innerHTML = ''
+    mega.classList.remove('no-pages')
+    mega.setAttribute('aria-label', tab.textContent.trim())
+    mega.hidden = false
+  }
+
+  const close = () => {
+    mega.hidden = true
+    menu = null
+    megaTabs.forEach((t) => {
+      t.classList.remove('is-open')
+      t.setAttribute('aria-expanded', 'false')
+    })
+  }
+
+  const closeSoon = () => {
+    clearTimeout(closeTimer)
+    closeTimer = setTimeout(close, 200)
+  }
+
+  megaTabs.forEach((tab) => {
+    tab.setAttribute('aria-expanded', 'false')
+    tab.setAttribute('aria-controls', mega.id)
+    tab.addEventListener('mouseenter', () => desktop.matches && open(tab))
+    tab.addEventListener('click', (e) => {
+      if (!desktop.matches) return // on a phone the tab is a plain link
+      e.preventDefault()
+      if (tab.classList.contains('is-open')) close()
+      else open(tab)
+    })
+  })
+
+  // Other links in the bar close it, as "Insights and events" does live.
+  document.querySelectorAll('.main-nav a:not([data-mega])').forEach((a) =>
+    a.addEventListener('mouseenter', () => desktop.matches && close()))
+
+  sectionsEl.addEventListener('mouseover', (e) => {
+    const a = e.target.closest('[data-section]')
+    if (a && Number(a.dataset.section) !== section) showSection(Number(a.dataset.section))
+  })
+  sectionsEl.addEventListener('focusin', (e) => {
+    const a = e.target.closest('[data-section]')
+    if (a && Number(a.dataset.section) !== section) showSection(Number(a.dataset.section))
+  })
+  sectionsEl.addEventListener('click', (e) => {
+    if (e.target.closest('[data-section]')) e.preventDefault()
+  })
+  for (const type of ['mouseover', 'focusin']) {
+    pagesEl.addEventListener(type, (e) => {
+      const a = e.target.closest('[data-page]')
+      if (a && !a.classList.contains('is-active')) showPage(Number(a.dataset.page))
+    })
+  }
+
+  // Leaving the bar and the panel closes it, after a short grace period.
+  for (const el of [header, mega]) {
+    el.addEventListener('mouseleave', () => !mega.hidden && closeSoon())
+    el.addEventListener('mouseenter', () => clearTimeout(closeTimer))
+  }
+  header.querySelector('.logo')?.addEventListener('mouseenter', () => !mega.hidden && closeSoon())
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || mega.hidden) return
+    const tab = megaTabs.find((t) => t.classList.contains('is-open'))
+    close()
+    tab?.focus()
+  })
+  document.addEventListener('click', (e) => {
+    if (!mega.hidden && !e.target.closest('.mega, .main-nav')) close()
+  })
+  desktop.addEventListener('change', close)
+}
+
 /* ── Help panel: the side tab on desktop, "Need help?" on a phone ── */
 
 const panel = document.querySelector('.help-panel')
