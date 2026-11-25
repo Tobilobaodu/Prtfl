@@ -10,6 +10,10 @@ import {defineField} from 'sanity'
 export const DEMOS = [
   {title: 'KRFI: Residential landing page', value: '/krfi-demo'},
   {title: 'KRFI: Residential products page', value: '/krfi-demo/products'},
+  {title: 'Refuel Energy: Home page', value: '/refuel-demo'},
+  {title: 'Refuel Energy: About page', value: '/refuel-demo/about'},
+  {title: 'Refuel Energy: Services page', value: '/refuel-demo/services'},
+  {title: 'Refuel Energy: Contact page', value: '/refuel-demo/contact'},
 ]
 
 /**

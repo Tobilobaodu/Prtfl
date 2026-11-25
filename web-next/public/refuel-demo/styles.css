@@ -1,0 +1,1063 @@
+/* Refuel Energy demo: home, about, services and contact pages.
+   Plain CSS, no build step. All four pages share this file.
+
+   The design is drawn on a 1440px frame. Content sits in a 1050px column
+   (195px in from each side); heroes and image mosaics use a 58px gutter. */
+
+:root {
+  --blue: #1e3799;
+  --amber: #c6780b;
+  --cloud: #ecf0f1;
+  --mist: rgba(236, 240, 241, 0.4);
+  --ink: #000;
+
+  --display: "Exo", "Segoe UI", system-ui, sans-serif;
+  --serif: "Merriweather", Georgia, serif;
+
+  --frame: 1440px;
+  --column: 1050px;
+  --edge: clamp(16px, 4vw, 58px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 22px;
+}
+
+/* The mosaics' photo boxes run past their tiles; keep them from widening the
+   page. On main, not body: body's overflow would pass to the viewport. */
+main {
+  overflow-x: clip;
+}
+
+img {
+  display: block;
+  max-width: none;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ── Demo bar ── */
+
+.demo-bar {
+  position: relative;
+  z-index: 3;
+  background: #1f1f20;
+  color: #d6d6d6;
+  font-family: var(--display);
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 8px var(--edge);
+  text-align: center;
+}
+
+.demo-bar a {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── Type ── */
+
+.display {
+  font-family: var(--display);
+  font-weight: 100;
+  font-size: 45px;
+  line-height: 50px;
+}
+
+.title {
+  font-family: var(--display);
+  font-weight: 100;
+  font-size: 45px;
+  line-height: 45px;
+}
+
+.copy p + p {
+  margin-top: 22px;
+}
+
+/* ── Buttons and links ── */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 20px;
+  min-width: 100px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--amber);
+  color: #fff;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.button:hover {
+  background: #a86509;
+}
+
+.button:focus-visible,
+.arrow-link:focus-visible,
+.site-nav a:focus-visible,
+.logo:focus-visible,
+.menu-toggle:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.arrow-link img {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.15s;
+}
+
+.arrow-link:hover img {
+  transform: translateX(3px);
+}
+
+/* ── Header ── */
+
+.site-header {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  max-width: var(--frame);
+  margin: 0 auto;
+  height: 56px;
+  padding: 0 60px 0 var(--edge);
+  display: flex;
+  align-items: center;
+}
+
+.page {
+  position: relative;
+}
+
+.logo {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 30px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--blue);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  margin-left: 102px;
+}
+
+.site-nav ul {
+  display: flex;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--display);
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+/* The design spaces the four items at 100, 87 and 50px from one start to the
+   next: 30px of space after each word. */
+.site-nav li + li {
+  margin-left: 30px;
+}
+
+.site-nav a {
+  text-decoration: none;
+}
+
+.site-nav li a:hover,
+.site-nav li a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.site-nav .button {
+  margin-left: auto;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+/* The about page's header sits on the tanker photo. */
+.on-photo .logo,
+.on-photo .site-nav ul {
+  color: #fff;
+}
+
+/* ── Heroes ── */
+
+.hero {
+  position: relative;
+  max-width: var(--frame);
+  margin: 0 auto;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 1;
+  padding: 218px 0 0 var(--edge);
+}
+
+.hero-text h1 {
+  max-width: 608px;
+}
+
+.hero-text .lede {
+  max-width: 458px;
+  margin-top: 35px;
+  font-size: 15px;
+  line-height: 19px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 41px;
+  margin-top: 52px;
+}
+
+.hero-actions .button {
+  width: 119px;
+}
+
+.hero--home {
+  min-height: 658px;
+}
+
+.hero--services {
+  min-height: 596px;
+}
+
+.hero--contact {
+  min-height: 468px;
+}
+
+.hero--contact .hero-text {
+  padding-top: 211px;
+}
+
+.hero--contact .lede {
+  max-width: 538px;
+  margin-top: 14px;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.hero-art {
+  position: absolute;
+  top: 0;
+  right: -3px;
+  margin-top: -3px;
+}
+
+.hero--services .hero-art {
+  right: 60px;
+  margin-top: 61px;
+  --z: 0.7667;
+}
+
+.hero--contact .hero-art {
+  right: 61px;
+  margin-top: 64.5px;
+  --z: 0.6381;
+}
+
+/* About: a full-bleed photo of the tanker, flipped as in the design. */
+.hero--photo {
+  max-width: none;
+  height: 658px;
+  overflow: hidden;
+  color: #fff;
+}
+
+.hero--photo .hero-text,
+.hero--photo + * {
+  max-width: var(--frame);
+  margin: 0 auto;
+}
+
+.hero--photo h1 {
+  max-width: 666px;
+}
+
+.hero-photo {
+  position: absolute;
+  left: -1.81%;
+  top: -49.85%;
+  width: 126.32%;
+  height: 154.38%;
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+/* ── Mosaics ──
+   Each mosaic is laid out at design size in px, then scaled as one piece with
+   zoom (--z). Photos are cut to their tile shapes with the design's own masks. */
+
+.mosaic {
+  position: relative;
+  zoom: var(--z, 1);
+  overflow: clip;
+  flex: none;
+}
+
+.mosaic > * {
+  position: absolute;
+}
+
+.mosaic--hero {
+  width: 750px;
+  height: 600px;
+}
+
+.mosaic--tall {
+  width: 450px;
+  height: 600px;
+}
+
+.mosaic--short {
+  width: 450px;
+  height: 400px;
+}
+
+.tile {
+  width: 150px;
+  height: 150px;
+}
+
+.tile--blue {
+  background: var(--blue);
+}
+
+.tile--cloud {
+  background: var(--cloud);
+}
+
+.tile--white {
+  background: #fff;
+}
+
+.cut {
+  -webkit-mask: var(--m) var(--mp) / var(--ms) no-repeat;
+  mask: var(--m) var(--mp) / var(--ms) no-repeat;
+}
+
+.cut img,
+.tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Feature bands (photo mosaic beside a block of copy) ── */
+
+.band {
+  background: var(--mist);
+}
+
+.band-inner {
+  max-width: var(--frame);
+  margin: 0 auto;
+  padding: 83px 203px 83px var(--edge);
+  display: grid;
+  grid-template-columns: 450px minmax(0, 552px);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.band-inner .title {
+  max-width: 484px;
+}
+
+.band-inner .copy {
+  margin-top: 29px;
+}
+
+.band-inner .arrow-link {
+  margin-top: 29px;
+}
+
+/* Home "About Refuel Energy" text sits 8px further right than the others. */
+.band--home .band-inner {
+  padding-right: 195px;
+}
+
+.band--about .band-inner {
+  padding-top: 97px;
+  padding-bottom: 116px;
+}
+
+.band--about .mosaic {
+  margin-top: 8px;
+}
+
+.band--top .band-inner {
+  align-items: start;
+}
+
+.band--logistics .band-inner {
+  padding-top: 42px;
+  padding-bottom: 49px;
+}
+
+.band--logistics .band-text {
+  margin-top: 36px;
+}
+
+.band--retail .band-inner {
+  padding: 102px 196px 113px var(--edge);
+  grid-template-columns: minmax(0, 552px) 450px;
+}
+
+.band--retail .band-text {
+  order: -1;
+}
+
+.band--shipping .band-inner {
+  padding-top: 76px;
+  padding-bottom: 48px;
+}
+
+.band--shipping .band-text {
+  margin-top: 2px;
+}
+
+.band--shipping .copy {
+  margin-top: 27px;
+}
+
+/* ── Services (blue) ── */
+
+.services {
+  background: var(--blue);
+  color: #fff;
+}
+
+.services-inner {
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 143px 0 215px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 301px);
+  justify-content: space-between;
+  margin-top: 25px;
+  padding: 0;
+  list-style: none;
+}
+
+.service .title {
+  margin-top: 34px;
+  line-height: normal;
+}
+
+.service p {
+  max-width: 311px;
+  margin-top: 1px;
+}
+
+/* All three photos come from one strip; each card shows its own third. */
+.service-photo {
+  position: relative;
+  width: 301px;
+  height: 168px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.service-photo img {
+  position: absolute;
+  width: 1087px;
+  height: 264px;
+  object-fit: cover;
+}
+
+/* ── Contact page ── */
+
+.offices {
+  background: var(--mist);
+}
+
+.offices ul {
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 90px 0 83px;
+  display: grid;
+  grid-template-columns: 379px 398px 1fr;
+  list-style: none;
+}
+
+.office .title {
+  line-height: normal;
+}
+
+.office address {
+  margin-top: 7px;
+  font-style: normal;
+  line-height: 20px;
+}
+
+.office address a {
+  text-decoration: none;
+}
+
+.office address a:hover {
+  text-decoration: underline;
+}
+
+.office address span {
+  display: block;
+  margin-top: 7px;
+}
+
+.message {
+  background: var(--blue);
+  color: #fff;
+}
+
+.message-inner {
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 73px 0 191px;
+}
+
+.message h2 {
+  text-align: center;
+}
+
+.message-intro {
+  max-width: 632px;
+  margin: 25px auto 0;
+}
+
+.message form {
+  display: grid;
+  grid-template-columns: 500px 500px;
+  justify-content: space-between;
+  row-gap: 0;
+  margin-top: 49px;
+}
+
+.field {
+  display: block;
+  position: relative;
+  border-bottom: 1px solid #fff;
+}
+
+.field--wide {
+  grid-column: 1 / -1;
+}
+
+.field span {
+  display: block;
+  font-family: var(--display);
+  font-weight: 100;
+  font-size: 20px;
+  line-height: 31px;
+}
+
+.field input,
+.field textarea {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 22px;
+  padding: 4px 0 8px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+}
+
+.field:focus-within {
+  border-bottom-color: var(--amber);
+}
+
+.field--name,
+.field--email {
+  padding-top: 0;
+  height: 58px;
+}
+
+.field--subject {
+  margin-top: 25px;
+  height: 57px;
+}
+
+.field--message {
+  margin-top: 17px;
+  min-height: 123px;
+}
+
+.field textarea {
+  min-height: 84px;
+}
+
+.form-foot {
+  grid-column: 1 / -1;
+  margin-top: 81px;
+  text-align: center;
+}
+
+.form-foot .button {
+  width: 238px;
+  height: 56px;
+  font-size: 20px;
+}
+
+.form-note {
+  min-height: 22px;
+  margin-top: 16px;
+  font-family: var(--display);
+  font-size: 13px;
+}
+
+/* ── Footer ── */
+
+.site-footer {
+  background: var(--blue);
+  color: #fff;
+}
+
+.footer-inner {
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 182px 0 65px;
+}
+
+.footer-row {
+  display: grid;
+  grid-template-columns: 380px 1fr auto;
+  align-items: start;
+}
+
+.footer-row + .footer-row {
+  margin-top: 55px;
+  padding-top: 52px;
+  border-top: 1px solid #fff;
+}
+
+.footer-call {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.footer-small {
+  max-width: 246px;
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 22px;
+  text-transform: lowercase;
+}
+
+.footer-row:last-child .footer-small {
+  max-width: 332px;
+  line-height: normal;
+}
+
+.footer-phone {
+  justify-self: end;
+  width: 220px;
+  font-family: var(--display);
+  font-weight: 100;
+  font-size: 30px;
+  line-height: 45px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.footer-row .button {
+  justify-self: end;
+  width: 119px;
+}
+
+.footer-row:first-child {
+  grid-template-columns: 1fr auto;
+}
+
+.footer-row .logo {
+  color: #fff;
+}
+
+/* A phone icon with a staff photo tucked behind it. */
+.callout {
+  position: relative;
+  width: 68px;
+  height: 41px;
+  flex: none;
+}
+
+.callout > img {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.callout-face {
+  position: absolute;
+  left: 28px;
+  top: 1px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.callout-face img {
+  position: absolute;
+  left: -16px;
+  top: 0;
+  width: 74px;
+  height: 87px;
+  object-fit: cover;
+}
+
+.copyright {
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 22px 0 32px;
+  font-family: var(--display);
+  font-size: 10px;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+/* ── Smaller screens ── */
+
+@media (max-width: 1439px) {
+  .hero-art {
+    --z: 0.8;
+  }
+  .hero--services .hero-art {
+    --z: 0.68;
+  }
+}
+
+@media (max-width: 1279px) {
+  .hero-art {
+    --z: 0.66;
+  }
+  .hero--services .hero-art {
+    --z: 0.6;
+  }
+  .hero--contact .hero-art {
+    --z: 0.56;
+  }
+
+  .band-inner,
+  .band--home .band-inner,
+  .band--retail .band-inner {
+    padding-right: var(--edge);
+    column-gap: 48px;
+  }
+
+  .services-inner,
+  .footer-inner,
+  .offices ul,
+  .message-inner,
+  .copyright {
+    padding-left: var(--edge);
+    padding-right: var(--edge);
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 301px));
+    gap: 32px;
+  }
+
+  .message form {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+  }
+
+  .offices ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 1099px) {
+  .site-nav {
+    margin-left: 48px;
+  }
+
+  .hero-text h1 {
+    max-width: 480px;
+  }
+
+  .hero-art {
+    --z: 0.56;
+  }
+  .hero--services .hero-art,
+  .hero--contact .hero-art {
+    --z: 0.5;
+  }
+
+  .band-inner {
+    grid-template-columns: 1fr !important;
+    justify-items: start;
+    row-gap: 40px;
+  }
+
+  .band--retail .band-text {
+    order: 0;
+  }
+
+  .band-text,
+  .band--logistics .band-text,
+  .band--shipping .band-text {
+    margin-top: 0;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, 301px);
+    justify-content: start;
+    gap: 56px 32px;
+  }
+
+  .footer-row,
+  .footer-row:first-child {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer-phone,
+  .footer-row .button {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 860px) {
+  .site-header {
+    padding-right: var(--edge);
+  }
+
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .menu-toggle span:not(.visually-hidden) {
+    display: block;
+    width: 22px;
+    height: 1px;
+    margin: 6px auto;
+    background: currentColor;
+  }
+
+  .on-photo .menu-toggle {
+    color: #fff;
+  }
+
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 24px var(--edge) 28px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    background: #fff;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .menu-open .site-nav {
+    display: flex;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    gap: 18px;
+    color: var(--ink) !important;
+  }
+
+  .site-nav li + li {
+    margin-left: 0;
+  }
+
+  .site-nav .button {
+    margin-left: 0;
+  }
+
+  /* Stack the hero: words first, then the mosaic. */
+  .hero--home,
+  .hero--services,
+  .hero--contact {
+    min-height: 0;
+    padding-bottom: 48px;
+  }
+
+  .hero-text,
+  .hero--contact .hero-text {
+    padding-top: 112px;
+    padding-right: var(--edge);
+  }
+
+  .hero-art,
+  .hero--services .hero-art,
+  .hero--contact .hero-art {
+    position: relative;
+    right: auto;
+    margin: 48px 0 0 auto;
+    --z: 0.7;
+  }
+
+  .hero--photo {
+    height: auto;
+    min-height: 520px;
+    padding-bottom: 64px;
+  }
+
+  .offices ul {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .message form {
+    grid-template-columns: 1fr;
+  }
+
+  .field--email {
+    margin-top: 25px;
+  }
+
+  .services-inner {
+    padding-top: 96px;
+    padding-bottom: 120px;
+  }
+
+  .footer-inner {
+    padding-top: 96px;
+  }
+}
+
+@media (max-width: 640px) {
+  .display,
+  .title {
+    font-size: 34px;
+    line-height: 40px;
+  }
+
+  .hero-art,
+  .hero--services .hero-art,
+  .hero--contact .hero-art {
+    --z: 0.48;
+  }
+
+  .mosaic--tall,
+  .mosaic--short {
+    --z: 0.72;
+  }
+
+  .services-grid {
+    grid-template-columns: 301px;
+  }
+
+  .hero-actions {
+    gap: 28px;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero-art,
+  .hero--services .hero-art,
+  .hero--contact .hero-art {
+    --z: 0.42;
+  }
+
+  .mosaic--tall,
+  .mosaic--short {
+    --z: 0.64;
+  }
+
+  .services-grid {
+    grid-template-columns: minmax(0, 301px);
+  }
+}

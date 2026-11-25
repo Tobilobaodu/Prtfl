@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact us – Refuel Energy design demo</title>
+  <meta name="description" content="A working HTML build of the Refuel Energy contact page, designed by Tobiloba Odu.">
+  <!-- A portfolio demo, not the live site: keep it out of search results. -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo:wght@100;300;400;600;700&family=Merriweather:wght@300&display=swap">
+  <link rel="stylesheet" href="/refuel-demo/styles.css">
+  <script src="/refuel-demo/script.js" defer></script>
+</head>
+<body>
+
+  <div class="demo-bar">
+    Design demo by Tobiloba Odu. This is not the live Refuel Energy site.
+    <a href="/">Back to portfolio</a>
+  </div>
+
+  <div class="page">
+
+  <header class="site-header">
+    <a class="logo" href="/refuel-demo">Refuel</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/refuel-demo/services">What we do</a></li>
+        <li><a href="#">Our team</a></li>
+        <li><a href="#">CSR</a></li>
+        <li><a href="#">Public relations</a></li>
+      </ul>
+      <a class="button" href="/refuel-demo/contact" aria-current="page">Contact us</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero hero--contact">
+      <div class="hero-text">
+        <h1 class="display">Get in touch with us</h1>
+        <p class="lede">Refuel Energy offers a framework for transporting oil from production sites to demand regions.</p>
+      </div>
+      <div class="hero-art">
+      <div class="mosaic mosaic--hero" aria-hidden="true">
+        <div class="cut" style="left:-40.75px;top:-18.02px;width:368.3px;height:368.3px;--m:url(/refuel-demo/img/masks/hero-oil.svg);--mp:40.75px 21px;--ms:300px 300px"><img src="/refuel-demo/img/map.jpg" alt="" loading="lazy"></div>
+        <div class="tile tile--white" style="left:450px;top:150px"></div>
+        <div class="tile tile--blue" style="left:0px;top:300px"></div>
+        <div class="tile tile--cloud" style="left:150px;top:300px"></div>
+        <div class="tile tile--white" style="left:150px;top:449px"></div>
+        <div class="tile tile--blue" style="left:300px;top:151px"></div>
+        <div class="tile tile--white" style="left:300px;top:0px"></div>
+        <div class="cut" style="left:317px;top:-26px;width:585px;height:329px;--m:url(/refuel-demo/img/masks/hero-gas.svg);--mp:133px 26px;--ms:300px 300px"><img src="/refuel-demo/img/gas-station.jpg" alt="" loading="lazy"></div>
+        <div class="tile tile--blue" style="left:300px;top:451px"></div>
+        <div class="cut" style="left:129px;top:292px;width:684px;height:384px;--m:url(/refuel-demo/img/masks/hero-tanker.svg);--mp:171px 9px;--ms:300px 299px"><img src="/refuel-demo/img/tanker.jpg" alt="" loading="lazy"></div>
+        <div class="tile tile--cloud" style="left:600px;top:300px"></div>
+      </div>
+      </div>
+    </section>
+
+    <section class="offices" aria-label="Our offices">
+      <ul>
+        <li class="office">
+          <h2 class="title">Lagos</h2>
+          <address>
+            8 Wole Olateju Crescent, Lekki phase 1,<br>Lagos Nigeria.
+            <span><a href="mailto:contact@refuelenergy.ng">contact@refuelenergy.ng</a></span>
+            <span><a href="tel:+2349068106384">+234-906-810-6384</a></span>
+          </address>
+        </li>
+        <li class="office">
+          <h2 class="title">Abuja</h2>
+          <address>
+            Plot 1854, Muhathir Mohammed Street, Off TY Danjuma Asokoro, Abuja.
+            <span><a href="mailto:contact@refuelenergy.ng">contact@refuelenergy.ng</a></span>
+            <span><a href="tel:+2349068106384">+234-906-810-6384</a></span>
+          </address>
+        </li>
+        <li class="office">
+          <h2 class="title">Benin</h2>
+          <address>
+            1 Afe Miracle Road,<br>off Ikpokpan road, G.R.A Benin City.
+            <span><a href="mailto:contact@refuelenergy.ng">contact@refuelenergy.ng</a></span>
+            <span><a href="tel:+2349068106384">+234-906-810-6384</a></span>
+          </address>
+        </li>
+      </ul>
+    </section>
+
+    <section class="message" aria-labelledby="message-title">
+      <div class="message-inner">
+        <h2 class="title" id="message-title">Send us a message</h2>
+        <p class="message-intro">We are strategically positioned to offer our clients customised solutions, which includes unique integrated offshore marine logistics vessel services ranging from Vessel Chartering to Vessel Management.</p>
+        <form class="message-form" novalidate>
+          <label class="field field--name"><span>Name</span><input name="name" autocomplete="name" required></label>
+          <label class="field field--email"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+          <label class="field field--wide field--subject"><span>Subject</span><input name="subject"></label>
+          <label class="field field--wide field--message"><span>Message</span><textarea name="message" rows="3" required></textarea></label>
+          <div class="form-foot">
+            <button class="button" type="submit">SEND</button>
+            <p class="form-note" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-row">
+        <div class="footer-call">
+          <div class="callout">
+            <img src="/refuel-demo/img/phone.svg" width="40" height="40" alt="">
+            <div class="callout-face"><img src="/refuel-demo/img/avatar.jpg" alt="" loading="lazy"></div>
+          </div>
+          <p class="footer-small">Lorem ipsum dolor sit amet enim. Etiam ullamcorper maecenas malesuada dolor sit</p>
+        </div>
+        <a class="footer-phone" href="tel:+2349068106384">0906 810 6384</a>
+      </div>
+      <div class="footer-row">
+        <a class="logo" href="/refuel-demo">Refuel</a>
+        <p class="footer-small">Lorem ipsum dolor sit amet enim. Etiam ullamcorper maecenas malesuada dolor sit amet.</p>
+        <a class="button" href="/refuel-demo/contact">Our Location</a>
+      </div>
+    </div>
+  </footer>
+  <p class="copyright">© 2020 Refuel Energy - All Rights Reserved.</p>
+
+</body>
+</html>

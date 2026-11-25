@@ -52,6 +52,10 @@ const nextConfig = {
     return [
       { source: '/krfi-demo', destination: '/krfi-demo/index.html' },
       { source: '/krfi-demo/products', destination: '/krfi-demo/products.html' },
+      { source: '/refuel-demo', destination: '/refuel-demo/index.html' },
+      { source: '/refuel-demo/about', destination: '/refuel-demo/about.html' },
+      { source: '/refuel-demo/services', destination: '/refuel-demo/services.html' },
+      { source: '/refuel-demo/contact', destination: '/refuel-demo/contact.html' },
     ]
   },
 
