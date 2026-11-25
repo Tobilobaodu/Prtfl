@@ -571,6 +571,10 @@ export default async function CsComponentsPage() {
                 />
               </Item>
 
+              <Item type="phoneDemo" note="No notes: just the phone and the link">
+                <PhoneDemo demo="/sample-app-demo" />
+              </Item>
+
               <Item type="processFlow">
                 <ProcessFlow
                   title="How every line got to the page"
