@@ -61,6 +61,7 @@ export default defineType({
         { type: 'hierarchyDiagram' },
         { type: 'beforeAfterSlider' },
         { type: 'liveDemoLink' },
+        { type: 'phoneDemo' },
         { type: 'roleResults' },
       ],
       validation: (Rule) =>

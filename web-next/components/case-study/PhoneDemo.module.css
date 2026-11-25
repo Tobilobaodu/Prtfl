@@ -1,0 +1,268 @@
+/**
+ * Phone Demo block. Its own file rather than blocks.module.css because almost
+ * all of it is positioning that only this block uses.
+ *
+ * Like the other blocks it sets no vertical margin: .cs-content-col owns the
+ * spacing between components.
+ */
+
+.block {
+  --accent: var(--cs-accent, var(--orange));
+  --muted: #5f5c5c;
+  --card: #fff;
+  width: 100%;
+  margin: 0;
+  font-family: var(--font-nhd);
+  color: var(--black-pitch-nah);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.toolbar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.toolbar input { accent-color: var(--accent); }
+
+.toolbar button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgba(29, 28, 28, 0.25);
+  border-radius: 999px;
+  padding: 5px 14px;
+  cursor: pointer;
+}
+
+.toolbar button:hover { border-color: var(--black-pitch-nah); }
+
+.stage { position: relative; }
+
+/* The phone: laid out at the frame's native size, scaled by --s (set in JS). */
+.phone {
+  position: relative;
+  width: min(340px, 100%);
+  margin: 0 auto;
+}
+
+.stage[data-layout="wide"] .phone { width: 360px; }
+
+.sizer { position: relative; aspect-ratio: 450 / 920; }
+
+.device {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 450px;
+  height: 920px;
+  transform-origin: 0 0;
+  transform: scale(var(--s, 1));
+}
+
+.screen {
+  position: absolute;
+  left: 24px;
+  top: 23px;
+  width: 402px;
+  height: 874px;
+  border-radius: 44px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.screen iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.status,
+.bezel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* The time, signal and battery, drawn in currentColor through a mask so one
+   file serves dark and light apps. */
+.status {
+  background: currentColor;
+  -webkit-mask: url("/device/iphone-status.svg") center / 100% 100% no-repeat;
+  mask: url("/device/iphone-status.svg") center / 100% 100% no-repeat;
+  color: #14161f;
+}
+
+.status[data-tone="light"] { color: #fff; }
+
+/* Notes: hidden until the script finds their part on screen. */
+.lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lines path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.lines circle {
+  fill: var(--accent);
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.lines path,
+.lines circle,
+.note,
+.pin,
+.empty {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.note {
+  position: absolute;
+  box-sizing: border-box;
+  width: 220px;
+  padding: 12px 14px;
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  font-size: 14px;
+  line-height: 1.45;
+  transition: opacity 0.25s ease, box-shadow 0.2s ease;
+}
+
+.note strong,
+.list strong {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+.note p,
+.list p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.num {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+.flash { box-shadow: 0 0 0 3px var(--accent), 0 2px 10px rgba(0, 0, 0, 0.08) !important; }
+
+.highlight {
+  position: absolute;
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 1;
+}
+
+.pin {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 0 0 2px #fff;
+  pointer-events: none;
+}
+
+.empty {
+  margin: 10px 0 0;
+  min-height: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.list {
+  display: none;
+  max-width: 420px;
+  margin: 12px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  margin-bottom: 8px;
+  padding: 12px 14px;
+  background: var(--card);
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  transition: opacity 0.25s ease, box-shadow 0.2s ease;
+}
+
+.list li.off { opacity: 0.35; }
+
+/* Wide: notes in the margins. Compact: pins on the screen, list underneath. */
+.stage[data-layout="wide"] .pin { display: none; }
+.stage[data-layout="compact"] .note,
+.stage[data-layout="compact"] .lines { display: none; }
+.stage[data-layout="compact"] ~ .list { display: block; }
+
+.block[data-notes="off"] .note,
+.block[data-notes="off"] .lines,
+.block[data-notes="off"] .pin,
+.block[data-notes="off"] .highlight,
+.block[data-notes="off"] .empty,
+.block[data-notes="off"] .list { display: none !important; }
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px 24px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .block * { transition: none !important; }
+}

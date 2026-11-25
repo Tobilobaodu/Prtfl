@@ -58,6 +58,7 @@ const nextConfig = {
       { source: '/refuel-demo/contact', destination: '/refuel-demo/contact.html' },
       { source: '/motongen-demo', destination: '/motongen-demo/index.html' },
       { source: '/motongen-demo/:page(about|gearbox|axles|engine|academy|installer|contact)', destination: '/motongen-demo/:page.html' },
+      { source: '/sample-app-demo', destination: '/sample-app-demo/index.html' },
     ]
   },
 
@@ -95,6 +96,17 @@ const nextConfig = {
           },
         ],
       },
+      // The one exception to DENY: the HTML demos, so the Phone Demo block can
+      // show them inside a frame on a case study. Only this site may frame
+      // them. Listed after the rule above because, for the same header, the
+      // last matching rule wins. Covers every folder named <something>-demo.
+      ...['/:demo([a-z0-9-]+-demo)', '/:demo([a-z0-9-]+-demo)/:path*'].map((source) => ({
+        source,
+        headers: [
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
+        ],
+      })),
     ]
   },
 }

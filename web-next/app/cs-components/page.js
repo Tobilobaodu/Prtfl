@@ -42,8 +42,18 @@ import {
   HierarchyDiagram,
   BeforeAfterSlider,
   LiveDemoLink,
+  PhoneDemo,
   RoleResults,
 } from "../../components/case-study"
+
+const PHONE_NOTES = [
+  { target: "balance", side: "right", title: "Balance first", text: "People mostly opened the app to check their balance, so it leads the screen." },
+  { target: "actions", side: "left", title: "Three core actions", text: "Send, Top up and Bills covered most sessions; everything else moved a level down." },
+  { target: "activity", side: "right", title: "Scannable history", text: "Colour-coded, right-aligned amounts make spending quick to scan. Tap a row." },
+  { target: "vcard", side: "right", title: "Virtual card", text: "Only the last four digits show, so the card is safe to open in public." },
+  { target: "freeze", side: "left", title: "Freeze in one tap", text: "Freezing a lost card used to be three screens deep. It now sits on Cards." },
+  { target: "sheet", side: "right", title: "Bottom sheets", text: "Actions open in a sheet, so people never lose their place." },
+]
 import SpacingGuides from "./SpacingGuides"
 
 /**
@@ -550,6 +560,14 @@ export default async function CsComponentsPage() {
                 <LiveDemoLink
                   text="The products page, built as a working HTML prototype."
                   demo="/krfi-demo/products"
+                />
+              </Item>
+
+              <Item type="phoneDemo" note="Sample app with notes; Profile has none">
+                <PhoneDemo
+                  demo="/sample-app-demo"
+                  caption="Placeholder app, built at the iPhone screen size."
+                  notes={PHONE_NOTES}
                 />
               </Item>
 

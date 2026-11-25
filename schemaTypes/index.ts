@@ -2,6 +2,7 @@ import caseStudy from './caseStudy'
 import calloutBanner from './calloutBanner'
 import beforeAfterSlider from './beforeAfterSlider'
 import liveDemoLink from './liveDemoLink'
+import phoneDemo from './phoneDemo'
 import cardGrid from './cardGrid'
 import decisionBlock from './decisionBlock'
 import detailsGrid from './detailsGrid'
@@ -41,6 +42,7 @@ import videoComponent from './videoComponent'
 export const schemaTypes = [
   beforeAfterSlider,
   liveDemoLink,
+  phoneDemo,
   calloutBanner,
   cardGrid,
   decisionBlock,

@@ -33,6 +33,7 @@ import {
   CardGrid,
   BeforeAfterSlider,
   LiveDemoLink,
+  PhoneDemo,
   RoleResults,
   HierarchyDiagram,
 } from "./case-study"
@@ -927,6 +928,8 @@ export default function CaseStudyContent({
                   return <BeforeAfterSlider key={index} {...component} />
                 case 'liveDemoLink':
                   return <LiveDemoLink key={index} {...component} />
+                case 'phoneDemo':
+                  return <PhoneDemo key={index} {...component} />
                 case 'roleResults':
                   return <RoleResults key={index} {...component} />
                 default:

@@ -23,6 +23,7 @@ export const DEMOS = [
   {title: 'MotoNgen: Academy page', value: '/motongen-demo/academy'},
   {title: 'MotoNgen: Find an installer page', value: '/motongen-demo/installer'},
   {title: 'MotoNgen: Contact page', value: '/motongen-demo/contact'},
+  {title: 'Sample mobile app (placeholder for the Phone Demo block)', value: '/sample-app-demo'},
 ]
 
 /**

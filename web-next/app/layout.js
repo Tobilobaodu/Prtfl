@@ -61,7 +61,10 @@ try {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      {/* Browser extensions (Grammarly, password managers) write their own
+          attributes onto <body> before React loads. Like the flag on <html>,
+          this covers only the element's own attributes, not its children. */}
+      <body suppressHydrationWarning>
         <script dangerouslySetInnerHTML={{ __html: LOADER_SKIP_SCRIPT }} />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
