@@ -1,8 +1,8 @@
 'use client'
 
 import * as React from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
+import ProjectLink, { DemoIcon } from "./ProjectLink"
 import Layout from "./Layout"
 import LockedProjectModal from "./LockedProjectModal"
 import HoverReel from "./HoverReel"
@@ -46,10 +46,10 @@ export default function SndbxContent({ projects }) {
               why the 10px inter-row gap made per-row clearing flicker. */}
           <div className="projects-list" onMouseLeave={() => setHovered(null)}>
             {projects.map((project) => (
-              <Link
+              <ProjectLink
                 key={project.id}
-                href={`/case-study/${project.slug.current}`}
-                aria-label={`${project.title}${project.locked ? ' (password protected)' : ''}`}
+                project={project}
+                label={`${project.title}${project.locked ? ' (password protected)' : ''}`}
                 className={`project-item ${hovered?.id === project.id ? 'is-previewing' : ''}`}
                 onClick={(e) => handleProjectClick(project, e)}
                 onMouseEnter={() => setHovered({ id: project.id, el: null })}
@@ -67,10 +67,11 @@ export default function SndbxContent({ projects }) {
                         <path d="M2.66699 15.167V5.83366H4.66699V4.50033C4.66699 3.5781 4.9921 2.79188 5.64233 2.14166C6.2921 1.49188 7.0781 1.16699 8.00033 1.16699C8.92255 1.16699 9.70877 1.49188 10.359 2.14166C11.0088 2.79188 11.3337 3.5781 11.3337 4.50033V5.83366H13.3337V15.167H2.66699ZM6.00033 5.83366H10.0003V4.50033C10.0003 3.94477 9.80588 3.47255 9.41699 3.08366C9.0281 2.69477 8.55588 2.50033 8.00033 2.50033C7.44477 2.50033 6.97255 2.69477 6.58366 3.08366C6.19477 3.47255 6.00033 3.94477 6.00033 4.50033V5.83366ZM4.00033 13.8337H12.0003V7.16699H4.00033V13.8337ZM8.00033 11.8337C8.36699 11.8337 8.68099 11.7032 8.94233 11.4423C9.20321 11.181 9.33366 10.867 9.33366 10.5003C9.33366 10.1337 9.20321 9.81966 8.94233 9.55833C8.68099 9.29744 8.36699 9.16699 8.00033 9.16699C7.63366 9.16699 7.31988 9.29744 7.05899 9.55833C6.79766 9.81966 6.66699 10.1337 6.66699 10.5003C6.66699 10.867 6.79766 11.181 7.05899 11.4423C7.31988 11.7032 7.63366 11.8337 8.00033 11.8337Z" fill="#A3A3A3"/>
                       </svg>
                     )}
+                    {project.demoUrl && <DemoIcon />}
                   </div>
                 </div>
                 <div className="project-divider"></div>
-              </Link>
+              </ProjectLink>
             ))}
           </div>
 

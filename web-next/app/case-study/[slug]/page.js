@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { client, publicClient } from '../../../sanity/client'
 import {
   ALL_PROJECT_SLUGS,
@@ -54,6 +54,12 @@ export default async function CaseStudyPage({ params }) {
   // the listing pages — so it is fetched with the credential-free client.
   const shellProject = await publicClient.fetch(CASE_STUDY_SHELL, { slug })
   if (!shellProject) notFound()
+
+  // A project set to open a live demo has no case study; the lists link
+  // straight to the demo. Anyone who still lands here, from an old link or a
+  // project switched over after it was shared, goes to the demo instead of a
+  // "Case Study Not Found" page. A 307, so switching back costs nothing.
+  if (shellProject.demoUrl) redirect(shellProject.demoUrl)
 
   const isLocked = shellProject.locked === true
 

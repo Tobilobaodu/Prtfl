@@ -35,13 +35,22 @@ const IMAGE = `{
   }
 }`
 
+// A project set to open a live demo links straight to it (components/
+// ProjectLink.js). `demoUrl` is null for every other project, including ones
+// saved before the "Opens" field existed. A demo is public HTML, so `locked`
+// is forced off for it: a stale lock left on from before the switch would
+// otherwise put a password gate in front of a page anyone can open.
+const DEMO_URL = `"demoUrl": select(opens == "demo" => coalesce(demo, linkUrl))`
+const LOCKED = `"locked": select(opens == "demo" => false, locked)`
+
 // `slug` is nested for the same reason — the markup reads project.slug.current.
 const PROJECT_CARD = `{
   "id": _id,
   title,
   client,
   year,
-  locked,
+  ${LOCKED},
+  ${DEMO_URL},
   "slug": { "current": slug.current },
   heroImage ${IMAGE},
   hoverImage ${IMAGE}
@@ -67,7 +76,8 @@ export const PORTFOLIO_PROJECTS = `
       title,
       client,
       year,
-      locked,
+      ${LOCKED},
+      ${DEMO_URL},
       shortDescription,
       "slug": { "current": slug.current },
       heroImage ${IMAGE}
@@ -154,6 +164,7 @@ export const ALL_PROJECT_SLUGS = `
 export const SITEMAP_PROJECT_SLUGS = `
   *[_type == "project"
     && defined(slug.current)
+    && opens != "demo"
     && (locked == true || count(*[_type == "caseStudy" && project._ref == ^._id]) > 0)]{
     "slug": slug.current
   }
@@ -188,7 +199,7 @@ export const CASE_STUDY_BODY = `
       pods[]{ ..., image{ ..., asset-> }, icon{ ..., asset-> } }
     },
     project->{ "id": _id, title, client, year, projectType, introText, shortDescription },
-    "relatedProjects": relatedProjects[]->{ "id": _id, title, client, year, slug }
+    "relatedProjects": relatedProjects[]->{ "id": _id, title, client, year, slug, ${DEMO_URL} }
   }
 `
 
@@ -205,7 +216,8 @@ export const CASE_STUDY_SHELL = `
     projectType,
     introText,
     shortDescription,
-    locked,
+    ${LOCKED},
+    ${DEMO_URL},
     "slug": slug.current,
     heroImage ${IMAGE}
   }
@@ -226,6 +238,7 @@ export const AUTO_RELATED_PROJECTS = `
       title,
       client,
       year,
-      slug
+      slug,
+      ${DEMO_URL}
     }
 `

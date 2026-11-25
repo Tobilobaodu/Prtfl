@@ -1,4 +1,7 @@
 import {defineType, defineField} from 'sanity'
+import {DEMOS} from './demos'
+
+const opensDemo = ({parent}: {parent?: {opens?: string}}) => parent?.opens === 'demo'
 
 export default defineType({
   name: 'project',
@@ -19,6 +22,44 @@ export default defineType({
         source: 'title',
         maxLength: 96
       }
+    }),
+    defineField({
+      name: 'opens',
+      title: 'Opens',
+      type: 'string',
+      description:
+        'What the project opens from the homepage, Portfolio, Sandbox and "More projects" lists. A live demo opens in a new tab and needs no case study.',
+      options: {
+        list: [
+          {title: 'Case study', value: 'caseStudy'},
+          {title: 'Live demo', value: 'demo'}
+        ],
+        layout: 'radio',
+        direction: 'horizontal'
+      },
+      initialValue: 'caseStudy'
+    }),
+    defineField({
+      name: 'demo',
+      title: 'Live demo',
+      type: 'string',
+      options: {list: DEMOS, layout: 'dropdown'},
+      hidden: ({parent}) => !opensDemo({parent}),
+      validation: Rule =>
+        Rule.custom((demo, context) => {
+          const parent = context.parent as {opens?: string; linkUrl?: string} | undefined
+          return parent?.opens !== 'demo' || demo || parent?.linkUrl
+            ? true
+            : 'Pick a demo, or fill in Other link URL.'
+        })
+    }),
+    defineField({
+      name: 'linkUrl',
+      title: 'Other link URL',
+      type: 'url',
+      description: 'For a demo that is not in the list: a path on this site or a full URL.',
+      hidden: ({parent}) => !opensDemo({parent}) || Boolean(parent?.demo),
+      validation: Rule => Rule.uri({allowRelative: true, scheme: ['http', 'https']})
     }),
     defineField({
       name: 'client',
@@ -44,7 +85,7 @@ export default defineType({
       type: 'image',
       options: {hotspot: true},
       validation: Rule => Rule.required(),
-      description: 'Image displayed at the top of the case study page (full width × 434px)'
+      description: 'Image displayed at the top of the case study page (full width × 434px). Also used on the Portfolio cards and, without a hover image, the homepage hover preview, so a live demo project needs one too.'
     }),
     defineField({
       name: 'hoverImage',
@@ -57,7 +98,8 @@ export default defineType({
       name: 'introText',
       title: 'Intro Text',
       type: 'text',
-      description: 'First paragraph shown on case study page'
+      description: 'First paragraph shown on case study page',
+      hidden: opensDemo
     }),
     defineField({
       name: 'shortDescription',
@@ -69,13 +111,16 @@ export default defineType({
       name: 'locked',
       title: 'Locked Project',
       type: 'boolean',
-      description: 'Requires password to view full case study'
+      description: 'Requires password to view full case study',
+      // A demo is a public HTML page, so a password would guard nothing.
+      hidden: opensDemo
     }),
     defineField({
       name: 'password',
       title: 'Access Password',
       type: 'string',
       description: 'Password required to access this case study (leave blank for public access)',
+      hidden: opensDemo
     }),
     defineField({
       name: 'featured',
@@ -103,11 +148,13 @@ export default defineType({
       year: 'year',
       heroImage: 'heroImage',
       hoverImage: 'hoverImage',
-      locked: 'locked'
+      locked: 'locked',
+      opens: 'opens'
     },
-    prepare({title, client, year, heroImage, hoverImage, locked}) {
+    prepare({title, client, year, heroImage, hoverImage, locked, opens}) {
+      const mark = opens === 'demo' ? '↗' : locked ? '🔒' : ''
       return {
-        title: `${title} ${locked ? '🔒' : ''}`,
+        title: `${title} ${mark}`,
         subtitle: `${client} • ${year}`,
         media: hoverImage || heroImage
       }

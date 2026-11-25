@@ -2,7 +2,8 @@ import {defineField} from 'sanity'
 
 /**
  * The static HTML demos served from web-next/public/<folder>/. Each one shows
- * up in the "Live demo" dropdown on blocks that can link to a demo.
+ * up in the "Live demo" dropdown on blocks that can link to a demo, and on a
+ * project set to open a live demo instead of a case study.
  *
  * To add a demo: put its folder in web-next/public/, add its rewrites in
  * web-next/next.config.mjs, then add a line here and redeploy the Studio.

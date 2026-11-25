@@ -5,6 +5,7 @@ import Link from "next/link"
 import Layout from "./Layout"
 import LockedProjectModal from "./LockedProjectModal"
 import SocialLinks from "./SocialLinks"
+import ProjectLink, { DemoIcon } from "./ProjectLink"
 import ScrollProgress from "./ScrollProgress"
 import { getStoredToken, fetchProtectedCaseStudy } from "../utils/caseStudyAccess"
 import { sanityImageProps, sanityImageUrl, sanityImageSrcSet, sanityCropRect } from "../utils/sanityImage"
@@ -544,9 +545,9 @@ const CaseStudyFooter = ({ relatedProjects }) => {
         <h3 className="cs-footer-projects-title">More projects</h3>
         <div className="cs-footer-projects-list">
           {relatedProjects.map((project, index) => (
-            <Link
+            <ProjectLink
               key={index}
-              href={`/case-study/${project.slug?.current || ''}`}
+              project={project}
               className="cs-footer-project-link"
             >
               <div className="cs-footer-project-row">
@@ -555,10 +556,11 @@ const CaseStudyFooter = ({ relatedProjects }) => {
                   <span className="cs-footer-project-client">{project.client}</span>
                   <span className="dot" aria-hidden="true" />
                   <span className="cs-footer-project-year">{project.year}</span>
+                  {project.demoUrl && <DemoIcon />}
                 </div>
               </div>
               <div className="cs-footer-divider" />
-            </Link>
+            </ProjectLink>
           ))}
         </div>
       </div>
