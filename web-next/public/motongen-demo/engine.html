@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Remanufactured and rebuilt engines – MotoNgen design demo</title>
+  <meta name="description" content="A working HTML build of the MotoNgen engine page, designed by Tobiloba Odu.">
+  <!-- A portfolio demo, not the live site: keep it out of search results. -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Titillium+Web:wght@600;700&display=swap">
+  <link rel="stylesheet" href="/motongen-demo/styles.css">
+  <script src="/motongen-demo/script.js" defer></script>
+</head>
+<body id="top">
+
+  <div class="demo-bar">
+    Design demo by Tobiloba Odu. This is not the live MotoNgen site.
+    <a href="/">Back to portfolio</a>
+  </div>
+
+  <div class="page">
+
+  <header class="site-header">
+    <a class="logo" href="/motongen-demo" aria-label="MotoNgen home">
+      <img src="/motongen-demo/img/logo-mark.png" alt="" width="37" height="33">
+      <img src="/motongen-demo/img/logo-wordmark-white.png" alt="" width="118" height="29">
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="/motongen-demo/about">Our story</a></li>
+        <li class="has-menu">
+          <button type="button" class="products-toggle" aria-expanded="false" aria-controls="products-menu">Our products</button>
+          <ul class="products-menu" id="products-menu" hidden>
+            <li><a href="/motongen-demo/engine" aria-current="page">Engine</a></li>
+            <li><a href="/motongen-demo/gearbox">Gearbox</a></li>
+            <li><a href="/motongen-demo/axles">Axles</a></li>
+            <li><a href="/motongen-demo/installer">Find an installer</a></li>
+          </ul>
+        </li>
+        <li><a href="/motongen-demo/academy">Our academy</a></li>
+      </ul>
+      <a class="nav-contact" href="/motongen-demo/contact">Contact us</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero hero--page hero--white hero--wide">
+      <div class="hero-photo" style="background-image:url(/motongen-demo/img/engine-hero.jpg);--shade:0.5"></div>
+      <div class="hero-inner">
+        <h1 class="display">Remanufactured &amp; Rebuilt engines</h1>
+      </div>
+      <a class="scroll-tab" href="#more" aria-label="Scroll to the next section"><img src="/motongen-demo/img/icons/arrow-down.svg" alt=""></a>
+    </section>
+
+    <section class="facts" id="more" style="background:#fff;padding-top:97px;padding-bottom:31px">
+      <div class="split" style="--cols:minmax(0,513px) minmax(0,518px)">
+        <h2 class="title title--red title--inter">What are remanufactured and rebuilt engines?</h2>
+        <div class="copy copy--soft">
+          <p>If the engine in your vehicle  is no longer performing to your expectations or has knocked, there’s no need to trade for a new or newer used vehicle. After all, you didn’t intend to replace your vehicle before the engine got tired, why would you now?</p>
+          <p>Replacing your engine with a MOTONGEN stock replacement engine will cost considerably less than replacing the vehicle.</p>
+          <p>We offer 1 year guarantee and service remote assist. We also have the option of selling with recommended engine oil and oil filter because the wrong lubricant can cause damage to the engine.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="engine-process" id="process" aria-labelledby="engine-process-title">
+      <h2 class="display" id="engine-process-title">MotoNgen’s Engine Process</h2>
+      <div class="process-tabs" role="tablist" aria-label="Engine process">
+        <button type="button" role="tab" id="tab-0" aria-controls="process-panel" aria-selected="true" data-slide="0">Overview</button>
+        <button type="button" role="tab" id="tab-1" aria-controls="process-panel" aria-selected="false" data-slide="1">Thorough cleaning</button>
+        <span role="tab" aria-disabled="true" aria-selected="false">Crankshafts</span>
+        <span role="tab" aria-disabled="true" aria-selected="false">Camshafts</span>
+        <span role="tab" aria-disabled="true" aria-selected="false">Cylinders</span>
+        <span role="tab" aria-disabled="true" aria-selected="false">Connecting rods</span>
+        <span role="tab" aria-disabled="true" aria-selected="false">Heads</span>
+        <span role="tab" aria-disabled="true" aria-selected="false">Assembly</span>
+        <span role="tab" aria-disabled="true" aria-selected="false">Quality control</span>
+      </div>
+      <div class="process-stage">
+        <div class="process-photo">
+          <img src="/motongen-demo/img/accord.jpg" alt="A grey saloon car on a city street at dusk" width="919" height="448" data-slide-img>
+          <img class="play" src="/motongen-demo/img/icons/play.svg" alt="" width="68" height="68" hidden data-slide-play>
+        </div>
+        <div class="process-panel" id="process-panel" role="tabpanel" aria-labelledby="tab-0" aria-live="polite">
+          <h3 data-slide-title>1 Year/20,000 Kilometers Warranty</h3>
+          <p data-slide-text>MOTONGEN can offer this beefy warranty on our remanufactured gas engines because every one of them goes through our extensive "Do It Right" process that ensures worry-free operation. Our optional Premium Service Plan provides allowances for such items as towing, car rental, fluids and premium labour should a problem arise.</p>
+          <div class="panel-nav">
+            <button type="button" data-step="-1" aria-label="Previous step"><img src="/motongen-demo/img/icons/panel-next.svg" alt=""></button>
+            <button type="button" data-step="1" aria-label="Next step"><img src="/motongen-demo/img/icons/panel-next.svg" alt=""></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="options" aria-labelledby="options-title">
+      <h2 class="display" id="options-title">Need an engine? More on your Options</h2>
+      <p>In general, there are four types of engines you will come across during your search</p>
+      <div class="options-viewport">
+        <ul class="options-track" tabindex="0" aria-label="Engine types">
+          <li class="option">
+            <img src="/motongen-demo/img/opt-reman.jpg" alt="An engine block being rebuilt" width="250" height="194" loading="lazy">
+            <div class="option-text"><h3>Remanufactured engines</h3><p>Are engines that are rebuilt to the exact specifications of the original.</p></div>
+          </li>
+          <li class="option">
+            <img src="/motongen-demo/img/opt-junkyard.jpg" alt="An engine bay in a garage, mid-repair" width="250" height="194" loading="lazy">
+            <div class="option-text"><h3>Junkyard engine</h3><p>Most Nigerian’s rely on your Mechanic to buy the engine and face the risk of getting a Nigerian used.</p></div>
+          </li>
+          <li class="option">
+            <img src="/motongen-demo/img/opt-rebuilt.jpg" alt="A rebuilt V8 engine on a white background" width="250" height="194" loading="lazy">
+            <div class="option-text"><h3>Rebuilt Engine</h3><p>On the other hand are only fixed enough to solve the issue that caused it to fail in the first place.</p></div>
+          </li>
+          <li class="option">
+            <img src="/motongen-demo/img/opt-used.jpg" alt="A used engine hanging from a hoist in a workshop" width="250" height="194" loading="lazy">
+            <div class="option-text"><h3>Used engines</h3><p>If the  engine in your car, truck,  SUV is no longer performing to your expectations, there’s no need to trade for a new or newer used vehicle.</p></div>
+          </li>
+          <li class="option">
+            <img src="/motongen-demo/img/opt-new.jpg" alt="A new engine fitted in a car" width="250" height="194" loading="lazy">
+            <div class="option-text"><h3>New Engines</h3><p>Are just that — brand new. All of the parts making up a new crate engine are entirely new, and the engine is built to the customer’s ideal expectations.</p></div>
+          </li>
+        </ul>
+        <button class="options-next" type="button" data-options="1" aria-label="Next engine type"><img src="/motongen-demo/img/icons/slider-next-big.svg" alt=""></button>
+      </div>
+      <div class="options-pager">
+        <button type="button" data-options="-1" aria-label="Previous engine type"><img src="/motongen-demo/img/icons/slider-next.svg" alt=""></button>
+        <div class="options-dots">
+          <button type="button" data-dot="0" aria-label="Remanufactured engines" aria-current="true"></button>
+          <button type="button" data-dot="1" aria-label="Junkyard engine"></button>
+          <button type="button" data-dot="2" aria-label="Rebuilt Engine"></button>
+          <button type="button" data-dot="3" aria-label="Used engines"></button>
+          <button type="button" data-dot="4" aria-label="New Engines"></button>
+        </div>
+        <button type="button" data-options="1" aria-label="Next engine type"><img src="/motongen-demo/img/icons/slider-next.svg" alt=""></button>
+      </div>
+    </section>
+  </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <h2>Contact us</h2>
+          <address>
+            7 Kehinde Famashe Street<br>Ilasa Road, Lekki Expressway<br>
+            <a class="footer-line" href="tel:+2348170939116"><img src="/motongen-demo/img/icons/phone.svg" alt="">0817 093 9116</a>
+            <a class="footer-line" href="mailto:enquiry@motomirepairs.com"><img src="/motongen-demo/img/icons/email.svg" alt="">enquiry@motomirepairs.com</a>
+          </address>
+        </div>
+        <div>
+          <h2>About MotoNgen</h2>
+          <ul class="footer-links">
+            <li><a href="/motongen-demo/about">Our Story</a></li>
+            <li><a href="/motongen-demo/engine#process">Our Process</a></li>
+            <li><a href="/motongen-demo/academy">MotoNGen Academy</a></li>
+            <li><a href="#">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
+        <div class="footer-community">
+          <h2>Join our community</h2>
+          <p>Follow us and use the following social media platforms to get in contact with us</p>
+          <div class="socials">
+            <a href="#" aria-label="Facebook"><img src="/motongen-demo/img/icons/facebook.svg" alt="" style="height:16.5px"></a>
+            <a href="#" aria-label="Twitter"><img src="/motongen-demo/img/icons/twitter.svg" alt="" style="height:20px"></a>
+            <a href="#" aria-label="Instagram"><img src="/motongen-demo/img/icons/instagram.svg" alt=""></a>
+          </div>
+        </div>
+        <button class="button footer-cta" type="button" data-quote>Get a quote</button>
+      </div>
+      <a class="to-top" href="#top" aria-label="Back to the top"><img src="/motongen-demo/img/icons/back-to-top.svg" alt=""></a>
+      <div class="footer-base">
+        <img src="/motongen-demo/img/logo.png" alt="MotoNgen" width="131" height="27">
+        <p>MotoNgen is an engine, gearbox and axles remanufacturing company, today we are building the nation's largest collection of remanufactured of petrol, transmissions, differentials, rear axle assemblies, performance engines, and electric motors. We procure engines for our customers across the nation and West Africa coast.</p>
+        <div class="languages" aria-label="Language">
+          <img src="/motongen-demo/img/icons/flag-uk.svg" alt="English"><span></span><img src="/motongen-demo/img/icons/flag-fr.svg" alt="French">
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="overlay" id="quote" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="quote-title">
+      <button class="modal-close" type="button" data-close aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#232528"/></svg>
+      </button>
+      <h2 class="display" id="quote-title">Enter the details of your engine and car brand below</h2>
+        <form class="form" id="quote-form" novalidate>
+          <div class="row"><label class="field" style="--w:44.4%"><span>First Name*</span><input name="first-name" type="text" required autocomplete="given-name"></label><label class="field" style="--w:44.4%"><span>Last Name*</span><input name="last-name" type="text" required autocomplete="family-name"></label></div>
+          <div class="row"><label class="field" style="--w:44.4%"><span>Phone Number*</span><input name="phone" type="tel" required autocomplete="tel"></label><label class="field" style="--w:44.4%"><span>Email Address</span><input name="email" type="email" autocomplete="email"></label></div>
+          <div class="row"><label class="field" style="--w:36%"><span>Car Brand*</span><select name="brand" required><option value="">Select</option><option>Toyota</option><option>Honda</option><option>Lexus</option><option>Mercedes-Benz</option><option>Nissan</option><option>Hyundai</option><option>Kia</option><option>Ford</option></select></label><label class="field" style="--w:36%"><span>Car Model*</span><select name="model" required><option value="">Select</option><option>Camry</option><option>Corolla</option><option>Accord</option><option>Civic</option><option>RX 350</option><option>C 300</option><option>Other</option></select></label><label class="field" style="--w:21.5%"><span>Year*</span><select name="year" required><option value="">Select</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option><option>2010</option><option>2009</option><option>2008</option><option>2007</option><option>2006</option><option>2005</option><option>2004</option><option>2003</option><option>2002</option><option>2001</option></select></label></div>
+          <div class="row"><label class="field" style="--w:75.2%"><span>VIN Number*</span><input name="vin" type="text" required></label></div>
+          <fieldset class="checks" data-required>
+            <legend>Parts Needed*</legend>
+            <div class="check-row">
+              <label class="check"><input type="checkbox" name="parts" value="Engine">Engine</label>
+              <label class="check"><input type="checkbox" name="parts" value="Gearbox">Gearbox</label>
+              <label class="check"><input type="checkbox" name="parts" value="Axle">Axle</label>
+            </div>
+          </fieldset>
+          <label class="field field--notes" style="--w:100%"><span>Notes</span><textarea name="notes" rows="3"></textarea></label>
+          <div class="form-foot">
+            <button class="button button--small" type="submit">Send</button>
+            <p class="form-note" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+    </div>
+  </div>
+
+  <div class="overlay" id="thanks" hidden>
+    <div class="alert" role="alertdialog" aria-modal="true" aria-labelledby="thanks-title" aria-describedby="thanks-text" tabindex="-1">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="#27AE60"/></svg>
+      <h2 id="thanks-title">Thank you for contacting Motongen</h2>
+      <p id="thanks-text">What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text</p>
+      <button class="button" type="button" data-close>Close</button>
+    </div>
+  </div>
+
+</body>
+</html>

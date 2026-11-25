@@ -1,0 +1,8 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Play button">
+<circle id="Ellipse 2" opacity="0.3" cx="34" cy="34" r="34" fill="white"/>
+<circle id="Ellipse 1" opacity="0.5" cx="34" cy="34" r="29" fill="white"/>
+<circle id="Ellipse 3" cx="34" cy="34" r="13" fill="#232528"/>
+<path id="Vector" opacity="0.95" d="M33.9999 21C26.8239 21 20.9999 26.824 20.9999 34C20.9999 41.176 26.8239 47 33.9999 47C41.1759 47 46.9999 41.176 46.9999 34C46.9999 26.824 41.1759 21 33.9999 21ZM31.3999 39.85V28.15L39.1999 34L31.3999 39.85Z" fill="white"/>
+</g>
+</svg>

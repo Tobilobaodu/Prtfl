@@ -15,6 +15,14 @@ export const DEMOS = [
   {title: 'Refuel Energy: About page', value: '/refuel-demo/about'},
   {title: 'Refuel Energy: Services page', value: '/refuel-demo/services'},
   {title: 'Refuel Energy: Contact page', value: '/refuel-demo/contact'},
+  {title: 'MotoNgen: Home page', value: '/motongen-demo'},
+  {title: 'MotoNgen: About page', value: '/motongen-demo/about'},
+  {title: 'MotoNgen: Engine page', value: '/motongen-demo/engine'},
+  {title: 'MotoNgen: Gearbox page', value: '/motongen-demo/gearbox'},
+  {title: 'MotoNgen: Axle and differentials page', value: '/motongen-demo/axles'},
+  {title: 'MotoNgen: Academy page', value: '/motongen-demo/academy'},
+  {title: 'MotoNgen: Find an installer page', value: '/motongen-demo/installer'},
+  {title: 'MotoNgen: Contact page', value: '/motongen-demo/contact'},
 ]
 
 /**

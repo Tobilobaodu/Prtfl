@@ -56,6 +56,8 @@ const nextConfig = {
       { source: '/refuel-demo/about', destination: '/refuel-demo/about.html' },
       { source: '/refuel-demo/services', destination: '/refuel-demo/services.html' },
       { source: '/refuel-demo/contact', destination: '/refuel-demo/contact.html' },
+      { source: '/motongen-demo', destination: '/motongen-demo/index.html' },
+      { source: '/motongen-demo/:page(about|gearbox|axles|engine|academy|installer|contact)', destination: '/motongen-demo/:page.html' },
     ]
   },
 
