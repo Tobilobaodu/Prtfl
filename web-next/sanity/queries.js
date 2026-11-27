@@ -179,12 +179,15 @@ export const SITEMAP_PROJECT_SLUGS = `
  * never with the public client.
  *
  * Note it deliberately does not select `password` from the project.
+ *
+ * Components switched to "Hide on site" in the Studio (schemaTypes/hideable.ts)
+ * are filtered out here, so they never leave the server.
  */
 export const CASE_STUDY_BODY = `
   *[_type == "caseStudy" && project->slug.current == $slug][0]{
     "id": _id,
     accentColor,
-    "components": components[]{
+    "components": components[hidden != true]{
       ...,
       heroImage{ ..., asset-> },
       icon{ ..., asset-> },
