@@ -49,7 +49,7 @@ export default function HomeProjects({ projects }) {
           <section className="bio-section">
             <div className="bio">
               <p className="bio-text">
-                I&apos;m a <strong>Product Designer</strong> who helps companies turn complex digital journeys into simple, useful experiences. Over the past seven years, I&apos;ve used research, behavioural insight, and UI design to improve usability, conversion, and customer confidence. I&apos;ve worked with high-growth startups and now lead design at OSB Group, shaping accessible financial products from early ideas to implementation. I enjoy partnering closely with people across product and engineering to make meaningful improvements that customers can actually feel.
+                I&apos;m a <strong>Product Designer</strong> who helps companies turn complex digital journeys into simple, useful experiences. Over the past seven years, I&apos;ve used research, behavioural insight, and UI design to improve usability, conversion, and customer confidence. I&apos;ve worked with high-growth startups and now leading design at OSB Group, shaping accessible financial products from early ideas to implementation. I enjoy partnering closely with people across product and engineering to make meaningful improvements that customers can actually feel.
               </p>
             </div>
           </section>
