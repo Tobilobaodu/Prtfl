@@ -333,7 +333,9 @@ if (carousel) {
     })
     // Centre the active slide in the viewport of the carousel.
     const slide = slides[index]
-    const offset = slide.offsetLeft - (carousel.clientWidth - slide.offsetWidth) / 2
+    // offsetLeft is measured from the page, so subtract the track's own left edge.
+    const left = slide.offsetLeft - track.offsetLeft
+    const offset = left - (carousel.clientWidth - slide.offsetWidth) / 2
     track.style.transform = `translateX(${-offset}px)`
     status.textContent = `Slide ${index + 1} of ${slides.length}`
   }
